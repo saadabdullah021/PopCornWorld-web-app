@@ -1,0 +1,63 @@
+import React from 'react';
+import Image from 'next/image';
+import heroImage from '../../../public/about_us_hero.webp'
+const AboutUsHeroSection = () => {
+  return (
+    <section className="relative overflow-hidden">
+      {/* Top Section with Blue Background */}
+      <div className="bg-gradient-to-r from-yellow-50 to-yellow-100 text-black pt-24 pb-12 lg:pt-40 lg:pb-12 px-4">
+        <div className="max-w-7xl mx-auto text-center">
+          {/* About Us Label */}
+          <div className="mb-8">
+            <h2 className="text-lg sm:text-xl md:text-2xl font-bold tracking-widest uppercase opacity-90 mb-4">
+              About Us
+            </h2>
+          </div>
+
+          {/* Main Heading */}
+          <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl  font-bold leading-tight tracking-tight uppercase mb-8">
+            Doing the World a Flavor
+          </h1>
+
+          {/* Description */}
+          <div className="max-w-6xl mx-auto">
+            <p className="text-lg  md:text-xl lg:text-2xl leading-relaxed font-light opacity-95">
+              Popcorn World exists to support and create joy for America. Every fundraiser we host empowers our communities to grow and 50% of every purchase made on our site goes to the efforts of building productive and cohesive communities.
+            </p>
+          </div>
+        </div>
+      </div>
+
+      {/* Bottom Section with Team Image */}
+      <div className="relative h-80 md:h-96 lg:h-[500px] xl:h-[600px]">
+        {/* Background Image */}
+        <div className="absolute inset-0">
+          <Image
+            src={heroImage}
+            alt="Popcorn World team members working together in colorful workspace"
+            fill
+            className="object-cover object-center"
+            sizes="100vw"
+            priority
+            placeholder="blur"
+            blurDataURL="data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wBDAAYEBQYFBAYGBQYHBwYIChAKCgkJChQODwwQFxQYGBcUFhYaHSUfGhsjHBYWICwgIyYnKSopGR8tMC0oMCUoKSj/2wBDAQcHBwoIChMKChMoGhYaKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCj/wAARCAAIAAoDASIAAhEBAxEB/8QAFQABAQAAAAAAAAAAAAAAAAAAAAv/xAAhEAACAQMDBQAAAAAAAAAAAAABAgMABAUGIWEREiMxUf/EABUBAQEAAAAAAAAAAAAAAAAAAAMF/8QAGhEAAgIDAAAAAAAAAAAAAAAAAAECEgMRkf/aAAwDAQACEQMRAD8AltJagyeH0AthI5xdrLcNM91BF5pX2HaH9bcfaSXWGaRmknyJckliyjqTzSlT54b6bk+h0R//2Q=="
+          />
+        </div>
+
+        {/* Gradient Overlay for better text readability if needed */}
+        <div className="absolute inset-0 bg-gradient-to-t from-black/20 via-transparent to-transparent" />
+
+        {/* Optional overlay content can be added here */}
+        <div className="absolute inset-0 flex items-end justify-center pb-8">
+          <div className="text-center text-white opacity-0 hover:opacity-100 transition-opacity duration-300">
+            {/* Optional team caption or call-to-action */}
+          </div>
+        </div>
+      </div>
+
+
+    </section>
+  );
+};
+
+export default AboutUsHeroSection;
