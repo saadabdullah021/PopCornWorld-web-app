@@ -2,6 +2,8 @@
 import React, { useState } from 'react';
 import Image from 'next/image';
 import demoImage from '../../../public/dance_fundraiser.png';
+import { TiShoppingCart } from "react-icons/ti";
+
 const CollectionsSection = () => {
   // Sample data - replace with your API data
   const [allCollections] = useState([
@@ -107,7 +109,7 @@ const CollectionsSection = () => {
       <div className="max-w-7xl mx-auto">
         {/* Section Header */}
         <div className="text-center mb-12">
-          <h2 className="text-3xl sm:text-4xl lg:text-5xl font-bold text-black mb-4">
+          <h2 className="text-3xl sm:text-4xl lg:text-5xl font-splash  text-black mb-4">
             Collections
           </h2>
           <div className="w-24 h-1 bg-gradient-to-r from-[#8BC34A] to-[#ffc222] mx-auto rounded-full"></div>
@@ -144,28 +146,30 @@ const CollectionsSection = () => {
               {/* Content */}
               <div className="p-6 space-y-4">
                 {/* Category Badge */}
-                <span className="inline-block px-3 py-1 bg-gradient-to-r from-yellow-100 to-green-100 text-black text-xs font-bold uppercase tracking-wider rounded-full">
+                <span className="inline-block px-3 py-1.5 bg-gray-200 text-black text-xs font-bold uppercase tracking-wider rounded-full">
                   {collection.category}
                 </span>
 
                 {/* Title and Price */}
-                <div className="flex items-start justify-between">
-                  <h3 className="text-xl font-bold text-black transition-colors duration-300 flex-1 pr-4">
+                <div className="flex items-start justify-between pt-1">
+                  <h3 className="text-xl lg:text-[22px] font-bold text-blacktransition-colors duration-300 flex-1 pr-4">
                     {collection.name}
                   </h3>
-                  <span className="text-2xl font-black text-[#ffc222] flex-shrink-0">
+                  <span className="text-xl lg:text-[22px] font-semibold text-black flex-shrink-0">
                     ${collection.price.toFixed(0)}
                   </span>
                 </div>
 
                 {/* Description */}
-                <p className="text-gray-600 text-sm leading-relaxed">
+                <p className="text-black text-[16px] font-normal leading-relaxed">
                   {collection.description}
                 </p>
 
                 {/* Action Button */}
-                  <button className="w-full mt-6 bg-[#8BC34A]  text-white font-bold py-3 px-6 rounded-2xl transition-all duration-300 transform  hover:shadow-lg focus:outline-none ">
+                  <button className="inline-flex items-center gap-3 justify-center w-full mt-6 bg-[#8BC34A]  text-white font-bold py-3 px-6 rounded-3xl transition-all duration-300 transform  hover:shadow-lg focus:outline-none ">
                   Add to Cart
+                  <TiShoppingCart />
+
                 </button>
               </div>
 
@@ -181,7 +185,7 @@ const CollectionsSection = () => {
             <button
               onClick={handleLoadMore}
               disabled={isLoading}
-              className="inline-flex items-center px-8 py-4 bg-gradient-to-r from-gray-800 to-black hover:from-black hover:to-black text-white font-bold rounded-full transition-all duration-300 transform  hover:shadow-xl focus:outline-none focus:ring-4 focus:ring-gray-600 focus:ring-opacity-50 disabled:opacity-50 disabled:cursor-not-allowed"
+              className="inline-flex items-center px-6 py-3 bg-gradient-to-r from-gray-800 to-black hover:from-black hover:to-black text-white font-bold rounded-full transition-all duration-300 transform  hover:shadow-xl focus:outline-none focus:ring-4 focus:ring-gray-600 focus:ring-opacity-50 disabled:opacity-50 disabled:cursor-not-allowed"
             >
               {isLoading ? (
                 <>
@@ -193,10 +197,8 @@ const CollectionsSection = () => {
                 </>
               ) : (
                 <>
-                  Load More Collections
-                  <svg className="ml-2 w-5 h-5 transition-transform group-hover:translate-x-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
-                  </svg>
+                  Load More
+                
                 </>
               )}
             </button>

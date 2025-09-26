@@ -31,7 +31,8 @@ module.exports = {
         },
       },
       fontFamily: {
-        poppins: ["Poppins", "sans-serif"], // ✍️ Default font
+        poppins: ["Poppins", "sans-serif"],
+          splash: ['"LHF Splash Regular"', 'sans-serif'], // ✍️ Default font
       },
     },
   },

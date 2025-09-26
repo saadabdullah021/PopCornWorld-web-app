@@ -32,7 +32,7 @@ const JoyMissionSection = () => {
       <div className="max-w-7xl mx-auto">
         {/* Header */}
         <div className="text-center mb-16">
-          <h2 className="text-3xl md:text-4xl lg:text-5xl font-bold text-black mb-4 tracking-tight uppercase">
+          <h2 className="text-3xl md:text-4xl lg:text-5xl font-splash text-black mb-4 tracking-tight uppercase">
             We're on a mission to spread joy
           </h2>
         </div>
@@ -63,10 +63,10 @@ const JoyMissionSection = () => {
 
               {/* Content */}
               <div className="text-center">
-                <h3 className="text-lg md:text-xl font-bold text-black mb-4  transition-colors duration-300">
+                <h3 className="text-lg md:text-2xl font-semibold text-black mb-2 lg:mb-4  transition-colors duration-300">
                   {service.title}
                 </h3>
-                <p className="text-gray-600 text-base  leading-relaxed max-w-sm mx-auto">
+                <p className="text-gray-600 text-base  font-medium leading-relaxed max-w-sm mx-auto">
                   {service.description}
                 </p>
               </div>

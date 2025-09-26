@@ -4,9 +4,10 @@ import Image from 'next/image';
 import girl_team from '../../public/Girls_team.jpg'
 import ReactPlayer from "react-player";
 import { FaArrowRight } from 'react-icons/fa';
+import VideoPlayer from './ui/VideoPlayer';
 const VirtualFundraisingSection = () => {
   const [isVideoLoaded, setIsVideoLoaded] = useState(false);
-
+  const [playVideo, setPlayVideo] = useState(false);
   const features = [
     {
       id: 1,
@@ -36,7 +37,7 @@ const VirtualFundraisingSection = () => {
       <div className="max-w-7xl mx-auto">
         {/* Header */}
         <div className="text-center mb-16">
-          <h2 className="text-3xl md:text-4xl lg:text-5xl font-bold text-black mb-8 tracking-tight uppercase">
+          <h2 className="text-3xl md:text-4xl lg:text-5xl font-splash text-black mb-8 tracking-tight uppercase">
             Virtual Fundraising is Easy
           </h2>
         </div>
@@ -67,10 +68,10 @@ const VirtualFundraisingSection = () => {
 
               {/* Content */}
               <div className="max-w-xs mx-auto">
-                <h3 className="text-lg md:text-xl font-semibold text-black mb-4  transition-colors duration-300">
+                <h3 className="text-lg md:text-3xl font-semibold text-black mb-4  transition-colors duration-300">
                   {feature.title}
                 </h3>
-                <p className="text-gray-700 text-sm md:text-base leading-relaxed">
+                <p className="text-gray-700 text-sm md:text-lg font-normal leading-relaxed">
                   {feature.description}
                 </p>
               </div>
@@ -85,76 +86,31 @@ const VirtualFundraisingSection = () => {
             <h3 className="text-3xl md:text-4xl font-bold text-black mb-6">
               Fundraising with Quality
             </h3>
-            <p className="text-gray-700 text-lg mb-8 leading-relaxed">
+            <p className="text-gray-700 text-[16px] mb-8 leading-relaxed">
               There are no set-up fees. No product handling fees. No extra fees ever. For
               every dollar you sell through the Popcorn World app, you keep 50%.
             </p>
 
             {/* Action Buttons */}
             <div className="flex flex-col sm:flex-row gap-4">
-              <button className="group inline-flex items-center gap-3 px-8 py-4  text-white font-medium rounded-full bg-[#8BC34A]  hover:border-transparent transition-all duration-300 animate-fadeInUp">
+              <button className="group btn-primary transition-all duration-300 animate-fadeInUp">
                 Get Started
                 <FaArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
               </button>
 
-              <button className="inline-flex items-center justify-center px-8 py-4 bg-transparent hover:bg-white/50 text-black font-semibold rounded-full border-2 border-[#ffc222] transition-all duration-300 hover:shadow-lg">
+              {/* <button className="inline-flex items-center justify-center px-8 py-4 bg-transparent hover:bg-white/50 text-black font-semibold rounded-full border-2 border-[#ffc222] transition-all duration-300 hover:shadow-lg">
                 Learn More
-              </button>
+              </button> */}
             </div>
           </div>
 
           {/* Right Video Section */}
-          {/* Right Video Section */}
+
           <div className="order-1 lg:order-2">
-            <div className="relative w-full aspect-video rounded-2xl overflow-hidden shadow-2xl bg-gray-900">
+            <VideoPlayer />
 
-              {/* Agar video load ho gaya to YouTube player */}
-              {isVideoLoaded ? (
-                <ReactPlayer
-                  url="https://www.youtube.com/watch?v=dQw4w9WgXcQ" // ✅ Apni YouTube link yahan dal do
-                  width="100%"
-                  height="100%"
-                  controls={true}
-                  playing={true}
-                  className="absolute top-0 left-0 rounded-2xl overflow-hidden"
-                />
-              ) : (
-                // Thumbnail + Play Button Overlay
-                <div
-                  className="absolute inset-0 cursor-pointer group"
-                  onClick={() => setIsVideoLoaded(true)}
-                >
-                  <Image
-                    src="/images/popcorn-video-thumbnail.jpg"
-                    alt="Gourmet popcorn video thumbnail"
-                    fill
-                    className="object-cover"
-                  />
 
-                  {/* Play Button Overlay */}
-                  <div className="absolute inset-0 flex items-center justify-center">
-                    <div className="w-20 h-20 bg-white/90 rounded-full flex items-center justify-center shadow-2xl group-hover:scale-110 transition-transform duration-300 backdrop-blur-sm">
-                      <svg className="w-8 h-8 text-black ml-1" fill="currentColor" viewBox="0 0 24 24">
-                        <path d="M8 5v14l11-7z" />
-                      </svg>
-                    </div>
-                  </div>
 
-                  {/* Video Info Overlay */}
-                  <div className="absolute bottom-0 left-0 right-0 p-4 bg-gradient-to-t from-black/80 to-transparent">
-                    <h4 className="text-white font-bold text-lg mb-1">
-                      50 Flavors of Gourmet Popcorn
-                    </h4>
-                    <p className="text-white/80 text-sm flex items-center">
-                      <svg className="w-4 h-4 mr-2" fill="currentColor" viewBox="0 0 24 24">
-                        <path d="M23.498 6.186a3.016 3.016 0 0 0-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 0 0 .502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 0 0 2.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 0 0 2.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z" />
-                      </svg>
-                      Watch on YouTube
-                    </p>
-                  </div>
-                </div>
-              )}
-            </div>
           </div>
         </div>
 

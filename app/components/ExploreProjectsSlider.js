@@ -15,7 +15,7 @@ const ExploreProjectsSlider = () => {
       title: "Mobile First Is Just Not Goodies Enough Meet Journey",
       author: "James W. Barrows",
       category: "Business",
-      categoryColor: "bg-emerald-500",
+      categoryColor: "bg-[#8bc34a]",
       image:
         "https://images.unsplash.com/photo-1551650975-87deedd944c3?ixlib=rb-4.0.3&auto=format&fit=crop&w=1000&q=80",
       raised: "$59,689",
@@ -28,7 +28,7 @@ const ExploreProjectsSlider = () => {
       title: "Best Romantic & Action English Movie Release In 2022",
       author: "James W. Barrows",
       category: "Video & Movies",
-      categoryColor: "bg-emerald-500",
+      categoryColor: "bg-[#8bc34a]",
       image:
         "https://images.unsplash.com/photo-1489599808-3e09666c8c0b?ixlib=rb-4.0.3&auto=format&fit=crop&w=1000&q=80",
       raised: "$59,689",
@@ -41,7 +41,7 @@ const ExploreProjectsSlider = () => {
       title: "Needs Close Up Students Class Room In University",
       author: "James W. Barrows",
       category: "Education",
-      categoryColor: "bg-emerald-500",
+      categoryColor: "bg-[#8bc34a]",
       image:
         "https://images.unsplash.com/photo-1523240795612-9a054b0db644?ixlib=rb-4.0.3&auto=format&fit=crop&w=1000&q=80",
       raised: "$59,689",
@@ -54,7 +54,7 @@ const ExploreProjectsSlider = () => {
       title: "Original Shinecon VR Pro Virtual Reality 3D Glasses VRBox",
       author: "James W. Barrows",
       category: "Technology",
-      categoryColor: "bg-emerald-500",
+      categoryColor: "bg-[#8bc34a]",
       image:
         "https://images.unsplash.com/photo-1592478411213-6153e4ebc696?ixlib=rb-4.0.3&auto=format&fit=crop&w=1000&q=80",
       raised: "$59,689",
@@ -67,7 +67,7 @@ const ExploreProjectsSlider = () => {
       title: "Fundraising For The People And Causes You Care About",
       author: "James W. Barrows",
       category: "Clothes",
-      categoryColor: "bg-emerald-500",
+      categoryColor: "bg-[#8bc34a]",
       image:
         "https://images.unsplash.com/photo-1441986300917-64674bd600d8?ixlib=rb-4.0.3&auto=format&fit=crop&w=1000&q=80",
       raised: "$59,689",
@@ -80,7 +80,7 @@ const ExploreProjectsSlider = () => {
       title: "Innovative Healthcare Solutions for Remote Communities",
       author: "Sarah Johnson",
       category: "Healthcare",
-      categoryColor: "bg-blue-500",
+      categoryColor: "bg-[#8bc34a]",
       image:
         "https://images.unsplash.com/photo-1576091160399-112ba8d25d1f?ixlib=rb-4.0.3&auto=format&fit=crop&w=1000&q=80",
       raised: "$42,350",
@@ -101,7 +101,7 @@ const ExploreProjectsSlider = () => {
   }, []);
 
   // ✅ Items per view
-  const itemsPerView = isMobile ? 1 : 5;
+  const itemsPerView = isMobile ? 1 : 7;
 
   // ✅ Clone projects for infinite loop
   const projects = [
@@ -147,7 +147,7 @@ const ExploreProjectsSlider = () => {
         <img
           src={project.image}
           alt={project.title}
-          className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+          className="w-full h-full object-cover group-hover:scale-101 transition-transform duration-500"
           loading="lazy"
         />
 
@@ -168,7 +168,7 @@ const ExploreProjectsSlider = () => {
           <span className="text-sm text-gray-600">{project.author}</span>
         </div>
 
-        <h3 className="text-lg mt-3 font-semibold text-gray-800 mb-4 line-clamp-2 group-hover:text-emerald-600 transition-colors">
+        <h3 className="text-lg mt-3 font-semibold text-gray-800 mb-4 line-clamp-2 group-hover:text-[#8bc34a] transition-colors">
           {project.title}
         </h3>
 
@@ -183,7 +183,7 @@ const ExploreProjectsSlider = () => {
           </div>
           <div className="w-full bg-gray-200  h-1">
             <div
-              className="bg-emerald-500 h-1  transition-all duration-300"
+              className="bg-[#8bc34a] h-1  transition-all duration-300"
               style={{ width: `${project.percentage}%` }}
             ></div>
           </div>
@@ -198,10 +198,10 @@ const ExploreProjectsSlider = () => {
   );
 
   return (
-    <section className="py-16 lg:py-24 bg-black relative overflow-hidden">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <section className="py-16 lg:py-24 bg-black relative overflow-hidden ">
+      <div className="container w-full mx-auto px-4 sm:px-6 lg:px-8">
         {/* ✅ Desktop Infinite Slider */}
-        <div className="hidden md:block overflow-hidden py-4">
+        <div className="hidden md:block container w-full mx-12 py-4">
           <div
             ref={sliderRef}
             className={`flex gap-6 ${isTransitioning ? 'transition-transform duration-500 ease-in-out' : ''}`}

@@ -1,8 +1,6 @@
-
 import "./globals.css";
 import Header from "./components/Header";
 import Footer from "./components/Footer";
-
 
 export const metadata = {
   title: "Poppins Website",
@@ -12,14 +10,20 @@ export const metadata = {
 export default function RootLayout({ children }) {
   return (
     <html lang="en">
-      <body
-   
-      >
+      <head>
+        {/* === FONT LINK HERE === */}
+        <link
+          href="https://db.onlinewebfonts.com/c/25c5b8e8220ef701ff273edf38122499?family=LHF+Splash+Regular"
+          rel="stylesheet"
+          precedence="default"   // ✅ add this to fix warning
+        />
+      </head>
+      <body>
         {/* === Header === */}
         <Header />
 
         {/* === Page Content === */}
-        <main >{children}</main>
+        <main>{children}</main>
 
         {/* === Footer === */}
         <Footer />

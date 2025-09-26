@@ -23,19 +23,19 @@ const FundraiserSection = () => {
 
   return (
     <>
-      <section className="bg-gradient-to-r from-green-50  to-yellow-100 pt-32 pb-16 lg:pt-48 lg:pb-12  px-4 sm:px-6 lg:px-8">
+      <section className="bg-[#3333cb] pt-32 pb-16 lg:pt-48 lg:pb-12  px-4 sm:px-6 lg:px-8">
         <div className="max-w-7xl mx-auto">
           <div className="grid lg:grid-cols-2 gap-8 lg:gap-16 items-center">
             {/* Content Section */}
-            <div className=" space-y-6 lg:space-y-8 text-black">
+            <div className=" space-y-6 lg:space-y-8 text-white">
               {/* Title */}
-              <h1 className="text-4xl sm:text-5xl lg:text-6xl font-bold uppercase leading-tight">
+              <h1 className="text-4xl sm:text-5xl lg:text-6xl font-splash  uppercase leading-tight">
                 {fundraiserData.title}
               </h1>
 
               {/* Description */}
               <div className="space-y-4">
-                <p className="text-lg sm:text-xl leading-relaxed">
+                <p className="text-sm sm:text-lg font-medium leading-relaxed">
                   {fundraiserData.description}
                 </p>
                 <p className="text-base sm:text-lg font-medium">
@@ -54,11 +54,14 @@ const FundraiserSection = () => {
                 </div>
 
                 {/* Progress Info */}
-                <div className="flex items-center justify-between text-lg sm:text-xl font-bold">
-                  <span>${fundraiserData.currentAmount} sold of ${fundraiserData.goalAmount} goal!</span>
-                  <span className="bg-white bg-opacity-20 px-4 py-2 rounded-full">
+                <div className="flex items-center justify-between text-lg sm:text-xl font-medium ">
+                  <div>
+
+                  <span className='font-bold text-xl sm:text-2xl'>${fundraiserData.currentAmount} </span><span className='font-normal'> sold of ${fundraiserData.goalAmount} goal!</span>
+                  </div>
+                 
                     {fundraiserData.daysToGo} days to go
-                  </span>
+              
                 </div>
               </div>
 
@@ -66,7 +69,7 @@ const FundraiserSection = () => {
               <div className="pt-4">
                 <button 
                   onClick={() => setShowSharePopup(true)}
-                  className="bg-gray-800 hover:bg-gray-900 text-white font-bold py-4 px-8 rounded-2xl text-lg transition-all duration-300 transform  hover:shadow-xl focus:outline-none  flex items-center space-x-2"
+                  className="hover:bg-gray-800 bg-gray-900 text-white font-medium py-3 px-6 rounded-3xl text-lg transition-all duration-300 transform  hover:shadow-xl focus:outline-none  flex items-center space-x-2"
                 >
                   <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8.684 13.342C8.886 12.938 9 12.482 9 12c0-.482-.114-.938-.316-1.342m0 2.684a3 3 0 110-2.684m0 2.684l6.632 3.316m-6.632-6l6.632-3.316m0 0a3 3 0 105.367-2.684 3 3 0 00-5.367 2.684zm0 9.316a3 3 0 105.367 2.684 3 3 0 00-5.367-2.684z" />
@@ -86,7 +89,7 @@ const FundraiserSection = () => {
                             
                             {/* Person Image */}
                             <div className="absolute inset-0 flex items-center justify-center lg:p-6">
-                              <div className="absolute inset-0 bg-gradient-to-br from-green-100 to-green-200 rounded-3xl transform rotate-3 shadow-2xl"></div>
+                            
                               <div className="relative w-full h-full">
                                 <Image
                                   src={fundraiserData.coachImage}

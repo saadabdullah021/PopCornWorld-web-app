@@ -42,6 +42,22 @@ body {
   border-radius: 6px;
 } */
 
+.btn-primary {
+  display: inline-flex;            /* inline-flex */
+  align-items: center;             /* items-center */
+  gap: 0.5rem;                     /* gap-2 */
+  padding: 0.75rem 1.5rem;         /* px-6 py-3 */
+  background-color: var(--button-bg-color);
+  color: var(--button-text-color);
+  border-radius: 9999px;           /* rounded-full */
+  font-weight: 500;                /* font-medium */
+  transition: background-color 0.3s ease;
+}
+
+
+.font-splash {
+  font-family: "LHF Splash Regular", sans-serif;
+}
 
 
 /* Footer */

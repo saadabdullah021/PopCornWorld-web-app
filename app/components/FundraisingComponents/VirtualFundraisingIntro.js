@@ -3,11 +3,11 @@ import Image from 'next/image';
 import heroFundraiser from '../../../public/Girls_team.jpg'
 const VirtualFundraisingIntro = () => {
   return (
-    <section className="py-16 lg:pt-40 lg:pb-12 px-4 bg-gradient-to-br from-yellow-100 via-yellow-50 to-white">
-      <div className="max-w-7xl mx-auto">
+    <section className="pb-16  pt-20 lg:pt-34 2xl:pt-35 lg:pb-0 lg:pl-4 bg-gradient-to-br from-yellow-100 via-yellow-50 to-white">
+      <div className="w-full lg:pl-4 ">
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-16 items-center">
           {/* Left Content */}
-          <div className="order-2 lg:order-1">
+          <div className="order-2 lg:order-1 px-4 lg:px-0 lg:pt-10">
             {/* Small Header */}
             <div className="mb-6">
               <p className="text-sm sm:text-base md:text-lg font-semibold text-gray-600 uppercase tracking-widest">
@@ -16,7 +16,7 @@ const VirtualFundraisingIntro = () => {
             </div>
 
             {/* Main Heading */}
-            <h1 className="text-3xl  md:text-4xl lg:text-5xl font-bold text-black leading-tight tracking-tight uppercase mb-8">
+            <h1 className="text-3xl  md:text-4xl lg:text-5xl font-splash text-black leading-tight tracking-tight uppercase mb-8">
               <span className="block mb-2">Virtually the</span>
               <span className="block mb-2">easiest way to</span>
               <span className="block">fundraise—ever</span>

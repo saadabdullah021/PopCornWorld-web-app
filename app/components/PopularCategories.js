@@ -26,8 +26,8 @@ const PopularCategories = () => {
       title: 'Medical & Health',
       subtitle: 'School, College & University',
       icon: Heart,
-      color: 'text-blue-500',
-      bgColor: 'bg-blue-50',
+      color: 'text-emerald-500',
+      bgColor: 'bg-emerald-50',
       borderColor: 'border-blue-200'
     },
     {
@@ -53,8 +53,8 @@ const PopularCategories = () => {
       title: 'Technology',
       subtitle: 'School, College & University',
       icon: Cpu,
-      color: 'text-blue-500',
-      bgColor: 'bg-blue-50',
+      color: 'text-emerald-500',
+      bgColor: 'bg-emerald-50',
       borderColor: 'border-blue-200'
     },
     {
@@ -104,7 +104,7 @@ const PopularCategories = () => {
 
         {/* Hover Arrow */}
         <div className="absolute top-6 right-6 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
-          <ArrowRight className="w-5 h-5 text-gray-400 group-hover:text-emerald-500 transition-colors" />
+          <ArrowRight className="w-5 h-5 text-gray-400 group-hover:text-[#8bc34a] transition-colors" />
         </div>
 
         {/* Border Effect (only bottom & right) */}
@@ -132,7 +132,7 @@ const PopularCategories = () => {
 
           {/* Title */}
           <div className="flex-1 ">
-            <h2 className="text-3xl lg:text-5xl font-bold text-black mb-2">
+            <h2 className="text-3xl lg:text-5xl font-splash text-black mb-2">
               Popular Categories
             </h2>
           </div>

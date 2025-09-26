@@ -3,6 +3,7 @@ import React, { useState, useEffect } from 'react';
 import Image from 'next/image';
 import girl_school from '../../public/Girls_team.jpg'
 import { ChevronLeft, ChevronRight } from 'lucide-react';
+import { LuCrown } from "react-icons/lu";
 const SuccessStoriesSlider = () => {
   const [currentSlide, setCurrentSlide] = useState(0);
   const [isAutoPlaying, setIsAutoPlaying] = useState(true);
@@ -75,7 +76,7 @@ const SuccessStoriesSlider = () => {
       <div className="max-w-7xl mx-auto">
         {/* Header */}
         <div className="text-center mb-16">
-          <h2 className="text-3xl md:text-4xl lg:text-5xl font-bold text-black mb-4 tracking-tight uppercase">
+          <h2 className="text-3xl md:text-4xl lg:text-5xl font-splash text-black mb-4 tracking-tight uppercase">
             See what's possible in just 4 days
           </h2>
         </div>
@@ -95,17 +96,17 @@ const SuccessStoriesSlider = () => {
                     <div className="p-8 md:p-12 lg:p-16 flex flex-col justify-center order-2 lg:order-1">
                       <div className="max-w-lg">
                         {/* Organization Badge */}
-                        <div className="inline-block px-4 py-2 bg-blue-100 text-blue-800 text-sm font-semibold rounded-full mb-6 uppercase tracking-wide">
+                        <div className="inline-block px-6 py-2 bg-yellow-100 text-black text-sm font-semibold rounded-full mb-6 uppercase tracking-wide">
                           {story.organization}
                         </div>
 
                         {/* Title */}
-                        <h3 className="text-xl md:text-2xl lg:text-3xl font-bold text-black mb-6 leading-tight">
+                        <h3 className="text-xl md:text-2xl lg:text-3xl font-black text-black mb-6 leading-tight">
                           {story.title}
                         </h3>
 
                         {/* Description */}
-                        <p className="text-gray-600 text-lg leading-relaxed mb-8">
+                        <p className="text-black text-lg leading-relaxed mb-8">
                           "{story.description}"
                         </p>
 
@@ -113,13 +114,11 @@ const SuccessStoriesSlider = () => {
                         <div className="grid grid-cols-2 gap-8">
                           {/* Total Sales */}
                           <div className="flex items-center">
-                            <div className="w-16 h-16 bg-blue-100 rounded-2xl flex items-center justify-center mr-4">
-                              <svg className="w-8 h-8 text-blue-600" fill="currentColor" viewBox="0 0 24 24">
-                                <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/>
-                              </svg>
+                            <div className="w-16 h-16 bg-blue-100 rounded-full flex items-center justify-center mr-4">
+                          <LuCrown size={30}/>
                             </div>
                             <div>
-                              <div className="text-3xl font-bold text-black">
+                              <div className="text-3xl font-black text-black">
                                 {story.totalSales}
                               </div>
                               <div className="text-gray-500 font-medium">
@@ -130,13 +129,13 @@ const SuccessStoriesSlider = () => {
 
                           {/* Sellers */}
                           <div className="flex items-center">
-                            <div className="w-16 h-16 bg-yellow-100 rounded-2xl flex items-center justify-center mr-4">
-                              <svg className="w-8 h-8 text-orange-600" fill="currentColor" viewBox="0 0 24 24">
+                            <div className="w-16 h-16 bg-[#ffb600] rounded-full flex items-center justify-center mr-4">
+                              <svg className="w-8 h-8 text-black" fill="currentColor" viewBox="0 0 24 24">
                                 <path d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"/>
                               </svg>
                             </div>
                             <div>
-                              <div className="text-3xl font-bold text-black">
+                              <div className="text-3xl font-black text-black">
                                 {story.sellers}
                               </div>
                               <div className="text-gray-500 font-medium">

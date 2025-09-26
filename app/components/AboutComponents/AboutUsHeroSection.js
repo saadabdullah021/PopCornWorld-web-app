@@ -5,7 +5,7 @@ const AboutUsHeroSection = () => {
   return (
     <section className="relative overflow-hidden">
       {/* Top Section with Blue Background */}
-      <div className="bg-gradient-to-r from-yellow-50 to-yellow-100 text-black pt-24 pb-12 lg:pt-40 lg:pb-12 px-4">
+      <div className="bg-[#3333cb] text-white pt-24 pb-12 lg:pt-40 lg:pb-12 px-4">
         <div className="max-w-7xl mx-auto text-center">
           {/* About Us Label */}
           <div className="mb-8">
@@ -15,7 +15,7 @@ const AboutUsHeroSection = () => {
           </div>
 
           {/* Main Heading */}
-          <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl  font-bold leading-tight tracking-tight uppercase mb-8">
+          <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl  font-splash  leading-tight tracking-tight uppercase mb-8">
             Doing the World a Flavor
           </h1>
 

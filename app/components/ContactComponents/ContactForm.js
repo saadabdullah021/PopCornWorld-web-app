@@ -111,9 +111,9 @@ const ContactForm = () => {
           </div>
 
           {/* Contact Form */}
-          <div className="bg-yellow-50 p-8 md:p-12 lg:p-16">
+          <div className="bg-green-50 p-8 md:p-12 lg:p-16">
             <form onSubmit={handleSubmit} className="space-y-6">
-              <h3 className="text-3xl md:text-4xl font-bold text-black mb-8">
+              <h3 className="text-3xl md:text-4xl font-splash  text-black mb-8">
                 Send Us Message
               </h3>
 
@@ -129,7 +129,7 @@ const ContactForm = () => {
                     value={formData.name}
                     onChange={handleInputChange}
                     placeholder="Willie M. Stanley"
-                    className={`w-full px-4 py-3 border rounded-lg bg-white outline-none ${
+                    className={`w-full px-4 py-3 border border-green-500  bg-white outline-none ${
                       errors.name ? 'border-red-500 focus:ring-red-500' : ''
                     }`}
                   />
@@ -147,7 +147,7 @@ const ContactForm = () => {
                     value={formData.phone}
                     onChange={handleInputChange}
                     placeholder="+1 234 567 8900"
-                    className={`w-full px-4 py-3 border rounded-lg bg-white outline-none ${
+                    className={`w-full px-4 py-3 border border-green-500 bg-white outline-none ${
                       errors.phone ? 'border-red-500 focus:ring-red-500' : ''
                     }`}
                   />
@@ -167,7 +167,7 @@ const ContactForm = () => {
                     value={formData.email}
                     onChange={handleInputChange}
                     placeholder="support@gmail.com"
-                    className={`w-full px-4 py-3 border rounded-lg bg-white outline-none ${
+                    className={`w-full px-4 py-3 border border-green-500 bg-white outline-none ${
                       errors.email ? 'border-red-500 focus:ring-red-500' : ''
                     }`}
                   />
@@ -185,7 +185,7 @@ const ContactForm = () => {
                     value={formData.subject}
                     onChange={handleInputChange}
                     placeholder="I would like to"
-                    className={`w-full px-4 py-3 border rounded-lg bg-white outline-none ${
+                    className={`w-full px-4 py-3 border border-green-500 bg-white outline-none ${
                       errors.subject ? 'border-red-500 focus:ring-red-500' : ''
                     }`}
                   />
@@ -204,7 +204,7 @@ const ContactForm = () => {
                   onChange={handleInputChange}
                   rows={5}
                   placeholder="Hello"
-                  className={`w-full px-4 py-3 border rounded-lg bg-white outline-none resize-none ${
+                  className={`w-full px-4 py-3 border border-green-500 bg-white outline-none resize-none ${
                     errors.message ? 'border-red-500 focus:ring-red-500' : ''
                   }`}
                 />
@@ -215,7 +215,7 @@ const ContactForm = () => {
               <div>
                 <button
                   type="submit"
-                  className="group inline-flex items-center gap-3 px-8 py-4 text-white font-medium rounded-full bg-[#8BC34A] hover:border-transparent transition-all duration-300"
+                  className="group inline-flex items-center gap-3 px-6 py-3 text-white font-medium rounded-full bg-[#8BC34A] hover:border-transparent transition-all duration-300"
                 >
                   Send Us Message
                   <FaArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />

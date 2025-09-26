@@ -4,17 +4,17 @@ import dollar_support from '../../../public/dollar-supports-image.jpg';
 import { FaArrowRight } from 'react-icons/fa';
 const PopcornWorldSection = () => {
   return (
-    <section className="bg-gradient-to-r from-yellow-50  to-green-100 pt-32 pb-16 lg:pt-48 lg:pb-12 px-4 sm:px-6 lg:px-8">
+    <section className="bg-[#3333cb]  pt-32 pb-16 lg:pt-48 lg:pb-12 px-4 sm:px-6 lg:px-8">
       <div className="max-w-7xl mx-auto">
         <div className="grid lg:grid-cols-2 gap-8 lg:gap-16 items-center">
           {/* Content Section */}
-          <div className="text-black space-y-6 lg:space-y-8">
+          <div className="text-white space-y-6 lg:space-y-8">
             {/* Main Heading */}
             <div className="space-y-2 lg:space-y-4">
-              <h1 className="text-4xl pb-4  lg:text-6xl xl:text-7xl font-bold text-[#ffc222] leading-none">
+              <h1 className="text-4xl pb-4  lg:text-6xl xl:text-7xl font-splash text-[#ffc222] leading-none">
                 50%
               </h1>
-              <h2 className="text-3xl sm:text-4xl lg:text-5xl font-black uppercase leading-tight">
+              <h2 className="text-3xl sm:text-4xl lg:text-5xl font-splash uppercase leading-tight">
                 <span className="block">OF EVERY DOLLAR SUPPORTS</span>
                 <span className="block">OUR POPCORN WORLD</span>
                 <span className="block">COMMUNITIES AND</span>
@@ -30,7 +30,7 @@ const PopcornWorldSection = () => {
 
             {/* CTA Button */}
             <div className="pt-4">
-              <button className="group inline-flex items-center gap-3 px-8 py-4  text-white font-medium rounded-full bg-[#8BC34A]  hover:border-transparent transition-all duration-300 animate-fadeInUp">
+              <button className="group btn-primary  transition-all duration-300 animate-fadeInUp">
                         Get Started
                         <FaArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
                       </button>
@@ -46,7 +46,7 @@ const PopcornWorldSection = () => {
                 
                 {/* Person Image */}
                 <div className="absolute inset-0 flex items-center justify-center lg:p-6">
-                  <div className="absolute inset-0 bg-gradient-to-br from-green-100 to-green-200 rounded-3xl transform rotate-3 shadow-2xl"></div>
+
                   <div className="relative w-full h-full">
                     <Image
                       src={dollar_support}

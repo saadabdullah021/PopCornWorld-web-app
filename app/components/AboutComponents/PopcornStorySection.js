@@ -7,7 +7,7 @@ const PopcornStorySection = () => {
             <div className="max-w-7xl mx-auto">
                 {/* Header */}
                 <div className="text-center mb-12 md:mb-16">
-                    <h2 className="text-2xl  md:text-3xl lg:text-4xl font-bold text-black leading-tight tracking-tight uppercase mb-4">
+                    <h2 className="text-2xl  md:text-3xl lg:text-4xl font-splash  text-black leading-tight tracking-tight uppercase mb-4">
                         <span className="block mb-2">About a Story Popped with Heart Popcorn World's Community Crunch
                         </span>
                     </h2>
@@ -46,7 +46,7 @@ const PopcornStorySection = () => {
 
                 {/* Call to Action */}
                 <div className="text-center mt-12 md:mt-16">
-                   <button className="group inline-flex items-center gap-3 px-8 py-4  text-white font-medium rounded-full bg-[#8BC34A]  hover:border-transparent transition-all duration-300 animate-fadeInUp">
+                   <button className="group btn-primary transition-all duration-300 animate-fadeInUp">
                                Get Started
                                <FaArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
                              </button>

@@ -32,16 +32,16 @@ const ContactSection = () => {
         {/* Contact Info Section */}
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 items-center justify-center mb-24">
           {/* Left Content */}
-          <div className="lg:col-span-4 max-w-lg mx-auto lg:mx-0">
+          <div className="lg:col-span-5 max-w-2xl mx-auto lg:mx-0">
             <div className="mb-8 md:mb-16 lg:mb-0">
               <div className="mb-8">
-                <div className="flex items-center text-[#ffc222] text-sm font-semibold uppercase tracking-wide mb-4">
+                <div className="flex items-center text-green-500 text-sm font-semibold uppercase tracking-wide mb-4">
                   <svg className="w-4 h-4 mr-2" fill="currentColor" viewBox="0 0 20 20">
                     <path fillRule="evenodd" d="M10 3a1 1 0 011 1v5h5a1 1 0 110 2h-5v5a1 1 0 11-2 0v-5H4a1 1 0 110-2h5V4a1 1 0 011-1z" clipRule="evenodd" />
                   </svg>
                   Donate Projects
                 </div>
-                <h2 className="text-3xl md:text-4xl lg:text-4xl font-bold text-black leading-tight">
+                <h2 className="text-3xl md:text-4xl lg:text-4xl font-splash  text-black leading-tight">
                   Ready to Get More Information
                 </h2>
               </div>
@@ -50,10 +50,10 @@ const ContactSection = () => {
                 dolore dantiumy totam apeam eaquey quaventore veritatis
                 architecto beatae.
               </p>
-            <button className="group inline-flex items-center gap-3 px-8 py-4  text-white font-medium rounded-full bg-[#8BC34A]  hover:border-transparent transition-all duration-300 animate-fadeInUp">
+            {/* <button className="group inline-flex items-center gap-3 px-8 py-4  text-white font-medium rounded-full bg-[#8BC34A]  hover:border-transparent transition-all duration-300 animate-fadeInUp">
                         Get Free Quote
                         <FaArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
-                      </button>
+                      </button> */}
             </div>
           </div>
 

@@ -51,7 +51,7 @@ const PopUpStoresSection = () => {
       <div className="max-w-7xl mx-auto">
         {/* Header */}
         <div className="text-center mb-12">
-          <h2 className="text-3xl  md:text-4xl lg:text-5xl font-bold text-black leading-tight tracking-tight uppercase mb-4">
+          <h2 className="text-3xl  md:text-4xl lg:text-5xl font-splash text-black leading-tight tracking-tight uppercase mb-4">
             <span className="block mb-2">Pop-Up Stores: Hands-down The Easiest Way to Fundraise</span>
           </h2>
         </div>
