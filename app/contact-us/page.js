@@ -50,10 +50,7 @@ const ContactSection = () => {
                 dolore dantiumy totam apeam eaquey quaventore veritatis
                 architecto beatae.
               </p>
-            {/* <button className="group inline-flex items-center gap-3 px-8 py-4  text-white font-medium rounded-full bg-[#8BC34A]  hover:border-transparent transition-all duration-300 animate-fadeInUp">
-                        Get Free Quote
-                        <FaArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
-                      </button> */}
+ 
             </div>
           </div>
 

@@ -59,7 +59,7 @@ const TrackOrderPage = () => {
           </h1>
           
           {/* Description */}
-          <p className="text-lg sm:text-xl text-white/90 leading-relaxed max-w-3xl mx-auto">
+          <p className="text-lg sm:text-[22px] text-white font-medium  max-w-4xl mx-auto">
             Stay joyfully informed. We've got you covered every step of the way with our 'Track 
             an Order' feature. Easily monitor the status and whereabouts of your delivery.
           </p>
@@ -117,7 +117,7 @@ const TrackOrderPage = () => {
             <button
               onClick={handleSubmit}
               disabled={isLoading}
-              className="lg:w-32 w-full lg:ml-auto bg-gray-800 hover:bg-gray-900 disabled:bg-gray-400 text-white font-bold py-3 px-6 rounded-3xl transition-all duration-300 transform  hover:shadow-lg focus:outline-none disabled:transform-none disabled:cursor-not-allowed flex items-center justify-center space-x-2"
+              className="lg:w-32 w-full lg:ml-auto bg-black cursor-pointer disabled:bg-gray-400 text-white font-bold py-3 px-6 rounded-3xl transition-all duration-300 transform  hover:shadow-lg focus:outline-none disabled:transform-none disabled:cursor-not-allowed flex items-center justify-center space-x-2"
             >
               {isLoading ? (
                 <>

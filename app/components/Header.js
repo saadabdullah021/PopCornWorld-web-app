@@ -16,6 +16,7 @@ import { RiShoppingBag4Fill } from "react-icons/ri";
 import logo from '../../public/fundraiserLogo.png'
 import { Home, News, Pages, Project } from "./Menus";
 import Image from "next/image";
+import { usePathname } from "next/navigation";
 
 const Header = () => {
     const [sticky, setSticky] = useState(false);
@@ -24,6 +25,8 @@ const Header = () => {
     const [openDesktopMenu, setOpenDesktopMenu] = useState(null);
     const [scrolled, setScrolled] = useState(false);
     const timeoutRef = useRef(null);
+    const pathname = usePathname();
+
 
     const [isCartOpen, setIsCartOpen] = useState(false);
     useEffect(() => {
@@ -114,7 +117,7 @@ const Header = () => {
                                 <Link href='/track-an-order' className="text-sm font-semibold  cursor-pointer text-white mr-3">Tracke an Order</Link >
                                 <button className="text-sm font-semibold  bg-gray-200 px-3 py-1 outline-none ring-none rounded-full text-black cursor-pointer  mr-3">Sign In</button>
                                 <ShoppingCartIcon
-                                    itemCount={5} 
+                                    itemCount={5}
                                     onClick={() => setIsCartOpen(true)}
                                 />
 
@@ -144,8 +147,8 @@ const Header = () => {
                                 {/* Home */}
                                 <div
                                     className="relative group"
-                                    // onMouseEnter={() => handleMouseEnter("home")}
-                                    // onMouseLeave={handleMouseLeave}
+                                // onMouseEnter={() => handleMouseEnter("home")}
+                                // onMouseLeave={handleMouseLeave}
                                 >
                                     <Link href='/fundraising' className="flex items-center py-2 hover:text-[#ffc222] transition-colors duration-300 group relative">
                                         Fundrasing
@@ -169,8 +172,8 @@ const Header = () => {
                                 {/* Project */}
                                 <div
                                     className="relative group"
-                                    // onMouseEnter={() => handleMouseEnter("project")}
-                                    // onMouseLeave={handleMouseLeave}
+                                // onMouseEnter={() => handleMouseEnter("project")}
+                                // onMouseLeave={handleMouseLeave}
                                 >
                                     <Link href='/shop' className="flex items-center py-2 hover:text-[#ffc222] transition-colors duration-300 group relative">
                                         Shop Popcorn
@@ -260,14 +263,23 @@ const Header = () => {
 
                             {/* Enhanced Donate + Mobile Toggle */}
                             <div className="flex items-center space-x-4">
-                                <Link
-                                    href="/store-demo"
-                                    className="group relative hidden bg-[#8BC34A] text-white px-6 py-3 rounded-full  transition-all duration-300 transform   lg:flex items-center font-medium overflow-hidden"
-                                >
+                                {pathname === "/store-demo" ? (
+                                    <Link
+                                        href="/get-started"
+                                        className="group relative hidden bg-black text-white px-6 py-3 rounded-full transition-all duration-300 transform lg:flex items-center font-medium overflow-hidden"
+                                    >
+                                        <span className="relative z-10">SET UP A FUNDRAISER</span>
 
-                                    <span className="relative z-10">Get Started</span>
-                                    <FaArrowRight className="ml-2 transform group-hover:translate-x-1 transition-transform duration-300 relative z-10" />
-                                </Link>
+                                    </Link>
+                                ) : (
+                                    <Link
+                                        href="/store-demo"
+                                        className="group relative hidden bg-black text-white px-6 py-3 rounded-full transition-all duration-300 transform lg:flex items-center font-medium overflow-hidden"
+                                    >
+                                        <span className="relative z-10">Get Started</span>
+
+                                    </Link>
+                                )}
 
                                 <button
                                     className="lg:hidden p-3 rounded-xl border border-gray-200 hover:border-[#ffc222] hover:bg-blue-50 transition-all duration-300 transform "
@@ -395,14 +407,25 @@ const Header = () => {
 
                     {/* Mobile Donate Button */}
                     <div className="p-6">
-                        <Link
-                            href="/store-demo"
-                            onClick={closeMobileMenu}
-                            className="group w-full btn-primary  transition-all duration-300 flex items-center justify-center font-medium transform  shadow-lg"
-                        >
-                            Get Started
-                            <FaArrowRight className="ml-2 transform group-hover:translate-x-1 transition-transform duration-300" />
-                        </Link>
+                        {pathname === "/store-demo" ? (
+                            <Link
+                                href="/get-started"
+                                onClick={closeMobileMenu}
+                                className="group w-full btn-primary transition-all duration-300 flex items-center justify-center font-medium transform shadow-lg"
+                            >
+                                SET UP A FUNDRAISER
+
+                            </Link>
+                        ) : (
+                            <Link
+                                href="/store-demo"
+                                onClick={closeMobileMenu}
+                                className="group w-full btn-primary transition-all duration-300 flex items-center justify-center font-medium transform shadow-lg"
+                            >
+                                Get Started
+
+                            </Link>
+                        )}
                     </div>
                 </div>
             </div>

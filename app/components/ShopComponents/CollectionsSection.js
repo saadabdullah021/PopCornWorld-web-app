@@ -112,7 +112,7 @@ const CollectionsSection = () => {
           <h2 className="text-3xl sm:text-4xl lg:text-5xl font-splash  text-black mb-4">
             Collections
           </h2>
-          <div className="w-24 h-1 bg-gradient-to-r from-[#8BC34A] to-[#ffc222] mx-auto rounded-full"></div>
+          <div className="w-48 h-1 bg-[#ffc222] mx-auto rounded-full"></div>
         </div>
 
         {/* Collections Grid */}
@@ -166,7 +166,7 @@ const CollectionsSection = () => {
                 </p>
 
                 {/* Action Button */}
-                  <button className="inline-flex items-center gap-3 justify-center w-full mt-6 bg-[#8BC34A]  text-white font-bold py-3 px-6 rounded-3xl transition-all duration-300 transform  hover:shadow-lg focus:outline-none ">
+                  <button className="inline-flex items-center gap-3 justify-center w-full mt-6 bg-[#000]  text-white font-bold py-3 px-6 rounded-3xl transition-all duration-300 transform  hover:shadow-lg focus:outline-none ">
                   Add to Cart
                   <TiShoppingCart />
 

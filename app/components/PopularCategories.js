@@ -102,10 +102,7 @@ const PopularCategories = () => {
           </p>
         </div>
 
-        {/* Hover Arrow */}
-        <div className="absolute top-6 right-6 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
-          <ArrowRight className="w-5 h-5 text-gray-400 group-hover:text-[#8bc34a] transition-colors" />
-        </div>
+  
 
         {/* Border Effect (only bottom & right) */}
         <div
@@ -140,15 +137,15 @@ const PopularCategories = () => {
           {/* Right Side - View All Button */}
           <div className="flex-shrink-0">
             <button className="
-              inline-flex items-center gap-2 px-6 py-3 
-              bg-[#8BC34A] hover:bg-[#88ca3d] 
+              inline-flex items-center gap-2 mt-8 sm:mt-0 px-6 py-3 
+              bg-[#000]  cursor-pointer 
               text-white font-medium rounded-full
               transition-all duration-300 ease-in-out
               hover:shadow-lg
               focus:outline-none 
             ">
               View All Category
-              <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
+             
             </button>
           </div>
         </div>

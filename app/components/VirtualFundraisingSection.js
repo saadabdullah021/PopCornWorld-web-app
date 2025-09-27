@@ -2,12 +2,9 @@
 import React, { useState } from 'react';
 import Image from 'next/image';
 import girl_team from '../../public/Girls_team.jpg'
-import ReactPlayer from "react-player";
-import { FaArrowRight } from 'react-icons/fa';
 import VideoPlayer from './ui/VideoPlayer';
 const VirtualFundraisingSection = () => {
-  const [isVideoLoaded, setIsVideoLoaded] = useState(false);
-  const [playVideo, setPlayVideo] = useState(false);
+
   const features = [
     {
       id: 1,
@@ -68,10 +65,10 @@ const VirtualFundraisingSection = () => {
 
               {/* Content */}
               <div className="max-w-xs mx-auto">
-                <h3 className="text-lg md:text-3xl font-semibold text-black mb-4  transition-colors duration-300">
+                <h3 className="text-lg md:text-3xl font-semibold text-black mb-2  transition-colors duration-300">
                   {feature.title}
                 </h3>
-                <p className="text-gray-700 text-sm md:text-lg font-normal leading-relaxed">
+                <p className="text-gray-900 text-sm md:text-[22px] font-medium leading-relaxed">
                   {feature.description}
                 </p>
               </div>
@@ -83,10 +80,10 @@ const VirtualFundraisingSection = () => {
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-16 items-start">
           {/* Left Content */}
           <div className="order-2 lg:order-1">
-            <h3 className="text-3xl md:text-4xl font-bold text-black mb-6">
+            <h3 className="text-3xl md:text-[40px] font-bold  text-black mb-6">
               Fundraising with Quality
             </h3>
-            <p className="text-gray-700 text-[16px] mb-8 leading-relaxed">
+            <p className="text-gray-900 font-medium text-[16px] mb-8 leading-relaxed">
               There are no set-up fees. No product handling fees. No extra fees ever. For
               every dollar you sell through the Popcorn World app, you keep 50%.
             </p>
@@ -95,12 +92,10 @@ const VirtualFundraisingSection = () => {
             <div className="flex flex-col sm:flex-row gap-4">
               <button className="group btn-primary transition-all duration-300 animate-fadeInUp">
                 Get Started
-                <FaArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
+             
               </button>
 
-              {/* <button className="inline-flex items-center justify-center px-8 py-4 bg-transparent hover:bg-white/50 text-black font-semibold rounded-full border-2 border-[#ffc222] transition-all duration-300 hover:shadow-lg">
-                Learn More
-              </button> */}
+            
             </div>
           </div>
 
@@ -108,9 +103,6 @@ const VirtualFundraisingSection = () => {
 
           <div className="order-1 lg:order-2">
             <VideoPlayer />
-
-
-
           </div>
         </div>
 

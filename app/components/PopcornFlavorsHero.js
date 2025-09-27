@@ -10,7 +10,7 @@ const PopcornFlavorsHero = () => {
         </h1>
 
         {/* Subheading */}
-        <p className="text-sm md:text-2xl  text-gray-800 font-medium leading-relaxed max-w-5xl mx-auto">
+        <p className="text-sm md:text-2xl  text-gray-900 font-medium leading-relaxed max-w-5xl mx-auto">
           Popcorn World provides a true gourmet experience with hand coded popcorn.
         </p>
       </div>

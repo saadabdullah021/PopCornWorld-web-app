@@ -1,7 +1,7 @@
 import React from 'react';
 import Image from 'next/image';
 import dollar_support from '../../../public/dollar-supports-image.jpg';
-import { FaArrowRight } from 'react-icons/fa';
+
 const PopcornWorldSection = () => {
   return (
     <section className="bg-[#3333cb]  pt-32 pb-16 lg:pt-48 lg:pb-12 px-4 sm:px-6 lg:px-8">
@@ -32,7 +32,7 @@ const PopcornWorldSection = () => {
             <div className="pt-4">
               <button className="group btn-primary  transition-all duration-300 animate-fadeInUp">
                         Get Started
-                        <FaArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
+                       
                       </button>
             </div>
           </div>

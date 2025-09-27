@@ -19,7 +19,41 @@ const FundraiserSection = () => {
     coachImage: coachImage
   };
 
-  const progressPercentage = (fundraiserData.currentAmount / fundraiserData.goalAmount) * 100;
+const progressPercentage =
+    (fundraiserData.currentAmount / fundraiserData.goalAmount) * 100;
+
+  // === STATES ===
+  const [animatedWidth, setAnimatedWidth] = useState(0);
+  const [animatedAmount, setAnimatedAmount] = useState(0);
+
+  // === Animate Progress Bar ===
+  useEffect(() => {
+    const timeout = setTimeout(() => {
+      setAnimatedWidth(progressPercentage);
+    }, 300); // thoda delay for smoothness
+    return () => clearTimeout(timeout);
+  }, [progressPercentage]);
+
+  // === Animate Number Counting ===
+  useEffect(() => {
+    let start = 0;
+    const end = fundraiserData.currentAmount;
+    const duration = 1500; // 1.5s
+    const stepTime = 20;
+
+    const increment = end / (duration / stepTime);
+
+    const counter = setInterval(() => {
+      start += increment;
+      if (start >= end) {
+        start = end;
+        clearInterval(counter);
+      }
+      setAnimatedAmount(Math.floor(start));
+    }, stepTime);
+
+    return () => clearInterval(counter);
+  }, [fundraiserData.currentAmount]);
 
   return (
     <>
@@ -44,26 +78,29 @@ const FundraiserSection = () => {
               </div>
 
               {/* Progress Section */}
-              <div className="space-y-4">
-                {/* Progress Bar */}
-                <div className="w-full bg-white bg-opacity-20  h-2 overflow-hidden">
-                  <div 
-                    className="h-full bg-gradient-to-r from-green-400 to-green-500  transition-all duration-1000 ease-out"
-                    style={{ width: `${Math.min(progressPercentage, 100)}%` }}
-                  ></div>
-                </div>
+        <div className="space-y-4">
+      {/* Progress Bar */}
+      <div className="w-full bg-white bg-opacity-20 h-2 overflow-hidden">
+        <div
+          className="h-full bg-gradient-to-r from-green-400 to-green-500 transition-all duration-1000 ease-out"
+          style={{ width: `${animatedWidth}%` }}
+        ></div>
+      </div>
 
-                {/* Progress Info */}
-                <div className="flex items-center justify-between text-lg sm:text-xl font-medium ">
-                  <div>
+      {/* Progress Info */}
+      <div className="flex items-center justify-between text-lg sm:text-xl font-medium">
+        <div>
+          <span className="font-bold text-xl sm:text-2xl">
+            ${animatedAmount}
+          </span>{" "}
+          <span className="font-normal">
+            sold of ${fundraiserData.goalAmount} goal!
+          </span>
+        </div>
 
-                  <span className='font-bold text-xl sm:text-2xl'>${fundraiserData.currentAmount} </span><span className='font-normal'> sold of ${fundraiserData.goalAmount} goal!</span>
-                  </div>
-                 
-                    {fundraiserData.daysToGo} days to go
-              
-                </div>
-              </div>
+        <span>{fundraiserData.daysToGo} days to go</span>
+      </div>
+    </div>
 
               {/* CTA Button */}
               <div className="pt-4">
@@ -82,7 +119,7 @@ const FundraiserSection = () => {
             {/* Image Section */}
 
                       <div className="relative">
-                        <div className="relative aspect-[4/5] lg:aspect-[3/4] w-full max-w-md mx-auto lg:max-w-full">
+                        <div className="relative aspect-[4/5] lg:aspect-[8/9] w-full max-w-md mx-auto lg:max-w-full">
                          
                           {/* Main Image Container */}
                           <div className="relative rounded-2xl overflow-hidden h-full ">

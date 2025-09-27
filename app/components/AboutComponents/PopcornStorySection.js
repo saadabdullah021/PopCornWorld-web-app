@@ -1,5 +1,5 @@
 import React from 'react';
-import { FaArrowRight } from 'react-icons/fa';
+
 
 const PopcornStorySection = () => {
     return (
@@ -48,7 +48,7 @@ const PopcornStorySection = () => {
                 <div className="text-center mt-12 md:mt-16">
                    <button className="group btn-primary transition-all duration-300 animate-fadeInUp">
                                Get Started
-                               <FaArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
+                            
                              </button>
                 </div>
 

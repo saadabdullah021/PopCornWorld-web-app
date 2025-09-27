@@ -66,7 +66,7 @@ const JoyMissionSection = () => {
                 <h3 className="text-lg md:text-2xl font-semibold text-black mb-2 lg:mb-4  transition-colors duration-300">
                   {service.title}
                 </h3>
-                <p className="text-gray-600 text-base  font-medium leading-relaxed max-w-sm mx-auto">
+                <p className="text-gray-900 text-base  font-medium leading-relaxed max-w-sm mx-auto">
                   {service.description}
                 </p>
               </div>

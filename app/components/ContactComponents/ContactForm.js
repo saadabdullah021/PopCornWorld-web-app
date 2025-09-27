@@ -1,6 +1,6 @@
 'use client'
 import React, { useState } from 'react';
-import { FaArrowRight } from 'react-icons/fa';
+
 
 const ContactForm = () => {
   const [formData, setFormData] = useState({
@@ -215,10 +215,10 @@ const ContactForm = () => {
               <div>
                 <button
                   type="submit"
-                  className="group inline-flex items-center gap-3 px-6 py-3 text-white font-medium rounded-full bg-[#8BC34A] hover:border-transparent transition-all duration-300"
+                  className="group inline-flex items-center gap-3 px-6 py-3 text-white font-medium rounded-full bg-[#000] hover:border-transparent transition-all duration-300"
                 >
                   Send Us Message
-                  <FaArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
+              
                 </button>
               </div>
             </form>
