@@ -1,4 +1,14 @@
-import { createSlice } from '@reduxjs/toolkit'
+import { createSlice, createAsyncThunk } from '@reduxjs/toolkit'
+import axiosInstance from '../../axios'
+import { get_global_settings } from '../../services/api/endpoints'
+
+export const fetchGlobalSettings = createAsyncThunk(
+  'app/fetchGlobalSettings',
+  async () => {
+    const response = await axiosInstance.get(get_global_settings)
+    return response.data
+  }
+)
 
 const initialState = {
   isLoading: false,
@@ -6,7 +16,10 @@ const initialState = {
   sidebarOpen: false,
   notifications: [],
   user: null,
-  error: null
+  error: null,
+  globalSettings: null,
+  globalSettingsLoading: false,
+  globalSettingsError: null
 }
 
 const appSlice = createSlice({
@@ -47,6 +60,21 @@ const appSlice = createSlice({
     clearError: (state) => {
       state.error = null
     }
+  },
+  extraReducers: (builder) => {
+    builder
+      .addCase(fetchGlobalSettings.pending, (state) => {
+        state.globalSettingsLoading = true
+        state.globalSettingsError = null
+      })
+      .addCase(fetchGlobalSettings.fulfilled, (state, action) => {
+        state.globalSettingsLoading = false
+        state.globalSettings = action.payload.data
+      })
+      .addCase(fetchGlobalSettings.rejected, (state, action) => {
+        state.globalSettingsLoading = false
+        state.globalSettingsError = action.error.message
+      })
   }
 })
 
