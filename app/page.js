@@ -13,7 +13,7 @@ import { fetchCampaigns } from './store/slices/appSlice';
 
 export default function Home() {
   const dispatch = useDispatch();
-  const { campaigns, campaignsLoading, campaignsError } = useSelector(state => state.app);
+  const { campaigns, campaignsLoading, campaignsError, globalSettings } = useSelector(state => state.app);
 
   useEffect(() => {
     if (!campaigns && !campaignsLoading) {
@@ -29,7 +29,12 @@ export default function Home() {
       <PopularCategories />
       <VirtualFundraisingSection/>
       <SuccessStoriesSlider/>
-      <ExploreProjectsSlider/>
+      <ExploreProjectsSlider 
+        campaigns={campaigns}
+        campaignsLoading={campaignsLoading}
+        campaignsError={campaignsError}
+        globalSettings={globalSettings}
+      />
       <PopcornFlavorsHero/>
 
     </div>
