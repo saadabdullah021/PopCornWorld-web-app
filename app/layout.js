@@ -1,6 +1,7 @@
 import "./globals.css";
 import Header from "./components/Header";
 import Footer from "./components/Footer";
+import ReduxProvider from "./providers/ReduxProvider";
 
 export const metadata = {
   title: "Poppins Website",
@@ -19,14 +20,16 @@ export default function RootLayout({ children }) {
         />
       </head>
       <body>
-        {/* === Header === */}
-        <Header />
+        <ReduxProvider>
+          {/* === Header === */}
+          <Header />
 
-        {/* === Page Content === */}
-        <main>{children}</main>
+          {/* === Page Content === */}
+          <main>{children}</main>
 
-        {/* === Footer === */}
-        <Footer />
+          {/* === Footer === */}
+          <Footer />
+        </ReduxProvider>
       </body>
     </html>
   );
