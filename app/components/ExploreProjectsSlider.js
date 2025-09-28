@@ -2,93 +2,50 @@
 import React, { useState, useEffect, useRef } from "react";
 import { ChevronLeft, ChevronRight, Calendar, User } from "lucide-react";
 
-const ExploreProjectsSlider = () => {
+const ExploreProjectsSlider = ({ campaigns, campaignsLoading, campaignsError, globalSettings }) => {
   const [currentSlide, setCurrentSlide] = useState(0);
   const [isMobile, setIsMobile] = useState(false);
   const [isTransitioning, setIsTransitioning] = useState(false);
   const [isAutoPlaying, setIsAutoPlaying] = useState(true);
   const sliderRef = useRef(null);
+  console.log(campaigns, campaignsLoading, campaignsError, globalSettings)
+  // Get currency from global settings
+  const getCurrency = () => {
+    if (!globalSettings) return '$';
+    const currencySetting = globalSettings.find(setting => setting.config_key === 'campaign_currency');
+    return currencySetting?.config_value || '$';
+  };
 
-  const originalProjects = [
-    {
-      id: 1,
-      title: "Mobile First Is Just Not Goodies Enough Meet Journey",
-      author: "James W. Barrows",
-      category: "Business",
-      categoryColor: "bg-[#8bc34a]",
-      image:
-        "https://images.unsplash.com/photo-1551650975-87deedd944c3?ixlib=rb-4.0.3&auto=format&fit=crop&w=1000&q=80",
-      raised: "$59,689",
-      goal: "$75,000",
-      percentage: 75,
-      date: "25 February 2021",
-    },
-    {
-      id: 2,
-      title: "Best Romantic & Action English Movie Release In 2022",
-      author: "James W. Barrows",
-      category: "Video & Movies",
-      categoryColor: "bg-[#8bc34a]",
-      image:
-        "https://images.unsplash.com/photo-1489599808-3e09666c8c0b?ixlib=rb-4.0.3&auto=format&fit=crop&w=1000&q=80",
-      raised: "$59,689",
-      goal: "$75,000",
-      percentage: 79,
-      date: "25 February 2021",
-    },
-    {
-      id: 3,
-      title: "Needs Close Up Students Class Room In University",
-      author: "James W. Barrows",
-      category: "Education",
-      categoryColor: "bg-[#8bc34a]",
-      image:
-        "https://images.unsplash.com/photo-1523240795612-9a054b0db644?ixlib=rb-4.0.3&auto=format&fit=crop&w=1000&q=80",
-      raised: "$59,689",
-      goal: "$68,000",
-      percentage: 87,
-      date: "25 February 2021",
-    },
-    {
-      id: 4,
-      title: "Original Shinecon VR Pro Virtual Reality 3D Glasses VRBox",
-      author: "James W. Barrows",
-      category: "Technology",
-      categoryColor: "bg-[#8bc34a]",
-      image:
-        "https://images.unsplash.com/photo-1592478411213-6153e4ebc696?ixlib=rb-4.0.3&auto=format&fit=crop&w=1000&q=80",
-      raised: "$59,689",
-      goal: "$70,000",
-      percentage: 85,
-      date: "25 February 2021",
-    },
-    {
-      id: 5,
-      title: "Fundraising For The People And Causes You Care About",
-      author: "James W. Barrows",
-      category: "Clothes",
-      categoryColor: "bg-[#8bc34a]",
-      image:
-        "https://images.unsplash.com/photo-1441986300917-64674bd600d8?ixlib=rb-4.0.3&auto=format&fit=crop&w=1000&q=80",
-      raised: "$59,689",
-      goal: "$72,000",
-      percentage: 83,
-      date: "25 February 2021",
-    },
-    {
-      id: 6,
-      title: "Innovative Healthcare Solutions for Remote Communities",
-      author: "Sarah Johnson",
-      category: "Healthcare",
-      categoryColor: "bg-[#8bc34a]",
-      image:
-        "https://images.unsplash.com/photo-1576091160399-112ba8d25d1f?ixlib=rb-4.0.3&auto=format&fit=crop&w=1000&q=80",
-      raised: "$42,350",
-      goal: "$60,000",
-      percentage: 70,
-      date: "20 February 2021",
-    },
-  ];
+  const transformCampaigns = (campaignsData) => {
+    if (!campaignsData) return [];
+    
+    const currency = getCurrency();
+    
+    return campaignsData.map(campaign => {
+      const collectedAmount = parseFloat(campaign.collected_amount) || 0;
+      const raiseAmount = parseFloat(campaign.raise_amount) || 1;
+      const percentage = Math.round((collectedAmount / raiseAmount) * 100);
+      
+      return {
+        id: campaign.id,
+        title: campaign.campaign_title,
+        author: campaign.fundraiser?.name || "Unknown",
+        category: "Campaign",
+        categoryColor: "bg-[#8bc34a]",
+        image: `https://onebigmediacompany.online/${campaign.campaign_image}`,
+        raised: `${currency}${collectedAmount}`,
+        goal: `${currency}${raiseAmount}`,
+        percentage: Math.min(percentage, 100),
+        date: new Date(campaign.campaign_time).toLocaleDateString('en-US', {
+          year: 'numeric',
+          month: 'long',
+          day: 'numeric'
+        }),
+      };
+    });
+  };
+
+  const originalProjects = transformCampaigns(campaigns);
 
   // ✅ Check if mobile
   useEffect(() => {
@@ -196,6 +153,96 @@ const ExploreProjectsSlider = () => {
       </div>
     </div>
   );
+
+  // Shimmer component for loading state
+  const ShimmerCard = () => (
+    <div className="bg-white rounded shadow-lg overflow-hidden animate-pulse">
+      <div className="h-48 bg-gray-300"></div>
+      <div className="p-6">
+        <div className="absolute -top-3 left-4">
+          <div className="w-20 h-8 bg-gray-300 rounded"></div>
+        </div>
+        <div className="flex items-center gap-2 mt-6 mb-3">
+          <div className="w-8 h-8 bg-gray-300 rounded-full"></div>
+          <div className="w-24 h-4 bg-gray-300 rounded"></div>
+        </div>
+        <div className="mt-3 space-y-2">
+          <div className="w-full h-4 bg-gray-300 rounded"></div>
+          <div className="w-3/4 h-4 bg-gray-300 rounded"></div>
+        </div>
+        <div className="mt-4 space-y-2">
+          <div className="flex justify-between">
+            <div className="w-20 h-4 bg-gray-300 rounded"></div>
+            <div className="w-8 h-4 bg-gray-300 rounded"></div>
+          </div>
+          <div className="w-full h-1 bg-gray-300 rounded"></div>
+        </div>
+        <div className="flex items-center gap-2 mt-4">
+          <div className="w-4 h-4 bg-gray-300 rounded"></div>
+          <div className="w-24 h-4 bg-gray-300 rounded"></div>
+        </div>
+      </div>
+    </div>
+  );
+
+  // Show loading state with shimmer
+  if (campaignsLoading) {
+    return (
+      <section className="py-16 lg:py-24 bg-black relative overflow-hidden">
+        <div className="container w-full mx-auto px-4 sm:px-6 lg:px-8">
+          {/* Desktop Shimmer */}
+          <div className="hidden md:block container w-full mx-12 py-4">
+            <div className="flex gap-6">
+              {[...Array(4)].map((_, index) => (
+                <div key={index} className="w-1/4 flex-shrink-0">
+                  <ShimmerCard />
+                </div>
+              ))}
+            </div>
+          </div>
+          
+          {/* Mobile Shimmer */}
+          <div className="md:hidden relative">
+            <div className="overflow-hidden pb-2">
+              <div className="flex">
+                {[...Array(3)].map((_, index) => (
+                  <div key={index} className="w-full flex-shrink-0 px-2">
+                    <ShimmerCard />
+                  </div>
+                ))}
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+    );
+  }
+
+  // Show error state
+  if (campaignsError) {
+    return (
+      <section className="py-16 lg:py-24 bg-black relative overflow-hidden">
+        <div className="container w-full mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="flex justify-center items-center h-64">
+            <div className="text-red-400 text-xl">Error loading campaigns: {campaignsError}</div>
+          </div>
+        </div>
+      </section>
+    );
+  }
+
+  // Show empty state only when not loading and no campaigns
+  if (!campaignsLoading && !campaignsError && (!campaigns || campaigns.length === 0)) {
+    return (
+      <section className="py-16 lg:py-24 bg-black relative overflow-hidden">
+        <div className="container w-full mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="flex justify-center items-center h-64">
+            <div className="text-white text-xl">No campaigns available</div>
+          </div>
+        </div>
+      </section>
+    );
+  }
 
   return (
     <section className="py-16 lg:py-24 bg-black relative overflow-hidden ">
