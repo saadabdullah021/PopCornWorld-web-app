@@ -4,6 +4,10 @@ import Image from 'next/image';
 import get1 from '../../public/get1.png';
 import get2 from '../../public/get2.png';
 import { useRouter } from 'next/navigation';
+import { ArrowLeft, CalendarCheck } from 'lucide-react';
+import { DayPicker } from 'react-day-picker';
+import { format, parseISO, isBefore, addHours } from 'date-fns';
+import 'react-day-picker/dist/style.css';
 const FundraisingOnboarding = () => {
     // Main state management
     const router = useRouter();
@@ -28,8 +32,31 @@ const FundraisingOnboarding = () => {
     const [isLoading, setIsLoading] = useState(false);
     const [showOtpInput, setShowOtpInput] = useState(false);
     const [pickSpecificDate, setPickSpecificDate] = useState(false);
-    const [startDate, setStartDate] = useState('');
-    const [endDate, setEndDate] = useState('');
+
+
+    // ... inside your component
+
+    const [startDate, setStartDate] = useState(null);
+    const [endDate, setEndDate] = useState(null);
+
+    // Optional: Format for display
+    const formatDate = (date) => (date ? format(date, 'PPP p') : '');
+
+    // Handle selection
+    const handleDayClick = (day) => {
+        if (!startDate || (startDate && endDate)) {
+            // Start new range
+            setStartDate(day);
+            setEndDate(null);
+        } else if (isBefore(day, startDate)) {
+            // If clicked before start, reset start
+            setStartDate(day);
+            setEndDate(null);
+        } else {
+            // Set end date
+            setEndDate(day);
+        }
+    };
 
     // Mock organization data
     const organizationTypes = [
@@ -156,10 +183,10 @@ const FundraisingOnboarding = () => {
             setIsLoading(false);
             return;
         }
-            if (currentStep === 7) {
-      router.push('/fundraiser-registered');
-      return;
-    }
+        if (currentStep === 7) {
+            router.push('/fundraiser-registered');
+            return;
+        }
 
         if (currentStep < steps.length - 1) {
             setCurrentStep(currentStep + 1);
@@ -196,21 +223,21 @@ const FundraisingOnboarding = () => {
                 {steps.map((step, index) => (
                     <div key={index} className="flex flex-col items-center last:mb-[16px]">
                         <div className={`w-8 h-8 rounded-full flex items-center justify-center text-sm font-semibold transition-colors duration-300 ${index < currentStep ? 'bg-green-500 text-white' :
-                                index === currentStep ? 'bg-blue-600 text-white' :
-                                    'bg-gray-200 text-gray-700'
+                            index === currentStep ? 'bg-blue-600 text-white' :
+                                'bg-gray-200 text-gray-700'
                             }`}>
                             {index < currentStep ? '✓' : index + 1}
                         </div>
-                        {index < steps.length  && (
+                        {/* {index < steps.length && (
                             <div className={`h-0.5 w-16 lg:w-12 mt-2 transition-colors duration-300 ${index < currentStep ? 'bg-green-500' : 'bg-gray-200'
                                 }`} />
-                        )}
+                        )} */}
                     </div>
                 ))}
             </div>
-            <div className="text-center bg-gray-300 rounded-full px-4 py-2 w-fit mx-auto mt-1">
+            {/* <div className="text-center bg-gray-300 rounded-full px-4 py-2 w-fit mx-auto mt-1">
                 <p className="text-sm font-semibold text-black ">{steps[currentStep].description}</p>
-            </div>
+            </div> */}
         </div>
     );
 
@@ -243,7 +270,7 @@ const FundraisingOnboarding = () => {
             case 1:
                 return (
                     <div>
-                       
+
                         <h1 className="text-4xl  font-splash text-white mt-4 mb-6">
                             Type in the name of your team
                         </h1>
@@ -266,7 +293,7 @@ const FundraisingOnboarding = () => {
             case 2:
                 return (
                     <div>
-           
+
                         <h1 className="text-4xl  font-splash text-white mt-4 mb-6">
                             Tell us about your team
                         </h1>
@@ -332,7 +359,7 @@ const FundraisingOnboarding = () => {
             case 3:
                 return (
                     <div>
-                       
+
                         <h1 className="text-4xl  font-splash text-white mt-4 mb-6">
                             When are you looking to start fundraising?
                         </h1>
@@ -344,9 +371,9 @@ const FundraisingOnboarding = () => {
                                         <button
                                             key={option}
                                             onClick={() => handleInputChange('startTime', option)}
-                                            className={`p-4 rounded-xl font-semibold transition-all duration-200 ${formData.startTime === option
-                                                    ? 'bg-blue-600 text-white'
-                                                    : 'bg-white text-gray-700 hover:bg-blue-50'
+                                            className={`p-4 rounded-xl font-semibold transition-all hover:bg-blue-600 hover:text-white duration-200 ${formData.startTime === option
+                                                ? 'bg-blue-600 text-white'
+                                                : 'bg-white text-gray-700 hover:bg-blue-50'
                                                 }`}
                                         >
                                             {option === 'asap' && 'ASAP'}
@@ -359,11 +386,9 @@ const FundraisingOnboarding = () => {
 
                                 <button
                                     onClick={() => setPickSpecificDate(true)}
-                                    className="flex items-center text-white hover:text-yellow-400 transition-colors duration-200"
+                                    className="flex items-center gap-3 text-white font-semibold hover:text-[#8BC34A] transition-colors duration-200"
                                 >
-                                    <svg className="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
-                                    </svg>
+                                    <CalendarCheck />
                                     Pick a Specific Date
                                 </button>
 
@@ -372,27 +397,45 @@ const FundraisingOnboarding = () => {
                         ) : (
                             <div className="space-y-6">
                                 <div className="grid grid-cols-1 gap-4">
-                                    <input
-                                        type="datetime-local"
-                                        placeholder="Start Date/Time"
-                                        value={startDate}
-                                        onChange={(e) => setStartDate(e.target.value)}
-                                        className="w-full p-4 rounded-xl border border-gray-300 focus:outline-none text-white transition-all duration-200"
-                                    />
-                                    <input
-                                        type="datetime-local"
-                                        placeholder="End Date/Time"
-                                        value={endDate}
-                                        onChange={(e) => setEndDate(e.target.value)}
-                                        className="w-full p-4 rounded-xl border border-gray-300 focus:outline-none text-white transition-all duration-200"
-                                    />
+                                    {/* Display selected dates */}
+                                    <div className="p-4 bg-white/10 rounded-xl text-white">
+                                        <p className="text-sm text-white font-medium ">Start: {formatDate(startDate)}</p>
+                                        <p className="text-sm text-white font-medium ">End: {formatDate(endDate)}</p>
+                                    </div>
+
+                                    {/* Calendar */}
+                                    <div className="bg-white rounded-xl p-4 w-full shadow-md">
+                                        <DayPicker
+                                            mode="range"
+                                            selected={{ from: startDate, to: endDate }}
+                                            onSelect={(range) => {
+                                                setStartDate(range?.from || null);
+                                                setEndDate(range?.to || null);
+                                            }}
+                                            // Optional: disable past dates
+                                            disabled={{ before: new Date() }}
+                                            // Custom class names to match your Tailwind theme
+                                            classNames={{
+                                                caption: 'flex justify-between items-center mb-4 ',
+                                                nav_button: 'text-blue-600 hover:text-blue-800',
+                                                table: 'w-full',
+                                                head_cell: 'text-gray-500 font-medium text-sm',
+                                                cell: 'w-10 h-10 text-center gap-4 ',
+                                                day: 'w-10 h-10 rounded-full hover:bg-blue-100 transition-colors',
+                                                day_selected: 'bg-blue-600 text-white hover:bg-blue-700',
+                                                day_outside: 'text-gray-300',
+                                                day_disabled: 'text-gray-200 cursor-not-allowed',
+                                            }}
+                                        />
+                                    </div>
                                 </div>
 
                                 <button
                                     onClick={() => setPickSpecificDate(false)}
-                                    className="text-white hover:text-yellow-400 transition-colors duration-200"
+                                    className="text-white hover:text-[#8BC34A] font-semibold transition-colors duration-200"
                                 >
-                                    ← Back to options
+                                    <ArrowLeft className="inline-block mr-2" />
+                                    Back to options
                                 </button>
 
                                 {formErrors.dates && <p className="text-red-400 text-sm">{formErrors.dates}</p>}
@@ -404,7 +447,7 @@ const FundraisingOnboarding = () => {
             case 4:
                 return (
                     <div>
-                     
+
                         <h1 className="text-4xl  font-splash text-white mt-4 mb-6">
                             How many members of your team will participate in the fundraiser?
                         </h1>
@@ -413,9 +456,9 @@ const FundraisingOnboarding = () => {
                                 <button
                                     key={option}
                                     onClick={() => handleInputChange('membersCount', option)}
-                                    className={`p-4 rounded-xl font-semibold transition-all duration-200 ${formData.membersCount === option
-                                            ? 'bg-blue-600 text-white'
-                                            : 'bg-white text-gray-700 hover:bg-blue-50'
+                                    className={`p-4 rounded-xl font-semibold transition-all hover:bg-blue-600 hover:text-white duration-200 ${formData.membersCount === option
+                                        ? 'bg-blue-600 text-white'
+                                        : 'bg-white text-gray-700 hover:bg-blue-50'
                                         }`}
                                 >
                                     {option === 'justme' && 'Just me'}
@@ -431,7 +474,7 @@ const FundraisingOnboarding = () => {
             case 5:
                 return (
                     <div>
-                      
+
                         <h1 className="text-4xl  font-splash text-white mt-4 mb-6">
                             Your team could earn between ${earnings.min.toLocaleString()}-${earnings.max.toLocaleString()} in just 4 days!
                         </h1>
@@ -444,7 +487,7 @@ const FundraisingOnboarding = () => {
             case 6:
                 return (
                     <div>
-                    
+
                         <h1 className="text-4xl  font-splash text-white mt-4 mb-6">
                             Set up your Popcorn World account
                         </h1>
@@ -500,27 +543,49 @@ const FundraisingOnboarding = () => {
                     </div>
                 );
 
-            case 7:
-                return (
-                    <div>
-                        <h2 className="text-3xl  font-splash text-white mt-4 mb-6">
-                            Enter the 5 digit code
-                        </h2>
-                        <p className="text-white/90 mb-8 text-lg">
-                            We sent a code over SMS to {formData.phoneNumber}.
-                        </p>
-                        <div className="space-y-4">
-                            <input
-                                type="text"
-                                placeholder="5 Digit OTP"
-                                value={formData.otp}
-                                onChange={(e) => handleInputChange('otp', e.target.value.replace(/\D/g, '').slice(0, 5))}
-                                className="w-full p-4 rounded-xl border border-gray-300 focus:outline-none text-white transition-all duration-200 text-center text-2xl tracking-widest"
-                            />
-                            {formErrors.otp && <p className="text-red-400 text-sm">{formErrors.otp}</p>}
-                        </div>
-                    </div>
-                );
+      case 7:
+  return (
+    <div>
+      <h2 className="text-3xl font-splash text-white mt-4 mb-6">
+        Enter the 5 digit code
+      </h2>
+      <p className="text-white/90 mb-8 text-lg">
+        We sent a code over SMS to {formData.phoneNumber}.
+      </p>
+
+      <div className="flex justify-start gap-3 mb-4">
+        {Array.from({ length: 5 }).map((_, index) => (
+          <input
+            key={index}
+            type="text"
+            maxLength={1}
+            value={formData.otp[index] || ""}
+            onChange={(e) => {
+              const value = e.target.value.replace(/\D/g, ""); // only numbers
+              let newOtp = formData.otp.split("");
+              newOtp[index] = value;
+              handleInputChange("otp", newOtp.join(""));
+
+              // auto move to next box
+              if (value && e.target.nextSibling) {
+                e.target.nextSibling.focus();
+              }
+            }}
+            onKeyDown={(e) => {
+              if (e.key === "Backspace" && !formData.otp[index] && e.target.previousSibling) {
+                e.target.previousSibling.focus();
+              }
+            }}
+            className="w-14 h-14 text-center text-2xl font-semibold rounded-xl border bg-transparent border-gray-300  text-white  outline-none"
+          />
+        ))}
+      </div>
+
+      {formErrors.otp && (
+        <p className="text-red-400 text-sm text-center">{formErrors.otp}</p>
+      )}
+    </div>
+  );
 
             default:
                 return null;

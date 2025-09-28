@@ -1,12 +1,14 @@
+//behroz checkout
 'use client'
 import React, { useState, useEffect } from 'react';
 import Image from 'next/image';
 import { RiShoppingBag4Fill } from 'react-icons/ri';
-
+import donation_checkout from '../../public/donation_checkout.webp'
+import Link from 'next/link';
 // Quantity Counter Component
 const QuantityCounter = ({ quantity, onIncrease, onDecrease, min = 1 }) => {
   return (
-    <div className="flex items-center space-x-3">
+    <div className="flex items-center space-x-0">
       <button
         onClick={onDecrease}
         disabled={quantity <= min}
@@ -18,7 +20,7 @@ const QuantityCounter = ({ quantity, onIncrease, onDecrease, min = 1 }) => {
         </svg>
       </button>
 
-      <span className="w-8 text-center font-medium text-gray-900">{quantity}</span>
+      <span className="w-8 text-center font-semibold text-black">{quantity}</span>
 
       <button
         onClick={onIncrease}
@@ -74,7 +76,7 @@ const HeaderShoppingCart = ({ isOpen, onClose }) => {
       image: null,
       type: "donation",
       icon: (
-        <div className="w-16 h-16 bg-gray-100 rounded-lg flex items-center justify-center">
+        <div className="w-24 h-24 bg-gray-100 rounded-lg flex items-center justify-center">
           <svg className="w-8 h-8 text-gray-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1" />
           </svg>
@@ -103,6 +105,22 @@ const HeaderShoppingCart = ({ isOpen, onClose }) => {
 
   const removeItem = (id) => {
     setCartItems(items => items.filter(item => item.id !== id));
+  };
+
+  // Add donation to cart function
+  const addDonationToCart = () => {
+    const donationItem = {
+      id: Date.now(), // Generate unique ID
+      name: "Make a Popcorn Donation",
+      description: "Sent to essential workers",
+      price: 10,
+      quantity: 1,
+      image: donation_checkout,
+      type: "donation",
+    
+    };
+
+    setCartItems(items => [...items, donationItem]);
   };
 
   const totalAmount = cartItems.reduce((sum, item) => sum + (item.price * item.quantity), 0);
@@ -149,12 +167,12 @@ const HeaderShoppingCart = ({ isOpen, onClose }) => {
           <div className="flex items-center justify-between p-6 border-b border-gray-200">
             <button
               onClick={onClose}
-              className="flex items-center space-x-2 text-gray-600 hover:text-gray-900 transition-colors duration-200 group"
+              className="flex items-center space-x-2 px-6 py-3 border border-gray-300 rounded-full  hover:text-gray-600 text-gray-900 transition-colors duration-200 group"
             >
               <svg className="w-5 h-5 transform group-hover:-translate-x-1 transition-transform duration-200" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
               </svg>
-              <span className="font-medium">Continue Shopping</span>
+              <span className="font-semibold">Continue Shopping</span>
             </button>
           </div>
 
@@ -174,13 +192,13 @@ const HeaderShoppingCart = ({ isOpen, onClose }) => {
                   {/* Item Image/Icon */}
                   <div className="flex-shrink-0">
                     {item.image ? (
-                      <div className="w-16 h-16 bg-blue-100 rounded-lg overflow-hidden">
+                      <div className="w-24 h-24 bg-blue-100 rounded-lg overflow-hidden">
                         <Image
                           src={item.image}
                           alt={item.name}
                           width={64}
                           height={64}
-                          className="w-full h-full object-cover"
+                          className="w-full h-full object-contain object-center"
                         />
                       </div>
                     ) : (
@@ -198,7 +216,7 @@ const HeaderShoppingCart = ({ isOpen, onClose }) => {
                         )}
                         <button
                           onClick={() => removeItem(item.id)}
-                          className="text-xs text-gray-400 hover:text-red-500 mt-2 transition-colors duration-200"
+                          className="text-xs text-gray-800 hover:text-red-500 mt-2 transition-colors duration-200"
                         >
                           Remove
                         </button>
@@ -219,6 +237,7 @@ const HeaderShoppingCart = ({ isOpen, onClose }) => {
                   </div>
 
                 </div>
+                
               ))}
 
               {/* Empty Cart State */}
@@ -238,7 +257,7 @@ const HeaderShoppingCart = ({ isOpen, onClose }) => {
                     <div className="flex items-start space-x-4">
                       <div className="w-20 h-20 bg-gray-100 rounded-lg flex items-center justify-center">
                        <Image
-                       src="/api/placeholder/56/56"
+                       src={donation_checkout}
                         alt="Donation Icon"
                         width={56}
                         height={56}
@@ -251,8 +270,11 @@ const HeaderShoppingCart = ({ isOpen, onClose }) => {
                           <li>• Sent to essential workers</li>
                           <li>• No extra shipping cost</li>
                         </ul>
-                        <p className="font-semibold text-gray-900 mt-2">$80</p>
-                        <button className="mt-3 w-full bg-gray-900 text-white font-medium py-2 rounded-lg hover:bg-gray-800 transition">
+                        <p className="font-semibold text-gray-900 mt-2">$10</p>
+                        <button 
+                          onClick={addDonationToCart}
+                          className="mt-3 w-full bg-gray-900 text-white font-medium py-2 rounded-lg hover:bg-gray-800 transition"
+                        >
                           Add to Cart
                         </button>
                       </div>
@@ -261,7 +283,7 @@ const HeaderShoppingCart = ({ isOpen, onClose }) => {
 
                   {/* NEW LINE - Disabled Checkout Button */}
                   <div className="mt-8">
-                    <p className="text-gray-500 text-[16px] mb-2">You haven’t reached the $100 order minimum.</p>
+                    <p className="text-gray-500 text-[16px] mb-2">You haven't reached the $100 order minimum.</p>
                     <button
                       disabled
                       className="w-full bg-blue-100 text-gray-400 font-bold py-3 px-6 rounded-3xl cursor-not-allowed"
@@ -273,11 +295,41 @@ const HeaderShoppingCart = ({ isOpen, onClose }) => {
               )}
 
             </div>
+                    {/* NEW LINE - Donation Section */}
+                    <div className="mt-8 border border-gray-200 rounded-xl p-6 shadow-sm text-left max-w-md mx-auto">
+                    <p className="text-gray-600 text-sm font-medium mb-3">Increase your impact</p>
+                    <div className="flex items-start space-x-4">
+                      <div className="w-20 h-20 bg-gray-100 rounded-lg flex items-center justify-center">
+                       <Image
+                       src={donation_checkout}
+                        alt="Donation Icon"
+                        width={56}
+                        height={56}
+                        className="w-8 h-8 text-gray-600"
+                       />
+                      </div>
+                      <div className="flex-1">
+                        <h4 className="font-bold text-lg mb-2">Make a Popcorn Donation</h4>
+                        <ul className="text-sm text-gray-600 space-y-1">
+                          <li>• Sent to essential workers</li>
+                          <li>• No extra shipping cost</li>
+                        </ul>
+                        <p className="font-semibold text-gray-900 mt-2">$10</p>
+                        <button 
+                          onClick={addDonationToCart}
+                          className="mt-3 w-full bg-gray-900 text-white font-medium py-2 rounded-lg hover:bg-gray-800 transition"
+                        >
+                          Add to Cart
+                        </button>
+                      </div>
+                    </div>
+                  </div>
           </div>
 
           {/* Checkout Button */}
           {cartItems.length > 0 && (
             <div className="border-t border-gray-200 p-6">
+              <Link href='/checkout'>
               <button
                 className="w-full bg-blue-600 hover:bg-blue-700 text-white font-bold py-3 px-6 rounded-3xl transition-all duration-300 transform  focus:outline-none  flex items-center justify-center space-x-3"
                 onClick={() => {
@@ -288,6 +340,7 @@ const HeaderShoppingCart = ({ isOpen, onClose }) => {
                 <span>Checkout</span>
                 <span className="font-black">${totalAmount}</span>
               </button>
+                </Link>
             </div>
           )}
         </div>

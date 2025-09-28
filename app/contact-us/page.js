@@ -29,34 +29,17 @@ const ContactSection = () => {
   return (
     <section className="py-20 lg:pt-40 lg:pb-12 px-4 bg-white">
       <div className="max-w-7xl mx-auto">
-        {/* Contact Info Section */}
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 items-center justify-center mb-24">
-          {/* Left Content */}
-          <div className="lg:col-span-5 max-w-2xl mx-auto lg:mx-0">
-            <div className="mb-8 md:mb-16 lg:mb-0">
-              <div className="mb-8">
-                <div className="flex items-center text-green-500 text-sm font-semibold uppercase tracking-wide mb-4">
-                  <svg className="w-4 h-4 mr-2" fill="currentColor" viewBox="0 0 20 20">
-                    <path fillRule="evenodd" d="M10 3a1 1 0 011 1v5h5a1 1 0 110 2h-5v5a1 1 0 11-2 0v-5H4a1 1 0 110-2h5V4a1 1 0 011-1z" clipRule="evenodd" />
-                  </svg>
-                  Donate Projects
-                </div>
-                <h2 className="text-3xl md:text-4xl lg:text-4xl font-splash  text-black leading-tight">
-                  Ready to Get More Information
-                </h2>
-              </div>
-              <p className="text-gray-600 text-lg leading-relaxed mb-8">
-                Sedut perspiciatis unde omnis natus voluptatem accusantium
-                dolore dantiumy totam apeam eaquey quaventore veritatis
-                architecto beatae.
-              </p>
- 
-            </div>
-          </div>
+
+
+        {/* Contact Form Section */}
+<ContactForm/>
+
+  
+      
 
           {/* Right Info Boxes */}
-          <div className="lg:col-span-7 lg:col-start-6">
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-8 max-w-2xl mx-auto">
+          <div className=" py-12">
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3  gap-5">
               {/* Location Box */}
               <div className="text-center">
                 <div className="relative mb-4">
@@ -111,10 +94,7 @@ const ContactSection = () => {
             </div>
           </div>
         </div>
-
-        {/* Contact Form Section */}
-<ContactForm/>
-      </div>
+  
     </section>
   );
 };
