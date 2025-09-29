@@ -1,3 +1,4 @@
+import Link from 'next/link';
 import React from 'react';
 import { FaArrowRight } from "react-icons/fa";
 
@@ -26,10 +27,10 @@ const HeroSection = () => {
               <span className="text-gray-200">Best Products</span>
             </h1>
 
-            <button className="group inline-flex items-center gap-3 px-8 py-4 border-2 hover:border-[#000] hover:bg-transparent hover:text-white font-semibold rounded-full bg-[#000] cursor-pointer text-white border-transparent transition-all duration-300 animate-fadeInUp">
-              Explore Projects
+            <Link href='/shop' className="group inline-flex items-center gap-3 px-6 py-3 border-2 hover:border-[#8BC34A] hover:bg-transparent hover:text-white font-medium rounded-full bg-[#8BC34A] cursor-pointer text-white border-transparent transition-all duration-300 animate-fadeInUp">
+         Order Now
             
-            </button>
+            </Link>
           </div>
         </div>
       

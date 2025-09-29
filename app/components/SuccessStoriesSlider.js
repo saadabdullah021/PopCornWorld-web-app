@@ -121,7 +121,7 @@ const SuccessStoriesSlider = () => {
                               <div className="text-3xl font-black text-black">
                                 {story.totalSales}
                               </div>
-                              <div className="text-gray-500 font-medium">
+                              <div className="text-gray-500 font-semibold">
                                 Total Sales
                               </div>
                             </div>
@@ -138,7 +138,7 @@ const SuccessStoriesSlider = () => {
                               <div className="text-3xl font-black text-black">
                                 {story.sellers}
                               </div>
-                              <div className="text-gray-500 font-medium">
+                              <div className="text-gray-500 font-semibold">
                                 Sellers
                               </div>
                             </div>

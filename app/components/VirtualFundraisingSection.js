@@ -64,11 +64,11 @@ const VirtualFundraisingSection = () => {
               </div>
 
               {/* Content */}
-              <div className="max-w-xs mx-auto">
+              <div className="text-center w-full">
                 <h3 className="text-lg md:text-3xl font-semibold text-black mb-2  transition-colors duration-300">
                   {feature.title}
                 </h3>
-                <p className="text-gray-900 text-sm md:text-[22px] font-medium leading-relaxed">
+                <p className="text-gray-900 text-sm md:text-[22px] font-medium ">
                   {feature.description}
                 </p>
               </div>

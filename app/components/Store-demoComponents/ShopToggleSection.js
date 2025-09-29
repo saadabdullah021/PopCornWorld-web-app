@@ -41,10 +41,8 @@ const ShopToggleSection = () => {
         <div className="max-w-7xl mx-auto">
           {/* Title */}
           <div className="text-center mb-8">
-            <div className="inline-flex items-center space-x-2 text-sm text-gray-600 mb-2">
-              <span className="font-medium uppercase tracking-wider">SHOP</span>
-            </div>
-            <h2 className="text-3xl sm:text-4xl lg:text-5xl font-medium text-gray-700 leading-tight">
+       
+            <h2 className="text-3xl sm:text-4xl lg:text-5xl font-medium text-gray-800 leading-tight">
               The most delicious way to support.
             </h2>
           </div>
