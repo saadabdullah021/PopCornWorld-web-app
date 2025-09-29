@@ -100,6 +100,11 @@ const CollectionsSection = () => {
       setIsLoading(false);
     }, 500);
   };
+  const handleMoreInfo = (collection) => {
+    const slug = collection.name.toLowerCase().replace(/\s+/g, '-').replace(/[^a-z0-9-]/g, '');
+    // Navigate to new page
+    window.location.href = `/collections/${slug}`;
+  };
 
   const visibleCollections = allCollections.slice(0, visibleCount);
   const hasMore = visibleCount < allCollections.length;
@@ -164,13 +169,27 @@ const CollectionsSection = () => {
                 <p className="text-black text-[16px] font-normal leading-relaxed">
                   {collection.description}
                 </p>
-
-                {/* Action Button */}
-                  <button className="inline-flex items-center gap-3 justify-center w-full mt-6 bg-[#000]  text-white font-bold py-3 px-6 rounded-3xl transition-all duration-300 transform  hover:shadow-lg focus:outline-none ">
-                  Add to Cart
-                  <TiShoppingCart />
-
-                </button>
+      {/* Action Buttons */}
+                <div className='flex items-center gap-4'>
+                  <button 
+                    onClick={() => handleMoreInfo(collection)}
+                    className="w-full inline-flex items-center gap-3 justify-center mt-6 bg-[#000] text-white font-bold py-3 px-6 rounded-3xl transition-all duration-300 transform hover:shadow-lg focus:outline-none"
+                  >
+                    More Info
+                  </button>
+                  <button className="w-full inline-flex items-center whitespace-nowrap gap-3 justify-center mt-6 bg-[#000] text-white font-bold py-3 px-6 rounded-3xl transition-all duration-300 transform hover:shadow-lg focus:outline-none">
+                    Add to Cart
+                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                      <path d="m15 11-1 9"/>
+                      <path d="m19 11-4-7"/>
+                      <path d="M2 11h20"/>
+                      <path d="m3.5 11 1.6 7.4a2 2 0 0 0 2 1.6h9.8a2 2 0 0 0 2-1.6l1.7-7.4"/>
+                      <path d="M4.5 15.5h15"/>
+                      <path d="m5 11 4-7"/>
+                      <path d="m9 11 1 9"/>
+                    </svg>
+                  </button>
+                </div>
               </div>
 
               {/* Hover Glow Effect */}
