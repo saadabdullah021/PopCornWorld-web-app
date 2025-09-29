@@ -22,12 +22,12 @@ const HeroSection = () => {
               Crowdfunding Agency
             </span>
 
-            <h1 className="text-3xl md:text-4xl lg:text-6xl font-splash text-white leading-none mb-12 tracking-tight animate-fadeInUp">
+            <h1 className="main_heading font-splash text-white leading-none mb-12 tracking-tight animate-fadeInUp">
               Raise Hand to Promote <br />
               <span className="text-gray-200">Best Products</span>
             </h1>
 
-            <Link href='/shop' className="group inline-flex items-center gap-3 px-6 py-3 border-2 hover:border-[#8BC34A] hover:bg-transparent hover:text-white font-medium rounded-full bg-[#8BC34A] cursor-pointer text-white border-transparent transition-all duration-300 animate-fadeInUp">
+            <Link href='/shop' className="group inline-flex items-center gap-3 px-6 py-3 border-2   font-medium rounded-full bg-[#8BC34A] cursor-pointer text-white border-transparent transition-all duration-300 animate-fadeInUp">
          Order Now
             
             </Link>

@@ -98,7 +98,7 @@ const AllFlavorsSection = () => {
       <div className="max-w-7xl mx-auto">
         {/* Section Header */}
         <div className="text-center mb-12">
-          <h2 className="text-3xl sm:text-4xl lg:text-5xl font-splash text-black mb-4">
+          <h2 className="main_heading font-splash text-black mb-4">
             ALL FLAVORS
           </h2>
           <div className="w-48 h-1 bg-[#ffc222] mx-auto rounded-full"></div>

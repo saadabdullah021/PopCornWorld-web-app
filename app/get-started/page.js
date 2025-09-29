@@ -4,10 +4,180 @@ import Image from 'next/image';
 import get1 from '../../public/get1.png';
 import get2 from '../../public/get2.png';
 import { useRouter } from 'next/navigation';
-import { ArrowLeft, CalendarCheck } from 'lucide-react';
-import { DayPicker } from 'react-day-picker';
+import { ArrowLeft, Calendar, CalendarCheck } from 'lucide-react';
+
 import { format, parseISO, isBefore, addHours } from 'date-fns';
 import 'react-day-picker/dist/style.css';
+
+
+
+// Custom Date Range Picker Component
+const CustomDateRangePicker = ({ startDate, endDate, onRangeChange }) => {
+    const [currentMonth, setCurrentMonth] = useState(new Date());
+    const today = new Date();
+    today.setHours(0, 0, 0, 0);
+
+    const getDaysInMonth = (date) => {
+        const year = date.getFullYear();
+        const month = date.getMonth();
+        const firstDay = new Date(year, month, 1);
+        const lastDay = new Date(year, month + 1, 0);
+        const daysInMonth = lastDay.getDate();
+        const startingDayOfWeek = firstDay.getDay(); // 0 = Sunday
+
+        const days = [];
+        // Add empty cells for days before the 1st
+        for (let i = 0; i < startingDayOfWeek; i++) {
+            days.push(null);
+        }
+        // Add actual days
+        for (let day = 1; day <= daysInMonth; day++) {
+            days.push(new Date(year, month, day));
+        }
+        return days;
+    };
+
+    const isSameDay = (a, b) => {
+        if (!a || !b) return false;
+        return (
+            a.getFullYear() === b.getFullYear() &&
+            a.getMonth() === b.getMonth() &&
+            a.getDate() === b.getDate()
+        );
+    };
+
+    const isInRange = (day) => {
+        if (!startDate || !endDate) return false;
+        const d = day.getTime();
+        return d > startDate.getTime() && d < endDate.getTime();
+    };
+
+    const isDisabled = (day) => {
+        return day && day < today;
+    };
+
+    const handleDayClick = (day) => {
+        if (!day || isDisabled(day)) return;
+
+        if (!startDate || (startDate && endDate)) {
+            // Start new range
+            onRangeChange({ from: day, to: null });
+        } else if (day < startDate) {
+            // Clicked before start → reset start
+            onRangeChange({ from: day, to: null });
+        } else {
+            // Set end
+            onRangeChange({ from: startDate, to: day });
+        }
+    };
+
+    const navigateMonth = (direction) => {
+        const newMonth = new Date(currentMonth);
+        newMonth.setMonth(currentMonth.getMonth() + direction);
+        // Don't allow navigating before current month
+        if (newMonth.getMonth() <= today.getMonth() && newMonth.getFullYear() <= today.getFullYear()) {
+            setCurrentMonth(newMonth);
+        } else if (newMonth.getFullYear() > today.getFullYear() || newMonth.getMonth() > today.getMonth()) {
+            setCurrentMonth(newMonth);
+        }
+    };
+
+    const formatMonthYear = (date) => {
+        return date.toLocaleDateString('en-US', { month: 'long', year: 'numeric' });
+    };
+
+    const days = getDaysInMonth(currentMonth);
+    const weekdays = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
+
+    return (
+        <div className="w-full">
+            {/* Calendar Header */}
+            <div className="flex justify-between items-center mb-4 px-1">
+                <button
+                    onClick={() => navigateMonth(-1)}
+                    className="p-1 rounded hover:bg-gray-100 text-blue-600"
+                    disabled={currentMonth <= today}
+                >
+                    <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
+                        <path fillRule="evenodd" d="M12.707 5.293a1 1 0 010 1.414L9.414 10l3.293 3.293a1 1 0 01-1.414 1.414l-4-4a1 1 0 010-1.414l4-4a1 1 0 011.414 0z" clipRule="evenodd" />
+                    </svg>
+                </button>
+                <h3 className="font-semibold text-gray-800">{formatMonthYear(currentMonth)}</h3>
+                <button
+                    onClick={() => navigateMonth(1)}
+                    className="p-1 rounded hover:bg-gray-100 text-blue-600"
+                >
+                    <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
+                        <path fillRule="evenodd" d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z" clipRule="evenodd" />
+                    </svg>
+                </button>
+            </div>
+
+            {/* Weekday Headers */}
+            <div className="grid grid-cols-7 gap-1 mb-2">
+                {weekdays.map((day) => (
+                    <div key={day} className="text-center text-xs font-medium text-gray-500 py-1">
+                        {day}
+                    </div>
+                ))}
+            </div>
+
+            {/* Calendar Days */}
+            <div className="grid grid-cols-7 gap-1">
+                {days.map((day, index) => {
+                    if (!day) {
+                        return <div key={index} className="h-10"></div>;
+                    }
+
+                    const isStart = isSameDay(day, startDate);
+                    const isEnd = isSameDay(day, endDate);
+                    const isSelected = isStart || isEnd;
+                    const isInRangeDay = isInRange(day);
+                    const disabled = isDisabled(day);
+
+                    let bgColor = 'bg-transparent';
+                    let textColor = 'text-gray-800';
+                    let hoverBg = 'hover:bg-blue-100';
+
+                    if (disabled) {
+                        bgColor = 'bg-transparent';
+                        textColor = 'text-gray-300';
+                        hoverBg = '';
+                    } else if (isInRangeDay) {
+                        bgColor = 'bg-blue-100';
+                        textColor = 'text-blue-700';
+                    } else if (isSelected) {
+                        bgColor = 'bg-blue-600';
+                        textColor = 'text-white';
+                        hoverBg = 'hover:bg-blue-700';
+                    }
+
+                    return (
+                        <button
+                            key={index}
+                            onClick={() => handleDayClick(day)}
+                            disabled={disabled}
+                            className={`
+                  h-10 w-10 rounded-full text-sm font-medium transition-colors
+                  ${bgColor} ${textColor} ${hoverBg}
+                  ${disabled ? 'cursor-not-allowed' : 'cursor-pointer'}
+                  flex items-center justify-center mx-auto
+                `}
+                        >
+                            {day.getDate()}
+                        </button>
+                    );
+                })}
+            </div>
+        </div>
+    );
+};
+
+
+
+
+
+
 const FundraisingOnboarding = () => {
     // Main state management
     const router = useRouter();
@@ -42,21 +212,7 @@ const FundraisingOnboarding = () => {
     // Optional: Format for display
     const formatDate = (date) => (date ? format(date, 'PPP p') : '');
 
-    // Handle selection
-    const handleDayClick = (day) => {
-        if (!startDate || (startDate && endDate)) {
-            // Start new range
-            setStartDate(day);
-            setEndDate(null);
-        } else if (isBefore(day, startDate)) {
-            // If clicked before start, reset start
-            setStartDate(day);
-            setEndDate(null);
-        } else {
-            // Set end date
-            setEndDate(day);
-        }
-    };
+
 
     // Mock organization data
     const organizationTypes = [
@@ -219,22 +375,57 @@ const FundraisingOnboarding = () => {
     // Progress bar component
     const ProgressBar = () => (
         <div className="mb-8">
-            <div className="flex items-center space-y-4 lg:justify-between flex-wrap sm:flex-nowrap ">
-                {steps.map((step, index) => (
-                    <div key={index} className="flex flex-col items-center last:mb-[16px]">
-                        <div className={`w-8 h-8 rounded-full flex items-center justify-center text-sm font-semibold transition-colors duration-300 ${index < currentStep ? 'bg-green-500 text-white' :
-                            index === currentStep ? 'bg-blue-600 text-white' :
-                                'bg-gray-200 text-gray-700'
-                            }`}>
-                            {index < currentStep ? '✓' : index + 1}
-                        </div>
-                        {/* {index < steps.length && (
-                            <div className={`h-0.5 w-16 lg:w-12 mt-2 transition-colors duration-300 ${index < currentStep ? 'bg-green-500' : 'bg-gray-200'
-                                }`} />
-                        )} */}
+       <div className="mb-10">
+    <div className="relative">
+        {/* Glass Background Line */}
+        <div className="absolute top-4 left-0 right-0 h-2 bg-white/20 backdrop-blur-lg rounded-full -translate-y-1/2 border border-white/30">
+            {/* Gradient Progress Fill */}
+            <div 
+                className="h-full bg-gradient-to-r from-green-400 via-blue-500 to-purple-600 rounded-full transition-all duration-800 ease-out shadow-lg shadow-blue-500/25"
+                style={{ 
+                    width: `${((currentStep) / (steps.length - 1)) * 100}%` 
+                }}
+            />
+        </div>
+
+        {/* Steps */}
+        <div className="flex justify-between relative z-10">
+            {steps.map((step, index) => (
+                <div key={index} className="flex flex-col items-center flex-1">
+                    {/* Step Circle */}
+                    <div className={`
+                        relative w-7 h-7 rounded-full flex items-center justify-center text-sm font-bold transition-all duration-500 ease-out
+                        backdrop-blur-lg border shadow-lg
+                        ${index < currentStep 
+                            ? 'bg-gradient-to-br from-green-500 to-emerald-600 border-green-400 text-white scale-110' 
+                            : index === currentStep 
+                            ? 'bg-white/90 border-blue-500 text-blue-600 scale-125 shadow-xl shadow-blue-500/30 ring-1 ring-blue-200' 
+                            : 'bg-white/60 border-gray-300 text-gray-500'
+                        }
+                    `}>
+                        {index < currentStep ? (
+                            <svg className="w-3.5 h-3.5" fill="currentColor" viewBox="0 0 20 20">
+                                <path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd" />
+                            </svg>
+                        ) : (
+                            <span className="relative z-10">{index + 1}</span>
+                        )}
+                        
+                        {/* Active Step Animation */}
+                        {index === currentStep && (
+                            <>
+                                <div className="absolute inset-0 rounded-full bg-blue-400 animate-ping opacity-60"></div>
+                                <div className="absolute inset-0 rounded-full bg-blue-300 animate-pulse"></div>
+                            </>
+                        )}
                     </div>
-                ))}
-            </div>
+
+      
+                </div>
+            ))}
+        </div>
+    </div>
+</div>
             {/* <div className="text-center bg-gray-300 rounded-full px-4 py-2 w-fit mx-auto mt-1">
                 <p className="text-sm font-semibold text-black ">{steps[currentStep].description}</p>
             </div> */}
@@ -260,7 +451,7 @@ const FundraisingOnboarding = () => {
                                 placeholder="Email address"
                                 value={formData.email}
                                 onChange={(e) => handleInputChange('email', e.target.value)}
-                                className="w-full p-4 rounded-xl border border-gray-300 focus:outline-none text-white transition-all duration-200"
+                                className="w-full p-4 rounded-xl border  border-gray-300 focus:outline-none text-white  placeholder-white  transition-all duration-200"
                             />
                             {formErrors.email && <p className="text-red-400 text-sm">{formErrors.email}</p>}
                         </div>
@@ -283,7 +474,7 @@ const FundraisingOnboarding = () => {
                                 placeholder="Team Name"
                                 value={formData.teamName}
                                 onChange={(e) => handleInputChange('teamName', e.target.value)}
-                                className="w-full p-4 rounded-xl border border-gray-300 focus:outline-none text-white transition-all duration-200"
+                                className="w-full p-4 rounded-xl border border-gray-300 focus:outline-none text-white  placeholder-white  transition-all duration-200"
                             />
                             {formErrors.teamName && <p className="text-red-400 text-sm">{formErrors.teamName}</p>}
                         </div>
@@ -305,7 +496,7 @@ const FundraisingOnboarding = () => {
                                 <select
                                     value={formData.organizationType}
                                     onChange={(e) => handleInputChange('organizationType', e.target.value)}
-                                    className="w-full p-4 rounded-xl border border-gray-300 focus:outline-none text-white transition-all duration-200"
+                                    className="w-full p-4 rounded-xl border border-gray-300 focus:outline-none text-white  placeholder-white  transition-all duration-200"
                                 >
                                     <option className='text-black' value="">Select Organization Type</option>
                                     {organizationTypes.map(type => (
@@ -320,7 +511,7 @@ const FundraisingOnboarding = () => {
                                     <select
                                         value={formData.organizationSubType}
                                         onChange={(e) => handleInputChange('organizationSubType', e.target.value)}
-                                        className="w-full p-4 rounded-xl border border-gray-300 focus:outline-none text-white transition-all duration-200"
+                                        className="w-full p-4 rounded-xl border border-gray-300 focus:outline-none text-white  placeholder-white  transition-all duration-200"
                                     >
                                         <option className='text-black' value="">Select Sub-Type</option>
                                         {organizationTypes.find(t => t.id == formData.organizationType)?.subTypes.map(subType => (
@@ -337,7 +528,7 @@ const FundraisingOnboarding = () => {
                                     placeholder="Organization Name"
                                     value={formData.organizationName}
                                     onChange={(e) => handleInputChange('organizationName', e.target.value)}
-                                    className="w-full p-4 rounded-xl border border-gray-300 focus:outline-none text-white transition-all duration-200"
+                                    className="w-full p-4 rounded-xl border border-gray-300 focus:outline-none text-white  placeholder-white  transition-all duration-200"
                                 />
                                 {formErrors.organizationName && <p className="text-red-400 text-sm mt-1">{formErrors.organizationName}</p>}
                             </div>
@@ -348,7 +539,7 @@ const FundraisingOnboarding = () => {
                                     placeholder="Zip Code"
                                     value={formData.zipCode}
                                     onChange={(e) => handleInputChange('zipCode', e.target.value.replace(/\D/g, '').slice(0, 5))}
-                                    className="w-full p-4 rounded-xl border border-gray-300 focus:outline-none text-white transition-all duration-200"
+                                    className="w-full p-4 rounded-xl border border-gray-300 focus:outline-none text-white  placeholder-white  transition-all duration-200"
                                 />
                                 {formErrors.zipCode && <p className="text-red-400 text-sm mt-1">{formErrors.zipCode}</p>}
                             </div>
@@ -386,7 +577,10 @@ const FundraisingOnboarding = () => {
 
                                 <button
                                     onClick={() => setPickSpecificDate(true)}
-                                    className="flex items-center gap-3 text-white font-semibold hover:text-[#8BC34A] transition-colors duration-200"
+                                    className="group flex items-center gap-2.5 px-6 py-3 rounded-full  border border-white/10 
+             text-white font-semibold transition-all duration-300 ease-out 
+             hover:border-[#8BC34A]/30 hover:text-[#ffc222] 
+             backdrop-blur-sm shadow-sm hover:shadow-md"
                                 >
                                     <CalendarCheck />
                                     Pick a Specific Date
@@ -398,33 +592,55 @@ const FundraisingOnboarding = () => {
                             <div className="space-y-6">
                                 <div className="grid grid-cols-1 gap-4">
                                     {/* Display selected dates */}
-                                    <div className="p-4 bg-white/10 rounded-xl text-white">
-                                        <p className="text-sm text-white font-medium ">Start: {formatDate(startDate)}</p>
-                                        <p className="text-sm text-white font-medium ">End: {formatDate(endDate)}</p>
+                                    {/* Display selected dates - Enhanced */}
+                                    <div className="backdrop-blur-sm border border-white/10 rounded-2xl p-5 shadow-lg">
+
+
+                                        <div className="space-y-2.5">
+                                            <div className="flex items-center gap-4">
+
+
+                                                <p className="text-gray-200 font-semibold text-xs ">Start Date :</p>
+                                                <p className="text-sm  text-white font-semibold">
+                                                    {startDate ? formatDate(startDate) : <span className="text-gray-400 italic">Not selected</span>}
+                                                </p>
+
+                                            </div>
+
+                                            <div className="flex items-center gap-5">
+
+
+                                                <p className="text-gray-200 font-semibold text-xs">End Date : </p>
+                                                <p className="text-sm  text-white font-semibold ">
+                                                    {endDate ? formatDate(endDate) : <span className="text-gray-400 italic">Not selected</span>}
+                                                </p>
+
+                                            </div>
+                                        </div>
+
+                                        {startDate && endDate && (
+                                            <div className="mt-4 pt-3 border-t border-white/10">
+                                                <p className="text-xs text-gray-200 flex items-center font-medium gap-3">
+                                                    <span>
+                                                        <Calendar />
+                                                    </span>
+                                                    <span>
+                                                        Duration: {Math.ceil((endDate - startDate) / (1000 * 60 * 60 * 24)) + 1} day{Math.ceil((endDate - startDate) / (1000 * 60 * 60 * 24)) >= 1 ? 's' : ''}
+                                                    </span>
+                                                </p>
+                                            </div>
+                                        )}
                                     </div>
 
                                     {/* Calendar */}
+                                    {/* Custom Calendar */}
                                     <div className="bg-white rounded-xl p-4 w-full shadow-md">
-                                        <DayPicker
-                                            mode="range"
-                                            selected={{ from: startDate, to: endDate }}
-                                            onSelect={(range) => {
-                                                setStartDate(range?.from || null);
-                                                setEndDate(range?.to || null);
-                                            }}
-                                            // Optional: disable past dates
-                                            disabled={{ before: new Date() }}
-                                            // Custom class names to match your Tailwind theme
-                                            classNames={{
-                                                caption: 'flex justify-between items-center mb-4 ',
-                                                nav_button: 'text-blue-600 hover:text-blue-800',
-                                                table: 'w-full',
-                                                head_cell: 'text-gray-500 font-medium text-sm',
-                                                cell: 'w-10 h-10 text-center gap-4 ',
-                                                day: 'w-10 h-10 rounded-full hover:bg-blue-100 transition-colors',
-                                                day_selected: 'bg-blue-600 text-white hover:bg-blue-700',
-                                                day_outside: 'text-gray-300',
-                                                day_disabled: 'text-gray-200 cursor-not-allowed',
+                                        <CustomDateRangePicker
+                                            startDate={startDate}
+                                            endDate={endDate}
+                                            onRangeChange={({ from, to }) => {
+                                                setStartDate(from);
+                                                setEndDate(to);
                                             }}
                                         />
                                     </div>
@@ -432,10 +648,15 @@ const FundraisingOnboarding = () => {
 
                                 <button
                                     onClick={() => setPickSpecificDate(false)}
-                                    className="text-white hover:text-[#8BC34A] font-semibold transition-colors duration-200"
+                                    className="group flex items-center gap-2.5 px-4 py-2 rounded-full  border border-white/10 
+             text-white font-medium transition-all duration-300 ease-out 
+             hover:border-[#8BC34A]/30 hover:text-[#ffc222] 
+             backdrop-blur-sm shadow-sm hover:shadow-md"
                                 >
-                                    <ArrowLeft className="inline-block mr-2" />
-                                    Back to options
+                                    <ArrowLeft
+                                        className="h-4 w-4 transition-transform duration-300 group-hover:-translate-x-0.5"
+                                    />
+                                    <span>Back to options</span>
                                 </button>
 
                                 {formErrors.dates && <p className="text-red-400 text-sm">{formErrors.dates}</p>}
@@ -499,7 +720,7 @@ const FundraisingOnboarding = () => {
                                         placeholder="First Name"
                                         value={formData.firstName}
                                         onChange={(e) => handleInputChange('firstName', e.target.value)}
-                                        className="w-full p-4 rounded-xl border border-gray-300 focus:outline-none text-white transition-all duration-200"
+                                        className="w-full p-4 rounded-xl border border-gray-300 focus:outline-none text-white  placeholder-white  transition-all duration-200"
                                     />
                                     {formErrors.firstName && <p className="text-red-400 text-sm mt-1">{formErrors.firstName}</p>}
                                 </div>
@@ -509,7 +730,7 @@ const FundraisingOnboarding = () => {
                                         placeholder="Last Name"
                                         value={formData.lastName}
                                         onChange={(e) => handleInputChange('lastName', e.target.value)}
-                                        className="w-full p-4 rounded-xl border border-gray-300 focus:outline-none text-white transition-all duration-200"
+                                        className="w-full p-4 rounded-xl border border-gray-300 focus:outline-none text-white  placeholder-white  transition-all duration-200"
                                     />
                                     {formErrors.lastName && <p className="text-red-400 text-sm mt-1">{formErrors.lastName}</p>}
                                 </div>
@@ -521,21 +742,43 @@ const FundraisingOnboarding = () => {
                                     placeholder="Mobile Phone (XXX-XXX-XXXX)"
                                     value={formData.phoneNumber}
                                     onChange={(e) => handleInputChange('phoneNumber', e.target.value)}
-                                    className="w-full p-4 rounded-xl border border-gray-300 focus:outline-none text-white transition-all duration-200"
+                                    className="w-full p-4 rounded-xl border border-gray-300 focus:outline-none text-white  placeholder-white  transition-all duration-200"
                                 />
                                 {formErrors.phoneNumber && <p className="text-red-400 text-sm mt-1">{formErrors.phoneNumber}</p>}
                             </div>
 
                             <div className="flex items-start space-x-3 mt-6">
-                                <input
-                                    type="checkbox"
-                                    id="terms"
-                                    checked={formData.acceptTerms}
-                                    onChange={(e) => handleInputChange('acceptTerms', e.target.checked)}
-                                    className="mt-1 w-4 h-4 text-blue-600 rounded focus:ring-blue-500"
-                                />
-                                <label htmlFor="terms" className="text-white text-sm">
-                                    By creating an account, you agree to Popcorn World Terms and Conditions and Privacy Policy
+                                <div className="relative">
+                                    <input
+                                        type="checkbox"
+                                        id="terms"
+                                        checked={formData.acceptTerms}
+                                        onChange={(e) => handleInputChange('acceptTerms', e.target.checked)}
+                                        className="sr-only" // Hide default checkbox
+                                    />
+                                    <label
+                                        htmlFor="terms"
+                                        className={`
+        flex items-center justify-center w-5 h-5 border-1 rounded-lg cursor-pointer transition-all duration-300 transform 
+        ${formData.acceptTerms
+                                                ? 'bg-black border-transparent shadow-lg'
+                                                : 'border-gray-300 bg-white'
+                                            }
+      `}
+                                    >
+                                        {formData.acceptTerms && (
+                                            <svg className="w-3 h-3 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={3} d="M5 13l4 4L19 7" />
+                                            </svg>
+                                        )}
+                                    </label>
+
+                                </div>
+                                <label htmlFor="terms" className="text-white text-sm leading-relaxed cursor-pointer hover:text-blue-100 transition-colors duration-200">
+                                    By creating an account, you agree to Popcorn World{' '}
+                                    <span className="text-yellow-400 hover:text-white underline transition-colors duration-200">Terms and Conditions</span>{' '}
+                                    and{' '}
+                                    <span className="text-yellow-400 hover:text-white underline transition-colors duration-200">Privacy Policy</span>
                                 </label>
                             </div>
                             {formErrors.acceptTerms && <p className="text-red-400 text-sm">{formErrors.acceptTerms}</p>}
@@ -543,49 +786,49 @@ const FundraisingOnboarding = () => {
                     </div>
                 );
 
-      case 7:
-  return (
-    <div>
-      <h2 className="text-3xl font-splash text-white mt-4 mb-6">
-        Enter the 5 digit code
-      </h2>
-      <p className="text-white/90 mb-8 text-lg">
-        We sent a code over SMS to {formData.phoneNumber}.
-      </p>
+            case 7:
+                return (
+                    <div>
+                        <h2 className="text-3xl font-splash text-white mt-4 mb-6">
+                            Enter the 5 digit code
+                        </h2>
+                        <p className="text-white/90 mb-8 text-lg">
+                            We sent a code over SMS to {formData.phoneNumber}.
+                        </p>
 
-      <div className="flex justify-start gap-3 mb-4">
-        {Array.from({ length: 5 }).map((_, index) => (
-          <input
-            key={index}
-            type="text"
-            maxLength={1}
-            value={formData.otp[index] || ""}
-            onChange={(e) => {
-              const value = e.target.value.replace(/\D/g, ""); // only numbers
-              let newOtp = formData.otp.split("");
-              newOtp[index] = value;
-              handleInputChange("otp", newOtp.join(""));
+                        <div className="flex justify-start gap-3 mb-4">
+                            {Array.from({ length: 5 }).map((_, index) => (
+                                <input
+                                    key={index}
+                                    type="text"
+                                    maxLength={1}
+                                    value={formData.otp[index] || ""}
+                                    onChange={(e) => {
+                                        const value = e.target.value.replace(/\D/g, ""); // only numbers
+                                        let newOtp = formData.otp.split("");
+                                        newOtp[index] = value;
+                                        handleInputChange("otp", newOtp.join(""));
 
-              // auto move to next box
-              if (value && e.target.nextSibling) {
-                e.target.nextSibling.focus();
-              }
-            }}
-            onKeyDown={(e) => {
-              if (e.key === "Backspace" && !formData.otp[index] && e.target.previousSibling) {
-                e.target.previousSibling.focus();
-              }
-            }}
-            className="w-14 h-14 text-center text-2xl font-semibold rounded-xl border bg-transparent border-gray-300  text-white  outline-none"
-          />
-        ))}
-      </div>
+                                        // auto move to next box
+                                        if (value && e.target.nextSibling) {
+                                            e.target.nextSibling.focus();
+                                        }
+                                    }}
+                                    onKeyDown={(e) => {
+                                        if (e.key === "Backspace" && !formData.otp[index] && e.target.previousSibling) {
+                                            e.target.previousSibling.focus();
+                                        }
+                                    }}
+                                    className="w-14 h-14 text-center text-2xl font-semibold rounded-xl border bg-transparent border-gray-300  text-white  outline-none"
+                                />
+                            ))}
+                        </div>
 
-      {formErrors.otp && (
-        <p className="text-red-400 text-sm text-center">{formErrors.otp}</p>
-      )}
-    </div>
-  );
+                        {formErrors.otp && (
+                            <p className="text-red-400 text-sm text-center">{formErrors.otp}</p>
+                        )}
+                    </div>
+                );
 
             default:
                 return null;
@@ -628,24 +871,25 @@ const FundraisingOnboarding = () => {
                                 className={`group relative  bg-black text-white px-6 py-3 rounded-full transition-all duration-300 transform flex items-center font-medium overflow-hidden  ${currentStep === 0 ? 'ml-auto' : ''
                                     }`}
                             >
-                                {isLoading && (
-                                    <svg className="animate-spin -ml-1 mr-3 h-5 w-5 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
-                                        <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
-                                        <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
-                                    </svg>
-                                )}
+
                                 <span>
                                     {currentStep === 0 && 'Continue'}
-                                    {currentStep === 1 && 'Next: Team Details'}
-                                    {currentStep === 2 && 'Next: Fundraiser Details'}
-                                    {currentStep === 3 && 'Next: Participants'}
-                                    {currentStep === 4 && 'Next: View Earnings'}
-                                    {currentStep === 5 && 'Next: Create Account'}
+                                    {currentStep === 1 && 'Next'}
+                                    {currentStep === 2 && 'Next'}
+                                    {currentStep === 3 && 'Next'}
+                                    {currentStep === 4 && 'Next'}
+                                    {currentStep === 5 && 'Next'}
                                     {currentStep === 6 && !showOtpInput && 'Verify Mobile Number'}
                                     {currentStep === 6 && showOtpInput && 'Send OTP'}
                                     {currentStep === 7 && 'Complete Registration'}
 
                                 </span>
+                                {isLoading && (
+                                    <svg className="animate-spin -mr-1 ml-3 h-5 w-5 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                                        <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
+                                        <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+                                    </svg>
+                                )}
                             </button>
                         </div>
                     </div>

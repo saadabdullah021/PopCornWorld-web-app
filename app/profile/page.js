@@ -221,12 +221,12 @@ const Profile = () => {
   }
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-blue-50 to-indigo-100 py-16 lg:pt-40 px-4 sm:px-6 lg:px-8">
+    <div className="min-h-screen bg-gradient-to-br from-blue-50 to-indigo-100 py-16 lg:pt-40 xl:pt-52 px-4 sm:px-6 lg:px-8">
       <div className="max-w-4xl mx-auto">
         {/* Header */}
         <div className="text-center mb-8">
-          <h1 className="text-4xl font-bold text-gray-900 mb-2">My Profile</h1>
-          <p className="text-gray-600">Manage your personal information and preferences</p>
+          <h1 className="main_heading font-bold text-black mb-2">My Profile</h1>
+          <p className="text-balck main_description">Manage your personal information and preferences</p>
         </div>
 
         {/* Success Message */}
@@ -421,7 +421,7 @@ const Profile = () => {
 
             {/* Account Status */}
             <div className="mt-8 pt-6 border-t border-gray-200">
-              <h3 className="text-lg font-semibold text-gray-900 mb-4">Account Status</h3>
+              <h3 className="text-lg font-semibold text-black mb-4">Account Status</h3>
               <div className="flex items-center justify-between p-4 bg-green-50 rounded-lg border border-green-200">
                 <div className="flex items-center">
                   <div className="w-3 h-3 bg-green-500 rounded-full mr-3"></div>

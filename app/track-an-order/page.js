@@ -53,13 +53,13 @@ const TrackOrderPage = () => {
         {/* Header Content */}
         <div className="text-center mb-12">
           {/* Main Title */}
-          <h1 className="text-4xl sm:text-5xl lg:text-6xl font-splash  text-white mb-8 leading-tight">
+          <h1 className="main_heading font-splash  text-white mb-8 leading-tight">
             <span className="text-yellow-400">TRACK</span>{' '}
             <span className="text-white">AN ORDER</span>
           </h1>
           
           {/* Description */}
-          <p className="text-lg sm:text-[22px] text-white font-medium  max-w-4xl mx-auto">
+          <p className="main_description text-white  max-w-4xl mx-auto">
             Stay joyfully informed. We've got you covered every step of the way with our 'Track 
             an Order' feature. Easily monitor the status and whereabouts of your delivery.
           </p>
@@ -72,7 +72,7 @@ const TrackOrderPage = () => {
             <div>
               <label 
                 htmlFor="email" 
-                className="block text-gray-900 font-semibold text-lg mb-4"
+                className="block  text-black font-semibold sub_heading mb-4"
               >
                 Enter your email address*
               </label>
@@ -84,7 +84,7 @@ const TrackOrderPage = () => {
                   value={email}
                   onChange={handleInputChange}
                   placeholder="ex. Janedoe@gmail.com"
-                  className={`w-full px-4 py-4 bg-gray-50 border rounded-xl text-gray-900 placeholder-gray-500 focus:outline-none  transition-all duration-300 ${
+                  className={`w-full px-4 py-4 bg-gray-50 border rounded-xl text-black placeholder-gray-500 focus:outline-none  transition-all duration-300 ${
                     error ? 'border-red-300 focus:ring-red-300 focus:border-red-500' : 'border-gray-200'
                   }`}
                   disabled={isLoading}
@@ -102,14 +102,14 @@ const TrackOrderPage = () => {
               
               {/* Error Message */}
               {error && (
-                <p className="mt-2 text-sm text-red-600 opacity-0 animate-fadeIn">
+                <p className="mt-2 main_description text-red-600 opacity-0 animate-fadeIn">
                   {error}
                 </p>
               )}
             </div>
 
             {/* Helper Text */}
-            <p className="text-sm text-gray-900 leading-relaxed">
+            <p className="main_description text-black leading-relaxed">
               Please enter the email used when you placed the order.
             </p>
 

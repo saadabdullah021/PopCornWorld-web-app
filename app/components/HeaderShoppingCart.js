@@ -167,7 +167,7 @@ const HeaderShoppingCart = ({ isOpen, onClose }) => {
           <div className="flex items-center justify-between p-6 border-b border-gray-200">
             <button
               onClick={onClose}
-              className="flex items-center space-x-2 px-6 py-3 border border-gray-300 rounded-full  hover:text-gray-600 text-gray-900 transition-colors duration-200 group"
+              className="flex items-center space-x-2 px-6 py-3 border border-gray-300 rounded-full  hover:text-gray-600 text-black transition-colors duration-200 group"
             >
               <svg className="w-5 h-5 transform group-hover:-translate-x-1 transition-transform duration-200" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
@@ -210,7 +210,7 @@ const HeaderShoppingCart = ({ isOpen, onClose }) => {
                   <div className="flex-1 min-w-0">
                     <div className="flex items-start justify-between">
                       <div className="flex-1">
-                        <h4 className="font-semibold text-[16px] text-gray-900">{item.name}</h4>
+                        <h4 className="font-semibold text-[16px] text-black">{item.name}</h4>
                         {item.description && (
                           <p className="text-xs text-gray-500 mt-1">{item.description}</p>
                         )}
@@ -222,7 +222,7 @@ const HeaderShoppingCart = ({ isOpen, onClose }) => {
                         </button>
                       </div>
                       <div className="text-right ml-4">
-                        <p className="font-bold text-[16px] text-gray-900">${item.price * item.quantity}</p>
+                        <p className="font-bold text-[16px] text-black">${item.price * item.quantity}</p>
                       </div>
                     </div>
 
@@ -270,7 +270,7 @@ const HeaderShoppingCart = ({ isOpen, onClose }) => {
                           <li>• Sent to essential workers</li>
                           <li>• No extra shipping cost</li>
                         </ul>
-                        <p className="font-semibold text-gray-900 mt-2">$10</p>
+                        <p className="font-semibold text-black mt-2">$10</p>
                         <button 
                           onClick={addDonationToCart}
                           className="mt-3 w-full bg-gray-900 text-white font-medium py-2 rounded-lg hover:bg-gray-800 transition"
@@ -314,7 +314,7 @@ const HeaderShoppingCart = ({ isOpen, onClose }) => {
                           <li>• Sent to essential workers</li>
                           <li>• No extra shipping cost</li>
                         </ul>
-                        <p className="font-semibold text-gray-900 mt-2">$10</p>
+                        <p className="font-semibold text-black mt-2">$10</p>
                         <button 
                           onClick={addDonationToCart}
                           className="mt-3 w-full bg-gray-900 text-white font-medium py-2 rounded-lg hover:bg-gray-800 transition"
@@ -332,10 +332,7 @@ const HeaderShoppingCart = ({ isOpen, onClose }) => {
               <Link href='/checkout'>
               <button
                 className="w-full bg-blue-600 hover:bg-blue-700 text-white font-bold py-3 px-6 rounded-3xl transition-all duration-300 transform  focus:outline-none  flex items-center justify-center space-x-3"
-                onClick={() => {
-                  console.log('Checkout clicked', { totalAmount, totalItems });
-                  // Add your checkout logic here
-                }}
+                onClick={onClose}
               >
                 <span>Checkout</span>
                 <span className="font-black">${totalAmount}</span>

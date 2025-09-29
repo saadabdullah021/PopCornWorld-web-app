@@ -6,7 +6,7 @@ const PopcornWorldSection = () => {
   return (
     <section className="bg-[#3333cb]  pt-32 pb-16 lg:pt-48 lg:pb-12 px-4 sm:px-6 lg:px-8">
       <div className="max-w-7xl mx-auto">
-        <div className="grid lg:grid-cols-2 gap-8 lg:gap-16 items-center">
+        <div className="grid lg:grid-cols-2 gap-8 lg:gap-16 items-start">
           {/* Content Section */}
           <div className="text-white space-y-6 lg:space-y-8">
             {/* Main Heading */}
@@ -14,7 +14,7 @@ const PopcornWorldSection = () => {
               <h1 className="text-4xl pb-4  lg:text-6xl xl:text-7xl font-splash text-[#ffc222] leading-none">
                 50%
               </h1>
-              <h2 className="text-3xl sm:text-4xl lg:text-5xl font-splash uppercase leading-tight">
+              <h2 className="main_heading font-splash uppercase  leading-relaxed">
                 <span className="block">OF EVERY DOLLAR SUPPORTS</span>
                 <span className="block">OUR POPCORN WORLD</span>
                 <span className="block">COMMUNITIES AND</span>
@@ -23,13 +23,13 @@ const PopcornWorldSection = () => {
             </div>
 
             {/* Description */}
-            <p className="text-lg sm:text-xl lg:text-2xl font-medium leading-relaxed max-w-lg">
+            <p className="main_description leading-relaxed max-w-lg">
               Popcorn World always gives back, helping our communities 
               through experiences, education and supporting local needs.
             </p>
 
             {/* CTA Button */}
-            <div className="pt-4">
+            <div className="pt-2">
               <button className="group btn-primary  transition-all duration-300 animate-fadeInUp">
                         Get Started
                        
@@ -39,7 +39,7 @@ const PopcornWorldSection = () => {
 
           {/* Image Section */}
           <div className="relative">
-            <div className="relative aspect-[4/5] lg:aspect-[3/4] w-full max-w-md mx-auto lg:max-w-full">
+            <div className="relative aspect-[4/5] lg:aspect-[9/10] w-full max-w-md mx-auto lg:max-w-full">
              
               {/* Main Image Container */}
               <div className="relative rounded-2xl overflow-hidden h-full ">
@@ -52,7 +52,7 @@ const PopcornWorldSection = () => {
                       src={dollar_support}
                       alt="Happy person holding various popcorn products from Popcorn World"
                       fill
-                      className="object-cover object-center rounded-lg"
+                      className="object-fill object-center rounded-lg"
                       sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
                       priority
                     />

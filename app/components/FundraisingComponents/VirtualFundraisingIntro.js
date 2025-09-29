@@ -10,7 +10,7 @@ const VirtualFundraisingIntro = () => {
           <div className="order-2 lg:order-1 px-4 lg:px-0 lg:pt-10">
             {/* Small Header */}
             <div className="mb-6">
-              <p className="text-sm sm:text-base md:text-lg font-semibold text-gray-600 uppercase tracking-widest">
+              <p className="sub_heading text-black uppercase tracking-widest">
                 What is Virtual Fundraising
               </p>
             </div>

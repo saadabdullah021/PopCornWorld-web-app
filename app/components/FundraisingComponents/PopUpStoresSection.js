@@ -96,7 +96,7 @@ const PopUpStoresSection = () => {
                   <h3 className="text-2xl md:text-3xl font-bold text-black mb-3  transition-colors duration-300">
                     {feature.title}
                   </h3>
-                  <p className="text-gray-700 text-lg leading-relaxed">
+                  <p className="text-black main_description leading-relaxed">
                     {feature.description}
                   </p>
                 </div>

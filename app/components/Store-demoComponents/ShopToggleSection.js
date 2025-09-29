@@ -40,9 +40,9 @@ const ShopToggleSection = () => {
       <div className="bg-white py-12 px-4 sm:px-6 lg:px-8 border-b border-gray-200">
         <div className="max-w-7xl mx-auto">
           {/* Title */}
-          <div className="text-center mb-8">
+          <div className="text-center my-8">
        
-            <h2 className="text-3xl sm:text-4xl lg:text-5xl font-medium text-gray-800 leading-tight">
+            <h2 className="main_heading font-splash font-medium text-black leading-tight">
               The most delicious way to support.
             </h2>
           </div>
@@ -50,7 +50,7 @@ const ShopToggleSection = () => {
           {/* Shop By Toggle */}
           <div className="flex flex-col sm:flex-row items-center justify-center space-y-4 sm:space-y-0 sm:space-x-6">
             <div className="flex items-center space-x-2">
-              <span className="text-gray-600 font-medium">Shop By</span>
+              <span className="text-black font-semibold text-sm sm:text-lg">Shop By</span>
             </div>
             
             <div className="relative bg-gray-100 p-1 rounded-full flex">
@@ -69,8 +69,8 @@ const ShopToggleSection = () => {
                   onClick={() => handleTabChange(tab.id)}
                   className={`relative z-10 px-6 py-3 rounded-full font-bold text-sm transition-all duration-300 ease-in-out transform  focus:outline-none  ${
                     activeTab === tab.id
-                      ? 'text-gray-900 shadow-sm'
-                      : 'text-gray-600 hover:text-gray-900'
+                      ? 'text-black shadow-sm'
+                      : 'text-gray-600 hover:text-black'
                   }`}
                   disabled={isTransitioning}
                 >
