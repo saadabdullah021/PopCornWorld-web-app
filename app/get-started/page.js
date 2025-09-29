@@ -375,22 +375,57 @@ const FundraisingOnboarding = () => {
     // Progress bar component
     const ProgressBar = () => (
         <div className="mb-8">
-            <div className="flex items-center space-y-4 lg:justify-between flex-wrap sm:flex-nowrap ">
-                {steps.map((step, index) => (
-                    <div key={index} className="flex flex-col items-center last:mb-[16px]">
-                        <div className={`w-8 h-8 rounded-full flex items-center justify-center text-sm font-semibold transition-colors duration-300 ${index < currentStep ? 'bg-green-500 text-white' :
-                            index === currentStep ? 'bg-blue-600 text-white' :
-                                'bg-gray-200 text-gray-700'
-                            }`}>
-                            {index < currentStep ? '✓' : index + 1}
-                        </div>
-                        {/* {index < steps.length && (
-                            <div className={`h-0.5 w-16 lg:w-12 mt-2 transition-colors duration-300 ${index < currentStep ? 'bg-green-500' : 'bg-gray-200'
-                                }`} />
-                        )} */}
+       <div className="mb-10">
+    <div className="relative">
+        {/* Glass Background Line */}
+        <div className="absolute top-4 left-0 right-0 h-2 bg-white/20 backdrop-blur-lg rounded-full -translate-y-1/2 border border-white/30">
+            {/* Gradient Progress Fill */}
+            <div 
+                className="h-full bg-gradient-to-r from-green-400 via-blue-500 to-purple-600 rounded-full transition-all duration-800 ease-out shadow-lg shadow-blue-500/25"
+                style={{ 
+                    width: `${((currentStep) / (steps.length - 1)) * 100}%` 
+                }}
+            />
+        </div>
+
+        {/* Steps */}
+        <div className="flex justify-between relative z-10">
+            {steps.map((step, index) => (
+                <div key={index} className="flex flex-col items-center flex-1">
+                    {/* Step Circle */}
+                    <div className={`
+                        relative w-7 h-7 rounded-full flex items-center justify-center text-sm font-bold transition-all duration-500 ease-out
+                        backdrop-blur-lg border shadow-lg
+                        ${index < currentStep 
+                            ? 'bg-gradient-to-br from-green-500 to-emerald-600 border-green-400 text-white scale-110' 
+                            : index === currentStep 
+                            ? 'bg-white/90 border-blue-500 text-blue-600 scale-125 shadow-xl shadow-blue-500/30 ring-1 ring-blue-200' 
+                            : 'bg-white/60 border-gray-300 text-gray-500'
+                        }
+                    `}>
+                        {index < currentStep ? (
+                            <svg className="w-3.5 h-3.5" fill="currentColor" viewBox="0 0 20 20">
+                                <path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd" />
+                            </svg>
+                        ) : (
+                            <span className="relative z-10">{index + 1}</span>
+                        )}
+                        
+                        {/* Active Step Animation */}
+                        {index === currentStep && (
+                            <>
+                                <div className="absolute inset-0 rounded-full bg-blue-400 animate-ping opacity-60"></div>
+                                <div className="absolute inset-0 rounded-full bg-blue-300 animate-pulse"></div>
+                            </>
+                        )}
                     </div>
-                ))}
-            </div>
+
+      
+                </div>
+            ))}
+        </div>
+    </div>
+</div>
             {/* <div className="text-center bg-gray-300 rounded-full px-4 py-2 w-fit mx-auto mt-1">
                 <p className="text-sm font-semibold text-black ">{steps[currentStep].description}</p>
             </div> */}
@@ -564,22 +599,22 @@ const FundraisingOnboarding = () => {
                                         <div className="space-y-2.5">
                                             <div className="flex items-center gap-4">
 
-                                              
-                                                    <p className="text-gray-200 font-semibold text-xs ">Start Date :</p>
-                                                    <p className="text-sm  text-white font-semibold">
-                                                        {startDate ? formatDate(startDate) : <span className="text-gray-400 italic">Not selected</span>}
-                                                    </p>
-                                             
+
+                                                <p className="text-gray-200 font-semibold text-xs ">Start Date :</p>
+                                                <p className="text-sm  text-white font-semibold">
+                                                    {startDate ? formatDate(startDate) : <span className="text-gray-400 italic">Not selected</span>}
+                                                </p>
+
                                             </div>
 
                                             <div className="flex items-center gap-5">
 
-                                              
-                                                    <p className="text-gray-200 font-semibold text-xs">End Date : </p>
-                                                    <p className="text-sm  text-white font-semibold ">
-                                                        {endDate ? formatDate(endDate) : <span className="text-gray-400 italic">Not selected</span>}
-                                                    </p>
-                                               
+
+                                                <p className="text-gray-200 font-semibold text-xs">End Date : </p>
+                                                <p className="text-sm  text-white font-semibold ">
+                                                    {endDate ? formatDate(endDate) : <span className="text-gray-400 italic">Not selected</span>}
+                                                </p>
+
                                             </div>
                                         </div>
 

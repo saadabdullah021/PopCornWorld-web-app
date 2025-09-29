@@ -68,7 +68,7 @@ const Input = ({
         disabled={disabled}
         placeholder={placeholder}
         maxLength={maxLength}
-        className={`w-full px-4 py-3 border rounded-3xl bg-white transition-all duration-300 placeholder-gray-400 focus:ring-0 outline-0 text-black font-medium shadow-sm hover:shadow-md focus:shadow-lg ${
+        className={`w-full px-4 py-3 border rounded-xl bg-white transition-all duration-300 placeholder-gray-600 focus:ring-0 outline-0 text-black font-medium shadow-sm hover:shadow-md focus:shadow-lg ${
           error 
             ? 'border-red-400 focus:border-red-500 focus:ring-4 focus:ring-red-100' 
             : 'border-gray-200'
@@ -115,7 +115,7 @@ const Dropdown = ({
       onChange={onChange}
       onBlur={onBlur}
       disabled={disabled}
-      className={`w-full px-4 py-3.5 border rounded-full bg-white transition-all duration-300 text-black font-medium shadow-sm outline-0 focus:ring-0 hover:shadow-sm  ${
+      className={`w-full px-4 py-3.5 border rounded-xl bg-white transition-all duration-300 text-black font-medium shadow-sm outline-0 focus:ring-0 hover:shadow-sm  ${
         error 
           ? 'border-red-400 focus:border-red-500 focus:ring-4 focus:ring-red-100' 
           : 'border-gray-200 '
@@ -224,7 +224,7 @@ const Button = ({
   const sizeClasses = {
     sm: "px-4 py-2 text-sm",
     md: "px-6 py-3 text-base",
-    lg: "px-8 py-4 text-lg"
+    lg: "px-6 py-3 text-lg"
   };
   const variantClasses = {
     primary: "bg-gradient-to-r from-[#3333cb] to-blue-700 hover:from-blue-700 hover:to-blue-800 text-white disabled:from-blue-300 disabled:to-blue-400",
@@ -378,10 +378,8 @@ const Breadcrumb = ({ steps, currentStep }) => (
 const OrderSummary = ({ items, subtotal, tax, shipping, total }) => (
   <div className="bg-gradient-to-br from-white via-blue-50/30 to-indigo-50/50 p-6 rounded-2xl shadow-xl border border-blue-100/50">
     <div className="flex items-center gap-3 mb-6">
-      <div className="w-10 h-10 bg-[#3333cb] rounded-full flex items-center justify-center">
-        <CreditCard size={20} className="text-white" />
-      </div>
-      <h3 className="text-xl font-bold text-black">Order Summary</h3>
+     
+      <h3 className="sub_heading font-bold text-black">Order Summary</h3>
     </div>
     
     <div className="bg-gradient-to-r from-green-50 to-emerald-50 p-4 rounded-xl mb-6 border border-green-100">
@@ -407,7 +405,7 @@ const OrderSummary = ({ items, subtotal, tax, shipping, total }) => (
               <p className="text-sm text-gray-500 mt-1">{item.description}</p>
             )}
             <div className="flex justify-between items-center mt-3">
-              <span className="text-sm font-medium text-gray-800 bg-gray-100 px-4 py-1.5 rounded-full">
+              <span className="text-sm font-semibold text-black bg-gray-100 px-4 py-1.5 rounded-full">
                 Qty: {item.quantity}
               </span>
               <span className="font-bold text-black text-lg">${(item.price * item.quantity).toFixed(2)}</span>
@@ -618,11 +616,9 @@ const PaymentModal = ({ isOpen, onClose, onPaymentSuccess, orderTotal }) => {
         <div className="p-6 border-b border-gray-200 bg-[#3333cb]  text-white rounded-t-2xl">
           <div className="flex justify-between items-center">
             <div className="flex items-center gap-3">
-              <div className="w-10 h-10 bg-white/20 rounded-full flex items-center justify-center">
-                <CreditCard size={20} />
-              </div>
+              
               <div>
-                <h2 className="text-xl font-bold">Secure Payment</h2>
+                <h2 className="sub_heading font-bold">Secure Payment</h2>
                 <p className="text-blue-100 text-sm">Complete your order safely</p>
               </div>
             </div>
@@ -938,12 +934,10 @@ const CheckoutPage = () => {
           <div className="lg:col-span-2">
             <div className="bg-white p-8 rounded-2xl shadow-xl border border-gray-100">
               <div className="flex items-center gap-3 mb-8">
-                <div className="w-12 h-12 bg-gradient-to-r from-[#3333cb] to-blue-700 rounded-xl flex items-center justify-center">
-                  <CreditCard size={24} className="text-white" />
-                </div>
+          
                 <div>
-                  <h1 className="text-3xl font-bold text-black">Checkout</h1>
-                  <p className="text-gray-600">Complete your secure purchase</p>
+                  <h1 className="sub_heading font-bold text-black">Checkout</h1>
+                  <p className="text-gray-600 ">Complete your secure purchase</p>
                 </div>
               </div>
               
@@ -955,9 +949,7 @@ const CheckoutPage = () => {
               {/* Contact Information */}
               <div className="mb-10">
                 <div className="flex items-center gap-3 mb-6">
-                  <div className="w-8 h-8 bg-blue-100 rounded-full flex items-center justify-center">
-                    <User size={16} className="text-[#3333cb]" />
-                  </div>
+                
                   <h2 className="text-xl font-bold text-black">Contact Information</h2>
                 </div>
                 
@@ -1011,9 +1003,7 @@ const CheckoutPage = () => {
                   {/* Shipping Address */}
                   <div className="mb-10">
                     <div className="flex items-center gap-3 mb-6">
-                      <div className="w-10 h-10 bg-green-100 rounded-full flex items-center justify-center">
-                        <Truck size={18} className="text-green-600" />
-                      </div>
+                      
                       <h2 className="text-xl font-bold text-black">Shipping Address</h2>
                     </div>
                     
@@ -1053,8 +1043,7 @@ const CheckoutPage = () => {
                       onChange={handleInputChange}
                       placeholder="Apt 4B (optional)"
                     />
-                    <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-                      <Input
+                        <Input
                         label="City*"
                         name="shippingCity"
                         value={formData.shippingCity}
@@ -1063,6 +1052,8 @@ const CheckoutPage = () => {
                         placeholder="City"
                         icon={MapPin}
                       />
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                  
                       <Dropdown
                         label="State*"
                         name="shippingState"
@@ -1087,9 +1078,7 @@ const CheckoutPage = () => {
                   {/* Billing Address */}
                   <div className="mb-10">
                     <div className="flex items-center gap-3 mb-6">
-                      <div className="w-10 h-10 bg-purple-100 rounded-full flex items-center justify-center">
-                        <CreditCard size={18} className="text-purple-600" />
-                      </div>
+                  
                       <h2 className="text-xl font-bold text-black">Billing Address</h2>
                     </div>
                     
@@ -1097,7 +1086,7 @@ const CheckoutPage = () => {
                       checked={formData.billingIsSame}
                       onChange={(checked) => setFormData(prev => ({ ...prev, billingIsSame: checked }))}
                       label="Same as Shipping Address"
-                      icon={Check}
+               
                     />
                     
                     {!formData.billingIsSame && (
@@ -1138,8 +1127,7 @@ const CheckoutPage = () => {
                           onChange={handleInputChange}
                           placeholder="Apt 4B (optional)"
                         />
-                        <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-                          <Input
+                             <Input
                             label="City*"
                             name="billingCity"
                             value={formData.billingCity}
@@ -1148,6 +1136,8 @@ const CheckoutPage = () => {
                             placeholder="City"
                             icon={MapPin}
                           />
+                        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                     
                           <Dropdown
                             label="State*"
                             name="billingState"
@@ -1174,9 +1164,7 @@ const CheckoutPage = () => {
                   {/* Gift Options */}
                   <div className="mb-10">
                     <div className="flex items-center gap-3 mb-6">
-                      <div className="w-10 h-10 bg-pink-100 rounded-full flex items-center justify-center">
-                        <Gift size={18} className="text-pink-600" />
-                      </div>
+                    
                       <h2 className="text-xl font-bold text-black">Gift Options</h2>
                     </div>
                     
@@ -1184,11 +1172,11 @@ const CheckoutPage = () => {
                       checked={formData.isGift}
                       onChange={(checked) => setFormData(prev => ({ ...prev, isGift: checked }))}
                       label="This order is a gift"
-                      icon={Gift}
+                    
                     />
                     
                     {formData.isGift && (
-                      <div className="bg-gradient-to-r from-pink-50 to-rose-50 p-6 rounded-xl border-2 border-pink-200 mt-6">
+                      <div className=" mt-6">
                         <TextArea
                           label="Gift Message"
                           name="giftNote"

@@ -323,67 +323,67 @@ const Header = () => {
 
                                         {/* Profile Dropdown */}
                                         {showProfileDropdown && (
-                                         <div
-                                         className="absolute right-0 top-full mt-3 w-72 bg-white/95 backdrop-blur-xl rounded-2xl shadow-2xl border border-white/20 overflow-hidden z-50 transform animate-dropdown"
-                                         onMouseLeave={() => setShowProfileDropdown(false)}
-                                         style={{
-                                             boxShadow: '0 25px 50px -12px rgba(0, 0, 0, 0.25), 0 0 0 1px rgba(255, 255, 255, 0.1)',
-                                             background: 'linear-gradient(135deg, rgba(255, 255, 255, 0.95) 0%, rgba(248, 250, 252, 0.95) 100%)'
-                                         }}
-                                     >
-                             
-                                         <div className="py-2">
-                                             {/* Profile */}
-                                             <Link
-                                                 href="/profile"
-                                                 className="group flex items-center px-4 py-3 text-gray-700 hover:text-gray-900 transition-all duration-300 hover:bg-white/50 hover:shadow-sm mx-2 rounded-xl"
-                                                 onClick={() => setShowProfileDropdown(false)}
-                                             >
-                                                 <div className="relative p-2 bg-blue-100 rounded-lg group-hover:bg-blue-500 transition-colors duration-300 mr-3">
-                                                     <FaUser className="text-blue-600 group-hover:text-white transition-colors duration-300 text-sm" />
-                                                 </div>
-                                                 <div>
-                                                     <span className="font-semibold block">My Profile</span>
-                                                     <span className="text-xs text-gray-500 group-hover:text-gray-600">Personal settings</span>
-                                                 </div>
-                                             
-                                             </Link>
-                                     
-                                             {/* Orders */}
-                                             <Link
-                                                 href="/orders"
-                                                 className="group flex items-center px-4 py-3 text-gray-700 hover:text-gray-900 transition-all duration-300 hover:bg-white/50 hover:shadow-sm mx-2 rounded-xl"
-                                                 onClick={() => setShowProfileDropdown(false)}
-                                             >
-                                                 <div className="relative p-2 bg-green-100 rounded-lg group-hover:bg-green-500 transition-colors duration-300 mr-3">
-                                                     <FaShoppingBag className="text-green-600 group-hover:text-white transition-colors duration-300 text-sm" />
-                                                 </div>
-                                                 <div>
-                                                     <span className="font-semibold block">My Orders</span>
-                                                     <span className="text-xs text-gray-500 group-hover:text-gray-600">Order history</span>
-                                                 </div>
-                                              
-                                             </Link>
-                                     
-                                     
-                                     
-                                             {/* Logout */}
-                                             <button
-                                                 onClick={handleLogout}
-                                                 className="group inline-flex  w-[94%]  items-center pl-4 pr-8 py-3 text-gray-700 hover:text-red-700 transition-all duration-300 hover:bg-red-50/50 hover:shadow-sm mx-2 rounded-xl"
-                                             >
-                                                 <div className="relative p-2 bg-red-100 rounded-lg group-hover:bg-red-500 transition-colors duration-300 mr-3">
-                                                     <FaSignOutAlt className="text-red-600 group-hover:text-white transition-colors duration-300 text-sm" />
-                                                 </div>
-                                                 <div className="flex flex-col items-start">
-                                                     <span className="font-semibold block">Logout</span>
-                                                     <span className="text-xs text-gray-500 group-hover:text-red-600">Sign out safely</span>
-                                                 </div>
-                                              
-                                             </button>
-                                         </div>
-                                  
-                                     </div>
+                                            <div
+                                                className="absolute right-0 top-full mt-3 w-72 bg-white/95 backdrop-blur-xl rounded-2xl shadow-2xl border border-white/20 overflow-hidden z-50 transform animate-dropdown"
+                                                onMouseLeave={() => setShowProfileDropdown(false)}
+                                                style={{
+                                                    boxShadow: '0 25px 50px -12px rgba(0, 0, 0, 0.25), 0 0 0 1px rgba(255, 255, 255, 0.1)',
+                                                    background: 'linear-gradient(135deg, rgba(255, 255, 255, 0.95) 0%, rgba(248, 250, 252, 0.95) 100%)'
+                                                }}
+                                            >
+
+                                                <div className="py-2">
+                                                    {/* Profile */}
+                                                    <Link
+                                                        href="/profile"
+                                                        className="group flex items-center px-4 py-3 text-gray-700 hover:text-gray-900 transition-all duration-300 hover:bg-white/50 hover:shadow-sm mx-2 rounded-xl"
+                                                        onClick={() => setShowProfileDropdown(false)}
+                                                    >
+                                                        <div className="relative p-2 bg-blue-100 rounded-lg group-hover:bg-blue-500 transition-colors duration-300 mr-3">
+                                                            <FaUser className="text-blue-600 group-hover:text-white transition-colors duration-300 text-sm" />
+                                                        </div>
+                                                        <div>
+                                                            <span className="font-semibold block">My Profile</span>
+                                                            <span className="text-xs text-gray-500 group-hover:text-gray-600">Personal settings</span>
+                                                        </div>
+
+                                                    </Link>
+
+                                                    {/* Orders */}
+                                                    <Link
+                                                        href="/orders"
+                                                        className="group flex items-center px-4 py-3 text-gray-700 hover:text-gray-900 transition-all duration-300 hover:bg-white/50 hover:shadow-sm mx-2 rounded-xl"
+                                                        onClick={() => setShowProfileDropdown(false)}
+                                                    >
+                                                        <div className="relative p-2 bg-green-100 rounded-lg group-hover:bg-green-500 transition-colors duration-300 mr-3">
+                                                            <FaShoppingBag className="text-green-600 group-hover:text-white transition-colors duration-300 text-sm" />
+                                                        </div>
+                                                        <div>
+                                                            <span className="font-semibold block">My Orders</span>
+                                                            <span className="text-xs text-gray-500 group-hover:text-gray-600">Order history</span>
+                                                        </div>
+
+                                                    </Link>
+
+
+
+                                                    {/* Logout */}
+                                                    <button
+                                                        onClick={handleLogout}
+                                                        className="group inline-flex  w-[94%]  items-center pl-4 pr-8 py-3 text-gray-700 hover:text-red-700 transition-all duration-300 hover:bg-red-50/50 hover:shadow-sm mx-2 rounded-xl"
+                                                    >
+                                                        <div className="relative p-2 bg-red-100 rounded-lg group-hover:bg-red-500 transition-colors duration-300 mr-3">
+                                                            <FaSignOutAlt className="text-red-600 group-hover:text-white transition-colors duration-300 text-sm" />
+                                                        </div>
+                                                        <div className="flex flex-col items-start">
+                                                            <span className="font-semibold block">Logout</span>
+                                                            <span className="text-xs text-gray-500 group-hover:text-red-600">Sign out safely</span>
+                                                        </div>
+
+                                                    </button>
+                                                </div>
+
+                                            </div>
                                         )}
                                     </div>
                                 ) : (
@@ -452,7 +452,7 @@ const Header = () => {
                                 </Link>
                             </nav>
 
-                            
+
 
                             {/* Enhanced Donate + Mobile Toggle */}
                             <div className="flex items-center space-x-4">
@@ -543,57 +543,57 @@ const Header = () => {
                         </li>
                     </ul>
 
-      {/* Sign In / Profile Section - Mobile */}
-      <li className="pt-2 ">
-            {isSignedIn ? (
-                <div className="space-y-2 border-t px-4 pt-3">
-                    <Link
-                        href="/profile"
-                        onClick={() => {
-                            closeMobileMenu();
-                            setShowProfileDropdown(false);
-                        }}
-                        className="flex items-center py-3 px-4 rounded-xl hover:bg-gray-50 transition-all duration-300 text-black font-semibold"
-                    >
-                        <FaUser className="mr-3 text-blue-600" />
-                        My Profile
-                    </Link>
+                    {/* Sign In / Profile Section - Mobile */}
+                    <li className="pt-2 ">
+                        {isSignedIn ? (
+                            <div className="space-y-2 border-t px-4 pt-3">
+                                <Link
+                                    href="/profile"
+                                    onClick={() => {
+                                        closeMobileMenu();
+                                        setShowProfileDropdown(false);
+                                    }}
+                                    className="flex items-center py-3 px-4 rounded-xl hover:bg-gray-50 transition-all duration-300 text-black font-semibold"
+                                >
+                                    <FaUser className="mr-3 text-blue-600" />
+                                    My Profile
+                                </Link>
 
-                    <Link
-                        href="/orders"
-                        onClick={() => {
-                            closeMobileMenu();
-                            setShowProfileDropdown(false);
-                        }}
-                        className="flex items-center py-3 px-4 rounded-xl hover:bg-gray-50 transition-all duration-300 text-black font-semibold"
-                    >
-                        <FaShoppingBag className="mr-3 text-green-600" />
-                        My Orders
-                    </Link>
+                                <Link
+                                    href="/orders"
+                                    onClick={() => {
+                                        closeMobileMenu();
+                                        setShowProfileDropdown(false);
+                                    }}
+                                    className="flex items-center py-3 px-4 rounded-xl hover:bg-gray-50 transition-all duration-300 text-black font-semibold"
+                                >
+                                    <FaShoppingBag className="mr-3 text-green-600" />
+                                    My Orders
+                                </Link>
 
-                    <button
-                        onClick={() => {
-                            handleLogout();
-                            closeMobileMenu();
-                        }}
-                        className="flex items-center py-3 px-4 rounded-xl hover:bg-red-50 transition-all duration-300 text-black font-semibold w-full text-left"
-                    >
-                        <FaSignOutAlt className="mr-3 text-red-600" />
-                        Logout
-                    </button>
-                </div>
-            ) : (
-                <button
-                    onClick={() => {
-                        closeMobileMenu();
-                        handleSignInClick();
-                    }}
-                    className=" mx-6 group w-[85%] btn-primary transition-all duration-300 flex items-center justify-center font-medium transform shadow-lg"
-                >
-                    Sign In
-                </button>
-            )}
-        </li>
+                                <button
+                                    onClick={() => {
+                                        handleLogout();
+                                        closeMobileMenu();
+                                    }}
+                                    className="flex items-center py-3 px-4 rounded-xl hover:bg-red-50 transition-all duration-300 text-black font-semibold w-full text-left"
+                                >
+                                    <FaSignOutAlt className="mr-3 text-red-600" />
+                                    Logout
+                                </button>
+                            </div>
+                        ) : (
+                            <button
+                                onClick={() => {
+                                    closeMobileMenu();
+                                    handleSignInClick();
+                                }}
+                                className=" mx-6 group w-[85%] btn-primary transition-all duration-300 flex items-center justify-center font-medium transform shadow-lg"
+                            >
+                                Sign In
+                            </button>
+                        )}
+                    </li>
 
                     {/* Mobile Donate Button */}
                     <div className="p-6">

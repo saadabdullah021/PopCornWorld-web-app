@@ -332,10 +332,7 @@ const HeaderShoppingCart = ({ isOpen, onClose }) => {
               <Link href='/checkout'>
               <button
                 className="w-full bg-blue-600 hover:bg-blue-700 text-white font-bold py-3 px-6 rounded-3xl transition-all duration-300 transform  focus:outline-none  flex items-center justify-center space-x-3"
-                onClick={() => {
-                  console.log('Checkout clicked', { totalAmount, totalItems });
-                  // Add your checkout logic here
-                }}
+                onClick={onClose}
               >
                 <span>Checkout</span>
                 <span className="font-black">${totalAmount}</span>

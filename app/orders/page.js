@@ -158,7 +158,7 @@ const Orders = () => {
       <div className="min-h-screen bg-gray-50 flex items-center justify-center">
         <div className="text-center">
           <div className="animate-spin rounded-full h-16 w-16 border-b-2 border-indigo-600 mx-auto"></div>
-          <p className="mt-4 text-gray-600">Loading your orders...</p>
+          <p className="mt-4 text-gray-800 font-semibold">Loading your orders...</p>
         </div>
       </div>
     );
@@ -170,8 +170,8 @@ const Orders = () => {
       <div className="bg-white shadow-sm border-b border-gray-300">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="py-6">
-            <h1 className="text-3xl font-bold text-black">My Orders</h1>
-            <p className="mt-2 text-gray-600">Track and manage your order history</p>
+            <h1 className="main_heading font-bold text-black">My Orders</h1>
+            <p className="mt-2 main_description text-black">Track and manage your order history</p>
           </div>
         </div>
       </div>
