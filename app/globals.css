@@ -42,6 +42,54 @@ body {
   border-radius: 6px;
 } */
 
+
+.main_heading {
+  /* Default (mobile): text-3xl */
+  font-size: 1.875rem; 
+  line-height: 2.25rem; 
+  text-transform: uppercase;
+
+  /* sm (≥640px): text-4xl */
+  @media (min-width: 640px) {
+    font-size: 2.25rem; 
+    line-height: 2.5rem; 
+  }
+
+  /* lg (≥1024px): text-5xl */
+  @media (min-width: 1024px) {
+    font-size: 3rem; 
+    line-height: 1;   
+  }
+
+
+}
+
+.sub_heading {
+  /* Default (mobile): text-lg */
+  font-size: 1.125rem;      /* = 18px */
+  line-height: 1.75rem;     /* = 28px */
+  font-weight: 700;         /* font-bold */
+
+  /* md (≥768px): text-2xl */
+  @media (min-width: 768px) {
+    font-size: 1.5rem;      /* = 24px */
+    line-height: 2rem;      /* = 32px */
+  }
+}
+
+.main_description {
+  /* Default (mobile): text-sm */
+  font-size: 0.875rem;     
+  line-height: 1.25rem;     
+  font-weight: 500;         
+
+  /* sm (≥640px): text-lg */
+  @media (min-width: 640px) {
+    font-size: 1.125rem;    
+    line-height: 1.75rem;  
+  }
+}
+
 .btn-primary {
   display: inline-flex;            /* inline-flex */
   align-items: center;             /* items-center */
@@ -261,3 +309,5 @@ button{
 .hide-scrollbar::-webkit-scrollbar {
   display: none; /* Chrome, Safari, Opera */
 }
+
+

@@ -7,7 +7,7 @@ import SharePopup from './SharePopup';
 // Main Fundraiser Component
 const FundraiserSection = () => {
   const [showSharePopup, setShowSharePopup] = useState(false);
-  
+
   // Fundraiser data - replace with your API data
   const fundraiserData = {
     title: "Coach Kim's Pop-Up Store",
@@ -19,7 +19,7 @@ const FundraiserSection = () => {
     coachImage: coachImage
   };
 
-const progressPercentage =
+  const progressPercentage =
     (fundraiserData.currentAmount / fundraiserData.goalAmount) * 100;
 
   // === STATES ===
@@ -59,17 +59,17 @@ const progressPercentage =
     <>
       <section className="bg-[#3333cb] pt-32 pb-16 lg:pt-48 lg:pb-12  px-4 sm:px-6 lg:px-8">
         <div className="max-w-7xl mx-auto">
-          <div className="grid lg:grid-cols-2 gap-8 lg:gap-16 items-center">
+          <div className="grid lg:grid-cols-2 gap-8 lg:gap-16 items-start">
             {/* Content Section */}
             <div className=" space-y-6 lg:space-y-8 text-white">
               {/* Title */}
-              <h1 className="text-4xl sm:text-5xl lg:text-6xl font-splash  uppercase leading-tight">
+              <h1 className="main_heading font-splash   leading-tight">
                 {fundraiserData.title}
               </h1>
 
               {/* Description */}
               <div className="space-y-4">
-                <p className="text-sm sm:text-lg font-medium leading-relaxed">
+                <p className="main_description leading-relaxed">
                   {fundraiserData.description}
                 </p>
                 <p className="text-base sm:text-lg font-medium">
@@ -78,35 +78,35 @@ const progressPercentage =
               </div>
 
               {/* Progress Section */}
-        <div className="space-y-4">
-      {/* Progress Bar */}
-      <div className="w-full bg-white bg-opacity-20 h-2 overflow-hidden">
-        <div
-          className="h-full bg-gradient-to-r from-green-400 to-green-500 transition-all duration-1000 ease-out"
-          style={{ width: `${animatedWidth}%` }}
-        ></div>
-      </div>
+              <div className="space-y-4">
+                {/* Progress Bar */}
+                <div className="w-full bg-white bg-opacity-20 h-2 overflow-hidden">
+                  <div
+                    className="h-full bg-gradient-to-r from-green-400 to-green-500 transition-all duration-1000 ease-out"
+                    style={{ width: `${animatedWidth}%` }}
+                  ></div>
+                </div>
 
-      {/* Progress Info */}
-      <div className="flex items-center justify-between text-lg sm:text-xl font-medium">
-        <div>
-          <span className="font-bold text-xl sm:text-2xl">
-            ${animatedAmount}
-          </span>{" "}
-          <span className="font-normal">
-            sold of ${fundraiserData.goalAmount} goal!
-          </span>
-        </div>
+                {/* Progress Info */}
+                <div className="flex items-center justify-between text-lg sm:text-xl font-medium">
+                  <div>
+                    <span className="font-bold text-xl sm:text-2xl">
+                      ${animatedAmount}
+                    </span>{" "}
+                    <span className="font-normal">
+                      sold of ${fundraiserData.goalAmount} goal!
+                    </span>
+                  </div>
 
-        <span>{fundraiserData.daysToGo} days to go</span>
-      </div>
-    </div>
+                  <span>{fundraiserData.daysToGo} days to go</span>
+                </div>
+              </div>
 
               {/* CTA Button */}
               <div className="pt-4">
-                <button 
+                <button
                   onClick={() => setShowSharePopup(true)}
-                  className="hover:bg-gray-800 bg-black text-white font-medium py-3 px-6 rounded-3xl text-lg transition-all duration-300 transform  hover:shadow-xl focus:outline-none  flex items-center space-x-2"
+                  className="hover:bg-gray-800 bg-black text-white font-medium py-3 px-6 rounded-full text-lg transition-all duration-300 transform  hover:shadow-xl focus:outline-none  flex items-center space-x-2"
                 >
                   <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8.684 13.342C8.886 12.938 9 12.482 9 12c0-.482-.114-.938-.316-1.342m0 2.684a3 3 0 110-2.684m0 2.684l6.632 3.316m-6.632-6l6.632-3.316m0 0a3 3 0 105.367-2.684 3 3 0 00-5.367 2.684zm0 9.316a3 3 0 105.367 2.684 3 3 0 00-5.367-2.684z" />
@@ -118,37 +118,37 @@ const progressPercentage =
 
             {/* Image Section */}
 
-                      <div className="relative">
-                        <div className="relative aspect-[4/5] lg:aspect-[8/9] w-full max-w-md mx-auto lg:max-w-full">
-                         
-                          {/* Main Image Container */}
-                          <div className="relative rounded-2xl overflow-hidden h-full ">
-                            
-                            {/* Person Image */}
-                            <div className="absolute inset-0 flex items-center justify-center lg:p-6">
-                            
-                              <div className="relative w-full h-full">
-                                <Image
-                                  src={fundraiserData.coachImage}
-                                  alt="Happy person holding various popcorn products from Popcorn World"
-                                  fill
-                                  className="object-cover h-full w-full object-center rounded-lg"
-                                 
-                                  priority
-                                />
-                                
-                    
-                              </div>
-                            </div>
-                          </div>
-                        </div>
-                      </div>
+            <div className="relative">
+              <div className="relative aspect-[4/5] lg:aspect-[24/23] w-full max-w-md mx-auto lg:max-w-full">
+
+                {/* Main Image Container */}
+                <div className="relative rounded-2xl overflow-hidden h-full ">
+
+                  {/* Person Image */}
+                  <div className="absolute inset-0 flex items-center justify-center ">
+
+                    <div className="relative w-full h-full">
+                      <Image
+                        src={fundraiserData.coachImage}
+                        alt="Happy person holding various popcorn products from Popcorn World"
+                        fill
+                        className="object-fill h-full w-full object-center rounded-lg"
+
+                        priority
+                      />
+
+
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
           </div>
         </div>
       </section>
 
       {/* Share Popup */}
-      <SharePopup 
+      <SharePopup
         isOpen={showSharePopup}
         onClose={() => setShowSharePopup(false)}
         title={fundraiserData.title}

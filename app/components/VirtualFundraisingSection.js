@@ -34,7 +34,7 @@ const VirtualFundraisingSection = () => {
       <div className="max-w-7xl mx-auto">
         {/* Header */}
         <div className="text-center mb-16">
-          <h2 className="text-3xl md:text-4xl lg:text-5xl font-splash text-black mb-8 tracking-tight uppercase">
+          <h2 className="main_heading font-splash text-black mb-8 tracking-tight uppercase">
             Virtual Fundraising is Easy
           </h2>
         </div>
@@ -65,10 +65,10 @@ const VirtualFundraisingSection = () => {
 
               {/* Content */}
               <div className="text-center w-full">
-                <h3 className="text-lg md:text-3xl font-semibold text-black mb-2  transition-colors duration-300">
+                <h3 className="sub_heading text-black mb-2 text-center  transition-colors duration-300">
                   {feature.title}
                 </h3>
-                <p className="text-gray-900 text-sm md:text-[22px] font-medium ">
+                <p className="text-black main_description ">
                   {feature.description}
                 </p>
               </div>
@@ -80,17 +80,17 @@ const VirtualFundraisingSection = () => {
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-16 items-start">
           {/* Left Content */}
           <div className="order-2 lg:order-1">
-            <h3 className="text-3xl md:text-[40px] font-bold  text-black mb-6">
+            <h3 className="text-3xl md:text-[36px] font-bold font-splash  text-black mb-6">
               Fundraising with Quality
             </h3>
-            <p className="text-gray-900 font-medium text-[16px] mb-8 leading-relaxed">
+            <p className="text-black main_description mb-8 leading-relaxed">
               There are no set-up fees. No product handling fees. No extra fees ever. For
               every dollar you sell through the Popcorn World app, you keep 50%.
             </p>
 
             {/* Action Buttons */}
             <div className="flex flex-col sm:flex-row gap-4">
-              <button className="group btn-primary transition-all duration-300 animate-fadeInUp">
+              <button className="group btn-primary transition-all text-center justify-center duration-300 animate-fadeInUp">
                 Get Started
              
               </button>

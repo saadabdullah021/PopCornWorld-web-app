@@ -22,6 +22,8 @@ import logo from '../../public/fundraiserLogo.png'
 import { Home, News, Pages, Project } from "./Menus";
 import Image from "next/image";
 import { usePathname } from "next/navigation";
+import SignInModal from "./SignInModal";
+import OTPModal from "./OTPModal";
 
 const Header = () => {
     const [sticky, setSticky] = useState(false);
@@ -44,7 +46,7 @@ const Header = () => {
     const [otpError, setOtpError] = useState('');
     const [isLoading, setIsLoading] = useState(false);
     const [generatedOTP, setGeneratedOTP] = useState('');
-    
+
     const otpRefs = useRef([]);
     const profileDropdownRef = useRef(null);
 
@@ -107,7 +109,7 @@ const Header = () => {
     const formatPhoneNumber = (value) => {
         const phoneNumber = value.replace(/[^\d]/g, '');
         const phoneNumberLength = phoneNumber.length;
-        
+
         if (phoneNumberLength < 4) return phoneNumber;
         if (phoneNumberLength < 7) {
             return `(${phoneNumber.slice(0, 3)}) ${phoneNumber.slice(3)}`;
@@ -139,11 +141,11 @@ const Header = () => {
         }
 
         setIsLoading(true);
-        
+
         // Generate random 5-digit OTP
         const newOTP = Math.floor(10000 + Math.random() * 90000).toString();
         setGeneratedOTP(newOTP);
-        
+
         // Simulate API call
         setTimeout(() => {
             setIsLoading(false);
@@ -151,36 +153,65 @@ const Header = () => {
             setShowOTPModal(true);
             setOtp(['', '', '', '', '']);
             setOtpError('');
+            // Focus first OTP input when modal opens
+            setTimeout(() => {
+                if (otpRefs.current[0]) {
+                    otpRefs.current[0].focus();
+                }
+            }, 100);
             // In real app, you would send SMS here
             console.log(`OTP sent to ${phoneNumber}: ${newOTP}`);
         }, 1500);
     };
 
     const handleOtpChange = (index, value) => {
-        if (value.length > 1) return; // Prevent multiple digits
-        
+        // Only allow single digit numbers
+        if (value && !/^\d$/.test(value)) return;
+
         const newOtp = [...otp];
         newOtp[index] = value;
         setOtp(newOtp);
-        
+
         if (otpError) setOtpError('');
 
-        // Auto-focus next input
+        // Auto-focus next input when a digit is entered
         if (value && index < 4) {
-            otpRefs.current[index + 1]?.focus();
+            setTimeout(() => {
+                otpRefs.current[index + 1]?.focus();
+            }, 10);
         }
     };
 
     const handleOtpKeyDown = (index, e) => {
-        // Handle backspace to focus previous input
-        if (e.key === 'Backspace' && !otp[index] && index > 0) {
-            otpRefs.current[index - 1]?.focus();
+        // Handle backspace
+        if (e.key === 'Backspace') {
+            if (!otp[index] && index > 0) {
+                // If current field is empty, move to previous field
+                setTimeout(() => {
+                    otpRefs.current[index - 1]?.focus();
+                }, 10);
+            }
+        }
+
+        // Handle arrow keys for navigation
+        if (e.key === 'ArrowLeft' && index > 0) {
+            e.preventDefault();
+            setTimeout(() => {
+                otpRefs.current[index - 1]?.focus();
+            }, 10);
+        }
+
+        if (e.key === 'ArrowRight' && index < 4) {
+            e.preventDefault();
+            setTimeout(() => {
+                otpRefs.current[index + 1]?.focus();
+            }, 10);
         }
     };
 
     const handleVerifyOTP = () => {
         const enteredOTP = otp.join('');
-        
+
         if (enteredOTP.length !== 5) {
             setOtpError('Please enter complete 5-digit code');
             return;
@@ -249,7 +280,7 @@ const Header = () => {
                             <div className="flex space-x-8">
                                 <a
                                     href="tel:+012345678933"
-                                    className="group flex items-center hover:text-[#8BC34A] transition-all duration-300"
+                                    className="group flex items-center hover:text-[#ffc222] transition-all duration-300"
                                 >
                                     <FaPhone className="mr-2 transform group-hover:scale-110 transition-transform duration-300" />
                                     +012(345) 67 89
@@ -257,7 +288,7 @@ const Header = () => {
 
                                 <a
                                     href="mailto:support@gmail.com"
-                                    className="group flex items-center hover:text-[#8BC34A] transition-all duration-300"
+                                    className="group flex items-center hover:text-[#ffc222] transition-all duration-300"
                                 >
                                     <FaEnvelope className="mr-2 transform group-hover:scale-110 transition-transform duration-300" />
                                     support@gmail.com
@@ -267,7 +298,7 @@ const Header = () => {
                                     href="https://maps.google.com"
                                     target="_blank"
                                     rel="noopener noreferrer"
-                                    className="group flex items-center hover:text-[#8BC34A] transition-all duration-300"
+                                    className="group flex items-center hover:text-[#ffc222] transition-all duration-300"
                                 >
                                     <FaMapMarkerAlt className="mr-2 transform group-hover:scale-110 transition-transform duration-300" />
                                     250 Main Street, USA
@@ -275,10 +306,10 @@ const Header = () => {
                             </div>
 
                             <div className="flex items-center space-x-4">
-                                <Link href='/track-an-order' className="text-sm font-semibold cursor-pointer text-white mr-3">
+                                <Link href='/track-an-order' className="text-sm font-semibold cursor-pointer hover:text-[#ffc222] text-white mr-3">
                                     Track Order
                                 </Link>
-                                
+
                                 {/* Sign In / Profile Section */}
                                 {isSignedIn ? (
                                     <div className="relative" ref={profileDropdownRef}>
@@ -292,41 +323,71 @@ const Header = () => {
 
                                         {/* Profile Dropdown */}
                                         {showProfileDropdown && (
-                                            <div
-                                                className="absolute right-0 top-full mt-2 w-48 bg-white rounded-xl shadow-2xl border border-gray-100 overflow-hidden z-50 transform animate-dropdown"
-                                                onMouseLeave={() => setShowProfileDropdown(false)}
-                                            >
-                                                <div className="py-2">
-                                                    <Link 
-                                                        href="/profile"
-                                                        className="flex items-center px-4 py-3 text-gray-700 hover:bg-gray-50 transition-colors duration-200"
-                                                        onClick={() => setShowProfileDropdown(false)}
-                                                    >
-                                                        <FaUser className="mr-3 text-gray-400" />
-                                                        Profile
-                                                    </Link>
-                                                    <Link 
-                                                        href="/orders"
-                                                        className="flex items-center px-4 py-3 text-gray-700 hover:bg-gray-50 transition-colors duration-200"
-                                                        onClick={() => setShowProfileDropdown(false)}
-                                                    >
-                                                        <FaShoppingBag className="mr-3 text-gray-400" />
-                                                        Orders
-                                                    </Link>
-                                                    <hr className="my-1 border-gray-100" />
-                                                    <button 
-                                                        onClick={handleLogout}
-                                                        className="flex items-center w-full px-4 py-3 text-red-600 hover:bg-red-50 transition-colors duration-200"
-                                                    >
-                                                        <FaSignOutAlt className="mr-3" />
-                                                        Logout
-                                                    </button>
-                                                </div>
-                                            </div>
+                                         <div
+                                         className="absolute right-0 top-full mt-3 w-72 bg-white/95 backdrop-blur-xl rounded-2xl shadow-2xl border border-white/20 overflow-hidden z-50 transform animate-dropdown"
+                                         onMouseLeave={() => setShowProfileDropdown(false)}
+                                         style={{
+                                             boxShadow: '0 25px 50px -12px rgba(0, 0, 0, 0.25), 0 0 0 1px rgba(255, 255, 255, 0.1)',
+                                             background: 'linear-gradient(135deg, rgba(255, 255, 255, 0.95) 0%, rgba(248, 250, 252, 0.95) 100%)'
+                                         }}
+                                     >
+                             
+                                         <div className="py-2">
+                                             {/* Profile */}
+                                             <Link
+                                                 href="/profile"
+                                                 className="group flex items-center px-4 py-3 text-gray-700 hover:text-gray-900 transition-all duration-300 hover:bg-white/50 hover:shadow-sm mx-2 rounded-xl"
+                                                 onClick={() => setShowProfileDropdown(false)}
+                                             >
+                                                 <div className="relative p-2 bg-blue-100 rounded-lg group-hover:bg-blue-500 transition-colors duration-300 mr-3">
+                                                     <FaUser className="text-blue-600 group-hover:text-white transition-colors duration-300 text-sm" />
+                                                 </div>
+                                                 <div>
+                                                     <span className="font-semibold block">My Profile</span>
+                                                     <span className="text-xs text-gray-500 group-hover:text-gray-600">Personal settings</span>
+                                                 </div>
+                                             
+                                             </Link>
+                                     
+                                             {/* Orders */}
+                                             <Link
+                                                 href="/orders"
+                                                 className="group flex items-center px-4 py-3 text-gray-700 hover:text-gray-900 transition-all duration-300 hover:bg-white/50 hover:shadow-sm mx-2 rounded-xl"
+                                                 onClick={() => setShowProfileDropdown(false)}
+                                             >
+                                                 <div className="relative p-2 bg-green-100 rounded-lg group-hover:bg-green-500 transition-colors duration-300 mr-3">
+                                                     <FaShoppingBag className="text-green-600 group-hover:text-white transition-colors duration-300 text-sm" />
+                                                 </div>
+                                                 <div>
+                                                     <span className="font-semibold block">My Orders</span>
+                                                     <span className="text-xs text-gray-500 group-hover:text-gray-600">Order history</span>
+                                                 </div>
+                                              
+                                             </Link>
+                                     
+                                     
+                                     
+                                             {/* Logout */}
+                                             <button
+                                                 onClick={handleLogout}
+                                                 className="group inline-flex  w-[94%]  items-center pl-4 pr-8 py-3 text-gray-700 hover:text-red-700 transition-all duration-300 hover:bg-red-50/50 hover:shadow-sm mx-2 rounded-xl"
+                                             >
+                                                 <div className="relative p-2 bg-red-100 rounded-lg group-hover:bg-red-500 transition-colors duration-300 mr-3">
+                                                     <FaSignOutAlt className="text-red-600 group-hover:text-white transition-colors duration-300 text-sm" />
+                                                 </div>
+                                                 <div className="flex flex-col items-start">
+                                                     <span className="font-semibold block">Logout</span>
+                                                     <span className="text-xs text-gray-500 group-hover:text-red-600">Sign out safely</span>
+                                                 </div>
+                                              
+                                             </button>
+                                         </div>
+                                  
+                                     </div>
                                         )}
                                     </div>
                                 ) : (
-                                    <button 
+                                    <button
                                         onClick={handleSignInClick}
                                         className="text-sm font-semibold bg-gray-200 px-3 py-1 outline-none ring-none rounded-full text-black cursor-pointer mr-3 hover:bg-gray-300 transition-colors duration-200"
                                     >
@@ -357,39 +418,41 @@ const Header = () => {
                             </Link>
 
                             {/* Enhanced Desktop Menu */}
-                            <nav className="hidden lg:flex items-center space-x-8 font-semibold capitalize text-white">
+                            <nav className="hidden lg:flex items-center space-x-8 font-medium text-[16px] uppercase text-white">
                                 {/* Home */}
                                 <div className="relative group">
-                                    <Link href='/fundraising' className="flex items-center py-2 hover:text-[#8BC34A] transition-colors duration-300 group relative">
+                                    <Link href='/fundraising' className="flex items-center py-2 hover:text-[#ffc222] transition-colors duration-300 group relative">
                                         Fundraising
-                                        <div className="absolute bottom-0 left-0 w-full h-0.5 bg-[#8BC34A] transform scale-x-0 group-hover:scale-x-100 transition-transform duration-300 origin-left will-change-transform [transform:translateZ(0)]"></div>
+                                        <div className="absolute bottom-0 left-0 w-full h-0.5 bg-[#ffc222] transform scale-x-0 group-hover:scale-x-100 transition-transform duration-300 origin-left will-change-transform [transform:translateZ(0)]"></div>
                                     </Link>
                                 </div>
 
                                 {/* Project */}
                                 <div className="relative group">
-                                    <Link href='/shop' className="flex items-center py-2 hover:text-[#8BC34A] transition-colors duration-300 group relative">
+                                    <Link href='/shop' className="flex items-center py-2 hover:text-[#ffc222] transition-colors duration-300 group relative">
                                         Shop Popcorn
-                                        <div className="absolute bottom-0 left-0 w-full h-0.5 bg-[#8BC34A] transform scale-x-0 group-hover:scale-x-100 transition-transform duration-300 origin-left will-change-transform [transform:translateZ(0)]"></div>
+                                        <div className="absolute bottom-0 left-0 w-full h-0.5 bg-[#ffc222] transform scale-x-0 group-hover:scale-x-100 transition-transform duration-300 origin-left will-change-transform [transform:translateZ(0)]"></div>
                                     </Link>
                                 </div>
 
                                 <Link
                                     href="/about-us"
-                                    className="py-2 hover:text-[#8BC34A] transition-colors duration-300 group relative"
+                                    className="py-2 hover:text-[#ffc222] transition-colors duration-300 group relative"
                                 >
                                     About
-                                    <div className="absolute bottom-0 left-0 w-full h-0.5 bg-[#8BC34A] transform scale-x-0 group-hover:scale-x-100 transition-transform duration-300 origin-left will-change-transform [transform:translateZ(0)]"></div>
+                                    <div className="absolute bottom-0 left-0 w-full h-0.5 bg-[#ffc222] transform scale-x-0 group-hover:scale-x-100 transition-transform duration-300 origin-left will-change-transform [transform:translateZ(0)]"></div>
                                 </Link>
 
                                 <Link
                                     href="/contact-us"
-                                    className="py-2 hover:text-[#8BC34A] transition-colors duration-300 group relative"
+                                    className="py-2 hover:text-[#ffc222] transition-colors duration-300 group relative"
                                 >
                                     Contact
-                                    <div className="absolute bottom-0 left-0 w-full h-0.5 bg-[#8BC34A] transform scale-x-0 group-hover:scale-x-100 transition-transform duration-300 origin-left will-change-transform [transform:translateZ(0)]"></div>
+                                    <div className="absolute bottom-0 left-0 w-full h-0.5 bg-[#ffc222] transform scale-x-0 group-hover:scale-x-100 transition-transform duration-300 origin-left will-change-transform [transform:translateZ(0)]"></div>
                                 </Link>
                             </nav>
+
+                            
 
                             {/* Enhanced Donate + Mobile Toggle */}
                             <div className="flex items-center space-x-4">
@@ -438,7 +501,7 @@ const Header = () => {
 
                 {/* Mobile Navigation */}
                 <div className="overflow-y-auto h-full pb-20">
-                    <ul className="p-6 space-y-2">
+                    <ul className="p-6 space-y-2 uppercase">
                         {/* Home */}
                         <li className="border-b border-gray-100 pb-2">
                             <Link href='/fundraising'
@@ -480,6 +543,58 @@ const Header = () => {
                         </li>
                     </ul>
 
+      {/* Sign In / Profile Section - Mobile */}
+      <li className="pt-2 ">
+            {isSignedIn ? (
+                <div className="space-y-2 border-t px-4 pt-3">
+                    <Link
+                        href="/profile"
+                        onClick={() => {
+                            closeMobileMenu();
+                            setShowProfileDropdown(false);
+                        }}
+                        className="flex items-center py-3 px-4 rounded-xl hover:bg-gray-50 transition-all duration-300 text-black font-semibold"
+                    >
+                        <FaUser className="mr-3 text-blue-600" />
+                        My Profile
+                    </Link>
+
+                    <Link
+                        href="/orders"
+                        onClick={() => {
+                            closeMobileMenu();
+                            setShowProfileDropdown(false);
+                        }}
+                        className="flex items-center py-3 px-4 rounded-xl hover:bg-gray-50 transition-all duration-300 text-black font-semibold"
+                    >
+                        <FaShoppingBag className="mr-3 text-green-600" />
+                        My Orders
+                    </Link>
+
+                    <button
+                        onClick={() => {
+                            handleLogout();
+                            closeMobileMenu();
+                        }}
+                        className="flex items-center py-3 px-4 rounded-xl hover:bg-red-50 transition-all duration-300 text-black font-semibold w-full text-left"
+                    >
+                        <FaSignOutAlt className="mr-3 text-red-600" />
+                        Logout
+                    </button>
+                </div>
+            ) : (
+                <button
+                    onClick={() => {
+                        closeMobileMenu();
+                        handleSignInClick();
+                    }}
+                    className=" mx-6 group w-[85%] btn-primary transition-all duration-300 flex items-center justify-center font-medium transform shadow-lg"
+                >
+                    Sign In
+                </button>
+            )}
+        </li>
+
                     {/* Mobile Donate Button */}
                     <div className="p-6">
                         {pathname === "/store-demo" ? (
@@ -504,186 +619,40 @@ const Header = () => {
             </div>
 
             {/* === Sign In Modal === */}
-            {showSignInModal && (
-                <div className="fixed inset-0 flex items-center justify-center z-[70] p-4">
-                    <div className="bg-white rounded-2xl shadow-2xl w-full max-w-2xl transform transition-all duration-300 animate-modal">
-                        {/* Modal Header */}
-                        <div className="flex items-center justify-between px-6 pt-6 border-b border-gray-100">
-                            <h2 className="text-2xl font-bold text-gray-800">Sign In</h2>
-                            <button
-                                onClick={closeModals}
-                                className="p-2 hover:bg-gray-100 rounded-full transition-colors duration-200"
-                            >
-                                <FaTimes className="text-gray-500" />
-                            </button>
-                        </div>
-
-                        {/* Modal Body */}
-                        <div className="p-6 space-y-6">
-                            <div className="text-center space-y-6">
-                              
-                                <p className="text-black font-splash text-3xl lg:text-5xl text-left ">Enter your mobile phone number</p>
-                                <p className="text-black font-medium text-lg ">We’ll text you to confirm your number. Standard message and data rates apply.</p>
-                            </div>
-
-                            <div className="space-y-4">
-                                <div>
-                                
-                                    <input
-                                        type="tel"
-                                        value={phoneNumber}
-                                        onChange={handlePhoneChange}
-                                        placeholder="(555) 123-4567"
-                                        className={`w-full px-4 py-3 border rounded-xl  outline-none transition-all duration-200 ${
-                                            phoneError ? 'border-red-500' : 'border-gray-300'
-                                        }`}
-                                        maxLength={14}
-                                    />
-                                    {phoneError && (
-                                        <p className="mt-2 text-sm text-red-600 flex items-center">
-                                            <span className="mr-1">⚠️</span>
-                                            {phoneError}
-                                        </p>
-                                    )}
-                                </div>
-
-                                <button
-                                    onClick={handleSendVerificationCode}
-                                    disabled={isLoading}
-                                    className={`w-full py-3 px-4 rounded-xl font-semibold transition-all duration-300 transform ${
-                                        isLoading 
-                                            ? 'bg-gray-400 cursor-not-allowed' 
-                                            : 'bg-[#000]  active:scale-95'
-                                    } text-white shadow-lg`}
-                                >
-                                    {isLoading ? (
-                                        <div className="flex items-center justify-center">
-                                            <div className="w-5 h-5 border-2 border-white border-t-transparent rounded-full animate-spin mr-2"></div>
-                                            Sending...
-                                        </div>
-                                    ) : (
-                                        'Send Verification Code'
-                                    )}
-                                </button>
-                            </div>
-
-                            <div className="text-center text-sm text-gray-500">
-                                By continuing, you agree to our Terms of Service
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            )}
+            <SignInModal
+                isOpen={showSignInModal}
+                onClose={closeModals}
+                onSendCode={handleSendVerificationCode}
+                phoneNumber={phoneNumber}
+                onPhoneChange={handlePhoneChange}
+                phoneError={phoneError}
+                isLoading={isLoading}
+            />
 
             {/* === OTP Modal === */}
-            {showOTPModal && (
-                <div className="fixed inset-0 flex items-center justify-center z-[70] p-4">
-                    <div className="bg-white rounded-2xl shadow-2xl w-full max-w-2xl transform transition-all duration-300 animate-modal">
-                        {/* Modal Header */}
-                        <div className="flex items-center justify-between p-6 border-b border-gray-100">
-                            <h2 className="text-2xl font-bold text-gray-800">Verify Code</h2>
-                            <button
-                                onClick={closeModals}
-                                className="p-2 hover:bg-gray-100 rounded-full transition-colors duration-200"
-                            >
-                                <FaTimes className="text-gray-500" />
-                            </button>
-                        </div>
-
-                        {/* Modal Body */}
-                        <div className="p-6 space-y-6">
-                            <div className="text-center">
-                                <div className="mx-auto w-16 h-16 bg-gradient-to-br from-[#8BC34A] to-[#7CB342] rounded-full flex items-center justify-center mb-4 shadow-lg">
-                                    <div className="text-white text-xl font-bold">🔒</div>
-                                </div>
-                                <p className="text-gray-600">
-                                    We've sent a 5-digit code to<br />
-                                    <span className="font-semibold text-gray-800">{phoneNumber}</span>
-                                </p>
-                            </div>
-
-                            <div className="space-y-4">
-                                <div>
-                                    <label className="block text-sm font-medium text-gray-700 mb-3 text-center">
-                                        Enter Verification Code
-                                    </label>
-                                    
-                                    {/* OTP Input Fields */}
-                                    <div className="flex justify-center space-x-3">
-                                        {otp.map((digit, index) => (
-                                            <input
-                                                key={index}
-                                                ref={(el) => (otpRefs.current[index] = el)}
-                                                type="text"
-                                                inputMode="numeric"
-                                                pattern="[0-9]*"
-                                                value={digit}
-                                                onChange={(e) => handleOtpChange(index, e.target.value.replace(/[^0-9]/g, ''))}
-                                                onKeyDown={(e) => handleOtpKeyDown(index, e)}
-                                                className={`w-12 h-12 text-center text-xl font-bold border-2 rounded-xl  outline-none transition-all duration-200 ${
-                                                    otpError ? 'border-red-500' : 'border-gray-300'
-                                                } ${digit ? ' bg-green-50' : ''}`}
-                                                maxLength={1}
-                                            />
-                                        ))}
-                                    </div>
-                                    
-                                    {otpError && (
-                                        <p className="mt-3 text-sm text-red-600 text-center flex items-center justify-center">
-                                            <span className="mr-1">⚠️</span>
-                                            {otpError}
-                                        </p>
-                                    )}
-                                </div>
-
-                                <button
-                                    onClick={handleVerifyOTP}
-                                    disabled={isLoading}
-                                    className={`w-full py-3 px-4 rounded-xl font-semibold transition-all duration-300 transform ${
-                                        isLoading 
-                                            ? 'bg-gray-400 cursor-not-allowed' 
-                                            : 'bg-[#000]'
-                                    } text-white shadow-lg`}
-                                >
-                                    {isLoading ? (
-                                        <div className="flex items-center justify-center">
-                                            <div className="w-5 h-5 border-2 border-white border-t-transparent rounded-full animate-spin mr-2"></div>
-                                            Verifying...
-                                        </div>
-                                    ) : (
-                                        'Verify Code'
-                                    )}
-                                </button>
-
-                                {/* Resend Code */}
-                                <div className="text-center">
-                                    <button
-                                        onClick={() => {
-                                            setShowOTPModal(false);
-                                            setShowSignInModal(true);
-                                            setOtp(['', '', '', '', '']);
-                                            setOtpError('');
-                                        }}
-                                        className="text-[#000] hover:text-[#7CB342] font-medium transition-colors duration-200"
-                                    >
-                                        Didn't receive code? Resend
-                                    </button>
-                                </div>
-                            </div>
-
-                            <div className="text-center text-sm text-gray-500">
-                                Code expires in 5 minutes
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            )}
+            <OTPModal
+                isOpen={showOTPModal}
+                onClose={closeModals}
+                onVerify={handleVerifyOTP}
+                onResend={() => {
+                    setShowOTPModal(false);
+                    setShowSignInModal(true);
+                    setOtp(['', '', '', '', '']);
+                    setOtpError('');
+                }}
+                phoneNumber={phoneNumber}
+                otp={otp}
+                onOtpChange={handleOtpChange}
+                onOtpKeyDown={handleOtpKeyDown}
+                otpError={otpError}
+                isLoading={isLoading}
+                otpRefs={otpRefs}
+            />
 
             <HeaderShoppingCart
                 isOpen={isCartOpen}
                 onClose={() => setIsCartOpen(false)}
             />
-
         </>
     );
 };

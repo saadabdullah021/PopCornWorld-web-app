@@ -9,19 +9,19 @@ const AboutUsHeroSection = () => {
         <div className="max-w-7xl mx-auto text-center">
           {/* About Us Label */}
           <div className="mb-8">
-            <h2 className="text-lg sm:text-xl md:text-2xl font-bold tracking-widest uppercase opacity-90 mb-4">
+            <h2 className="sub_heading font-bold tracking-widest uppercase opacity-90 mb-4">
               About Us
             </h2>
           </div>
 
           {/* Main Heading */}
-          <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl  font-splash  leading-tight tracking-tight uppercase mb-8">
+          <h1 className="main_heading font-splash  leading-tight tracking-tight uppercase mb-8">
             Doing the World a Flavor
           </h1>
 
           {/* Description */}
           <div className="max-w-6xl mx-auto">
-            <p className="text-lg  md:text-xl lg:text-2xl leading-relaxed font-light opacity-95">
+            <p className=" main_description leading-relaxed font-light opacity-95">
               Popcorn World exists to support and create joy for America. Every fundraiser we host empowers our communities to grow and 50% of every purchase made on our site goes to the efforts of building productive and cohesive communities.
             </p>
           </div>
@@ -29,14 +29,14 @@ const AboutUsHeroSection = () => {
       </div>
 
       {/* Bottom Section with Team Image */}
-      <div className="relative h-80 md:h-96 lg:h-[500px] xl:h-[600px]">
+      <div className="relative h-72 md:h-96 lg:h-[500px] xl:h-[600px] 2xl:h-[888px]">
         {/* Background Image */}
         <div className="absolute inset-0">
           <Image
             src={heroImage}
             alt="Popcorn World team members working together in colorful workspace"
             fill
-            className="object-cover object-center"
+            className="object-fill object-center"
             sizes="100vw"
             priority
             placeholder="blur"

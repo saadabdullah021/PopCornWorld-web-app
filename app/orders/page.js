@@ -170,7 +170,7 @@ const Orders = () => {
       <div className="bg-white shadow-sm border-b border-gray-300">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="py-6">
-            <h1 className="text-3xl font-bold text-gray-900">My Orders</h1>
+            <h1 className="text-3xl font-bold text-black">My Orders</h1>
             <p className="mt-2 text-gray-600">Track and manage your order history</p>
           </div>
         </div>
@@ -182,7 +182,7 @@ const Orders = () => {
           <div className="lg:col-span-4 xl:col-span-3">
             <div className="bg-white rounded-lg shadow-sm border border-gray-300">
               <div className="p-6 border-b border-gray-400">
-                <h2 className="text-lg font-semibold text-gray-900 mb-4">Orders</h2>
+                <h2 className="text-lg font-semibold text-black mb-4">Orders</h2>
                 
                 {/* Search */}
                 <div className="relative mb-4">
@@ -228,7 +228,7 @@ const Orders = () => {
                       >
                         <div className="flex items-center justify-between">
                           <div>
-                            <p className="font-medium text-gray-900">
+                            <p className="font-medium text-black">
                               #{truncateOrderId(order.order_id)}
                             </p>
                             <p className="text-sm text-gray-500">
@@ -239,7 +239,7 @@ const Orders = () => {
                             {order.order_status.toUpperCase()}
                           </span>
                         </div>
-                        <p className="mt-2 text-sm font-medium text-gray-900">
+                        <p className="mt-2 text-sm font-medium text-black">
                           {base_currency}{order.total_amount}
                         </p>
                       </li>
@@ -262,7 +262,7 @@ const Orders = () => {
                 <div className="bg-white rounded-lg shadow-sm border border-gray-300 p-6">
                   <div className="flex items-center justify-between flex-wrap gap-4">
                     <div>
-                      <h2 className="text-2xl font-bold text-gray-900">
+                      <h2 className="text-2xl font-bold text-black">
                         Order #{selectedOrder.order_id}
                       </h2>
                       <p className="text-gray-600 mt-1">
@@ -278,7 +278,7 @@ const Orders = () => {
                 {/* Items Summary */}
                 <div className="bg-white rounded-lg shadow-sm border border-gray-300">
                   <div className="p-6 border-b border-gray-400">
-                    <h3 className="text-lg font-semibold text-gray-900 flex items-center">
+                    <h3 className="text-lg font-semibold text-black flex items-center">
                       <Package className="h-5 w-5 mr-2" />
                       Items Summary
                     </h3>
@@ -297,21 +297,21 @@ const Orders = () => {
                         {selectedOrder.orderitems.map((item) => (
                           <tr key={item.id}>
                             <td className="px-6 py-4 whitespace-nowrap">
-                              <div className="font-medium text-gray-900">
+                              <div className="font-medium text-black">
                                 {item.product?.title || (item.relation_from === 'donation' && 'Donation Box')}
                               </div>
                             </td>
-                            <td className="px-6 py-4 whitespace-nowrap text-gray-900">
+                            <td className="px-6 py-4 whitespace-nowrap text-black">
                               {item.total_quantity}
                             </td>
-                            <td className="px-6 py-4 whitespace-nowrap text-gray-900">
+                            <td className="px-6 py-4 whitespace-nowrap text-black">
                               {base_currency}
                               {item.product?.price
                                 ? parseFloat(item.product.price).toFixed(2)
                                 : parseFloat(donation_amount).toFixed(2)
                               }
                             </td>
-                            <td className="px-6 py-4 whitespace-nowrap font-medium text-gray-900">
+                            <td className="px-6 py-4 whitespace-nowrap font-medium text-black">
                               {base_currency}
                               {item.product?.price
                                 ? (item.total_quantity * item.product.price).toFixed(2)
@@ -328,7 +328,7 @@ const Orders = () => {
                 <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
                   {/* Shipping Address */}
                   <div className="bg-white rounded-lg shadow-sm border border-gray-300 p-6">
-                    <h3 className="text-lg font-semibold text-gray-900 flex items-center mb-4">
+                    <h3 className="text-lg font-semibold text-black flex items-center mb-4">
                       <MapPin className="h-5 w-5 mr-2" />
                       Shipping Address
                     </h3>
@@ -343,7 +343,7 @@ const Orders = () => {
 
                   {/* Order Summary */}
                   <div className="bg-white rounded-lg shadow-sm border border-gray-300 p-6">
-                    <h3 className="text-lg font-semibold text-gray-900 flex items-center mb-4">
+                    <h3 className="text-lg font-semibold text-black flex items-center mb-4">
                       <DollarSign className="h-5 w-5 mr-2" />
                       Order Summary
                     </h3>
@@ -364,7 +364,7 @@ const Orders = () => {
                       </div>
                       <div className="border-t pt-3">
                         <div className="flex justify-between">
-                          <span className="text-lg font-semibold text-gray-900">Total Amount</span>
+                          <span className="text-lg font-semibold text-black">Total Amount</span>
                           <span className="text-lg font-bold text-indigo-600">
                             {base_currency}{selectedOrder.total_amount}
                           </span>
@@ -376,7 +376,7 @@ const Orders = () => {
 
                 {/* Billing Address */}
                 <div className="bg-white rounded-lg shadow-sm border border-gray-300 p-6">
-                  <h3 className="text-lg font-semibold text-gray-900 flex items-center mb-4">
+                  <h3 className="text-lg font-semibold text-black flex items-center mb-4">
                     <User className="h-5 w-5 mr-2" />
                     Billing Address
                   </h3>
@@ -396,7 +396,7 @@ const Orders = () => {
             ) : (
               <div className="bg-white rounded-lg shadow-sm border p-12 text-center">
                 <Package className="h-16 w-16 text-gray-400 mx-auto mb-4" />
-                <h3 className="text-lg font-medium text-gray-900 mb-2">No Order Selected</h3>
+                <h3 className="text-lg font-medium text-black mb-2">No Order Selected</h3>
                 <p className="text-gray-600">Select an order from the sidebar to view details</p>
               </div>
             )}
