@@ -1,12 +1,12 @@
 'use client'
 import "./globals.css";
-import HeroSection from "./components/HeroSection";
-import PopularCategories from "./components/PopularCategories";
-import ExploreProjectsSlider from "./components/ExploreProjectsSlider";
-import JoyMissionSection from "./components/JoyMissionSection";
-import VirtualFundraisingSection from "./components/VirtualFundraisingSection";
-import SuccessStoriesSlider from "./components/SuccessStoriesSlider";
-import PopcornFlavorsHero from "./components/PopcornFlavorsHero";
+import HeroSection from "./components/HomeComponents/HeroSection";
+import PopularCategories from "./components/HomeComponents/PopularCategories";
+import ExploreProjectsSlider from "./components/HomeComponents/ExploreProjectsSlider";
+import JoyMissionSection from "./components/HomeComponents/JoyMissionSection";
+import VirtualFundraisingSection from "./components/HomeComponents/VirtualFundraisingSection";
+import SuccessStoriesSlider from "./components/HomeComponents/SuccessStoriesSlider";
+import PopcornFlavorsHero from "./components/HomeComponents/PopcornFlavorsHero";
 import { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { fetchCampaigns } from './store/slices/appSlice';

@@ -17,9 +17,9 @@ import {
     FaEye,
     FaEyeSlash
 } from "react-icons/fa";
-import { RiShoppingBag4Fill } from "react-icons/ri";
+
 import logo from '../../public/fundraiserLogo.png'
-import { Home, News, Pages, Project } from "./Menus";
+
 import Image from "next/image";
 import { usePathname } from "next/navigation";
 import SignInModal from "./SignInModal";

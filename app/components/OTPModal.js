@@ -155,7 +155,7 @@ const OTPModal = ({
               flex-1 py-3 px-4 font-medium rounded-full transition-all duration-200 active:scale-95
               ${isLoading || otp.join('').length !== 5
                 ? 'bg-gray-300 cursor-not-allowed text-gray-500' 
-                : 'bg-[#3333cb] hover:bg-[#2a2ab3] text-white shadow-lg hover:shadow-xl'
+                : 'bg-[#8bc34a]  text-white shadow-lg hover:shadow-xl'
               }
             `}
           >

@@ -43,7 +43,15 @@ const ShoppingCartIcon = ({ itemCount, onClick }) => {
       className="relative text-sm font-medium outline-none ring-none rounded-full cursor-pointer text-white mr-3  transition-transform duration-200 focus:outline-none "
       aria-label={`Shopping cart with ${itemCount} items`}
     >
-      <RiShoppingBag4Fill size={20} />
+        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                                <path d="m15 11-1 9" />
+                                <path d="m19 11-4-7" />
+                                <path d="M2 11h20" />
+                                <path d="m3.5 11 1.6 7.4a2 2 0 0 0 2 1.6h9.8a2 2 0 0 0 2-1.6l1.7-7.4" />
+                                <path d="M4.5 15.5h15" />
+                                <path d="m5 11 4-7" />
+                                <path d="m9 11 1 9" />
+                            </svg>
 
       {/* Item Count Badge */}
       {itemCount > 0 && (
@@ -331,7 +339,7 @@ const HeaderShoppingCart = ({ isOpen, onClose }) => {
             <div className="border-t border-gray-200 p-6">
               <Link href='/checkout'>
               <button
-                className="w-full bg-blue-600 hover:bg-blue-700 text-white font-bold py-3 px-6 rounded-3xl transition-all duration-300 transform  focus:outline-none  flex items-center justify-center space-x-3"
+                className="w-full bg-[#8ac24a] text-white font-bold py-3 px-6 rounded-3xl transition-all duration-300 transform  focus:outline-none  flex items-center justify-center space-x-3"
                 onClick={onClose}
               >
                 <span>Checkout</span>

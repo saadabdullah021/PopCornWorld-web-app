@@ -1,6 +1,6 @@
 import React from 'react';
 import Image from 'next/image';
-import girl_team from '../../public/Girls_team.jpg'
+import girl_team from '../../../public/Girls_team.jpg'
 const JoyMissionSection = () => {
   const services = [
     {

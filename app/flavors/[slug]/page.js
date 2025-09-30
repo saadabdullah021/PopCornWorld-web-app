@@ -111,9 +111,7 @@ const FlavorDetailsPage = () => {
   };
 
   const handleAddToCart = () => {
-    // Add your cart logic here
-    console.log(`Adding ${flavor.name} to cart for $${flavor.price}`);
-    // You can integrate with your cart state management here
+  
   };
 
   if (loading) {
@@ -195,7 +193,7 @@ const FlavorDetailsPage = () => {
                     onClick={() => setSelectedImageIndex(index)}
                     className={`flex-shrink-0 w-20 h-20 rounded-lg overflow-hidden border-2 transition-all duration-300 ${
                       selectedImageIndex === index 
-                        ? 'border-[#ffc222] shadow-lg scale-105' 
+                        ? 'border-[#8bc34a] shadow-lg scale-105' 
                         : 'border-gray-200 hover:border-gray-300 hover:scale-102'
                     }`}
                   >
@@ -236,7 +234,7 @@ const FlavorDetailsPage = () => {
 
             {/* Static Line with Icon */}
             <div className="flex items-center gap-3 py-6 border-t border-b border-gray-200">
-              <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="text-[#ffc222] flex-shrink-0">
+              <svg xmlns="http://www.w3.org/2000/svg"  width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#8bc34a" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="text-[#ffc222] flex-shrink-0">
                 <path d="m7.5 4.27 9 5.15"/>
                 <path d="M21 8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16Z"/>
                 <path d="m3.3 7 8.7 5 8.7-5"/>
@@ -252,7 +250,7 @@ const FlavorDetailsPage = () => {
             {/* Add to Cart Button */}
             <button 
               onClick={handleAddToCart}
-              className="w-full inline-flex items-center gap-3 justify-center bg-[#000] text-white font-bold py-3 px-8 rounded-3xl transition-all duration-300 transform hover:shadow-lg focus:outline-none text-lg"
+              className="w-full inline-flex items-center gap-3 justify-center bg-[#8bc34a] text-white font-bold py-3 px-8 rounded-3xl transition-all duration-300 transform hover:shadow-lg focus:outline-none text-lg"
             >
               Add to Cart   ${flavor.price.toFixed(2)}
               <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">

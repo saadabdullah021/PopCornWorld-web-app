@@ -62,8 +62,8 @@ const SignInModal = ({
               disabled={isLoading}
               className={`w-full py-3 px-4 rounded-xl font-semibold transition-all duration-300 transform ${
                 isLoading
-                  ? 'bg-gray-400 cursor-not-allowed'
-                  : 'bg-[#000] active:scale-95'
+                  ? 'bg-gray-700 cursor-not-allowed'
+                  : 'bg-[#8bc34a] active:scale-95'
               } text-white shadow-lg`}
             >
               {isLoading ? (

@@ -453,7 +453,7 @@ const FundraisingOnboarding = () => {
                                 onChange={(e) => handleInputChange('email', e.target.value)}
                                 className="w-full p-4 rounded-xl border  border-gray-300 focus:outline-none text-white  placeholder-white  transition-all duration-200"
                             />
-                            {formErrors.email && <p className="text-red-400 text-sm">{formErrors.email}</p>}
+                            {formErrors.email && <p className="text-red-400 font-medium text-sm">{formErrors.email}</p>}
                         </div>
                     </div>
                 );
@@ -476,7 +476,7 @@ const FundraisingOnboarding = () => {
                                 onChange={(e) => handleInputChange('teamName', e.target.value)}
                                 className="w-full p-4 rounded-xl border border-gray-300 focus:outline-none text-white  placeholder-white  transition-all duration-200"
                             />
-                            {formErrors.teamName && <p className="text-red-400 text-sm">{formErrors.teamName}</p>}
+                            {formErrors.teamName && <p className="text-red-400 font-medium text-sm">{formErrors.teamName}</p>}
                         </div>
                     </div>
                 );
@@ -503,7 +503,7 @@ const FundraisingOnboarding = () => {
                                         <option key={type.id} className='text-black' value={type.id}>{type.name}</option>
                                     ))}
                                 </select>
-                                {formErrors.organizationType && <p className="text-red-400 text-sm mt-1">{formErrors.organizationType}</p>}
+                                {formErrors.organizationType && <p className="text-red-400 font-medium text-sm mt-1">{formErrors.organizationType}</p>}
                             </div>
 
                             {formData.organizationType && (
@@ -518,7 +518,7 @@ const FundraisingOnboarding = () => {
                                             <option key={subType.id} className='text-black' value={subType.id}>{subType.name}</option>
                                         ))}
                                     </select>
-                                    {formErrors.organizationSubType && <p className="text-red-400 text-sm mt-1">{formErrors.organizationSubType}</p>}
+                                    {formErrors.organizationSubType && <p className="text-red-400 font-medium text-sm mt-1">{formErrors.organizationSubType}</p>}
                                 </div>
                             )}
 
@@ -530,7 +530,7 @@ const FundraisingOnboarding = () => {
                                     onChange={(e) => handleInputChange('organizationName', e.target.value)}
                                     className="w-full p-4 rounded-xl border border-gray-300 focus:outline-none text-white  placeholder-white  transition-all duration-200"
                                 />
-                                {formErrors.organizationName && <p className="text-red-400 text-sm mt-1">{formErrors.organizationName}</p>}
+                                {formErrors.organizationName && <p className="text-red-400 font-medium text-sm mt-1">{formErrors.organizationName}</p>}
                             </div>
 
                             <div>
@@ -541,7 +541,7 @@ const FundraisingOnboarding = () => {
                                     onChange={(e) => handleInputChange('zipCode', e.target.value.replace(/\D/g, '').slice(0, 5))}
                                     className="w-full p-4 rounded-xl border border-gray-300 focus:outline-none text-white  placeholder-white  transition-all duration-200"
                                 />
-                                {formErrors.zipCode && <p className="text-red-400 text-sm mt-1">{formErrors.zipCode}</p>}
+                                {formErrors.zipCode && <p className="text-red-400 font-medium text-sm mt-1">{formErrors.zipCode}</p>}
                             </div>
                         </div>
                     </div>
@@ -586,7 +586,7 @@ const FundraisingOnboarding = () => {
                                     Pick a Specific Date
                                 </button>
 
-                                {formErrors.startTime && <p className="text-red-400 text-sm">{formErrors.startTime}</p>}
+                                {formErrors.startTime && <p className="text-red-400 font-medium text-sm">{formErrors.startTime}</p>}
                             </div>
                         ) : (
                             <div className="space-y-6">
@@ -659,7 +659,7 @@ const FundraisingOnboarding = () => {
                                     <span>Back to options</span>
                                 </button>
 
-                                {formErrors.dates && <p className="text-red-400 text-sm">{formErrors.dates}</p>}
+                                {formErrors.dates && <p className="text-red-400 font-medium text-sm">{formErrors.dates}</p>}
                             </div>
                         )}
                     </div>
@@ -688,7 +688,7 @@ const FundraisingOnboarding = () => {
                                 </button>
                             ))}
                         </div>
-                        {formErrors.membersCount && <p className="text-red-400 text-sm mt-4">{formErrors.membersCount}</p>}
+                        {formErrors.membersCount && <p className="text-red-400 font-medium text-sm mt-4">{formErrors.membersCount}</p>}
                     </div>
                 );
 
@@ -722,7 +722,7 @@ const FundraisingOnboarding = () => {
                                         onChange={(e) => handleInputChange('firstName', e.target.value)}
                                         className="w-full p-4 rounded-xl border border-gray-300 focus:outline-none text-white  placeholder-white  transition-all duration-200"
                                     />
-                                    {formErrors.firstName && <p className="text-red-400 text-sm mt-1">{formErrors.firstName}</p>}
+                                    {formErrors.firstName && <p className="text-red-400 font-medium text-sm mt-1">{formErrors.firstName}</p>}
                                 </div>
                                 <div>
                                     <input
@@ -732,7 +732,7 @@ const FundraisingOnboarding = () => {
                                         onChange={(e) => handleInputChange('lastName', e.target.value)}
                                         className="w-full p-4 rounded-xl border border-gray-300 focus:outline-none text-white  placeholder-white  transition-all duration-200"
                                     />
-                                    {formErrors.lastName && <p className="text-red-400 text-sm mt-1">{formErrors.lastName}</p>}
+                                    {formErrors.lastName && <p className="text-red-400 font-medium text-sm mt-1">{formErrors.lastName}</p>}
                                 </div>
                             </div>
 
@@ -744,7 +744,7 @@ const FundraisingOnboarding = () => {
                                     onChange={(e) => handleInputChange('phoneNumber', e.target.value)}
                                     className="w-full p-4 rounded-xl border border-gray-300 focus:outline-none text-white  placeholder-white  transition-all duration-200"
                                 />
-                                {formErrors.phoneNumber && <p className="text-red-400 text-sm mt-1">{formErrors.phoneNumber}</p>}
+                                {formErrors.phoneNumber && <p className="text-red-400 font-medium text-sm mt-1">{formErrors.phoneNumber}</p>}
                             </div>
 
                             <div className="flex items-start space-x-3 mt-6">
@@ -781,7 +781,7 @@ const FundraisingOnboarding = () => {
                                     <span className="text-yellow-400 hover:text-white underline transition-colors duration-200">Privacy Policy</span>
                                 </label>
                             </div>
-                            {formErrors.acceptTerms && <p className="text-red-400 text-sm">{formErrors.acceptTerms}</p>}
+                            {formErrors.acceptTerms && <p className="text-red-400 font-medium text-sm">{formErrors.acceptTerms}</p>}
                         </div>
                     </div>
                 );
@@ -825,7 +825,7 @@ const FundraisingOnboarding = () => {
                         </div>
 
                         {formErrors.otp && (
-                            <p className="text-red-400 text-sm text-center">{formErrors.otp}</p>
+                            <p className="text-red-400 font-medium text-sm text-center">{formErrors.otp}</p>
                         )}
                     </div>
                 );
@@ -859,7 +859,7 @@ const FundraisingOnboarding = () => {
                                             setCurrentStep(currentStep - 1);
                                         }
                                     }}
-                                    className="group relative  bg-black text-white px-6 py-3 rounded-full transition-all duration-300 transform flex items-center font-medium overflow-hidden"
+                                    className="group relative  bg-[#8ac24a] text-white px-6 py-3 rounded-full transition-all duration-300 transform flex items-center font-medium overflow-hidden"
                                 >
                                     Back
                                 </button>
@@ -868,7 +868,7 @@ const FundraisingOnboarding = () => {
                             <button
                                 onClick={handleNext}
                                 disabled={isLoading}
-                                className={`group relative  bg-black text-white px-6 py-3 rounded-full transition-all duration-300 transform flex items-center font-medium overflow-hidden  ${currentStep === 0 ? 'ml-auto' : ''
+                                className={`group relative  bg-[#8ac24a] text-white px-6 py-3 rounded-full transition-all duration-300 transform flex items-center font-medium overflow-hidden  ${currentStep === 0 ? 'ml-auto' : ''
                                     }`}
                             >
 
