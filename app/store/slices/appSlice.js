@@ -1,6 +1,6 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit'
 import axiosInstance from '../../axios'
-import { get_global_settings, get_campaigns } from '../../services/api/endpoints'
+import { get_global_settings, get_campaigns, get_products } from '../../services/api/endpoints'
 
 export const fetchGlobalSettings = createAsyncThunk(
   'app/fetchGlobalSettings',
@@ -18,6 +18,14 @@ export const fetchCampaigns = createAsyncThunk(
   }
 )
 
+export const fetchProducts = createAsyncThunk(
+  'app/fetchProducts',
+  async () => {
+    const response = await axiosInstance.get(get_products)
+    return response.data
+  }
+)
+
 const initialState = {
   isLoading: false,
   theme: 'light',
@@ -30,7 +38,10 @@ const initialState = {
   globalSettingsError: null,
   campaigns: null,
   campaignsLoading: false,
-  campaignsError: null
+  campaignsError: null,
+  products: null,
+  productsLoading: false,
+  productsError: null
 }
 
 const appSlice = createSlice({
@@ -97,6 +108,18 @@ const appSlice = createSlice({
       .addCase(fetchCampaigns.rejected, (state, action) => {
         state.campaignsLoading = false
         state.campaignsError = action.error.message
+      })
+      .addCase(fetchProducts.pending, (state) => {
+        state.productsLoading = true
+        state.productsError = null
+      })
+      .addCase(fetchProducts.fulfilled, (state, action) => {
+        state.productsLoading = false
+        state.products = action.payload.data
+      })
+      .addCase(fetchProducts.rejected, (state, action) => {
+        state.productsLoading = false
+        state.productsError = action.error.message
       })
   }
 })
