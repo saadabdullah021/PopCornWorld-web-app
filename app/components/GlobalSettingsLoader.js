@@ -7,7 +7,7 @@ import { fetchGlobalSettings } from '../store/slices/appSlice'
 export default function GlobalSettingsLoader() {
   const dispatch = useDispatch()
   const { globalSettings, globalSettingsLoading, globalSettingsError } = useSelector(state => state.app)
-  console.log(globalSettings, globalSettingsLoading, globalSettingsError)
+
   useEffect(() => {
     if (!globalSettings && !globalSettingsLoading) {
       dispatch(fetchGlobalSettings())

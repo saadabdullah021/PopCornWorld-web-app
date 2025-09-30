@@ -311,3 +311,6 @@ button{
 }
 
 
+.swiper-pagination {
+  display: none !important;
+}

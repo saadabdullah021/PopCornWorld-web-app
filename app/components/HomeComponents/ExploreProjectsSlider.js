@@ -8,7 +8,7 @@ const ExploreProjectsSlider = ({ campaigns, campaignsLoading, campaignsError, gl
   const [isTransitioning, setIsTransitioning] = useState(false);
   const [isAutoPlaying, setIsAutoPlaying] = useState(true);
   const sliderRef = useRef(null);
-  console.log(campaigns, campaignsLoading, campaignsError, globalSettings)
+
   // Get currency from global settings
   const getCurrency = () => {
     if (!globalSettings) return '$';
@@ -28,6 +28,7 @@ const ExploreProjectsSlider = ({ campaigns, campaignsLoading, campaignsError, gl
       
       return {
         id: campaign.id,
+        slug: campaign.slug,
         title: campaign.campaign_title,
         author: campaign.fundraiser?.name || "Unknown",
         category: "Campaign",

@@ -173,11 +173,11 @@ const CollectionsSection = () => {
                 <div className='flex items-center gap-4'>
                   <button 
                     onClick={() => handleMoreInfo(collection)}
-                    className="w-full inline-flex items-center gap-3 justify-center mt-6 bg-[#000] text-white font-bold py-3 px-6 rounded-3xl transition-all duration-300 transform hover:shadow-lg focus:outline-none"
+                    className="w-full inline-flex items-center gap-3 justify-center mt-6 bg-[#8bc34a] text-white font-bold py-3 px-6 rounded-3xl transition-all duration-300 transform hover:shadow-lg focus:outline-none"
                   >
                     More Info
                   </button>
-                  <button className="w-full inline-flex items-center whitespace-nowrap gap-3 justify-center mt-6 bg-[#000] text-white font-bold py-3 px-6 rounded-3xl transition-all duration-300 transform hover:shadow-lg focus:outline-none">
+                  <button className="w-full inline-flex items-center whitespace-nowrap gap-3 justify-center mt-6 bg-[#8bc34a] text-white font-bold py-3 px-6 rounded-3xl transition-all duration-300 transform hover:shadow-lg focus:outline-none">
                     Add to Cart
                     <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
                       <path d="m15 11-1 9"/>
@@ -204,7 +204,7 @@ const CollectionsSection = () => {
             <button
               onClick={handleLoadMore}
               disabled={isLoading}
-              className="inline-flex items-center px-6 py-3 bg-gradient-to-r from-gray-800 to-black hover:from-black hover:to-black text-white font-bold rounded-full transition-all duration-300 transform  hover:shadow-xl focus:outline-none focus:ring-4 focus:ring-gray-600 focus:ring-opacity-50 disabled:opacity-50 disabled:cursor-not-allowed"
+              className="inline-flex items-center px-6 py-3 bg-[#8bc34a] text-white font-bold rounded-full transition-all duration-300 transform  hover:shadow-xl focus:outline-none focus:ring-4 focus:ring-gray-600 focus:ring-opacity-50 disabled:opacity-50 disabled:cursor-not-allowed"
             >
               {isLoading ? (
                 <>

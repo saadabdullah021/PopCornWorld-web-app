@@ -28,8 +28,7 @@ const TrackOrderPage = () => {
       // Simulate API call - replace with your actual tracking logic
       await new Promise(resolve => setTimeout(resolve, 1500));
       
-      // Handle successful tracking request here
-      console.log('Tracking order for email:', email);
+
       
       // You would typically redirect to tracking results or show success message
       alert(`Tracking information will be sent to ${email}`);
@@ -117,7 +116,7 @@ const TrackOrderPage = () => {
             <button
               onClick={handleSubmit}
               disabled={isLoading}
-              className="lg:w-32 w-full lg:ml-auto bg-black cursor-pointer disabled:bg-gray-400 text-white font-bold py-3 px-6 rounded-3xl transition-all duration-300 transform  hover:shadow-lg focus:outline-none disabled:transform-none disabled:cursor-not-allowed flex items-center justify-center space-x-2"
+              className="lg:w-32 w-full lg:ml-auto bg-[#8bc34a] cursor-pointer disabled:bg-gray-700 text-white font-bold py-3 px-6 rounded-3xl transition-all duration-300 transform  hover:shadow-lg focus:outline-none disabled:transform-none disabled:cursor-not-allowed flex items-center justify-center space-x-2"
             >
               {isLoading ? (
                 <>
