@@ -95,10 +95,13 @@ const AllFlavorsSection = ({ products, productsLoading, productsError }) => {
                   <div className="relative">
                     <div className="w-96 h-64 relative">
                       <Image
-                        src={flavor.image ? `https://onebigmediacompany.online/${flavor.image}` : demoImage}
+                        src={flavor.image ? `https://onebigmediacompany.online/${flavor.image}` : '/pop_packet.png'}
                         alt={flavor.name || flavor.title || 'Popcorn Flavor'}
                         fill
                         className="object-contain drop-shadow-2xl w-full h-full transition-transform duration-500"
+                        onError={(e) => {
+                          e.target.src = '/pop_packet.png';
+                        }}
                       />
                     </div>
                   </div>
