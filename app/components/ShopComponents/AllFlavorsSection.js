@@ -4,20 +4,9 @@ import Image from 'next/image';
 import demoImage from '../../../public/dance_fundraiser.png';
 import { TiShoppingCart } from 'react-icons/ti';
 
-const AllFlavorsSection = ({ products, productsLoading, productsError }) => {
-  const [visibleCount, setVisibleCount] = useState(6);
-  const [isLoading, setIsLoading] = useState(false);
-
+const AllFlavorsSection = ({ products, productsLoading, productsError, pagination, onLoadMore }) => {
   // Use only API data
   const allFlavors = products || [];
-
-  const handleLoadMore = () => {
-    setIsLoading(true);
-    setTimeout(() => {
-      setVisibleCount(allFlavors.length);
-      setIsLoading(false);
-    }, 500);
-  };
 
   const handleMoreInfo = (flavor) => {
     const slug = flavor.name.toLowerCase().replace(/\s+/g, '-').replace(/[^a-z0-9-]/g, '');
@@ -25,8 +14,8 @@ const AllFlavorsSection = ({ products, productsLoading, productsError }) => {
     window.location.href = `/flavors/${slug}`;
   };
 
-  const visibleFlavors = (allFlavors || []).slice(0, visibleCount);
-  const hasMore = visibleCount < (allFlavors || []).length;
+  // Simple pagination logic: show Load More if we don't have all records yet
+  const hasMore = pagination && allFlavors && allFlavors.length < pagination.totalRecords;
 
   // Show loading state
   if (productsLoading) {
@@ -80,7 +69,7 @@ const AllFlavorsSection = ({ products, productsLoading, productsError }) => {
 
         {/* Flavors Grid */}
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8 mb-12">
-          {visibleFlavors && visibleFlavors.length > 0 ? visibleFlavors.map((flavor, index) => (
+          {allFlavors && allFlavors.length > 0 ? allFlavors.map((flavor, index) => (
             <div
               key={flavor.id}
               className="group bg-white rounded-2xl shadow-lg transition-all duration-500 transform overflow-hidden"
@@ -95,7 +84,7 @@ const AllFlavorsSection = ({ products, productsLoading, productsError }) => {
                   <div className="relative">
                     <div className="w-96 h-64 relative">
                       <Image
-                        src={flavor.image ? `https://onebigmediacompany.online/${flavor.image}` : '/pop_packet.png'}
+                        src={flavor.image ? `${flavor.image}` : '/pop_packet.png'}
                         alt={flavor.name || flavor.title || 'Popcorn Flavor'}
                         fill
                         className="object-contain drop-shadow-2xl w-full h-full transition-transform duration-500"
@@ -164,27 +153,15 @@ const AllFlavorsSection = ({ products, productsLoading, productsError }) => {
           )}
         </div>
 
-        {/* Load More Button */}
+        {/* Load More Button - Show if we don't have all records yet */}
         {hasMore && (
           <div className="text-center">
             <button
-              onClick={handleLoadMore}
-              disabled={isLoading}
+              onClick={onLoadMore}
+              disabled={productsLoading}
               className="inline-flex items-center px-6 py-3 bg-gradient-to-r from-gray-800 to-black hover:from-black hover:to-black text-white font-bold rounded-full transition-all duration-300 transform hover:scale-105 hover:shadow-xl focus:outline-none focus:ring-4 focus:ring-gray-600 focus:ring-opacity-50 disabled:opacity-50 disabled:cursor-not-allowed"
             >
-              {isLoading ? (
-                <>
-                  <svg className="animate-spin -ml-1 mr-3 h-5 w-5 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
-                    <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
-                    <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
-                  </svg>
-                  Loading...
-                </>
-              ) : (
-                <>
-                  Load More
-                </>
-              )}
+              {productsLoading ? 'Loading...' : 'Load More'}
             </button>
           </div>
         )}
