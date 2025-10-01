@@ -4,7 +4,7 @@ import Image from 'next/image';
 import demoImage from '../../../public/dance_fundraiser.png';
 import { TiShoppingCart } from "react-icons/ti";
 
-const CollectionsSection = ({ collections, collectionsLoading, collectionsError }) => {
+const CollectionsSection = ({ collections, collectionsLoading, collectionsError, pagination, onLoadMore }) => {
   // Fallback sample data - will be replaced by API data
   const [fallbackCollections] = useState([
     {
@@ -89,14 +89,9 @@ const CollectionsSection = ({ collections, collectionsLoading, collectionsError 
     }
   ]);
 
-  const [visibleCount, setVisibleCount] = useState(6);
-
   // Use API data if available, otherwise use fallback data
   const allCollections = collections || fallbackCollections;
 
-  const handleLoadMore = () => {
-    setVisibleCount((allCollections || []).length);
-  };
   const handleMoreInfo = (collection) => {
     const name = collection.name || collection.title || 'collection';
     const slug = collection.slug || name.toLowerCase().replace(/\s+/g, '-').replace(/[^a-z0-9-]/g, '');
@@ -104,8 +99,13 @@ const CollectionsSection = ({ collections, collectionsLoading, collectionsError 
     window.location.href = `/collections/${slug}`;
   };
 
-  const visibleCollections = (allCollections || []).slice(0, visibleCount);
-  const hasMore = visibleCount < (allCollections || []).length;
+  // Simple pagination logic: show Load More if we don't have all records yet
+  const hasMore = pagination && allCollections && allCollections.length < pagination.totalRecords;
+
+  // Don't show the section if there are no collections and not loading
+  if (!collectionsLoading && (!allCollections || allCollections.length === 0)) {
+    return null;
+  }
 
   // Show loading state
   if (collectionsLoading) {
@@ -159,7 +159,7 @@ const CollectionsSection = ({ collections, collectionsLoading, collectionsError 
 
         {/* Collections Grid */}
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8 mb-12">
-          {visibleCollections && visibleCollections.length > 0 ? visibleCollections.map((collection, index) => (
+          {allCollections && allCollections.length > 0 ? allCollections.map((collection, index) => (
             <div
               key={collection.id}
               className="group bg-white rounded-2xl shadow-lg transition-all duration-500 transform overflow-hidden hover:shadow-xl"
@@ -243,14 +243,15 @@ const CollectionsSection = ({ collections, collectionsLoading, collectionsError 
           )}
         </div>
 
-        {/* Load More Button */}
+        {/* Load More Button - Simple logic: show if current page < total pages */}
         {hasMore && (
           <div className="text-center">
             <button
-              onClick={handleLoadMore}
-              className="inline-flex items-center px-6 py-3 bg-gradient-to-r from-gray-800 to-black hover:from-black hover:to-black text-white font-bold rounded-full transition-all duration-300 transform hover:shadow-xl focus:outline-none focus:ring-4 focus:ring-gray-600 focus:ring-opacity-50"
+              onClick={onLoadMore}
+              disabled={collectionsLoading}
+              className="inline-flex items-center px-6 py-3 bg-gradient-to-r from-gray-800 to-black hover:from-black hover:to-black text-white font-bold rounded-full transition-all duration-300 transform hover:shadow-xl focus:outline-none focus:ring-4 focus:ring-gray-600 focus:ring-opacity-50 disabled:opacity-50 disabled:cursor-not-allowed"
             >
-              Load More
+              {collectionsLoading ? 'Loading...' : 'Load More'}
             </button>
           </div>
         )}

@@ -20,17 +20,25 @@ export const fetchCampaigns = createAsyncThunk(
 
 export const fetchProducts = createAsyncThunk(
   'app/fetchProducts',
-  async () => {
-    const response = await axiosInstance.get(get_products)
-    return response.data
+  async ({ page = 1, per_page = 6, append = false } = {}) => {
+    console.log('API Call - fetchProducts:', { page, per_page, append });
+    const response = await axiosInstance.get(get_products, {
+      params: { page, per_page }
+    })
+    console.log('API Response:', response.data);
+    return { ...response.data, append }
   }
 )
 
 export const fetchCollections = createAsyncThunk(
   'app/fetchCollections',
-  async () => {
-    const response = await axiosInstance.get(get_shop_collections)
-    return response.data
+  async ({ page = 1, per_page = 6, append = false } = {}) => {
+    console.log('API Call - fetchCollections:', { page, per_page, append });
+    const response = await axiosInstance.get(get_shop_collections, {
+      params: { page, per_page }
+    })
+    console.log('API Response:', response.data);
+    return { ...response.data, append }
   }
 )
 
@@ -50,9 +58,21 @@ const initialState = {
   products: null,
   productsLoading: false,
   productsError: null,
+  productsPagination: {
+    currentPage: 1,
+    perPage: 6,
+    totalPages: 0,
+    totalRecords: 0
+  },
   collections: null,
   collectionsLoading: false,
-  collectionsError: null
+  collectionsError: null,
+  collectionsPagination: {
+    currentPage: 1,
+    perPage: 6,
+    totalPages: 0,
+    totalRecords: 0
+  }
 }
 
 const appSlice = createSlice({
@@ -126,7 +146,33 @@ const appSlice = createSlice({
       })
       .addCase(fetchProducts.fulfilled, (state, action) => {
         state.productsLoading = false
-        state.products = action.payload.data
+        
+        console.log('Reducer - fetchProducts.fulfilled:', {
+          append: action.payload.append,
+          currentProducts: state.products?.length || 0,
+          newData: action.payload.data?.length || 0,
+          page: action.payload.page,
+          totalPages: action.payload.total_pages
+        });
+        
+        // If append is true, add new data to existing products
+        if (action.payload.append && state.products) {
+          state.products = [...state.products, ...action.payload.data]
+          console.log('Appended data. Total products now:', state.products.length);
+        } else {
+          state.products = action.payload.data
+          console.log('Replaced data. Total products now:', state.products.length);
+        }
+        
+        // Update pagination info from API response
+        state.productsPagination = {
+          currentPage: action.payload.page || 1,
+          perPage: action.payload.per_page || 6,
+          totalPages: action.payload.total_pages || 0,
+          totalRecords: action.payload.total_records || 0
+        }
+        
+        console.log('Updated products pagination:', state.productsPagination);
       })
       .addCase(fetchProducts.rejected, (state, action) => {
         state.productsLoading = false
@@ -138,7 +184,33 @@ const appSlice = createSlice({
       })
       .addCase(fetchCollections.fulfilled, (state, action) => {
         state.collectionsLoading = false
-        state.collections = action.payload.data
+        
+        console.log('Reducer - fetchCollections.fulfilled:', {
+          append: action.payload.append,
+          currentCollections: state.collections?.length || 0,
+          newData: action.payload.data?.length || 0,
+          page: action.payload.page,
+          totalPages: action.payload.total_pages
+        });
+        
+        // If append is true, add new data to existing collections
+        if (action.payload.append && state.collections) {
+          state.collections = [...state.collections, ...action.payload.data]
+          console.log('Appended data. Total collections now:', state.collections.length);
+        } else {
+          state.collections = action.payload.data
+          console.log('Replaced data. Total collections now:', state.collections.length);
+        }
+        
+        // Update pagination info from API response
+        state.collectionsPagination = {
+          currentPage: action.payload.page || 1,
+          perPage: action.payload.per_page || 6,
+          totalPages: action.payload.total_pages || 0,
+          totalRecords: action.payload.total_records || 0
+        }
+        
+        console.log('Updated pagination:', state.collectionsPagination);
       })
       .addCase(fetchCollections.rejected, (state, action) => {
         state.collectionsLoading = false
