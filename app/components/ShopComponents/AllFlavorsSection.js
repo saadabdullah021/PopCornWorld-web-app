@@ -84,7 +84,7 @@ const AllFlavorsSection = ({ products, productsLoading, productsError, paginatio
                   <div className="relative">
                     <div className="w-96 h-64 relative">
                       <Image
-                        src={flavor.image ? `${flavor.image}` : '/pop_packet.png'}
+                        src={flavor.image && typeof flavor.image === 'string' ? flavor.image : '/pop_packet.png'}
                         alt={flavor.name || flavor.title || 'Popcorn Flavor'}
                         fill
                         className="object-contain drop-shadow-2xl w-full h-full transition-transform duration-500"

@@ -2,6 +2,7 @@
 import React, { useState, useEffect } from 'react';
 import { X, ArrowLeft, Check, Lock, Shield, CreditCard, Truck, User, Mail, Phone, MapPin, Gift } from 'lucide-react';
 import Link from 'next/link';
+import Image from 'next/image';
 
 // Mock data for demonstration
 const mockCartItems = [
@@ -393,9 +394,11 @@ const OrderSummary = ({ items, subtotal, tax, shipping, total }) => (
       {items.map((item) => (
         <div key={item.id} className="flex items-start gap-4 p-4 bg-white rounded-xl shadow-sm border border-gray-100 hover:shadow-md transition-shadow">
           <div className="w-16 h-16 bg-gradient-to-br from-gray-100 to-gray-200 rounded-xl overflow-hidden shadow-sm">
-            <img
+            <Image
               src={item.image}
               alt={item.name}
+              width={64}
+              height={64}
               className="w-full h-full object-cover"
             />
           </div>

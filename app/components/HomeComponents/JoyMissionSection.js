@@ -47,7 +47,7 @@ const JoyMissionSection = () => {
               {/* Image Container */}
               <div className="relative w-full h-80 md:h-96 rounded-2xl overflow-hidden mb-6 shadow-lg group-hover:shadow-2xl transition-shadow duration-300">
                 <Image
-                  src={service.image}
+                  src={service.image && typeof service.image === 'string' ? service.image : '/pop_packet.png'}
                   alt={service.alt}
                   fill
                   sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"

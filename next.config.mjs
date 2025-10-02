@@ -1,7 +1,20 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
-      images: {
-     domains: ['api.qrserver.com',"img.youtube.com", "onebigmediacompany.online"],
+  images: {
+    remotePatterns: [
+      {
+        protocol: 'https',
+        hostname: 'api.qrserver.com',
+      },
+      {
+        protocol: 'https',
+        hostname: 'img.youtube.com',
+      },
+      {
+        protocol: 'https',
+        hostname: 'onebigmediacompany.online',
+      },
+    ],
   },
 };
 

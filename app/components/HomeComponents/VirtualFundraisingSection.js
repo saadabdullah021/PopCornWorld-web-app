@@ -95,7 +95,7 @@ const VirtualFundraisingSection = () => {
                 {/* Image Container */}
                 <div className="relative w-full h-48 md:h-56 lg:h-64 rounded-2xl overflow-hidden mb-6 shadow-lg group-hover:shadow-2xl transition-all duration-500 transform ">
                   <Image
-                    src={feature.image}
+                    src={feature.image && typeof feature.image === 'string' ? feature.image : '/pop_packet.png'}
                     alt={feature.alt}
                     fill
                     sizes="(max-width: 768px) 100vw, (max-width: 1200px) 33vw, 25vw"

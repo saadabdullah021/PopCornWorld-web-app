@@ -40,7 +40,7 @@ const PopularCategories = () => {
                 <div className="flex flex-col items-center justify-center pb-10 hover:opacity-80 transition">
                   <div className="w-[50px] h-[50px] rounded-full overflow-hidden mb-3 shadow-md">
                     <Image
-                      src={category.image}
+                      src={category.image && typeof category.image === 'string' ? category.image : '/pop_packet.png'}
                       alt={category.title}
                       width={50}
                       height={50}
