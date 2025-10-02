@@ -3,9 +3,11 @@ import React, { useState } from 'react';
 import Image from 'next/image';
 import demoImage from '../../../public/dance_fundraiser.png';
 import { TiShoppingCart } from 'react-icons/ti';
-import { useSelector } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
+import { addToCart } from '../../store/slices/appSlice';
 
 const AllFlavorsSection = ({ products, productsLoading, productsError, pagination, onLoadMore }) => {
+  const dispatch = useDispatch();
   // Get global settings from Redux
   const { globalSettings } = useSelector(state => state.app);
   
@@ -22,6 +24,10 @@ const AllFlavorsSection = ({ products, productsLoading, productsError, paginatio
     const slug = flavor.name.toLowerCase().replace(/\s+/g, '-').replace(/[^a-z0-9-]/g, '');
     // Navigate to new page
     window.location.href = `/flavors/${slug}`;
+  };
+
+  const handleAddToCart = (flavor) => {
+    dispatch(addToCart(flavor));
   };
 
   // Simple pagination logic: show Load More if we don't have all records yet
@@ -138,7 +144,9 @@ const AllFlavorsSection = ({ products, productsLoading, productsError, paginatio
                   >
                     More Info
                   </button>
-                  <button className="w-full inline-flex items-center whitespace-nowrap gap-3 justify-center mt-6 bg-[#8bc34a] text-white font-bold py-3 px-6 rounded-3xl transition-all duration-300 transform hover:shadow-lg focus:outline-none">
+                  <button 
+                    onClick={() => handleAddToCart(flavor)}
+                    className="w-full inline-flex items-center whitespace-nowrap gap-3 justify-center mt-6 bg-[#8bc34a] text-white font-bold py-3 px-6 rounded-3xl transition-all duration-300 transform hover:shadow-lg focus:outline-none">
                     Add to Cart
                     <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
                       <path d="m15 11-1 9" />

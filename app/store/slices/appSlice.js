@@ -72,7 +72,8 @@ const initialState = {
     perPage: 6,
     totalPages: 0,
     totalRecords: 0
-  }
+  },
+  cart: []
 }
 
 const appSlice = createSlice({
@@ -112,6 +113,31 @@ const appSlice = createSlice({
     },
     clearError: (state) => {
       state.error = null
+    },
+    addToCart: (state, action) => {
+      const product = action.payload;
+      const existingItem = state.cart.find(item => item.id === product.id);
+      
+      if (existingItem) {
+        existingItem.quantity += 1;
+      } else {
+        state.cart.push({ ...product, quantity: 1 });
+      }
+    },
+    removeFromCart: (state, action) => {
+      const productId = action.payload;
+      state.cart = state.cart.filter(item => item.id !== productId);
+    },
+    updateCartQuantity: (state, action) => {
+      const { id, quantity } = action.payload;
+      const item = state.cart.find(item => item.id === id);
+      if (item) {
+        if (quantity <= 0) {
+          state.cart = state.cart.filter(item => item.id !== id);
+        } else {
+          item.quantity = quantity;
+        }
+      }
     }
   },
   extraReducers: (builder) => {
@@ -228,7 +254,10 @@ export const {
   removeNotification,
   setUser,
   setError,
-  clearError
+  clearError,
+  addToCart,
+  removeFromCart,
+  updateCartQuantity
 } = appSlice.actions
 
 export default appSlice.reducer
