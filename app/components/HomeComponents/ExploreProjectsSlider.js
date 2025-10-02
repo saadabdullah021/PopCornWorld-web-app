@@ -1,6 +1,7 @@
 "use client";
 import React, { useState, useEffect, useRef } from "react";
 import { ChevronLeft, ChevronRight, Calendar, User } from "lucide-react";
+import Image from "next/image";
 
 const ExploreProjectsSlider = ({ campaigns, campaignsLoading, campaignsError, globalSettings }) => {
   const [currentSlide, setCurrentSlide] = useState(0);
@@ -102,11 +103,11 @@ const ExploreProjectsSlider = ({ campaigns, campaignsLoading, campaignsError, gl
   const ProjectCard = ({ project }) => (
     <div className="bg-white rounded shadow-lg overflow-hidden hover:shadow-xl transition-all duration-300 group">
       <div className="relative h-48 overflow-hidden">
-        <img
-          src={project.image}
+        <Image
+          src={project.image && typeof project.image === 'string' ? project.image : '/pop_packet.png'}
           alt={project.title}
-          className="w-full h-full object-cover group-hover:scale-101 transition-transform duration-500"
-          loading="lazy"
+          fill
+          className="object-cover group-hover:scale-101 transition-transform duration-500"
         />
 
       </div>

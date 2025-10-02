@@ -150,7 +150,7 @@ const SuccessStoriesSlider = () => {
                     {/* Right Image */}
                     <div className="relative h-96 lg:h-full order-1 lg:order-2">
                       <Image
-                        src={story.image}
+                        src={story.image && typeof story.image === 'string' ? story.image : '/pop_packet.png'}
                         alt={story.alt}
                         fill
                         className="object-cover"

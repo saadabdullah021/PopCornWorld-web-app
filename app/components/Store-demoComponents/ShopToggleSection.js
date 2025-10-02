@@ -3,7 +3,10 @@ import React, { useState } from 'react';
 import AllFlavorsSection from '../ShopComponents/AllFlavorsSection';
 import CollectionsSection from '../ShopComponents/CollectionsSection';
 
-const ShopToggleSection = () => {
+const ShopToggleSection = ({ 
+  products, productsLoading, productsError, productsPagination, onLoadMoreProducts,
+  collections, collectionsLoading, collectionsError, collectionsPagination, onLoadMoreCollections 
+}) => {
   const [activeTab, setActiveTab] = useState('flavors');
   const [isTransitioning, setIsTransitioning] = useState(false);
 
@@ -20,19 +23,33 @@ const ShopToggleSection = () => {
   };
 
   const tabs = [
-    {
-      id: 'flavors',
-      label: 'All Flavours',
-      component: AllFlavorsSection
-    },
-    {
-      id: 'collections',
-      label: 'Collections',
-      component: CollectionsSection
-    }
+    { id: 'flavors', label: 'All Flavours' },
+    { id: 'collections', label: 'Collections' }
   ];
 
-  const ActiveComponent = tabs.find(tab => tab.id === activeTab)?.component || AllFlavorsSection;
+  const getActiveComponent = () => {
+    if (activeTab === 'flavors') {
+      return (
+        <AllFlavorsSection 
+          products={products}
+          productsLoading={productsLoading}
+          productsError={productsError}
+          pagination={productsPagination}
+          onLoadMore={onLoadMoreProducts}
+        />
+      );
+    } else {
+      return (
+        <CollectionsSection 
+          collections={collections}
+          collectionsLoading={collectionsLoading}
+          collectionsError={collectionsError}
+          pagination={collectionsPagination}
+          onLoadMore={onLoadMoreCollections}
+        />
+      );
+    }
+  };
 
   return (
     <section className="bg-white">
@@ -91,7 +108,7 @@ const ShopToggleSection = () => {
               : 'opacity-100 transform translate-y-0'
           }`}
         >
-          <ActiveComponent />
+          {getActiveComponent()}
         </div>
       </div>
 

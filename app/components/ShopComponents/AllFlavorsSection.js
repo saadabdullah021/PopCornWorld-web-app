@@ -3,15 +3,31 @@ import React, { useState } from 'react';
 import Image from 'next/image';
 import demoImage from '../../../public/dance_fundraiser.png';
 import { TiShoppingCart } from 'react-icons/ti';
+import { useSelector, useDispatch } from 'react-redux';
+import { addToCart } from '../../store/slices/appSlice';
 
 const AllFlavorsSection = ({ products, productsLoading, productsError, pagination, onLoadMore }) => {
+  const dispatch = useDispatch();
+  // Get global settings from Redux
+  const { globalSettings } = useSelector(state => state.app);
+  
   // Use only API data
   const allFlavors = products || [];
+
+  // Format price with currency
+  const formatPrice = (price) => {
+    const currency = globalSettings?.currency || '$';
+    return `${currency}${price}`;
+  };
 
   const handleMoreInfo = (flavor) => {
     const slug = flavor.name.toLowerCase().replace(/\s+/g, '-').replace(/[^a-z0-9-]/g, '');
     // Navigate to new page
     window.location.href = `/flavors/${slug}`;
+  };
+
+  const handleAddToCart = (flavor) => {
+    dispatch(addToCart(flavor));
   };
 
   // Simple pagination logic: show Load More if we don't have all records yet
@@ -84,7 +100,7 @@ const AllFlavorsSection = ({ products, productsLoading, productsError, paginatio
                   <div className="relative">
                     <div className="w-96 h-64 relative">
                       <Image
-                        src={flavor.image ? `${flavor.image}` : '/pop_packet.png'}
+                        src={flavor.image && typeof flavor.image === 'string' && flavor.image.trim() !== '' ? flavor.image : '/pop_packet.png'}
                         alt={flavor.name || flavor.title || 'Popcorn Flavor'}
                         fill
                         className="object-contain drop-shadow-2xl w-full h-full transition-transform duration-500"
@@ -101,7 +117,7 @@ const AllFlavorsSection = ({ products, productsLoading, productsError, paginatio
               <div className="p-6 space-y-4">
                 {/* Category Badge */}
                 <span className="inline-block px-4 py-1.5 bg-gray-200 text-black text-xs font-bold uppercase tracking-wider rounded-full">
-                  {flavor.product_categories?.[0]?.category?.name || 'FLAVOR'}
+                  {flavor.product_categories?.[0]?.category?.name || flavor.type || 'FLAVOR'}
                 </span>
 
                 {/* Title and Price */}
@@ -110,7 +126,7 @@ const AllFlavorsSection = ({ products, productsLoading, productsError, paginatio
                     {flavor.name || flavor.title || 'Popcorn Flavor'}
                   </h3>
                   <span className="text-xl lg:text-[22px] font-semibold text-black flex-shrink-0">
-                    {flavor.price || '$0.00'}
+                    {formatPrice(flavor.price || '0.00')}
                   </span>
                 </div>
 
@@ -128,7 +144,9 @@ const AllFlavorsSection = ({ products, productsLoading, productsError, paginatio
                   >
                     More Info
                   </button>
-                  <button className="w-full inline-flex items-center whitespace-nowrap gap-3 justify-center mt-6 bg-[#8bc34a] text-white font-bold py-3 px-6 rounded-3xl transition-all duration-300 transform hover:shadow-lg focus:outline-none">
+                  <button 
+                    onClick={() => handleAddToCart(flavor)}
+                    className="w-full inline-flex items-center whitespace-nowrap gap-3 justify-center mt-6 bg-[#8bc34a] text-white font-bold py-3 px-6 rounded-3xl transition-all duration-300 transform hover:shadow-lg focus:outline-none">
                     Add to Cart
                     <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
                       <path d="m15 11-1 9" />

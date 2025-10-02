@@ -2,6 +2,7 @@
 import Link from "next/link";
 import { useState, useEffect, useRef } from "react";
 import { HeaderShoppingCart, ShoppingCartIcon } from './HeaderShoppingCart';
+import { useSelector } from 'react-redux';
 // ✅ React Icons
 import {
     FaEnvelope,
@@ -34,6 +35,10 @@ const Header = () => {
     const timeoutRef = useRef(null);
     const pathname = usePathname();
     const [isCartOpen, setIsCartOpen] = useState(false);
+    
+    // Get cart count from Redux
+    const { cart } = useSelector(state => state.app);
+    const cartItemCount = cart ? cart.reduce((sum, item) => sum + item.quantity, 0) : 0;
 
     // Sign-in related states
     const [showSignInModal, setShowSignInModal] = useState(false);
@@ -396,7 +401,7 @@ const Header = () => {
                                 )}
 
                                 <ShoppingCartIcon
-                                    itemCount={5}
+                                    itemCount={cartItemCount}
                                     onClick={() => setIsCartOpen(true)}
                                 />
                             </div>

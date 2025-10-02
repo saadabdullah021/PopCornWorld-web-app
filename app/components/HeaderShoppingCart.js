@@ -5,6 +5,8 @@ import Image from 'next/image';
 import { RiShoppingBag4Fill } from 'react-icons/ri';
 import donation_checkout from '../../public/donation_checkout.webp'
 import Link from 'next/link';
+import { useSelector, useDispatch } from 'react-redux';
+import { removeFromCart, updateCartQuantity, addToCart } from '../store/slices/appSlice';
 // Quantity Counter Component
 const QuantityCounter = ({ quantity, onIncrease, onDecrease, min = 1 }) => {
   return (
@@ -65,54 +67,24 @@ const ShoppingCartIcon = ({ itemCount, onClick }) => {
 
 // Main Shopping Cart Component
 const HeaderShoppingCart = ({ isOpen, onClose }) => {
-  const [cartItems, setCartItems] = useState([
-    {
-      id: 1,
-      name: "The Perfect 10",
-      description: "2 Flavor Set",
-      price: 297,
-      quantity: 3,
-      image: "/api/placeholder/80/80",
-      type: "product"
-    },
-    {
-      id: 2,
-      name: "Make a Donation",
-      description: "",
-      price: 10,
-      quantity: 1,
-      image: null,
-      type: "donation",
-      icon: (
-        <div className="w-24 h-24 bg-gray-100 rounded-lg flex items-center justify-center">
-          <svg className="w-8 h-8 text-gray-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1" />
-          </svg>
-        </div>
-      )
-    },
-    {
-      id: 3,
-      name: "The Work",
-      description: "2 Flavor Set",
-      price: 98,
-      quantity: 1,
-      image: "/api/placeholder/80/80",
-      type: "product"
-    }
-  ]);
+  const dispatch = useDispatch();
+  // Get cart and global settings from Redux
+  const { cart, globalSettings } = useSelector(state => state.app);
+  const cartItems = cart || [];
 
+  // Format price with currency
+  const formatPrice = (price) => {
+    const currency = globalSettings?.currency || '$';
+    return `${currency}${price}`;
+  };
+
+  // Cart functions using Redux actions
   const updateQuantity = (id, newQuantity) => {
-    if (newQuantity < 1) return;
-    setCartItems(items =>
-      items.map(item =>
-        item.id === id ? { ...item, quantity: newQuantity } : item
-      )
-    );
+    dispatch(updateCartQuantity({ id, quantity: newQuantity }));
   };
 
   const removeItem = (id) => {
-    setCartItems(items => items.filter(item => item.id !== id));
+    dispatch(removeFromCart(id));
   };
 
   // Add donation to cart function
@@ -128,10 +100,10 @@ const HeaderShoppingCart = ({ isOpen, onClose }) => {
     
     };
 
-    setCartItems(items => [...items, donationItem]);
+    dispatch(addToCart(donationItem));
   };
 
-  const totalAmount = cartItems.reduce((sum, item) => sum + (item.price * item.quantity), 0);
+  const totalAmount = cartItems.reduce((sum, item) => sum + (parseFloat(item.price) * item.quantity), 0);
   const totalItems = cartItems.reduce((sum, item) => sum + item.quantity, 0);
 
   // Close on escape key and body scroll lock
@@ -199,18 +171,26 @@ const HeaderShoppingCart = ({ isOpen, onClose }) => {
 
                   {/* Item Image/Icon */}
                   <div className="flex-shrink-0">
-                    {item.image ? (
+                    {item.image && typeof item.image === 'string' && item.image.trim() !== '' ? (
                       <div className="w-24 h-24 bg-blue-100 rounded-lg overflow-hidden">
                         <Image
                           src={item.image}
-                          alt={item.name}
+                          alt={item.name || item.title || 'Product'}
                           width={64}
                           height={64}
                           className="w-full h-full object-contain object-center"
                         />
                       </div>
                     ) : (
-                      item.icon
+                      <div className="w-24 h-24 bg-gray-100 rounded-lg flex items-center justify-center">
+                        <Image
+                          src="/pop_packet.png"
+                          alt={item.name || item.title || 'Product'}
+                          width={64}
+                          height={64}
+                          className="w-full h-full object-contain object-center"
+                        />
+                      </div>
                     )}
                   </div>
 
@@ -218,7 +198,7 @@ const HeaderShoppingCart = ({ isOpen, onClose }) => {
                   <div className="flex-1 min-w-0">
                     <div className="flex items-start justify-between">
                       <div className="flex-1">
-                        <h4 className="font-semibold text-[16px] text-black">{item.name}</h4>
+                        <h4 className="font-semibold text-[16px] text-black">{item.name || item.title || 'Product'}</h4>
                         {item.description && (
                           <p className="text-xs text-gray-500 mt-1">{item.description}</p>
                         )}
@@ -230,7 +210,7 @@ const HeaderShoppingCart = ({ isOpen, onClose }) => {
                         </button>
                       </div>
                       <div className="text-right ml-4">
-                        <p className="font-bold text-[16px] text-black">${item.price * item.quantity}</p>
+                        <p className="font-bold text-[16px] text-black">{formatPrice((item.price * item.quantity).toFixed(2))}</p>
                       </div>
                     </div>
 
@@ -343,7 +323,7 @@ const HeaderShoppingCart = ({ isOpen, onClose }) => {
                 onClick={onClose}
               >
                 <span>Checkout</span>
-                <span className="font-black">${totalAmount}</span>
+                <span className="font-black">{formatPrice(totalAmount.toFixed(2))}</span>
               </button>
                 </Link>
             </div>

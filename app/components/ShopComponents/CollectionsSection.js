@@ -3,8 +3,14 @@ import React, { useState } from 'react';
 import Image from 'next/image';
 import demoImage from '../../../public/dance_fundraiser.png';
 import { TiShoppingCart } from "react-icons/ti";
+import { useSelector, useDispatch } from 'react-redux';
+import { addToCart } from '../../store/slices/appSlice';
 
 const CollectionsSection = ({ collections, collectionsLoading, collectionsError, pagination, onLoadMore }) => {
+  const dispatch = useDispatch();
+  // Get global settings from Redux
+  const { globalSettings } = useSelector(state => state.app);
+  
   // Fallback sample data - will be replaced by API data
   const [fallbackCollections] = useState([
     {
@@ -92,11 +98,21 @@ const CollectionsSection = ({ collections, collectionsLoading, collectionsError,
   // Use API data if available, otherwise use fallback data
   const allCollections = collections || fallbackCollections;
 
+  // Format price with currency
+  const formatPrice = (price) => {
+    const currency = globalSettings?.currency || '$';
+    return `${currency}${price}`;
+  };
+
   const handleMoreInfo = (collection) => {
     const name = collection.name || collection.title || 'collection';
     const slug = collection.slug || name.toLowerCase().replace(/\s+/g, '-').replace(/[^a-z0-9-]/g, '');
     // Navigate to new page
     window.location.href = `/collections/${slug}`;
+  };
+
+  const handleAddToCart = (collection) => {
+    dispatch(addToCart(collection));
   };
 
   // Simple pagination logic: show Load More if we don't have all records yet
@@ -174,7 +190,7 @@ const CollectionsSection = ({ collections, collectionsLoading, collectionsError,
                   {/* Collection Package Visualization */}
                   <div className="relative w-full h-full">
                     <Image
-                      src={collection.image || '/pop_packet.png'}
+                      src={collection.image && typeof collection.image === 'string' && collection.image.trim() !== '' ? collection.image : '/pop_packet.png'}
                       alt={collection.name}
                       fill
                       className="object-contain drop-shadow-2xl w-full h-full transition-transform duration-500 "
@@ -201,7 +217,7 @@ const CollectionsSection = ({ collections, collectionsLoading, collectionsError,
                     {collection.name || collection.title || 'Collection'}
                   </h3>
                   <span className="text-xl lg:text-[22px] font-semibold text-black flex-shrink-0">
-                    {collection.price || '$0.00'}
+                    {formatPrice(collection.price || '0.00')}
                   </span>
                 </div>
 
@@ -218,7 +234,9 @@ const CollectionsSection = ({ collections, collectionsLoading, collectionsError,
                   >
                     More Info
                   </button>
-                  <button className="w-full inline-flex items-center whitespace-nowrap gap-3 justify-center mt-6 bg-[#8bc34a] text-white font-bold py-3 px-6 rounded-3xl transition-all duration-300 transform hover:shadow-lg focus:outline-none">
+                  <button 
+                    onClick={() => handleAddToCart(collection)}
+                    className="w-full inline-flex items-center whitespace-nowrap gap-3 justify-center mt-6 bg-[#8bc34a] text-white font-bold py-3 px-6 rounded-3xl transition-all duration-300 transform hover:shadow-lg focus:outline-none">
                     Add to Cart
                     <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
                       <path d="m15 11-1 9" />
