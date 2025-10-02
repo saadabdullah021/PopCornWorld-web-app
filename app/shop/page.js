@@ -4,12 +4,14 @@ import CollectionsSection from "../components/ShopComponents/CollectionsSection"
 import PopcornWorldSection from "../components/ShopComponents/PopcornWorldSection";
 import { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { fetchProducts, fetchCollections } from '../store/slices/appSlice';
+import { fetchProducts, fetchCollections, fetchGlobalSettings } from '../store/slices/appSlice';
 
 export default function shop() {
   const dispatch = useDispatch();
-  const { products, productsLoading, productsError, productsPagination, collections, collectionsLoading, collectionsError, collectionsPagination } = useSelector(state => state.app);
+  const { globalSettings, products, productsLoading, productsError, productsPagination, collections, collectionsLoading, collectionsError, collectionsPagination } = useSelector(state => state.app);
 
+  console.log(globalSettings,'globalsettings');
+  
   useEffect(() => {
     if (!products && !productsLoading) {
       dispatch(fetchProducts({ page: 1, per_page: 6 }));
