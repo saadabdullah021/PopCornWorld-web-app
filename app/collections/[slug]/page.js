@@ -2,127 +2,42 @@
 import React, { useState, useEffect } from 'react';
 import Image from 'next/image';
 import { useRouter, useParams } from 'next/navigation';
+import { useDispatch } from 'react-redux';
+import { getSingleCollection } from '../../services/api';
+import { addToCart, addNotification } from '../../store/slices/appSlice';
 import demoImage from '../../../public/dance_fundraiser.png';
 
 const CollectionDetailsPage = () => {
     const router = useRouter();
     const params = useParams();
+    const dispatch = useDispatch();
     const [selectedImageIndex, setSelectedImageIndex] = useState(0);
     const [collection, setCollection] = useState(null);
     const [loading, setLoading] = useState(true);
 
-    // Sample data - replace with your API data
-    const allCollections = [
-        {
-            id: 1,
-            name: "The Work",
-            slug: "the-work",
-            price: 98.00,
-            category: "THE WORK",
-            description: "It's total package.",
-            images: [demoImage, "/api/placeholder/400/400", "/api/placeholder/400/401"]
-        },
-        {
-            id: 2,
-            name: "The Perfect 10",
-            slug: "the-perfect-10",
-            price: 99.00,
-            category: "THE PERFECT 10",
-            description: "The Supreme set.",
-            images: ["/api/placeholder/300/300", "/api/placeholder/400/402", "/api/placeholder/400/403"]
-        },
-        {
-            id: 3,
-            name: "Family Bundle",
-            slug: "family-bundle",
-            price: 129.00,
-            category: "FAMILY PACK",
-            description: "Perfect for movie nights and gatherings.",
-            images: ["/api/placeholder/300/300", "/api/placeholder/400/404"]
-        },
-        {
-            id: 4,
-            name: "Office Delight",
-            slug: "office-delight",
-            price: 89.00,
-            category: "OFFICE PACK",
-            description: "Keep your team happy and productive.",
-            images: ["/api/placeholder/300/300", "/api/placeholder/400/405", "/api/placeholder/400/406"]
-        },
-        {
-            id: 5,
-            name: "Premium Selection",
-            slug: "premium-selection",
-            price: 149.00,
-            category: "PREMIUM",
-            description: "Our finest collection for discerning taste.",
-            images: ["/api/placeholder/300/300"]
-        },
-        {
-            id: 6,
-            name: "Holiday Special",
-            slug: "holiday-special",
-            price: 119.00,
-            category: "SEASONAL",
-            description: "Celebrate with our festive collection.",
-            images: ["/api/placeholder/300/300", "/api/placeholder/400/407"]
-        },
-        {
-            id: 7,
-            name: "Gourmet Mix",
-            slug: "gourmet-mix",
-            price: 159.00,
-            category: "GOURMET",
-            description: "Artisanal flavors for the sophisticated palate.",
-            images: ["/api/placeholder/300/300", "/api/placeholder/400/408", "/api/placeholder/400/409"]
-        },
-        {
-            id: 8,
-            name: "Party Pack",
-            slug: "party-pack",
-            price: 179.00,
-            category: "PARTY",
-            description: "Everything you need for the perfect party.",
-            images: ["/api/placeholder/300/300"]
-        }
-        ,
-        {
-            id: 9,
-            name: "Classic Collection",
-            slug: "classic-collection",
-            price: 79.00,
-            category: "CLASSIC",
-            description: "Timeless favorites that never go out of style.",
-            images: ["/api/placeholder/300/300"]
-        },
-        {
-            id: 10,
-            name: "Gift Box Deluxe",
-            slug: "gift-box-deluxe",
-            price: 199.00,
-            category: "GIFT SET",
-            description: "The perfect gift for any occasion.",
-            images: ["/api/placeholder/300/300"]
-        }
-    ];
 
     useEffect(() => {
         // Get slug from URL params
         const slug = params?.slug;
 
         if (slug) {
-            // Find flavor by slug
-            const foundCollection = allCollections.find(f => f.slug === slug);
-
-            if (foundCollection) {
-                setCollection(foundCollection);
-            } else {
-                // If flavor not found, redirect to 404 or all flavors page
-                router.push('/404');
-            }
+            // Fetch collection data from API
+            getSingleCollection(
+                slug,
+                (data) => {
+                    // Success callback
+                    setCollection(data);
+                    setLoading(false);
+                },
+                () => {
+                    // Fail callback
+                    setLoading(false);
+                    router.push('/404');
+                }
+            );
+        } else {
+            setLoading(false);
         }
-
-        setLoading(false);
     }, [params?.slug, router]);
 
     const handleBack = () => {
@@ -130,9 +45,19 @@ const CollectionDetailsPage = () => {
     };
 
     const handleAddToCart = () => {
-        // Add your cart logic here
-   
-        // You can integrate with your cart state management here
+        if (!collection) return;
+        
+        // Add collection to cart
+        dispatch(addToCart(collection));
+        
+        // Show success notification
+        dispatch(addNotification({
+            message: `${collection.name} has been added to your cart!`,
+            type: 'success'
+        }));
+        
+        // Redirect to checkout page
+        router.push('/checkout');
     };
 
     if (loading) {
@@ -187,7 +112,7 @@ const CollectionDetailsPage = () => {
                             All Collections
                         </button>
                         <span>/</span>
-                        <span className="text-black font-medium">{collection.name}</span>
+                        <span className="text-black font-medium">{collection.name || collection.title || 'Collection'}</span>
                     </div>
                 </nav>
 
@@ -198,31 +123,37 @@ const CollectionDetailsPage = () => {
                         {/* Main Image */}
                         <div className="relative h-96 lg:h-[400px] bg-gradient-to-br from-orange-100 to-yellow-50 rounded-2xl overflow-hidden shadow-lg">
                             <Image
-                                src={collection.images[selectedImageIndex]}
-                                alt={collection.name}
+                                src={collection.image || collection.images?.[selectedImageIndex] || '/pop_packet.png'}
+                                alt={collection.name || collection.title || 'Collection'}
                                 fill
-                                className="object-fill rop-shadow-2xl  transition-all duration-300"
+                                className="object-contain drop-shadow-2xl transition-all duration-300"
+                                onError={(e) => {
+                                    e.target.src = '/pop_packet.png';
+                                }}
                             />
                         </div>
 
                         {/* Thumbnail Images */}
-                        {collection.images.length > 1 && (
+                        {collection.images && collection.images.length > 1 && (
                             <div className="flex gap-3 overflow-x-auto pb-2">
                                 {collection.images.map((image, index) => (
                                     <button
                                         key={index}
                                         onClick={() => setSelectedImageIndex(index)}
                                         className={`flex-shrink-0 w-20 h-20 rounded-lg overflow-hidden border-2 transition-all duration-300 ${selectedImageIndex === index
-                                                ? 'border-[#8bc34a] shadow-lg scale-101'
+                                                ? 'border-[#8bc34a] shadow-lg scale-105'
                                                 : 'border-gray-200 hover:border-gray-300 hover:scale-102'
                                             }`}
                                     >
                                         <Image
                                             src={image}
-                                            alt={`${collection.name} ${index + 1}`}
+                                            alt={`${collection.name || collection.title} ${index + 1}`}
                                             width={80}
                                             height={80}
                                             className="w-full h-full object-cover"
+                                            onError={(e) => {
+                                                e.target.src = '/pop_packet.png';
+                                            }}
                                         />
                                     </button>
                                 ))}
@@ -234,23 +165,24 @@ const CollectionDetailsPage = () => {
                     <div className="space-y-6">
                         {/* collection Name */}
                         <h1 className="text-4xl lg:text-5xl font-bold text-black leading-tight">
-                            {collection.name}
+                            {collection.name || collection.title || 'Collection'}
                         </h1>
 
                         {/* Category */}
                         <span className="inline-block px-4 py-2 bg-gray-200 text-black text-sm font-bold uppercase tracking-wider rounded-full">
-                            {collection.category}
+                            {collection.product_categories?.[0]?.category?.name || collection.type || collection.category || 'COLLECTION'}
                         </span>
 
                         {/* Price */}
                         <div className="text-3xl font-bold text-black">
-                            ${collection.price.toFixed(2)}
+                            ${collection.price || '0.00'}
                         </div>
 
                         {/* Description */}
-                        <p className="text-black text-lg leading-relaxed">
-                            {collection.description}
-                        </p>
+                        <div 
+                            className="text-black text-lg leading-relaxed"
+                            dangerouslySetInnerHTML={{ __html: collection.description || '' }}
+                        />
 
                         {/* Static Line with Icon */}
                         <div className="flex items-center gap-3 py-6 border-t border-b border-gray-200">
@@ -272,7 +204,7 @@ const CollectionDetailsPage = () => {
                             onClick={handleAddToCart}
                             className="w-full inline-flex items-center gap-3 justify-center bg-[#8bc34a] text-white font-bold py-3 px-8 rounded-3xl transition-all duration-300 transform hover:shadow-lg focus:outline-none text-lg"
                         >
-                            Add to Cart   ${collection.price.toFixed(2)}
+                            Add to Cart   ${collection.price || '0.00'}
                             <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
                                 <path d="m15 11-1 9" />
                                 <path d="m19 11-4-7" />
