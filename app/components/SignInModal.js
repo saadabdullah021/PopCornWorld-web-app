@@ -2,6 +2,9 @@
 "use client";
 import { useState } from "react";
 import { FaTimes } from "react-icons/fa";
+import { useDispatch, useSelector } from 'react-redux';
+import { sendOTP } from '../services/api';
+import { setAuthLoading, setAuthError, setPhoneNumber, setOTPSent } from '../store/slices/appSlice';
 
 const SignInModal = ({ 
   isOpen, 
@@ -12,6 +15,35 @@ const SignInModal = ({
   phoneError, 
   isLoading 
 }) => {
+  const dispatch = useDispatch();
+  const { authLoading, authError } = useSelector(state => state.app);
+
+  const handleSendOTP = () => {
+    if (!phoneNumber.trim()) {
+      dispatch(setAuthError('Please enter your phone number'));
+      return;
+    }
+
+    dispatch(setAuthLoading(true));
+    dispatch(setAuthError(null));
+
+    sendOTP(
+      phoneNumber,
+      'signin', // OTP type for signin
+      (response) => {
+        // Success
+        dispatch(setPhoneNumber(phoneNumber));
+        dispatch(setOTPSent(true));
+        dispatch(setAuthLoading(false));
+        onSendCode && onSendCode();
+      },
+      () => {
+        // Fail
+        dispatch(setAuthError('Failed to send OTP. Please try again.'));
+        dispatch(setAuthLoading(false));
+      }
+    );
+  };
   if (!isOpen) return null;
 
   return (
@@ -49,24 +81,24 @@ const SignInModal = ({
                 }`}
                 maxLength={14}
               />
-              {phoneError && (
+              {(phoneError || authError) && (
                 <p className="mt-2 text-sm text-red-600 flex items-center">
                   <span className="mr-1">⚠️</span>
-                  {phoneError}
+                  {phoneError || authError}
                 </p>
               )}
             </div>
 
             <button
-              onClick={onSendCode}
-              disabled={isLoading}
+              onClick={handleSendOTP}
+              disabled={authLoading || isLoading}
               className={`w-full py-3 px-4 rounded-xl font-semibold transition-all duration-300 transform ${
-                isLoading
+                (authLoading || isLoading)
                   ? 'bg-gray-700 cursor-not-allowed'
                   : 'bg-[#8bc34a] active:scale-95'
               } text-white shadow-lg`}
             >
-              {isLoading ? (
+              {(authLoading || isLoading) ? (
                 <div className="flex items-center justify-center">
                   <div className="w-5 h-5 border-2 border-white border-t-transparent rounded-full animate-spin mr-2"></div>
                   Sending...

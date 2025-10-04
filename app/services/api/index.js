@@ -1,5 +1,5 @@
 import axiosInstance from '../../axios'
-import { get_single_product, get_single_collection } from './endpoints'
+import { get_single_product, get_single_collection, send_otp, verify_otp } from './endpoints'
 
 export const api = {
   get: (url, config = {}) => axiosInstance.get(url, config),
@@ -33,6 +33,47 @@ export const getSingleCollection = async (slug, success, fail) => {
     }
   } catch (error) {
     fail && fail();
+    return error;
+  }
+};
+
+export const sendOTP = async (phoneNumber, otpType, success, fail) => {
+  try {
+    const response = await axiosInstance.post(send_otp, { 
+      phone_number: phoneNumber,
+      otp_type: otpType
+    });
+    if (response?.data?.status === 200) {
+      success && success(response?.data);
+      return response?.data;
+    } else {
+      // Handle non-200 responses
+      fail && fail(response?.data?.message || 'Failed to send OTP');
+      return response?.data;
+    }
+  } catch (error) {
+    fail && fail(error?.response?.data?.message || 'Network error occurred');
+    return error;
+  }
+};
+
+export const verifyOTP = async (phoneNumber, otpCode, otpType, success, fail) => {
+  try {
+    const response = await axiosInstance.post(verify_otp, { 
+      phone_number: phoneNumber, 
+      otp_code: otpCode,
+      otp_type: otpType
+    });
+    if (response?.data?.status === 200) {
+      success && success(response?.data);
+      return response?.data;
+    } else {
+      // Handle non-200 responses
+      fail && fail(response?.data?.message || 'OTP verification failed');
+      return response?.data;
+    }
+  } catch (error) {
+    fail && fail(error?.response?.data?.message || 'Network error occurred');
     return error;
   }
 };
