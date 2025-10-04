@@ -21,7 +21,8 @@ const AllFlavorsSection = ({ products, productsLoading, productsError, paginatio
   };
 
   const handleMoreInfo = (flavor) => {
-    const slug = flavor.name.toLowerCase().replace(/\s+/g, '-').replace(/[^a-z0-9-]/g, '');
+    // Use the slug from the API data if available, otherwise generate from name
+    const slug = flavor.slug || flavor.name.toLowerCase().replace(/\s+/g, '-').replace(/[^a-z0-9-]/g, '');
     // Navigate to new page
     window.location.href = `/flavors/${slug}`;
   };

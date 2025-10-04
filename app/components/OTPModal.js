@@ -2,6 +2,9 @@
 "use client";
 import { useState, useEffect } from "react";
 import { FaTimes, FaRedo, FaCheck, FaShieldAlt } from "react-icons/fa";
+import { useDispatch, useSelector } from 'react-redux';
+import { verifyOTP } from '../services/api';
+import { setAuthLoading, setAuthError, loginSuccess } from '../store/slices/appSlice';
 
 const OTPModal = ({ 
   isOpen, 
@@ -16,6 +19,37 @@ const OTPModal = ({
   isLoading,
   otpRefs 
 }) => {
+  const dispatch = useDispatch();
+  const { authLoading, authError, phoneNumber: storedPhone } = useSelector(state => state.app);
+
+  const handleVerifyOTP = () => {
+    const otpCode = otp.join('');
+    if (!otpCode || otpCode.length !== 5) {
+      dispatch(setAuthError('Please enter the complete OTP'));
+      return;
+    }
+
+    dispatch(setAuthLoading(true));
+    dispatch(setAuthError(null));
+
+    verifyOTP(
+      storedPhone || phoneNumber,
+      otpCode,
+      'signin', // OTP type for signin
+      (response) => {
+        // Success
+        dispatch(loginSuccess({ phone: storedPhone || phoneNumber }));
+        dispatch(setAuthLoading(false));
+        onVerify && onVerify();
+        onClose();
+      },
+      () => {
+        // Fail
+        dispatch(setAuthError('Invalid OTP. Please try again.'));
+        dispatch(setAuthLoading(false));
+      }
+    );
+  };
   const [timeLeft, setTimeLeft] = useState(300);
   const [canResend, setCanResend] = useState(false);
 
@@ -121,12 +155,12 @@ const OTPModal = ({
         </div>
         
         {/* Error Message */}
-        {otpError && (
+        {(otpError || authError) && (
           <div className="flex items-center justify-center gap-2 text-red-500 text-sm mb-6 bg-red-50 p-3 rounded-lg border border-red-200">
             <svg className="w-4 h-4 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20">
               <path fillRule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7 4a1 1 0 11-2 0 1 1 0 012 0zm-1-9a1 1 0 00-1 1v4a1 1 0 102 0V6a1 1 0 00-1-1z" clipRule="evenodd" />
             </svg>
-            <span>{otpError}</span>
+            <span>{otpError || authError}</span>
           </div>
         )}
 
@@ -149,17 +183,17 @@ const OTPModal = ({
             Cancel
           </button>
           <button
-            onClick={onVerify}
-            disabled={isLoading || otp.join('').length !== 5}
+            onClick={handleVerifyOTP}
+            disabled={authLoading || isLoading || otp.join('').length !== 5}
             className={`
               flex-1 py-3 px-4 font-medium rounded-full transition-all duration-200 active:scale-95
-              ${isLoading || otp.join('').length !== 5
+              ${(authLoading || isLoading) || otp.join('').length !== 5
                 ? 'bg-gray-300 cursor-not-allowed text-gray-500' 
                 : 'bg-[#8bc34a]  text-white shadow-lg hover:shadow-xl'
               }
             `}
           >
-            {isLoading ? (
+            {(authLoading || isLoading) ? (
               <div className="flex items-center justify-center gap-2">
                 <div className="w-5 h-5 border-2 border-white border-t-transparent rounded-full animate-spin" />
                 <span>Verifying...</span>

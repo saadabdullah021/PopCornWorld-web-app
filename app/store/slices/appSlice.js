@@ -73,7 +73,13 @@ const initialState = {
     totalPages: 0,
     totalRecords: 0
   },
-  cart: []
+  cart: [],
+  // Auth state
+  isAuthenticated: false,
+  authLoading: false,
+  authError: null,
+  phoneNumber: null,
+  otpSent: false
 }
 
 const appSlice = createSlice({
@@ -138,6 +144,32 @@ const appSlice = createSlice({
           item.quantity = quantity;
         }
       }
+    },
+    // Auth actions
+    setAuthLoading: (state, action) => {
+      state.authLoading = action.payload;
+    },
+    setAuthError: (state, action) => {
+      state.authError = action.payload;
+    },
+    setPhoneNumber: (state, action) => {
+      state.phoneNumber = action.payload;
+    },
+    setOTPSent: (state, action) => {
+      state.otpSent = action.payload;
+    },
+    loginSuccess: (state, action) => {
+      state.isAuthenticated = true;
+      state.user = action.payload;
+      state.authLoading = false;
+      state.authError = null;
+    },
+    logout: (state) => {
+      state.isAuthenticated = false;
+      state.user = null;
+      state.phoneNumber = null;
+      state.otpSent = false;
+      state.authError = null;
     }
   },
   extraReducers: (builder) => {
@@ -257,7 +289,13 @@ export const {
   clearError,
   addToCart,
   removeFromCart,
-  updateCartQuantity
+  updateCartQuantity,
+  setAuthLoading,
+  setAuthError,
+  setPhoneNumber,
+  setOTPSent,
+  loginSuccess,
+  logout
 } = appSlice.actions
 
 export default appSlice.reducer

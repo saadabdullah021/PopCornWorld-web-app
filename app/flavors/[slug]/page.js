@@ -2,108 +2,42 @@
 import React, { useState, useEffect } from 'react';
 import Image from 'next/image';
 import { useRouter, useParams } from 'next/navigation';
+import { useDispatch } from 'react-redux';
+import { getSingleProduct } from '../../services/api';
+import { addToCart, addNotification } from '../../store/slices/appSlice';
 import demoImage from '../../../public/dance_fundraiser.png';
 
 const FlavorDetailsPage = () => {
   const router = useRouter();
   const params = useParams();
+  const dispatch = useDispatch();
   const [selectedImageIndex, setSelectedImageIndex] = useState(0);
   const [flavor, setFlavor] = useState(null);
   const [loading, setLoading] = useState(true);
 
-  // Sample data - replace with your API data
-  const allFlavors = [
-    {
-      id: 1,
-      name: "Spicy and Savory",
-      slug: "spicy-and-savory",
-      price: 65.00,
-      category: "FLAVOR",
-      description: "A blaze of spicy, cheezy perfection with a kick that won't quit.",
-      images: [demoImage, "/api/placeholder/400/400", "/api/placeholder/400/401"]
-    },
-    {
-      id: 2,
-      name: "Savory and Salty",
-      slug: "savory-and-salty",
-      price: 76.00,
-      category: "FLAVOR",
-      description: "Fluffy, buttery popcorn with a slightly salted to perfection.",
-      images: ["/api/placeholder/300/300", "/api/placeholder/400/402", "/api/placeholder/400/403"]
-    },
-    {
-      id: 3,
-      name: "Savory",
-      slug: "savory",
-      price: 56.00,
-      category: "FLAVOR",
-      description: "Tasty popcorn with an elegant coating of creamy white cheddar.",
-      images: ["/api/placeholder/300/300", "/api/placeholder/400/404"]
-    },
-    {
-      id: 4,
-      name: "Sweet Caramel",
-      slug: "sweet-caramel",
-      price: 68.00,
-      category: "FLAVOR",
-      description: "Rich, buttery caramel coating that melts in your mouth.",
-      images: ["/api/placeholder/300/300", "/api/placeholder/400/405", "/api/placeholder/400/406"]
-    },
-    {
-      id: 5,
-      name: "Chocolate Delight",
-      slug: "chocolate-delight",
-      price: 72.00,
-      category: "FLAVOR",
-      description: "Premium chocolate drizzled popcorn for the ultimate treat.",
-      images: ["/api/placeholder/300/300"]
-    },
-    {
-      id: 6,
-      name: "Mixed Berry",
-      slug: "mixed-berry",
-      price: 70.00,
-      category: "FLAVOR",
-      description: "A fruity explosion with real berry flavoring and natural colors.",
-      images: ["/api/placeholder/300/300", "/api/placeholder/400/407"]
-    },
-    {
-      id: 7,
-      name: "Truffle Parmesan",
-      slug: "truffle-parmesan",
-      price: 85.00,
-      category: "FLAVOR",
-      description: "Gourmet truffle oil with aged parmesan for sophisticated taste.",
-      images: ["/api/placeholder/300/300", "/api/placeholder/400/408", "/api/placeholder/400/409"]
-    },
-    {
-      id: 8,
-      name: "Cinnamon Sugar",
-      slug: "cinnamon-sugar",
-      price: 58.00,
-      category: "FLAVOR",
-      description: "Classic cinnamon and sugar blend that brings back childhood memories.",
-      images: ["/api/placeholder/300/300"]
-    }
-  ];
 
   useEffect(() => {
     // Get slug from URL params
     const slug = params?.slug;
     
     if (slug) {
-      // Find flavor by slug
-      const foundFlavor = allFlavors.find(f => f.slug === slug);
-      
-      if (foundFlavor) {
-        setFlavor(foundFlavor);
-      } else {
-        // If flavor not found, redirect to 404 or all flavors page
-        router.push('/404');
-      }
+      // Fetch flavor data from API
+      getSingleProduct(
+        slug,
+        (data) => {
+          // Success callback
+          setFlavor(data);
+          setLoading(false);
+        },
+        () => {
+          // Fail callback
+          setLoading(false);
+          router.push('/404');
+        }
+      );
+    } else {
+      setLoading(false);
     }
-    
-    setLoading(false);
   }, [params?.slug, router]);
 
   const handleBack = () => {
@@ -111,7 +45,19 @@ const FlavorDetailsPage = () => {
   };
 
   const handleAddToCart = () => {
-  
+    if (!flavor) return;
+    
+    // Add product to cart
+    dispatch(addToCart(flavor));
+    
+    // Show success notification
+    dispatch(addNotification({
+      message: `${flavor.name || flavor.title} has been added to your cart!`,
+      type: 'success'
+    }));
+    
+    // Redirect to checkout page
+    router.push('/checkout');
   };
 
   if (loading) {
@@ -166,7 +112,7 @@ const FlavorDetailsPage = () => {
               All Flavors
             </button>
             <span>/</span>
-            <span className="text-black font-medium">{flavor.name}</span>
+            <span className="text-black font-medium">{flavor.name || flavor.title || 'Popcorn Flavor'}</span>
           </div>
         </nav>
 
@@ -177,15 +123,18 @@ const FlavorDetailsPage = () => {
             {/* Main Image */}
             <div className="relative h-96 lg:h-[400px] bg-gradient-to-br from-orange-100 to-yellow-50 rounded-2xl overflow-hidden shadow-lg">
               <Image
-                src={flavor.images[selectedImageIndex]}
-                alt={flavor.name}
+                src={flavor.image || flavor.images?.[selectedImageIndex] || '/pop_packet.png'}
+                alt={flavor.name || flavor.title || 'Popcorn Flavor'}
                 fill
-                className="object-fill rop-shadow-2xl  transition-all duration-300"
+                className="object-contain drop-shadow-2xl transition-all duration-300"
+                onError={(e) => {
+                  e.target.src = '/pop_packet.png';
+                }}
               />
             </div>
 
             {/* Thumbnail Images */}
-            {flavor.images.length > 1 && (
+            {flavor.images && flavor.images.length > 1 && (
               <div className="flex gap-3 overflow-x-auto pb-2">
                 {flavor.images.map((image, index) => (
                   <button
@@ -199,10 +148,13 @@ const FlavorDetailsPage = () => {
                   >
                     <Image
                       src={image}
-                      alt={`${flavor.name} ${index + 1}`}
+                      alt={`${flavor.name || flavor.title} ${index + 1}`}
                       width={80}
                       height={80}
                       className="w-full h-full object-cover"
+                      onError={(e) => {
+                        e.target.src = '/pop_packet.png';
+                      }}
                     />
                   </button>
                 ))}
@@ -214,23 +166,24 @@ const FlavorDetailsPage = () => {
           <div className="space-y-6">
             {/* Flavor Name */}
             <h1 className="text-4xl lg:text-5xl font-bold text-black leading-tight">
-              {flavor.name}
+              {flavor.name || flavor.title || 'Popcorn Flavor'}
             </h1>
 
             {/* Category */}
             <span className="inline-block px-4 py-2 bg-gray-200 text-black text-sm font-bold uppercase tracking-wider rounded-full">
-              {flavor.category}
+              {flavor.product_categories?.[0]?.category?.name || flavor.type || flavor.category || 'FLAVOR'}
             </span>
 
             {/* Price */}
             <div className="text-3xl font-bold text-black">
-              ${flavor.price.toFixed(2)}
+              ${flavor.price || '0.00'}
             </div>
 
             {/* Description */}
-            <p className="text-black text-lg leading-relaxed">
-              {flavor.description}
-            </p>
+            <div 
+              className="text-black text-lg leading-relaxed"
+              dangerouslySetInnerHTML={{ __html: flavor.description || '' }}
+            />
 
             {/* Static Line with Icon */}
             <div className="flex items-center gap-3 py-6 border-t border-b border-gray-200">
@@ -252,7 +205,7 @@ const FlavorDetailsPage = () => {
               onClick={handleAddToCart}
               className="w-full inline-flex items-center gap-3 justify-center bg-[#8bc34a] text-white font-bold py-3 px-8 rounded-3xl transition-all duration-300 transform hover:shadow-lg focus:outline-none text-lg"
             >
-              Add to Cart   ${flavor.price.toFixed(2)}
+              Add to Cart   ${flavor.price || '0.00'}
               <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
                 <path d="m15 11-1 9"/>
                 <path d="m19 11-4-7"/>
