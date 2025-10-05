@@ -1,5 +1,5 @@
 import axiosInstance from '../../axios'
-import { get_single_product, get_single_collection, send_otp, verify_otp, create_order } from './endpoints'
+import { get_single_product, get_single_collection, send_otp, verify_otp, create_order, track_order } from './endpoints'
 
 export const api = {
   get: (url, config = {}) => axiosInstance.get(url, config),
@@ -39,8 +39,9 @@ export const getSingleCollection = async (slug, success, fail) => {
 
 export const sendOTP = async (phoneNumber, otpType, success, fail) => {
   try {
+    const cleanPhoneNumber = phoneNumber.replace(/[^\d]/g, '');
     const response = await axiosInstance.post(send_otp, { 
-      phone_number: phoneNumber,
+      phone_number: cleanPhoneNumber,
       otp_type: otpType
     });
     if (response?.data?.status === 200) {
@@ -59,8 +60,9 @@ export const sendOTP = async (phoneNumber, otpType, success, fail) => {
 
 export const verifyOTP = async (phoneNumber, otpCode, otpType, success, fail) => {
   try {
+    const cleanPhoneNumber = phoneNumber.replace(/[^\d]/g, '');
     const response = await axiosInstance.post(verify_otp, { 
-      phone_number: phoneNumber, 
+      phone_number: cleanPhoneNumber,
       otp_code: otpCode,
       otp_type: otpType
     });
@@ -91,6 +93,27 @@ export const createOrder = async (orderData, success, fail) => {
       return response?.data;
     } else {
       fail && fail(response?.data?.message || 'Order creation failed');
+      return response?.data;
+    }
+  } catch (error) {
+    fail && fail(error?.response?.data?.message || 'Network error occurred');
+    return error;
+  }
+};
+
+export const trackOrder = async (emailAddress, success, fail) => {
+  try {
+    const response = await axiosInstance.get(track_order, {
+      params: {
+        email_address: emailAddress
+      }
+    });
+    
+    if (response?.data?.status === 200 || response?.status === 200) {
+      success && success(response?.data);
+      return response?.data;
+    } else {
+      fail && fail(response?.data?.message || 'Order tracking failed');
       return response?.data;
     }
   } catch (error) {

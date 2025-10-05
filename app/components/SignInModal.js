@@ -75,11 +75,11 @@ const SignInModal = ({
                 type="tel"
                 value={phoneNumber}
                 onChange={onPhoneChange}
-                placeholder="(555) 123-4567"
+                placeholder="(555) 123-4567-8"
                 className={`w-full px-4 py-3 border rounded-xl outline-none transition-all duration-200 ${
                   phoneError ? 'border-red-500' : 'border-gray-800'
                 }`}
-                maxLength={14}
+                maxLength={16}
               />
               {(phoneError || authError) && (
                 <p className="mt-2 text-sm text-red-600 flex items-center">

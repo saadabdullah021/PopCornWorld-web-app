@@ -6,4 +6,5 @@ export const get_single_product = "/api/get-product";
 export const get_single_collection = "/api/get-collection";
 export const send_otp = "/api/send-otp";
 export const verify_otp = "/api/verify-otp";
-export const create_order = "https://onebigmediacompany.online/api/create-order";
+export const create_order = "/api/create-order";
+export const track_order = "/api/track-order";
