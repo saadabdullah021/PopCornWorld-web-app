@@ -1,5 +1,5 @@
 import axiosInstance from '../../axios'
-import { get_single_product, get_single_collection, send_otp, verify_otp, create_order, track_order } from './endpoints'
+import { get_single_product, get_single_collection, send_otp, verify_otp, create_order, track_order, check_email_exists, get_organization_info, fundraiser_register } from './endpoints'
 
 export const api = {
   get: (url, config = {}) => axiosInstance.get(url, config),
@@ -117,6 +117,72 @@ export const trackOrder = async (emailAddress, success, fail) => {
       return response?.data;
     }
   } catch (error) {
+    fail && fail(error?.response?.data?.message || 'Network error occurred');
+    return error;
+  }
+};
+
+export const checkEmailExists = async (emailAddress, userType, success, fail) => {
+  try {
+    const response = await axiosInstance.get(check_email_exists, {
+      params: {
+        user_type: userType,
+        email_address: emailAddress
+      }
+    });
+    
+    if (response?.data?.status === 200 || response?.status === 200) {
+      success && success(response?.data);
+      return response?.data;
+    } else {
+      fail && fail(response?.data?.message || 'Email check failed');
+      return response?.data;
+    }
+  } catch (error) {
+    fail && fail(error?.response?.data?.message || 'Network error occurred');
+    return error;
+  }
+};
+
+export const getOrganizationInfo = async (success, fail) => {
+  try {
+    console.log('Making API call to:', get_organization_info);
+    const response = await axiosInstance.get(get_organization_info);
+    console.log('API response:', response);
+    
+    if (response?.data?.status === 200 || response?.status === 200) {
+      success && success(response?.data);
+      return response?.data;
+    } else {
+      fail && fail(response?.data?.message || 'Failed to fetch organization info');
+      return response?.data;
+    }
+  } catch (error) {
+    console.error('API error:', error);
+    fail && fail(error?.response?.data?.message || 'Network error occurred');
+    return error;
+  }
+};
+
+export const registerFundraiser = async (formData, success, fail) => {
+  try {
+    console.log('Registering fundraiser with data:', formData);
+    const response = await axiosInstance.post(fundraiser_register, formData, {
+      headers: {
+        'Content-Type': 'application/x-www-form-urlencoded',
+      },
+    });
+    console.log('Fundraiser registration response:', response);
+    
+    if (response?.data?.status === 200 || response?.status === 200) {
+      success && success(response?.data);
+      return response?.data;
+    } else {
+      fail && fail(response?.data?.message || 'Failed to register fundraiser');
+      return response?.data;
+    }
+  } catch (error) {
+    console.error('Fundraiser registration error:', error);
     fail && fail(error?.response?.data?.message || 'Network error occurred');
     return error;
   }
