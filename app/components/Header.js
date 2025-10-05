@@ -104,10 +104,10 @@ const Header = () => {
         setActiveDropdown("");
     };
 
-    // Phone number validation for US numbers
+    // Phone number validation for 11-digit numbers
     const validateUSPhone = (phone) => {
-        const phoneRegex = /^(\+1\s?)?(\([0-9]{3}\)|[0-9]{3})[\s\-]?[0-9]{3}[\s\-]?[0-9]{4}$/;
-        return phoneRegex.test(phone.replace(/\s/g, ''));
+        const cleanPhone = phone.replace(/[^\d]/g, '');
+        return cleanPhone.length === 11;
     };
 
     // Format phone number as user types
@@ -119,7 +119,13 @@ const Header = () => {
         if (phoneNumberLength < 7) {
             return `(${phoneNumber.slice(0, 3)}) ${phoneNumber.slice(3)}`;
         }
-        return `(${phoneNumber.slice(0, 3)}) ${phoneNumber.slice(3, 6)}-${phoneNumber.slice(6, 10)}`;
+        if (phoneNumberLength < 10) {
+            return `(${phoneNumber.slice(0, 3)}) ${phoneNumber.slice(3, 6)}-${phoneNumber.slice(6)}`;
+        }
+        if (phoneNumberLength < 11) {
+            return `(${phoneNumber.slice(0, 3)}) ${phoneNumber.slice(3, 6)}-${phoneNumber.slice(6, 10)}`;
+        }
+        return `(${phoneNumber.slice(0, 3)}) ${phoneNumber.slice(3, 6)}-${phoneNumber.slice(6, 10)}-${phoneNumber.slice(10, 11)}`;
     };
 
     const handlePhoneChange = (e) => {
@@ -141,7 +147,7 @@ const Header = () => {
         }
 
         if (!validateUSPhone(phoneNumber)) {
-            setPhoneError('Please enter a valid US phone number');
+            setPhoneError('Please enter a valid 11-digit phone number');
             return;
         }
 

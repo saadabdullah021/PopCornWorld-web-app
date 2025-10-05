@@ -1,4 +1,3 @@
-// components/PopularCategories.tsx
 
 'use client'
 import { Swiper, SwiperSlide } from 'swiper/react'
@@ -7,9 +6,44 @@ import 'swiper/css'
 import 'swiper/css/pagination'
 import Image from 'next/image'
 import Link from 'next/link'
-import { categories } from '../../lib/data' // 👈 same data
+import { useState, useEffect } from 'react'
+import { getProductsSlider } from '../../services/api'
 
 const PopularCategories = () => {
+  const [products, setProducts] = useState([]);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    getProductsSlider(
+      (response) => {
+        console.log('Products slider data received:', response);
+        setProducts(response.data || []);
+        setLoading(false);
+      },
+      (error) => {
+        console.error('Failed to fetch products slider:', error);
+        setLoading(false);
+      }
+    );
+  }, []);
+
+  if (loading) {
+    return (
+      <section className="py-12 lg:py-16 bg-yellow-50">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="mb-12 text-center">
+            <h2 className="text-3xl lg:text-5xl font-splash text-black">
+              Popular FLAVORS
+            </h2>
+          </div>
+          <div className="flex justify-center">
+            <div className="text-gray-600">Loading...</div>
+          </div>
+        </div>
+      </section>
+    );
+  }
+
   return (
     <section className="py-12 lg:py-16 bg-yellow-50">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -34,21 +68,23 @@ const PopularCategories = () => {
           }}
           className="pb-12" 
         >
-          {categories.map((category) => (
-            <SwiperSlide key={category.id}>
-              <Link href={`/category/${category.slug}`} className="block">
+          {products.map((product) => (
+            <SwiperSlide key={product.id}>
+              <Link href={`/flavors/${product.slug}`} className="block">
                 <div className="flex flex-col items-center justify-center pb-10 hover:opacity-80 transition">
                   <div className="w-[50px] h-[50px] rounded-full overflow-hidden mb-3 shadow-md">
                     <Image
-                      src={category.image && typeof category.image === 'string' ? category.image : '/pop_packet.png'}
-                      alt={category.title}
+                      src={product.product_images && product.product_images[0] && product.product_images[0].thumbnail 
+                        ? product.product_images[0].thumbnail 
+                        : '/pop_packet.png'}
+                      alt={product.title}
                       width={50}
                       height={50}
                       className="object-cover"
                     />
                   </div>
                   <h3 className="text-sm md:text-base font-semibold text-gray-800">
-                    {category.title}
+                    {product.title}
                   </h3>
                 </div>
               </Link>

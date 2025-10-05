@@ -5,6 +5,7 @@ import get1 from '../../public/get1.png';
 import get2 from '../../public/get2.png';
 import { useRouter } from 'next/navigation';
 import { ArrowLeft, Calendar, CalendarCheck } from 'lucide-react';
+import { checkEmailExists, getOrganizationInfo, registerFundraiser, sendOTP, verifyOTP } from '../services/api';
 
 import { format, parseISO, isBefore, addHours } from 'date-fns';
 import 'react-day-picker/dist/style.css';
@@ -183,63 +184,54 @@ const FundraisingOnboarding = () => {
     const router = useRouter();
     const [currentStep, setCurrentStep] = useState(0);
     const [formData, setFormData] = useState({
-        email: '',
-        teamName: '',
-        organizationType: '',
-        organizationSubType: '',
-        organizationName: '',
-        zipCode: '',
-        startTime: '',
-        membersCount: '',
-        firstName: '',
-        lastName: '',
-        phoneNumber: '',
+        email_address: '',
+        team_name: '',
+        organization_type_id: '',
+        organization_sub_type_id: '',
+        organization_name: '',
+        zip_code: '',
+        fundraising_start_time: '',
+        members_count: '',
+        fundraiser_name: '',
+        phone_no: '',
         otp: '',
         acceptTerms: false,
+        status: '1'
     });
 
     const [formErrors, setFormErrors] = useState({});
     const [isLoading, setIsLoading] = useState(false);
     const [showOtpInput, setShowOtpInput] = useState(false);
+    const [otpSent, setOtpSent] = useState(false);
     const [pickSpecificDate, setPickSpecificDate] = useState(false);
+    const [organizationData, setOrganizationData] = useState([]);
+    const [organizationLabel, setOrganizationLabel] = useState('Organization Name');
+    
+    console.log('Current organizationData:', organizationData);
 
 
-    // ... inside your component
 
     const [startDate, setStartDate] = useState(null);
     const [endDate, setEndDate] = useState(null);
 
-    // Optional: Format for display
     const formatDate = (date) => (date ? format(date, 'PPP p') : '');
 
+    useEffect(() => {
+        console.log('Fetching organization data...');
+        getOrganizationInfo(
+            (response) => {
+                console.log('Organization data received:', response);
+                setOrganizationData(response.data || []);
+            },
+            (error) => {
+                console.error('Failed to fetch organization data:', error);
+            }
+        );
+    }, []);
 
 
-    // Mock organization data
-    const organizationTypes = [
-        {
-            id: 1, name: 'Sports & Athletics', subTypes: [
-                { id: 1, name: 'Football Team' },
-                { id: 2, name: 'Basketball Team' },
-                { id: 3, name: 'Track & Field' }
-            ]
-        },
-        {
-            id: 2, name: 'Education & Academics', subTypes: [
-                { id: 4, name: 'High School' },
-                { id: 5, name: 'College' },
-                { id: 6, name: 'Elementary School' }
-            ]
-        },
-        {
-            id: 3, name: 'Non-Profit', subTypes: [
-                { id: 7, name: 'Community Service' },
-                { id: 8, name: 'Religious Organization' },
-                { id: 9, name: 'Health & Wellness' }
-            ]
-        }
-    ];
 
-    // Steps configuration
+
     const steps = [
         { title: 'Get Started', description: 'Enter your email' },
         { title: 'Team Name', description: 'Name your team' },
@@ -257,33 +249,35 @@ const FundraisingOnboarding = () => {
 
         switch (step) {
             case 0:
-                if (!formData.email) errors.email = 'Email is required';
-                else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(formData.email)) {
-                    errors.email = 'Please enter a valid email';
+                if (!formData.email_address) errors.email_address = 'Email is required';
+                else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(formData.email_address)) {
+                    errors.email_address = 'Please enter a valid email';
                 }
                 break;
             case 1:
-                if (!formData.teamName) errors.teamName = 'Team name is required';
+                if (!formData.team_name) errors.team_name = 'Team name is required';
                 break;
             case 2:
-                if (!formData.organizationType) errors.organizationType = 'Organization type is required';
-                if (!formData.organizationSubType) errors.organizationSubType = 'Organization sub-type is required';
-                if (!formData.organizationName) errors.organizationName = 'Organization name is required';
-                if (!formData.zipCode) errors.zipCode = 'Zip code is required';
+                if (!formData.organization_type_id) errors.organization_type_id = 'Organization type is required';
+                if (!formData.organization_sub_type_id) errors.organization_sub_type_id = 'Organization sub-type is required';
+                if (!formData.organization_name) errors.organization_name = 'Organization name is required';
+                if (!formData.zip_code) errors.zip_code = 'Zip code is required';
                 break;
             case 3:
-                if (!pickSpecificDate && !formData.startTime) errors.startTime = 'Start time is required';
+                if (!pickSpecificDate && !formData.fundraising_start_time) errors.fundraising_start_time = 'Start time is required';
                 if (pickSpecificDate && (!startDate || !endDate)) errors.dates = 'Both start and end dates are required';
                 break;
             case 4:
-                if (!formData.membersCount) errors.membersCount = 'Members count is required';
+                if (!formData.members_count) errors.members_count = 'Members count is required';
                 break;
             case 6:
-                if (!formData.firstName) errors.firstName = 'First name is required';
-                if (!formData.lastName) errors.lastName = 'Last name is required';
-                if (!formData.phoneNumber) errors.phoneNumber = 'Phone number is required';
-                else if (!/^\d{3}-\d{3}-\d{4}$/.test(formData.phoneNumber)) {
-                    errors.phoneNumber = 'Please enter a valid phone number (XXX-XXX-XXXX)';
+                if (!formData.fundraiser_name) errors.fundraiser_name = 'Full name is required';
+                if (!formData.phone_no) errors.phone_no = 'Phone number is required';
+                else {
+                    const cleanPhone = formData.phone_no.replace(/\D/g, '');
+                    if (cleanPhone.length < 10 || cleanPhone.length > 11) {
+                        errors.phone_no = 'Please enter a valid phone number (10-11 digits)';
+                    }
                 }
                 if (!formData.acceptTerms) errors.acceptTerms = 'You must accept the terms and conditions';
                 break;
@@ -297,23 +291,43 @@ const FundraisingOnboarding = () => {
         return Object.keys(errors).length === 0;
     };
 
-    // Handle form input changes
     const handleInputChange = (field, value) => {
-        if (field === 'phoneNumber') {
-            // Format phone number as user types
+        if (field === 'phone_no') {
             let input = value.replace(/\D/g, '');
-            if (input.length <= 10) {
-                input = input.replace(/(\d{3})(\d{3})(\d{4})/, '$1-$2-$3');
-                if (input.length < 12) {
-                    const parts = input.split('-');
-                    if (parts[0] && parts[0].length === 3 && parts[1] && parts[1].length < 3) {
-                        input = parts[0] + '-' + parts[1];
-                    } else if (parts[0] && parts[0].length < 3) {
-                        input = parts[0];
-                    }
+            if (input.length <= 11) {
+                if (input.length >= 10) {
+                    input = input.replace(/(\d{3})(\d{3})(\d{4})/, '$1-$2-$3');
+                } else if (input.length >= 6) {
+                    input = input.replace(/(\d{3})(\d{3})/, '$1-$2');
+                } else if (input.length >= 3) {
+                    input = input.replace(/(\d{3})/, '$1');
                 }
+            } else {
+                input = input.slice(0, 11);
+                input = input.replace(/(\d{3})(\d{3})(\d{4})/, '$1-$2-$3');
             }
             value = input;
+        }
+
+        if (field === 'organization_type_id') {
+            // Reset sub-type when organization type changes
+            setFormData(prev => ({ 
+                ...prev, 
+                [field]: value,
+                organization_sub_type_id: '',
+                organization_name: ''
+            }));
+            setOrganizationLabel('Organization Name');
+        }
+
+        if (field === 'organization_sub_type_id') {
+            // Update organization label based on selected sub-type
+            const selectedOrgType = organizationData.find(org => org.id == formData.organization_type_id);
+            const selectedSubType = selectedOrgType?.organization_sub_types.find(sub => sub.id == value);
+            if (selectedSubType) {
+                setOrganizationLabel(selectedSubType.label);
+            }
+            setFormData(prev => ({ ...prev, [field]: value, organization_name: '' }));
         }
 
         setFormData(prev => ({ ...prev, [field]: value }));
@@ -324,23 +338,101 @@ const FundraisingOnboarding = () => {
         }
     };
 
-    // Handle next step
     const handleNext = async () => {
         if (!validateStep(currentStep)) return;
 
         setIsLoading(true);
 
-        // Simulate API call delay
+        if (currentStep === 0) {
+            checkEmailExists(
+                formData.email,
+                'fundraiser',
+                (response) => {
+                    setCurrentStep(currentStep + 1);
+                    setIsLoading(false);
+                },
+                (error) => {
+                    setFormErrors({ email: 'User not found. Please check your email or sign up first.' });
+                    setIsLoading(false);
+                }
+            );
+            return;
+        }
+
         await new Promise(resolve => setTimeout(resolve, 500));
 
         if (currentStep === 6 && !showOtpInput) {
-            // Send OTP
-            setShowOtpInput(true);
-            setIsLoading(false);
+            const cleanPhoneNumber = formData.phone_no.replace(/\D/g, '');
+            sendOTP(
+                cleanPhoneNumber,
+                'signin',
+                (response) => {
+                    console.log('OTP sent successfully:', response);
+                    setShowOtpInput(true);
+                    setOtpSent(true);
+                    setIsLoading(false);
+                },
+                (error) => {
+                    console.error('Failed to send OTP:', error);
+                    setFormErrors({ phone_no: 'Failed to send OTP. Please try again.' });
+                    setIsLoading(false);
+                }
+            );
+            return;
+        }
+
+        if (currentStep === 6 && showOtpInput) {
+            const cleanPhoneNumber = formData.phone_no.replace(/\D/g, '');
+            verifyOTP(
+                cleanPhoneNumber,
+                formData.otp,
+                'signin',
+                (response) => {
+                    console.log('OTP verified successfully:', response);
+                    
+                    if (response.data && response.data.customer_info && response.data.access_token) {
+                        localStorage.setItem('auth_token', response.data.access_token);
+                        localStorage.setItem('user_data', JSON.stringify(response.data.customer_info));
+                    }
+                    
+                    setCurrentStep(currentStep + 1);
+                    setIsLoading(false);
+                },
+                (error) => {
+                    console.error('Failed to verify OTP:', error);
+                    setFormErrors({ otp: 'Invalid OTP. Please try again.' });
+                    setIsLoading(false);
+                }
+            );
             return;
         }
         if (currentStep === 7) {
-            router.push('/fundraiser-registered');
+            const payload = {
+                fundraiser_name: formData.fundraiser_name,
+                email_address: formData.email_address,
+                phone_no: formData.phone_no.replace(/\D/g, ''),
+                team_name: formData.team_name,
+                organization_name: formData.organization_name,
+                organization_type_id: formData.organization_type_id,
+                organization_sub_type_id: formData.organization_sub_type_id,
+                zip_code: formData.zip_code,
+                fundraising_start_time: formData.fundraising_start_time,
+                members_count: formData.members_count,
+                status: formData.status
+            };
+
+            registerFundraiser(
+                payload,
+                (response) => {
+                    console.log('Fundraiser registered successfully:', response);
+                    router.push('/fundraiser-registered');
+                },
+                (error) => {
+                    console.error('Failed to register fundraiser:', error);
+                    setFormErrors({ submit: 'Registration failed. Please try again.' });
+                    setIsLoading(false);
+                }
+            );
             return;
         }
 
@@ -372,14 +464,11 @@ const FundraisingOnboarding = () => {
 
     const earnings = calculateEarnings();
 
-    // Progress bar component
     const ProgressBar = () => (
         <div className="mb-8">
        <div className="mb-10">
     <div className="relative">
-        {/* Glass Background Line */}
         <div className="absolute top-4 left-0 right-0 h-2 bg-white/20 backdrop-blur-lg rounded-full -translate-y-1/2 border border-white/30">
-            {/* Gradient Progress Fill */}
             <div 
                 className="h-full bg-gradient-to-r from-green-400 via-blue-500 to-purple-600 rounded-full transition-all duration-800 ease-out shadow-lg shadow-blue-500/25"
                 style={{ 
@@ -388,11 +477,9 @@ const FundraisingOnboarding = () => {
             />
         </div>
 
-        {/* Steps */}
         <div className="flex justify-between relative z-10">
             {steps.map((step, index) => (
                 <div key={index} className="flex flex-col items-center flex-1">
-                    {/* Step Circle */}
                     <div className={`
                         relative w-7 h-7 rounded-full flex items-center justify-center text-sm font-bold transition-all duration-500 ease-out
                         backdrop-blur-lg border shadow-lg
@@ -432,7 +519,6 @@ const FundraisingOnboarding = () => {
         </div>
     );
 
-    // Render current step content
     const renderStepContent = () => {
         switch (currentStep) {
             case 0:
@@ -449,11 +535,11 @@ const FundraisingOnboarding = () => {
                             <input
                                 type="email"
                                 placeholder="Email address"
-                                value={formData.email}
-                                onChange={(e) => handleInputChange('email', e.target.value)}
+                                value={formData.email_address}
+                                onChange={(e) => handleInputChange('email_address', e.target.value)}
                                 className="w-full p-4 rounded-xl border  border-gray-300 focus:outline-none text-white  placeholder-white  transition-all duration-200"
                             />
-                            {formErrors.email && <p className="text-red-400 font-medium text-sm">{formErrors.email}</p>}
+                            {formErrors.email_address && <p className="text-red-400 font-medium text-sm">{formErrors.email_address}</p>}
                         </div>
                     </div>
                 );
@@ -472,11 +558,11 @@ const FundraisingOnboarding = () => {
                             <input
                                 type="text"
                                 placeholder="Team Name"
-                                value={formData.teamName}
-                                onChange={(e) => handleInputChange('teamName', e.target.value)}
+                                value={formData.team_name}
+                                onChange={(e) => handleInputChange('team_name', e.target.value)}
                                 className="w-full p-4 rounded-xl border border-gray-300 focus:outline-none text-white  placeholder-white  transition-all duration-200"
                             />
-                            {formErrors.teamName && <p className="text-red-400 font-medium text-sm">{formErrors.teamName}</p>}
+                            {formErrors.team_name && <p className="text-red-400 font-medium text-sm">{formErrors.team_name}</p>}
                         </div>
                     </div>
                 );
@@ -494,54 +580,56 @@ const FundraisingOnboarding = () => {
                         <div className="space-y-6">
                             <div>
                                 <select
-                                    value={formData.organizationType}
-                                    onChange={(e) => handleInputChange('organizationType', e.target.value)}
+                                    value={formData.organization_type_id}
+                                    onChange={(e) => handleInputChange('organization_type_id', e.target.value)}
                                     className="w-full p-4 rounded-xl border border-gray-300 focus:outline-none text-white  placeholder-white  transition-all duration-200"
                                 >
-                                    <option className='text-black' value="">Select Organization Type</option>
-                                    {organizationTypes.map(type => (
+                                    <option className='text-black' value="">
+                                        {organizationData.length === 0 ? 'Loading...' : 'Select Organization Type'}
+                                    </option>
+                                    {organizationData.map(type => (
                                         <option key={type.id} className='text-black' value={type.id}>{type.name}</option>
                                     ))}
                                 </select>
-                                {formErrors.organizationType && <p className="text-red-400 font-medium text-sm mt-1">{formErrors.organizationType}</p>}
+                                {formErrors.organization_type_id && <p className="text-red-400 font-medium text-sm mt-1">{formErrors.organization_type_id}</p>}
                             </div>
 
-                            {formData.organizationType && (
+                            {formData.organization_type_id && (
                                 <div>
                                     <select
-                                        value={formData.organizationSubType}
-                                        onChange={(e) => handleInputChange('organizationSubType', e.target.value)}
+                                        value={formData.organization_sub_type_id}
+                                        onChange={(e) => handleInputChange('organization_sub_type_id', e.target.value)}
                                         className="w-full p-4 rounded-xl border border-gray-300 focus:outline-none text-white  placeholder-white  transition-all duration-200"
                                     >
                                         <option className='text-black' value="">Select Sub-Type</option>
-                                        {organizationTypes.find(t => t.id == formData.organizationType)?.subTypes.map(subType => (
+                                        {organizationData.find(t => t.id == formData.organization_type_id)?.organization_sub_types.map(subType => (
                                             <option key={subType.id} className='text-black' value={subType.id}>{subType.name}</option>
                                         ))}
                                     </select>
-                                    {formErrors.organizationSubType && <p className="text-red-400 font-medium text-sm mt-1">{formErrors.organizationSubType}</p>}
+                                    {formErrors.organization_sub_type_id && <p className="text-red-400 font-medium text-sm mt-1">{formErrors.organization_sub_type_id}</p>}
                                 </div>
                             )}
 
                             <div>
                                 <input
                                     type="text"
-                                    placeholder="Organization Name"
-                                    value={formData.organizationName}
-                                    onChange={(e) => handleInputChange('organizationName', e.target.value)}
+                                    placeholder={organizationLabel}
+                                    value={formData.organization_name}
+                                    onChange={(e) => handleInputChange('organization_name', e.target.value)}
                                     className="w-full p-4 rounded-xl border border-gray-300 focus:outline-none text-white  placeholder-white  transition-all duration-200"
                                 />
-                                {formErrors.organizationName && <p className="text-red-400 font-medium text-sm mt-1">{formErrors.organizationName}</p>}
+                                {formErrors.organization_name && <p className="text-red-400 font-medium text-sm mt-1">{formErrors.organization_name}</p>}
                             </div>
 
                             <div>
                                 <input
                                     type="text"
                                     placeholder="Zip Code"
-                                    value={formData.zipCode}
-                                    onChange={(e) => handleInputChange('zipCode', e.target.value.replace(/\D/g, '').slice(0, 5))}
+                                    value={formData.zip_code}
+                                    onChange={(e) => handleInputChange('zip_code', e.target.value.replace(/\D/g, '').slice(0, 5))}
                                     className="w-full p-4 rounded-xl border border-gray-300 focus:outline-none text-white  placeholder-white  transition-all duration-200"
                                 />
-                                {formErrors.zipCode && <p className="text-red-400 font-medium text-sm mt-1">{formErrors.zipCode}</p>}
+                                {formErrors.zip_code && <p className="text-red-400 font-medium text-sm mt-1">{formErrors.zip_code}</p>}
                             </div>
                         </div>
                     </div>
@@ -561,8 +649,8 @@ const FundraisingOnboarding = () => {
                                     {['asap', 'next4weeks', 'nextFewMonths', 'notSure'].map(option => (
                                         <button
                                             key={option}
-                                            onClick={() => handleInputChange('startTime', option)}
-                                            className={`p-4 rounded-xl font-semibold transition-all hover:bg-blue-600 hover:text-white duration-200 ${formData.startTime === option
+                                            onClick={() => handleInputChange('fundraising_start_time', option)}
+                                            className={`p-4 rounded-xl font-semibold transition-all hover:bg-blue-600 hover:text-white duration-200 ${formData.fundraising_start_time === option
                                                 ? 'bg-blue-600 text-white'
                                                 : 'bg-white text-gray-700 hover:bg-blue-50'
                                                 }`}
@@ -575,7 +663,7 @@ const FundraisingOnboarding = () => {
                                     ))}
                                 </div>
 
-                                <button
+                                {/* <button
                                     onClick={() => setPickSpecificDate(true)}
                                     className="group flex items-center gap-2.5 px-6 py-3 rounded-full  border border-white/10 
              text-white font-semibold transition-all duration-300 ease-out 
@@ -584,7 +672,7 @@ const FundraisingOnboarding = () => {
                                 >
                                     <CalendarCheck />
                                     Pick a Specific Date
-                                </button>
+                                </button> */}
 
                                 {formErrors.startTime && <p className="text-red-400 font-medium text-sm">{formErrors.startTime}</p>}
                             </div>
@@ -676,8 +764,8 @@ const FundraisingOnboarding = () => {
                             {['justme', '2-10', '11-20', '21-30', '31-40', '41-50', '51+', 'notSure'].map(option => (
                                 <button
                                     key={option}
-                                    onClick={() => handleInputChange('membersCount', option)}
-                                    className={`p-4 rounded-xl font-semibold transition-all hover:bg-blue-600 hover:text-white duration-200 ${formData.membersCount === option
+                                    onClick={() => handleInputChange('members_count', option)}
+                                    className={`p-4 rounded-xl font-semibold transition-all hover:bg-blue-600 hover:text-white duration-200 ${formData.members_count === option
                                         ? 'bg-blue-600 text-white'
                                         : 'bg-white text-gray-700 hover:bg-blue-50'
                                         }`}
@@ -706,45 +794,104 @@ const FundraisingOnboarding = () => {
                 );
 
             case 6:
-                return (
-                    <div>
+                if (showOtpInput) {
+                    return (
+                        <div>
+                            <h2 className="text-3xl font-splash text-white mt-4 mb-6">
+                                Enter the 5 digit code
+                            </h2>
+                            <p className="text-white/90 mb-8 text-lg">
+                                We sent a code over SMS to {formData.phone_no}.
+                            </p>
 
-                        <h1 className="text-4xl  font-splash text-white mt-4 mb-6">
-                            Set up your Popcorn World account
-                        </h1>
+                            <div className="flex justify-start gap-3 mb-4">
+                                {Array.from({ length: 5 }).map((_, index) => (
+                                    <input
+                                        key={index}
+                                        type="text"
+                                        maxLength={1}
+                                        value={formData.otp ? formData.otp[index] || "" : ""}
+                                        onChange={(e) => {
+                                            const value = e.target.value.replace(/\D/g, "");
+                                            let newOtp = (formData.otp || "").split("");
+                                            newOtp[index] = value;
+                                            handleInputChange("otp", newOtp.join(""));
+
+                                            if (value && e.target.nextSibling) {
+                                                e.target.nextSibling.focus();
+                                            }
+                                        }}
+                                        onKeyDown={(e) => {
+                                            if (e.key === "Backspace" && !(formData.otp && formData.otp[index]) && e.target.previousSibling) {
+                                                e.target.previousSibling.focus();
+                                            }
+                                        }}
+                                        className="w-14 h-14 text-center text-2xl font-semibold rounded-xl border bg-transparent border-gray-300  text-white  outline-none"
+                                    />
+                                ))}
+                            </div>
+
+                            {formErrors.otp && (
+                                <p className="text-red-400 font-medium text-sm text-center">{formErrors.otp}</p>
+                            )}
+
+                            {otpSent && (
+                                <div className="text-center mt-4">
+                                    <p className="text-white/70 text-sm mb-2">Didn't receive the code?</p>
+                                    <button
+                                        onClick={() => {
+                                            const cleanPhoneNumber = formData.phone_no.replace(/\D/g, '');
+                                            sendOTP(
+                                                cleanPhoneNumber,
+                                                'signin',
+                                                (response) => {
+                                                    console.log('OTP resent successfully:', response);
+                                                    setFormErrors({});
+                                                },
+                                                (error) => {
+                                                    console.error('Failed to resend OTP:', error);
+                                                    setFormErrors({ otp: 'Failed to resend OTP. Please try again.' });
+                                                }
+                                            );
+                                        }}
+                                        className="text-[#8ac24a] hover:text-green-400 text-sm font-medium underline"
+                                    >
+                                        Resend OTP
+                                    </button>
+                                </div>
+                            )}
+                        </div>
+                    );
+                } else {
+                    return (
+                        <div>
+                            <h1 className="text-4xl  font-splash text-white mt-4 mb-6">
+                                Set up your Popcorn World account
+                            </h1>
                         <div className="space-y-4">
                             <div className="grid grid-cols-2 gap-4">
                                 <div>
                                     <input
                                         type="text"
-                                        placeholder="First Name"
-                                        value={formData.firstName}
-                                        onChange={(e) => handleInputChange('firstName', e.target.value)}
+                                        placeholder="Full Name"
+                                        value={formData.fundraiser_name}
+                                        onChange={(e) => handleInputChange('fundraiser_name', e.target.value)}
                                         className="w-full p-4 rounded-xl border border-gray-300 focus:outline-none text-white  placeholder-white  transition-all duration-200"
                                     />
-                                    {formErrors.firstName && <p className="text-red-400 font-medium text-sm mt-1">{formErrors.firstName}</p>}
-                                </div>
-                                <div>
-                                    <input
-                                        type="text"
-                                        placeholder="Last Name"
-                                        value={formData.lastName}
-                                        onChange={(e) => handleInputChange('lastName', e.target.value)}
-                                        className="w-full p-4 rounded-xl border border-gray-300 focus:outline-none text-white  placeholder-white  transition-all duration-200"
-                                    />
-                                    {formErrors.lastName && <p className="text-red-400 font-medium text-sm mt-1">{formErrors.lastName}</p>}
+                                    {formErrors.fundraiser_name && <p className="text-red-400 font-medium text-sm mt-1">{formErrors.fundraiser_name}</p>}
                                 </div>
                             </div>
 
                             <div>
                                 <input
                                     type="tel"
-                                    placeholder="Mobile Phone (XXX-XXX-XXXX)"
-                                    value={formData.phoneNumber}
-                                    onChange={(e) => handleInputChange('phoneNumber', e.target.value)}
+                                    placeholder="Mobile Phone (10-11 digits)"
+                                    value={formData.phone_no}
+                                    onChange={(e) => handleInputChange('phone_no', e.target.value)}
+                                    maxLength={13}
                                     className="w-full p-4 rounded-xl border border-gray-300 focus:outline-none text-white  placeholder-white  transition-all duration-200"
                                 />
-                                {formErrors.phoneNumber && <p className="text-red-400 font-medium text-sm mt-1">{formErrors.phoneNumber}</p>}
+                                {formErrors.phone_no && <p className="text-red-400 font-medium text-sm mt-1">{formErrors.phone_no}</p>}
                             </div>
 
                             <div className="flex items-start space-x-3 mt-6">
@@ -754,7 +901,7 @@ const FundraisingOnboarding = () => {
                                         id="terms"
                                         checked={formData.acceptTerms}
                                         onChange={(e) => handleInputChange('acceptTerms', e.target.checked)}
-                                        className="sr-only" // Hide default checkbox
+                                        className="sr-only"
                                     />
                                     <label
                                         htmlFor="terms"
@@ -784,49 +931,29 @@ const FundraisingOnboarding = () => {
                             {formErrors.acceptTerms && <p className="text-red-400 font-medium text-sm">{formErrors.acceptTerms}</p>}
                         </div>
                     </div>
-                );
+                    );
+                }
 
             case 7:
                 return (
                     <div>
                         <h2 className="text-3xl font-splash text-white mt-4 mb-6">
-                            Enter the 5 digit code
+                            Complete Registration
                         </h2>
                         <p className="text-white/90 mb-8 text-lg">
-                            We sent a code over SMS to {formData.phoneNumber}.
+                            Your account has been verified! Click below to complete your fundraising registration.
                         </p>
-
-                        <div className="flex justify-start gap-3 mb-4">
-                            {Array.from({ length: 5 }).map((_, index) => (
-                                <input
-                                    key={index}
-                                    type="text"
-                                    maxLength={1}
-                                    value={formData.otp[index] || ""}
-                                    onChange={(e) => {
-                                        const value = e.target.value.replace(/\D/g, ""); // only numbers
-                                        let newOtp = formData.otp.split("");
-                                        newOtp[index] = value;
-                                        handleInputChange("otp", newOtp.join(""));
-
-                                        // auto move to next box
-                                        if (value && e.target.nextSibling) {
-                                            e.target.nextSibling.focus();
-                                        }
-                                    }}
-                                    onKeyDown={(e) => {
-                                        if (e.key === "Backspace" && !formData.otp[index] && e.target.previousSibling) {
-                                            e.target.previousSibling.focus();
-                                        }
-                                    }}
-                                    className="w-14 h-14 text-center text-2xl font-semibold rounded-xl border bg-transparent border-gray-300  text-white  outline-none"
-                                />
-                            ))}
+                        <div className="text-center">
+                            <div className="bg-green-500/20 border border-green-500/30 rounded-xl p-6 mb-6">
+                                <div className="flex items-center justify-center mb-4">
+                                    <svg className="w-12 h-12 text-green-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
+                                    </svg>
+                                </div>
+                                <h3 className="text-xl font-semibold text-white mb-2">Phone Verified!</h3>
+                                <p className="text-white/80">Your mobile number has been successfully verified.</p>
+                            </div>
                         </div>
-
-                        {formErrors.otp && (
-                            <p className="text-red-400 font-medium text-sm text-center">{formErrors.otp}</p>
-                        )}
                     </div>
                 );
 
@@ -840,7 +967,6 @@ const FundraisingOnboarding = () => {
             <div className="container mx-auto px-4 py-8">
                 <div className="grid lg:grid-cols-2 gap-36 items-start ">
 
-                    {/* Left Side - Form Content */}
                     <div className="space-y-8 ">
                         <ProgressBar />
 
@@ -848,7 +974,6 @@ const FundraisingOnboarding = () => {
                             {renderStepContent()}
                         </div>
 
-                        {/* Navigation Buttons */}
                         <div className="flex items-center justify-between ">
                             {currentStep > 0 && !showOtpInput && (
                                 <button
@@ -880,7 +1005,7 @@ const FundraisingOnboarding = () => {
                                     {currentStep === 4 && 'Next'}
                                     {currentStep === 5 && 'Next'}
                                     {currentStep === 6 && !showOtpInput && 'Verify Mobile Number'}
-                                    {currentStep === 6 && showOtpInput && 'Send OTP'}
+                                    {currentStep === 6 && showOtpInput && 'Verify OTP'}
                                     {currentStep === 7 && 'Complete Registration'}
 
                                 </span>
@@ -892,11 +1017,13 @@ const FundraisingOnboarding = () => {
                                 )}
                             </button>
                         </div>
+                        
+                        {formErrors.submit && (
+                            <p className="text-red-400 font-medium text-sm text-center mt-4">{formErrors.submit}</p>
+                        )}
                     </div>
 
-                    {/* Right Side - Images */}
                     <div className="hidden  relative lg:block">
-                        {/* First Image (Background/Main) */}
                         <Image
                             src={get1}
                             alt="Fundraising team member 1"

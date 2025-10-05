@@ -13,7 +13,9 @@ export const fetchGlobalSettings = createAsyncThunk(
 export const fetchCampaigns = createAsyncThunk(
   'app/fetchCampaigns',
   async () => {
+    console.log('Fetching campaigns from:', get_campaigns);
     const response = await axiosInstance.get(get_campaigns)
+    console.log('Campaigns API response:', response.data);
     return response.data
   }
 )
