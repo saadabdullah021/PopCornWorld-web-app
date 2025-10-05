@@ -389,6 +389,12 @@ const FundraisingOnboarding = () => {
                 'signin',
                 (response) => {
                     console.log('OTP verified successfully:', response);
+                    
+                    if (response.data && response.data.customer_info && response.data.access_token) {
+                        localStorage.setItem('auth_token', response.data.access_token);
+                        localStorage.setItem('user_data', JSON.stringify(response.data.customer_info));
+                    }
+                    
                     setCurrentStep(currentStep + 1);
                     setIsLoading(false);
                 },

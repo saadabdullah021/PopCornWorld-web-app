@@ -1,5 +1,5 @@
 import axiosInstance from '../../axios'
-import { get_single_product, get_single_collection, send_otp, verify_otp, create_order, track_order, check_email_exists, get_organization_info, fundraiser_register } from './endpoints'
+import { get_single_product, get_single_collection, send_otp, verify_otp, create_order, track_order, check_email_exists, get_organization_info, fundraiser_register, get_products_slider } from './endpoints'
 
 export const api = {
   get: (url, config = {}) => axiosInstance.get(url, config),
@@ -48,7 +48,6 @@ export const sendOTP = async (phoneNumber, otpType, success, fail) => {
       success && success(response?.data);
       return response?.data;
     } else {
-      // Handle non-200 responses
       fail && fail(response?.data?.message || 'Failed to send OTP');
       return response?.data;
     }
@@ -70,7 +69,6 @@ export const verifyOTP = async (phoneNumber, otpCode, otpType, success, fail) =>
       success && success(response?.data);
       return response?.data;
     } else {
-      // Handle non-200 responses
       fail && fail(response?.data?.message || 'OTP verification failed');
       return response?.data;
     }
@@ -183,6 +181,26 @@ export const registerFundraiser = async (formData, success, fail) => {
     }
   } catch (error) {
     console.error('Fundraiser registration error:', error);
+    fail && fail(error?.response?.data?.message || 'Network error occurred');
+    return error;
+  }
+};
+
+export const getProductsSlider = async (success, fail) => {
+  try {
+    console.log('Fetching products slider data...');
+    const response = await axiosInstance.get(get_products_slider);
+    console.log('Products slider response:', response);
+    
+    if (response?.data?.status === 200 || response?.status === 200) {
+      success && success(response?.data);
+      return response?.data;
+    } else {
+      fail && fail(response?.data?.message || 'Failed to fetch products slider');
+      return response?.data;
+    }
+  } catch (error) {
+    console.error('Products slider error:', error);
     fail && fail(error?.response?.data?.message || 'Network error occurred');
     return error;
   }
