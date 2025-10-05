@@ -10,6 +10,8 @@ const ExploreProjectsSlider = ({ campaigns, campaignsLoading, campaignsError, gl
   const [isAutoPlaying, setIsAutoPlaying] = useState(true);
   const sliderRef = useRef(null);
 
+  console.log('ExploreProjectsSlider received:', { campaigns, campaignsLoading, campaignsError });
+
   // Get currency from global settings
   const getCurrency = () => {
     if (!globalSettings) return '$';
@@ -48,6 +50,7 @@ const ExploreProjectsSlider = ({ campaigns, campaignsLoading, campaignsError, gl
   };
 
   const originalProjects = transformCampaigns(campaigns);
+  const shouldShowSlider = originalProjects.length >= 4;
 
   // ✅ Check if mobile
   useEffect(() => {
@@ -62,17 +65,21 @@ const ExploreProjectsSlider = ({ campaigns, campaignsLoading, campaignsError, gl
   // ✅ Items per view
   const itemsPerView = isMobile ? 1 : 7;
 
-  // ✅ Clone projects for infinite loop
-  const projects = [
+  // ✅ Clone projects for infinite loop (only if using slider)
+  const projects = shouldShowSlider ? [
     ...originalProjects.slice(-itemsPerView), // Last items at start
     ...originalProjects,
     ...originalProjects.slice(0, itemsPerView), // First items at end
-  ];
+  ] : originalProjects;
 
   // ✅ Start from first real slide (after cloned items)
   useEffect(() => {
-    setCurrentSlide(itemsPerView);
-  }, [itemsPerView]);
+    if (shouldShowSlider) {
+      setCurrentSlide(itemsPerView);
+    } else {
+      setCurrentSlide(0);
+    }
+  }, [itemsPerView, shouldShowSlider]);
 
   // ✅ Handle transition end for seamless loop
   const handleTransitionEnd = () => {
@@ -249,58 +256,71 @@ const ExploreProjectsSlider = ({ campaigns, campaignsLoading, campaignsError, gl
   return (
     <section className="py-16 lg:py-24 bg-black relative overflow-hidden ">
       <div className="container w-full mx-auto px-4 sm:px-6 lg:px-8">
-        {/* ✅ Desktop Infinite Slider */}
-        <div className="hidden md:block container w-full mx-12 py-4">
-          <div
-            ref={sliderRef}
-            className={`flex gap-6 ${isTransitioning ? 'transition-transform duration-500 ease-in-out' : ''}`}
-            style={{ transform: `translateX(-${currentSlide * (100 / itemsPerView)}%)` }}
-            onTransitionEnd={handleTransitionEnd}
-  
-          >
-            {projects.map((project, index) => (
-              <div key={`${project.id}-${index}`} className="w-1/4 flex-shrink-0">
-                <ProjectCard project={project} />
+        {shouldShowSlider ? (
+          <>
+            {/* ✅ Desktop Infinite Slider */}
+            <div className="hidden md:block container w-full mx-12 py-4">
+              <div
+                ref={sliderRef}
+                className={`flex gap-6 ${isTransitioning ? 'transition-transform duration-500 ease-in-out' : ''}`}
+                style={{ transform: `translateX(-${currentSlide * (100 / itemsPerView)}%)` }}
+                onTransitionEnd={handleTransitionEnd}
+      
+              >
+                {projects.map((project, index) => (
+                  <div key={`${project.id}-${index}`} className="w-1/4 flex-shrink-0">
+                    <ProjectCard project={project} />
+                  </div>
+                ))}
               </div>
-            ))}
-          </div>
-        </div>
+            </div>
 
-        {/* ✅ Mobile Infinite Slider */}
-        <div className="md:hidden relative">
-          <div className="overflow-hidden pb-2 ">
-            <div
-              className={`flex ${isTransitioning ? 'transition-transform duration-500 ease-in-out' : ''}`}
-              style={{ transform: `translateX(-${currentSlide * 100}%)` }}
-              onTransitionEnd={handleTransitionEnd}
-       
-            >
-              {projects.map((project, index) => (
-                <div key={`${project.id}-${index}`} className="w-full flex-shrink-0 px-2">
-                  <ProjectCard project={project} />
+            {/* ✅ Mobile Infinite Slider */}
+            <div className="md:hidden relative">
+              <div className="overflow-hidden pb-2 ">
+                <div
+                  className={`flex ${isTransitioning ? 'transition-transform duration-500 ease-in-out' : ''}`}
+                  style={{ transform: `translateX(-${currentSlide * 100}%)` }}
+                  onTransitionEnd={handleTransitionEnd}
+           
+                >
+                  {projects.map((project, index) => (
+                    <div key={`${project.id}-${index}`} className="w-full flex-shrink-0 px-2">
+                      <ProjectCard project={project} />
+                    </div>
+                  ))}
                 </div>
+              </div>
+            </div>
+
+            {/* Controls */}
+            <div className="flex items-center justify-center gap-4 mt-8">
+              <button
+                onClick={prevSlide}
+                className="w-12 h-12 bg-white/90 hover:bg-white rounded-full shadow-lg flex items-center justify-center transition-all duration-200 hover:scale-105"
+                disabled={isTransitioning}
+              >
+                <ChevronLeft className="w-6 h-6 text-gray-700" />
+              </button>
+              <button
+                onClick={nextSlide}
+                className="w-12 h-12 bg-white/90 hover:bg-white rounded-full shadow-lg flex items-center justify-center transition-all duration-200 hover:scale-105"
+                disabled={isTransitioning}
+              >
+                <ChevronRight className="w-6 h-6 text-gray-700" />
+              </button>
+            </div>
+          </>
+        ) : (
+          <>
+            {/* ✅ Grid Layout for less than 4 campaigns */}
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 max-w-6xl mx-auto">
+              {originalProjects.map((project) => (
+                <ProjectCard key={project.id} project={project} />
               ))}
             </div>
-          </div>
-        </div>
-
-        {/* Controls */}
-        <div className="flex items-center justify-center gap-4 mt-8">
-          <button
-            onClick={prevSlide}
-            className="w-12 h-12 bg-white/90 hover:bg-white rounded-full shadow-lg flex items-center justify-center transition-all duration-200 hover:scale-105"
-            disabled={isTransitioning}
-          >
-            <ChevronLeft className="w-6 h-6 text-gray-700" />
-          </button>
-          <button
-            onClick={nextSlide}
-            className="w-12 h-12 bg-white/90 hover:bg-white rounded-full shadow-lg flex items-center justify-center transition-all duration-200 hover:scale-105"
-            disabled={isTransitioning}
-          >
-            <ChevronRight className="w-6 h-6 text-gray-700" />
-          </button>
-        </div>
+          </>
+        )}
       </div>
     </section>
   );
