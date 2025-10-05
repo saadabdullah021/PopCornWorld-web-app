@@ -74,7 +74,13 @@ const HeaderShoppingCart = ({ isOpen, onClose }) => {
 
   // Format price with currency
   const formatPrice = (price) => {
-    const currency = globalSettings?.currency || '$';
+    const getConfigValue = (key, defaultValue) => {
+      if (!globalSettings || !Array.isArray(globalSettings)) return defaultValue;
+      const config = globalSettings.find(item => item.config_key === key);
+      return config ? config.config_value : defaultValue;
+    };
+    
+    const currency = getConfigValue('campaign_currency', '$');
     return `${currency}${price}`;
   };
 

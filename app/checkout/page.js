@@ -848,10 +848,18 @@ const CheckoutPage = () => {
   }
   
   const subtotal = cartItems.reduce((sum, item) => sum + (parseFloat(item.price) * item.quantity), 0);
-  const tax = subtotal * 0.08;
-  const shipping = globalSettings?.shipping_charges || 15;
+  
+  const getConfigValue = (key, defaultValue) => {
+    if (!globalSettings || !Array.isArray(globalSettings)) return defaultValue;
+    const config = globalSettings.find(item => item.config_key === key);
+    return config ? parseFloat(config.config_value) : defaultValue;
+  };
+  
+  const taxRate = getConfigValue('product_tax', 7);
+  const tax = subtotal * (taxRate / 100);
+  const shipping = getConfigValue('shipping_charges', 15);
   const total = subtotal + tax + shipping;
-
+console.log(tax, shipping, total,'tax, shipping, total');
   const handleInputChange = (e) => {
     const { name, value, type, checked } = e.target;
     setFormData(prev => ({
