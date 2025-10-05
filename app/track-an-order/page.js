@@ -162,7 +162,7 @@ const TrackOrderPage = () => {
                     <th className="text-left py-4 px-4 font-semibold text-gray-700">Status</th>
                     <th className="text-left py-4 px-4 font-semibold text-gray-700">Total Amount</th>
                     <th className="text-left py-4 px-4 font-semibold text-gray-700">Order Date</th>
-                    <th className="text-left py-4 px-4 font-semibold text-gray-700">Last Updated</th>
+                    <th className="text-left py-4 px-4 font-semibold text-gray-700">Last Activity</th>
                   </tr>
                 </thead>
                 <tbody>
