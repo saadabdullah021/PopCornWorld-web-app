@@ -154,26 +154,33 @@ const TrackOrderPage = () => {
               <p className="text-gray-600">Found {orders.length} order(s) for {email}</p>
             </div>
 
-            <div className="space-y-4">
-              {orders.map((order) => (
-                <div key={order.id} className="border border-gray-200 rounded-xl p-6 hover:shadow-md transition-shadow">
-                  <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between">
-                    <div className="flex-1">
-                      <div className="flex items-center space-x-4 mb-3">
-                        <h3 className="text-lg font-semibold text-gray-800">{order.order_id}</h3>
+            <div className="overflow-x-auto">
+              <table className="w-full border-collapse">
+                <thead>
+                  <tr className="border-b border-gray-200">
+                    <th className="text-left py-4 px-4 font-semibold text-gray-700">Order ID</th>
+                    <th className="text-left py-4 px-4 font-semibold text-gray-700">Status</th>
+                    <th className="text-left py-4 px-4 font-semibold text-gray-700">Total Amount</th>
+                    <th className="text-left py-4 px-4 font-semibold text-gray-700">Order Date</th>
+                    <th className="text-left py-4 px-4 font-semibold text-gray-700">Last Updated</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {orders.map((order) => (
+                    <tr key={order.id} className="border-b border-gray-100 hover:bg-gray-50 transition-colors">
+                      <td className="py-4 px-4 font-medium text-gray-800">{order.order_id}</td>
+                      <td className="py-4 px-4">
                         <span className={`px-3 py-1 rounded-full text-sm font-medium ${getStatusColor(order.order_status)}`}>
                           {formatStatus(order.order_status)}
                         </span>
-                      </div>
-                      <div className="text-sm text-gray-600 space-y-1">
-                        <p><span className="font-medium">Total:</span> ${order.total_amount}</p>
-                        <p><span className="font-medium">Ordered:</span> {order.created_at}</p>
-                        <p><span className="font-medium">Updated:</span> {order.updated_at}</p>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              ))}
+                      </td>
+                      <td className="py-4 px-4 text-gray-700">${order.total_amount}</td>
+                      <td className="py-4 px-4 text-gray-600">{order.created_at}</td>
+                      <td className="py-4 px-4 text-gray-600">{order.updated_at}</td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
             </div>
 
             <div className="mt-8 text-center">
