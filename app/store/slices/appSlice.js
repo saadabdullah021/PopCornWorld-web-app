@@ -42,6 +42,30 @@ export const fetchCollections = createAsyncThunk(
   }
 )
 
+// Cart persistence functions
+const loadCartFromStorage = () => {
+  if (typeof window !== 'undefined') {
+    try {
+      const savedCart = localStorage.getItem('popcorn_cart');
+      return savedCart ? JSON.parse(savedCart) : [];
+    } catch (error) {
+      console.error('Error loading cart from localStorage:', error);
+      return [];
+    }
+  }
+  return [];
+};
+
+const saveCartToStorage = (cart) => {
+  if (typeof window !== 'undefined') {
+    try {
+      localStorage.setItem('popcorn_cart', JSON.stringify(cart));
+    } catch (error) {
+      console.error('Error saving cart to localStorage:', error);
+    }
+  }
+};
+
 const initialState = {
   isLoading: false,
   theme: 'light',
@@ -73,7 +97,7 @@ const initialState = {
     totalPages: 0,
     totalRecords: 0
   },
-  cart: [],
+  cart: loadCartFromStorage(), // Load cart from localStorage on initialization
   // Auth state
   isAuthenticated: false,
   authLoading: false,
@@ -129,10 +153,16 @@ const appSlice = createSlice({
       } else {
         state.cart.push({ ...product, quantity: 1 });
       }
+      
+      // Save to localStorage
+      saveCartToStorage(state.cart);
     },
     removeFromCart: (state, action) => {
       const productId = action.payload;
       state.cart = state.cart.filter(item => item.id !== productId);
+      
+      // Save to localStorage
+      saveCartToStorage(state.cart);
     },
     updateCartQuantity: (state, action) => {
       const { id, quantity } = action.payload;
@@ -144,6 +174,18 @@ const appSlice = createSlice({
           item.quantity = quantity;
         }
       }
+      
+      // Save to localStorage
+      saveCartToStorage(state.cart);
+    },
+    clearCart: (state) => {
+      state.cart = [];
+      
+      // Save to localStorage
+      saveCartToStorage(state.cart);
+    },
+    initializeCart: (state) => {
+      state.cart = loadCartFromStorage();
     },
     // Auth actions
     setAuthLoading: (state, action) => {
@@ -290,6 +332,8 @@ export const {
   addToCart,
   removeFromCart,
   updateCartQuantity,
+  clearCart,
+  initializeCart,
   setAuthLoading,
   setAuthError,
   setPhoneNumber,

@@ -3,29 +3,11 @@ import React, { useState, useEffect } from 'react';
 import { X, ArrowLeft, Check, Lock, Shield, CreditCard, Truck, User, Mail, Phone, MapPin, Gift } from 'lucide-react';
 import Link from 'next/link';
 import Image from 'next/image';
+import { useSelector, useDispatch } from 'react-redux';
+import { useRouter } from 'next/navigation';
+import { createOrder, sendOTP, verifyOTP } from '../services/api';
+import { clearCart, addNotification } from '../store/slices/appSlice';
 
-// Mock data for demonstration
-const mockCartItems = [
-  {
-    id: 1,
-    name: "The Perfect 10",
-    description: "2 Flavor Set",
-    price: 297,
-    quantity: 3,
-    image: "/api/placeholder/80/80",
-    type: "product"
-  },
-  {
-    id: 2,
-    name: "Make a Donation",
-    description: "Sent to essential workers",
-    price: 10,
-    quantity: 1,
-    image: "/api/placeholder/80/80",
-    type: "donation"
-  },
-
-];
 
 const mockStates = [
   { value: 'CA', label: 'California' },
@@ -395,15 +377,24 @@ const OrderSummary = ({ items, subtotal, tax, shipping, total }) => (
         <div key={item.id} className="flex items-start gap-4 p-4 bg-white rounded-xl shadow-sm border border-gray-100 hover:shadow-md transition-shadow">
           <div className="w-16 h-16 bg-gradient-to-br from-gray-100 to-gray-200 rounded-xl overflow-hidden shadow-sm">
             <Image
-              src={item.image}
-              alt={item.name}
+              src={
+                (item.image && typeof item.image === 'string' && !item.image.includes('/api/placeholder')) 
+                  ? item.image 
+                  : (item.images?.[0] && typeof item.images[0] === 'string' && !item.images[0].includes('/api/placeholder'))
+                    ? item.images[0]
+                    : '/pop_packet.png'
+              }
+              alt={item.name || item.title || 'Product'}
               width={64}
               height={64}
               className="w-full h-full object-cover"
+              onError={(e) => {
+                e.target.src = '/pop_packet.png';
+              }}
             />
           </div>
           <div className="flex-1">
-            <h4 className="font-bold text-lg text-black">{item.name}</h4>
+            <h4 className="font-bold text-lg text-black">{item.name || item.title}</h4>
             {item.description && (
               <p className="text-sm text-gray-500 mt-1">{item.description}</p>
             )}
@@ -453,7 +444,7 @@ const OrderSummary = ({ items, subtotal, tax, shipping, total }) => (
 );
 
 // Enhanced Payment Modal
-const PaymentModal = ({ isOpen, onClose, onPaymentSuccess, orderTotal }) => {
+const PaymentModal = ({ isOpen, onClose, onPaymentSuccess, orderTotal, formData, cartItems, subtotal, tax, shipping }) => {
   const [paymentData, setPaymentData] = useState({
     cardName: '',
     cardNumber: '',
@@ -524,7 +515,7 @@ const PaymentModal = ({ isOpen, onClose, onPaymentSuccess, orderTotal }) => {
       formattedValue = formatExpiryDate(value);
       setPaymentData(prev => ({ ...prev, [name]: formattedValue }));
     } else if (name === 'cvv') {
-      formattedValue = value.replace(/\D/g, '').substring(0, 4);
+      formattedValue = value.replace(/\D/g, '').substring(0, 3);
       setPaymentData(prev => ({ ...prev, [name]: formattedValue }));
     } else if (name === 'cardName') {
       formattedValue = value.replace(/[^a-zA-Z\s]/g, '');
@@ -575,13 +566,8 @@ const PaymentModal = ({ isOpen, onClose, onPaymentSuccess, orderTotal }) => {
     
     if (!paymentData.cvv) {
       errors.cvv = 'Security code is required';
-    } else if (
-      (paymentData.cardType === 'American Express' && paymentData.cvv.length !== 4) ||
-      (paymentData.cardType !== 'American Express' && paymentData.cvv.length !== 3)
-    ) {
-      errors.cvv = paymentData.cardType === 'American Express' 
-        ? 'American Express requires 4-digit CVV' 
-        : 'CVV must be 3 digits';
+    } else if (paymentData.cvv.length !== 3) {
+      errors.cvv = 'CVV must be exactly 3 digits';
     }
 
     setPaymentErrors(errors);
@@ -594,16 +580,60 @@ const PaymentModal = ({ isOpen, onClose, onPaymentSuccess, orderTotal }) => {
     setPaymentLoading(true);
     
     try {
-      await new Promise(resolve => setTimeout(resolve, 2500));
-      
-      const paymentResult = {
-        success: true,
-        transactionId: 'txn_' + Math.random().toString(36).substr(2, 9),
-        amount: orderTotal
+      const orderData = {
+        cardNumber: paymentData.cardNumber.replace(/\s/g, ''),
+        cardExpiration: paymentData.expiryDate,
+        cardSecurityCode: paymentData.cvv,
+        cardType: paymentData.cardType,
+        cardName: paymentData.cardName,
+        
+        email: formData.email,
+        phone_number: formData.phone.replace(/\D/g, ''),
+        
+        products: cartItems.map(item => ({
+          id: item.id.toString(),
+          price: item.price.toString(),
+          quantity: item.quantity.toString(),
+          type: item.type || 'product'
+        })),
+        
+        shipping_first_name: formData.shippingFirstName,
+        shipping_last_name: formData.shippingLastName,
+        shipping_address: formData.shippingAddress,
+        shipping_city: formData.shippingCity,
+        shipping_state: formData.shippingState,
+        shipping_zipcode: formData.shippingZip,
+        shipping_apartment: formData.shippingApartment || '',
+        
+        billing_first_name: formData.billingIsSame ? formData.shippingFirstName : formData.billingFirstName,
+        billing_last_name: formData.billingIsSame ? formData.shippingLastName : formData.billingLastName,
+        billing_address: formData.billingIsSame ? formData.shippingAddress : formData.billingAddress,
+        billing_city: formData.billingIsSame ? formData.shippingCity : formData.billingCity,
+        billing_state: formData.billingIsSame ? formData.shippingState : formData.billingState,
+        billing_zipcode: formData.billingIsSame ? formData.shippingZip : formData.billingZip,
+        
+        tax: tax.toFixed(2),
+        shipping_charges: shipping.toFixed(2),
+        total_amount: orderTotal.toFixed(2)
       };
+      createOrder(
+        orderData,
+        (response) => {
+          const paymentResult = {
+            success: true,
+            transactionId: response?.data?.order_id || 'txn_' + Math.random().toString(36).substr(2, 9),
+            amount: orderTotal,
+            orderData: response?.data
+          };
+          
+          onPaymentSuccess(paymentResult);
+          onClose();
+        },
+        (error) => {
+          setPaymentErrors({ general: error || 'Order creation failed. Please try again.' });
+        }
+      );
       
-      onPaymentSuccess(paymentResult);
-      onClose();
     } catch (error) {
       setPaymentErrors({ general: 'Payment processing failed. Please try again.' });
     } finally {
@@ -697,14 +727,14 @@ const PaymentModal = ({ isOpen, onClose, onPaymentSuccess, orderTotal }) => {
               />
 
               <Input
-                label={`CVV* ${paymentData.cardType === 'American Express' ? '(4 digits)' : '(3 digits)'}`}
+                label="CVV* (3 digits)"
                 name="cvv"
                 value={paymentData.cvv}
                 onChange={handlePaymentInputChange}
                 onFocus={() => setFocusedField('cvv')}
                 error={paymentErrors.cvv}
-                placeholder={paymentData.cardType === 'American Express' ? '1234' : '123'}
-                maxLength={paymentData.cardType === 'American Express' ? 4 : 3}
+                placeholder="123"
+                maxLength={3}
               />
             </div>
           </div>
@@ -761,6 +791,9 @@ const PaymentModal = ({ isOpen, onClose, onPaymentSuccess, orderTotal }) => {
 
 // Main Checkout Component
 const CheckoutPage = () => {
+  const dispatch = useDispatch();
+  const router = useRouter();
+  const { cart, globalSettings } = useSelector(state => state.app);
   const [currentStep, setCurrentStep] = useState(0);
   const [showOTPModal, setShowOTPModal] = useState(false);
   const [showPaymentModal, setShowPaymentModal] = useState(false);
@@ -768,13 +801,11 @@ const CheckoutPage = () => {
   const [errors, setErrors] = useState({});
   
   const [formData, setFormData] = useState({
-    // Contact Information
     name: '',
     email: '',
     phone: '',
     otpVerified: false,
     
-    // Shipping Address
     shippingFirstName: '',
     shippingLastName: '',
     shippingAddress: '',
@@ -783,7 +814,6 @@ const CheckoutPage = () => {
     shippingState: '',
     shippingZip: '',
     
-    // Billing Address
     billingIsSame: true,
     billingFirstName: '',
     billingLastName: '',
@@ -793,15 +823,33 @@ const CheckoutPage = () => {
     billingState: '',
     billingZip: '',
     
-    // Gift Options
     isGift: false,
     giftNote: ''
   });
 
-  // Calculate totals
-  const subtotal = mockCartItems.reduce((sum, item) => sum + (item.price * item.quantity), 0);
-  const tax = subtotal * 0.08; // 8% tax
-  const shipping = 15; // Fixed shipping
+  const cartItems = cart || [];
+  
+  
+  useEffect(() => {
+    if (cartItems.length === 0) {
+      router.push('/shop');
+    }
+  }, [cartItems.length, router]);
+
+  if (cartItems.length === 0) {
+    return (
+      <div className="min-h-screen bg-gradient-to-br from-blue-50/50 via-white to-indigo-50/30 pt-32 lg:pt-40 flex items-center justify-center">
+        <div className="text-center">
+          <div className="animate-spin rounded-full h-12 w-12 border-4 border-blue-500 border-b-transparent mx-auto mb-4"></div>
+          <p className="text-gray-600">Redirecting to shop...</p>
+        </div>
+      </div>
+    );
+  }
+  
+  const subtotal = cartItems.reduce((sum, item) => sum + (parseFloat(item.price) * item.quantity), 0);
+  const tax = subtotal * 0.08;
+  const shipping = globalSettings?.shipping_charges || 15;
   const total = subtotal + tax + shipping;
 
   const handleInputChange = (e) => {
@@ -811,7 +859,6 @@ const CheckoutPage = () => {
       [name]: type === 'checkbox' ? checked : value
     }));
     
-    // Clear error when user starts typing
     if (errors[name]) {
       setErrors(prev => ({
         ...prev,
@@ -850,7 +897,6 @@ const CheckoutPage = () => {
     }
     
     if (step === 1) {
-      // Shipping address validation
       if (!formData.shippingFirstName) newErrors.shippingFirstName = 'First name is required';
       if (!formData.shippingLastName) newErrors.shippingLastName = 'Last name is required';
       if (!formData.shippingAddress) newErrors.shippingAddress = 'Address is required';
@@ -858,7 +904,6 @@ const CheckoutPage = () => {
       if (!formData.shippingState) newErrors.shippingState = 'State is required';
       if (!formData.shippingZip) newErrors.shippingZip = 'Zip code is required';
       
-      // Billing address validation (if different from shipping)
       if (!formData.billingIsSame) {
         if (!formData.billingFirstName) newErrors.billingFirstName = 'First name is required';
         if (!formData.billingLastName) newErrors.billingLastName = 'Last name is required';
@@ -877,22 +922,53 @@ const CheckoutPage = () => {
     if (!validateStep(0)) return;
     
     setLoading(true);
-    // Simulate API call
-    setTimeout(() => {
-      setLoading(false);
-      setShowOTPModal(true);
-    }, 1000);
+    
+    sendOTP(
+      formData.phone.replace(/\D/g, ''),
+      'order',
+      (response) => {
+        setLoading(false);
+        setShowOTPModal(true);
+        dispatch(addNotification({
+          message: 'OTP sent successfully to your phone number',
+          type: 'success'
+        }));
+      },
+      (error) => {
+        setLoading(false);
+        dispatch(addNotification({
+          message: error || 'Failed to send OTP. Please try again.',
+          type: 'error'
+        }));
+      }
+    );
   };
 
   const handleOTPVerify = async (otpCode) => {
     setLoading(true);
-    // Simulate OTP verification
-    setTimeout(() => {
-      setLoading(false);
-      setShowOTPModal(false);
-      setFormData(prev => ({ ...prev, otpVerified: true }));
-      setCurrentStep(1);
-    }, 1000);
+    
+    verifyOTP(
+      formData.phone.replace(/\D/g, ''),
+      otpCode,
+      'order',
+      (response) => {
+        setLoading(false);
+        setShowOTPModal(false);
+        setFormData(prev => ({ ...prev, otpVerified: true }));
+        setCurrentStep(1);
+        dispatch(addNotification({
+          message: 'Phone number verified successfully!',
+          type: 'success'
+        }));
+      },
+      (error) => {
+        setLoading(false);
+        dispatch(addNotification({
+          message: error || 'Invalid OTP. Please try again.',
+          type: 'error'
+        }));
+      }
+    );
   };
 
   const handleContinueToPayment = () => {
@@ -902,17 +978,18 @@ const CheckoutPage = () => {
   };
 
   const handlePaymentSuccess = (paymentResult) => {
- 
-    // Here you would typically:
-    // 1. Send order to backend
-    // 2. Clear cart
-    // 3. Redirect to success page
-    alert('🎉 Payment successful! Your order has been placed and you will receive a confirmation email shortly.');
+    dispatch(clearCart());
+    
+    dispatch(addNotification({
+      message: '🎉 Payment successful! Your order has been placed and you will receive a confirmation email shortly.',
+      type: 'success'
+    }));
+    
+    router.push('/orders');
   };
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-blue-50/50 via-white to-indigo-50/30  pt-32 lg:pt-40">
-      {/* Enhanced Header */}
       <div className="bg-white shadow-sm border-b border-gray-100">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
           <div className="flex items-center justify-between">
@@ -932,7 +1009,6 @@ const CheckoutPage = () => {
 
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 ">
         <div className="grid grid-cols-1 lg:grid-cols-4 gap-8">
-          {/* Left Column - Form */}
           <div className="lg:col-span-2">
             <div className="bg-white p-8 rounded-2xl shadow-xl border border-gray-100">
               <div className="flex items-center gap-3 mb-8">
@@ -948,7 +1024,6 @@ const CheckoutPage = () => {
                 currentStep={currentStep} 
               />
 
-              {/* Contact Information */}
               <div className="mb-10">
                 <div className="flex items-center gap-3 mb-6">
                 
@@ -999,10 +1074,8 @@ const CheckoutPage = () => {
                 )}
               </div>
 
-              {/* Shipping & Billing Address - Only show after OTP verification */}
               {formData.otpVerified && (
                 <>
-                  {/* Shipping Address */}
                   <div className="mb-10">
                     <div className="flex items-center gap-3 mb-6">
                       
@@ -1077,7 +1150,6 @@ const CheckoutPage = () => {
                     </div>
                   </div>
 
-                  {/* Billing Address */}
                   <div className="mb-10">
                     <div className="flex items-center gap-3 mb-6">
                   
@@ -1163,7 +1235,6 @@ const CheckoutPage = () => {
                     )}
                   </div>
 
-                  {/* Gift Options */}
                   <div className="mb-10">
                     <div className="flex items-center gap-3 mb-6">
                     
@@ -1192,7 +1263,6 @@ const CheckoutPage = () => {
                     )}
                   </div>
 
-                  {/* Continue Button */}
                   <div className="flex justify-end">
                     <Button onClick={handleContinueToPayment} size="lg">
                       <Lock size={20} />
@@ -1204,10 +1274,9 @@ const CheckoutPage = () => {
             </div>
           </div>
 
-          {/* Right Column - Order Summary */}
           <div className="lg:sticky lg:top-8 lg:col-span-2">
             <OrderSummary
-              items={mockCartItems}
+              items={cartItems}
               subtotal={subtotal}
               tax={tax}
               shipping={shipping}
@@ -1217,15 +1286,18 @@ const CheckoutPage = () => {
         </div>
       </div>
 
-      {/* Payment Modal */}
       <PaymentModal
         isOpen={showPaymentModal}
         onClose={() => setShowPaymentModal(false)}
         onPaymentSuccess={handlePaymentSuccess}
         orderTotal={total}
+        formData={formData}
+        cartItems={cartItems}
+        subtotal={subtotal}
+        tax={tax}
+        shipping={shipping}
       />
 
-      {/* OTP Modal */}
       <OTPModal
         isOpen={showOTPModal}
         onClose={() => setShowOTPModal(false)}

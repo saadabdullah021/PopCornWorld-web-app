@@ -3,6 +3,7 @@ import Header from "./components/Header";
 import Footer from "./components/Footer";
 import ReduxProvider from "./providers/ReduxProvider";
 import GlobalSettingsLoader from "./components/GlobalSettingsLoader";
+import CartPersistence from "./components/CartPersistence";
 
 export const metadata = {
   title: "Poppins Website",
@@ -23,6 +24,7 @@ export default function RootLayout({ children }) {
       <body>
         <ReduxProvider>
           <GlobalSettingsLoader />
+          <CartPersistence />
           {/* === Header === */}
           <Header />
 
