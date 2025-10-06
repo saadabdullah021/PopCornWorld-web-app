@@ -1,6 +1,6 @@
 import React from 'react';
 import Image from 'next/image';
-import heroFundraiser from '../../../public/Girls_team.jpg'
+import heroFundraiser from '../../../public/groupImage.jpg'
 const VirtualFundraisingIntro = () => {
   return (
     <section className="pb-16  pt-20 lg:pt-34 2xl:pt-35 lg:pb-0 lg:pl-4 bg-gradient-to-br from-yellow-100 via-yellow-50 to-white">
@@ -41,7 +41,7 @@ const VirtualFundraisingIntro = () => {
                 src={heroFundraiser}
                 alt="Organized warehouse with shelves of various popcorn flavors and products for virtual fundraising"
                 fill
-                className="object-cover"
+                className="object-center object-fill"
                 sizes="(max-width: 1024px) 100vw, 50vw"
                 priority
                 placeholder="blur"

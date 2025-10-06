@@ -1,6 +1,6 @@
 import React from 'react';
 import Image from 'next/image';
-import heroFundraiser from '../../../public/pop_packet.png'
+import heroFundraiser from '../../../public/blueImage.jpg'
 import danceFundraiser from '../../../public/dance_fundraiser.png'
 const PopUpStoresSection = () => {
   const features = [
@@ -65,7 +65,7 @@ const PopUpStoresSection = () => {
                 src={heroFundraiser}
                 alt="Mobile phone showing Pop-Up Store interface with colorful popcorn packages in background"
                 fill
-                className="object-cover"
+                className="object-fill"
                 sizes="(max-width: 1024px) 100vw, 50vw"
                 priority
                 placeholder="blur"

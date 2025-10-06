@@ -178,7 +178,7 @@ const CollectionsSection = ({ collections, collectionsLoading, collectionsError,
           {allCollections && allCollections.length > 0 ? allCollections.map((collection, index) => (
             <div
               key={collection.id}
-              className="group bg-white rounded-2xl shadow-lg transition-all duration-500 transform overflow-hidden hover:shadow-xl"
+              className="group bg-white rounded-2xl shadow-lg transition-all duration-500 transform overflow-hidden hover:shadow-xl flex flex-col h-full"
               style={{
                 animationDelay: `${index * 100}ms`
               }}
@@ -191,9 +191,9 @@ const CollectionsSection = ({ collections, collectionsLoading, collectionsError,
                   <div className="relative w-full h-full">
                     <Image
                       src={collection.image && typeof collection.image === 'string' && collection.image.trim() !== '' ? collection.image : '/pop_packet.png'}
-                      alt={collection.name}
+                      alt={collection.name  || 'Popcorn Collection'}
                       fill
-                      className="object-contain drop-shadow-2xl w-full h-full transition-transform duration-500 "
+                      className="object-fill object-center drop-shadow-2xl w-full h-full transition-transform duration-500 "
                       onError={(e) => {
                         e.target.src = '/pop_packet.png';
                       }}
@@ -205,9 +205,9 @@ const CollectionsSection = ({ collections, collectionsLoading, collectionsError,
               </div>
 
               {/* Content */}
-              <div className="p-6 space-y-4">
+              <div className="p-6 space-y-4 flex flex-col flex-grow">
                 {/* Category Badge */}
-                <span className="inline-block px-3 py-1.5 bg-gray-200 text-black text-xs font-bold uppercase tracking-wider rounded-full">
+                <span className="inline-block px-3 text-center w-32 py-1.5 bg-gray-200 text-black text-xs font-bold uppercase tracking-wider rounded-full">
                   {collection.category || collection.product_categories?.[0]?.category?.name || 'COLLECTION'}
                 </span>
 
@@ -223,20 +223,20 @@ const CollectionsSection = ({ collections, collectionsLoading, collectionsError,
 
                 {/* Description */}
                 <div
-                  className="text-black text-[16px] font-normal leading-relaxed"
+                  className="text-black text-[16px] font-normal leading-relaxed flex-grow"
                   dangerouslySetInnerHTML={{ __html: collection.description || '' }}
                 />
                 {/* Action Buttons */}
-                <div className='flex items-center gap-4'>
+                <div className='flex items-center gap-4 mt-auto pt-4'>
                   <button
                     onClick={() => handleMoreInfo(collection)}
-                    className="w-full inline-flex items-center gap-3 justify-center mt-6 bg-[#8bc34a] text-white font-bold py-3 px-6 rounded-3xl transition-all duration-300 transform hover:shadow-lg focus:outline-none"
+                    className="w-full inline-flex items-center gap-3 justify-center  bg-[#8bc34a] text-white font-bold py-3 px-6 rounded-3xl transition-all duration-300 transform hover:shadow-lg focus:outline-none"
                   >
                     More Info
                   </button>
                   <button 
                     onClick={() => handleAddToCart(collection)}
-                    className="w-full inline-flex items-center whitespace-nowrap gap-3 justify-center mt-6 bg-[#8bc34a] text-white font-bold py-3 px-6 rounded-3xl transition-all duration-300 transform hover:shadow-lg focus:outline-none">
+                    className="w-full inline-flex items-center whitespace-nowrap gap-3 justify-center  bg-[#8bc34a] text-white font-bold py-3 px-6 rounded-3xl transition-all duration-300 transform hover:shadow-lg focus:outline-none">
                     Add to Cart
                     <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
                       <path d="m15 11-1 9" />

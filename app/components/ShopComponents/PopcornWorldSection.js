@@ -1,6 +1,7 @@
 import React from 'react';
 import Image from 'next/image';
 import dollar_support from '../../../public/dollar-supports-image.jpg';
+import Link from 'next/link';
 
 const PopcornWorldSection = () => {
   return (
@@ -30,10 +31,10 @@ const PopcornWorldSection = () => {
 
             {/* CTA Button */}
             <div className="pt-2">
-              <button className="group btn-primary  transition-all duration-300 animate-fadeInUp">
+              <Link href='/get-started' className="group btn-primary  transition-all duration-300 animate-fadeInUp">
                         Get Started
                        
-                      </button>
+                      </Link>
             </div>
           </div>
 

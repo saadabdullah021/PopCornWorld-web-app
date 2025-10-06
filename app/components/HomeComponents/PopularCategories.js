@@ -32,7 +32,7 @@ const PopularCategories = () => {
       <section className="py-12 lg:py-16 bg-yellow-50">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="mb-12 text-center">
-            <h2 className="text-3xl lg:text-5xl font-splash text-black">
+            <h2 className="main_heading font-splash text-black">
               Popular FLAVORS
             </h2>
           </div>
@@ -48,7 +48,7 @@ const PopularCategories = () => {
     <section className="py-12 lg:py-16 bg-yellow-50">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="mb-12 text-center">
-          <h2 className="text-3xl lg:text-5xl font-splash text-black">
+          <h2 className="main_heading  font-splash text-black">
             Popular FLAVORS
           </h2>
         </div>

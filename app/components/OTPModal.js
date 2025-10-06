@@ -109,8 +109,8 @@ const OTPModal = ({
         {/* Header */}
         <div className="flex justify-between items-center mb-6">
           <div className="flex items-center gap-3">
-            <div className="w-10 h-10 bg-blue-100 rounded-full flex items-center justify-center">
-              <FaShieldAlt className="text-[#3333cb] text-lg" />
+            <div className="w-10 h-10 bg-gray-50 rounded-full flex items-center justify-center">
+              <FaShieldAlt className="text-[#8BC34A] text-lg" />
             </div>
             <div>
               <h3 className="text-xl font-bold text-black">Verify OTP</h3>
@@ -195,7 +195,7 @@ const OTPModal = ({
           >
             {(authLoading || isLoading) ? (
               <div className="flex items-center justify-center gap-2">
-                <div className="w-5 h-5 border-2 border-white border-t-transparent rounded-full animate-spin" />
+                <div className="w-5 h-5 border-2 border-[#ffc222] border-t-transparent rounded-full animate-spin" />
                 <span>Verifying...</span>
               </div>
             ) : (

@@ -206,7 +206,7 @@ const FundraisingOnboarding = () => {
     const [pickSpecificDate, setPickSpecificDate] = useState(false);
     const [organizationData, setOrganizationData] = useState([]);
     const [organizationLabel, setOrganizationLabel] = useState('Organization Name');
-    
+
     console.log('Current organizationData:', organizationData);
 
 
@@ -311,8 +311,8 @@ const FundraisingOnboarding = () => {
 
         if (field === 'organization_type_id') {
             // Reset sub-type when organization type changes
-            setFormData(prev => ({ 
-                ...prev, 
+            setFormData(prev => ({
+                ...prev,
                 [field]: value,
                 organization_sub_type_id: '',
                 organization_name: ''
@@ -389,12 +389,12 @@ const FundraisingOnboarding = () => {
                 'signin',
                 (response) => {
                     console.log('OTP verified successfully:', response);
-                    
+
                     if (response.data && response.data.customer_info && response.data.access_token) {
                         localStorage.setItem('auth_token', response.data.access_token);
                         localStorage.setItem('user_data', JSON.stringify(response.data.customer_info));
                     }
-                    
+
                     setCurrentStep(currentStep + 1);
                     setIsLoading(false);
                 },
@@ -466,53 +466,53 @@ const FundraisingOnboarding = () => {
 
     const ProgressBar = () => (
         <div className="mb-8">
-       <div className="mb-10">
-    <div className="relative">
-        <div className="absolute top-4 left-0 right-0 h-2 bg-white/20 backdrop-blur-lg rounded-full -translate-y-1/2 border border-white/30">
-            <div 
-                className="h-full bg-gradient-to-r from-green-400 via-blue-500 to-purple-600 rounded-full transition-all duration-800 ease-out shadow-lg shadow-blue-500/25"
-                style={{ 
-                    width: `${((currentStep) / (steps.length - 1)) * 100}%` 
-                }}
-            />
-        </div>
-
-        <div className="flex justify-between relative z-10">
-            {steps.map((step, index) => (
-                <div key={index} className="flex flex-col items-center flex-1">
-                    <div className={`
-                        relative w-7 h-7 rounded-full flex items-center justify-center text-sm font-bold transition-all duration-500 ease-out
-                        backdrop-blur-lg border shadow-lg
-                        ${index < currentStep 
-                            ? 'bg-gradient-to-br from-green-500 to-emerald-600 border-green-400 text-white scale-110' 
-                            : index === currentStep 
-                            ? 'bg-white/90 border-blue-500 text-blue-600 scale-125 shadow-xl shadow-blue-500/30 ring-1 ring-blue-200' 
-                            : 'bg-white/60 border-gray-300 text-gray-500'
-                        }
-                    `}>
-                        {index < currentStep ? (
-                            <svg className="w-3.5 h-3.5" fill="currentColor" viewBox="0 0 20 20">
-                                <path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd" />
-                            </svg>
-                        ) : (
-                            <span className="relative z-10">{index + 1}</span>
-                        )}
-                        
-                        {/* Active Step Animation */}
-                        {index === currentStep && (
-                            <>
-                                <div className="absolute inset-0 rounded-full bg-blue-400 animate-ping opacity-60"></div>
-                                <div className="absolute inset-0 rounded-full bg-blue-300 animate-pulse"></div>
-                            </>
-                        )}
+            <div className="mb-10">
+                <div className="relative">
+                    <div className="absolute top-4 left-0 right-0 h-2 bg-white/20 backdrop-blur-lg rounded-full -translate-y-1/2 border border-white/30">
+                        <div
+                            className="h-full bg-[#8BC34A] rounded-full transition-all duration-800 ease-out shadow-lg shadow-blue-500/25"
+                            style={{
+                                width: `${((currentStep) / (steps.length - 1)) * 100}%`
+                            }}
+                        />
                     </div>
 
-      
+                    <div className="flex justify-between relative z-10">
+                        {steps.map((step, index) => (
+                            <div key={index} className="flex flex-col items-center flex-1">
+                                <div className={`
+                        relative w-7 h-7 rounded-full flex items-center justify-center text-sm font-bold transition-all duration-500 ease-out
+                        backdrop-blur-lg border shadow-lg
+                        ${index < currentStep
+                                        ? 'bg-gradient-to-br from-green-500 to-emerald-600 border-green-400 text-white scale-110'
+                                        : index === currentStep
+                                            ? 'bg-white/90 border-blue-500 text-blue-600 scale-125 shadow-xl shadow-blue-500/30 ring-1 ring-blue-200'
+                                            : 'bg-white/60 border-gray-300 text-gray-700'
+                                    }
+                    `}>
+                                    {index < currentStep ? (
+                                        <svg className="w-3.5 h-3.5" fill="currentColor" viewBox="0 0 20 20">
+                                            <path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd" />
+                                        </svg>
+                                    ) : (
+                                        <span className="relative z-10">{index + 1}</span>
+                                    )}
+
+                                    {/* Active Step Animation */}
+                                    {index === currentStep && (
+                                        <>
+                                            <div className="absolute inset-0 rounded-full bg-blue-400 animate-ping opacity-60"></div>
+                                            <div className="absolute inset-0 rounded-full bg-blue-300 animate-pulse"></div>
+                                        </>
+                                    )}
+                                </div>
+
+
+                            </div>
+                        ))}
+                    </div>
                 </div>
-            ))}
-        </div>
-    </div>
-</div>
+            </div>
             {/* <div className="text-center bg-gray-300 rounded-full px-4 py-2 w-fit mx-auto mt-1">
                 <p className="text-sm font-semibold text-black ">{steps[currentStep].description}</p>
             </div> */}
@@ -539,7 +539,7 @@ const FundraisingOnboarding = () => {
                                 onChange={(e) => handleInputChange('email_address', e.target.value)}
                                 className="w-full p-4 rounded-xl border  border-gray-300 focus:outline-none text-white  placeholder-white  transition-all duration-200"
                             />
-                            {formErrors.email_address && <p className="text-red-400 font-medium text-sm">{formErrors.email_address}</p>}
+                            {formErrors.email_address && <p className="text-red-400 font-semibold text-sm">{formErrors.email_address}</p>}
                         </div>
                     </div>
                 );
@@ -562,7 +562,7 @@ const FundraisingOnboarding = () => {
                                 onChange={(e) => handleInputChange('team_name', e.target.value)}
                                 className="w-full p-4 rounded-xl border border-gray-300 focus:outline-none text-white  placeholder-white  transition-all duration-200"
                             />
-                            {formErrors.team_name && <p className="text-red-400 font-medium text-sm">{formErrors.team_name}</p>}
+                            {formErrors.team_name && <p className="text-red-400 font-semibold text-sm">{formErrors.team_name}</p>}
                         </div>
                     </div>
                 );
@@ -591,7 +591,7 @@ const FundraisingOnboarding = () => {
                                         <option key={type.id} className='text-black' value={type.id}>{type.name}</option>
                                     ))}
                                 </select>
-                                {formErrors.organization_type_id && <p className="text-red-400 font-medium text-sm mt-1">{formErrors.organization_type_id}</p>}
+                                {formErrors.organization_type_id && <p className="text-red-400 font-semibold text-sm mt-1">{formErrors.organization_type_id}</p>}
                             </div>
 
                             {formData.organization_type_id && (
@@ -606,7 +606,7 @@ const FundraisingOnboarding = () => {
                                             <option key={subType.id} className='text-black' value={subType.id}>{subType.name}</option>
                                         ))}
                                     </select>
-                                    {formErrors.organization_sub_type_id && <p className="text-red-400 font-medium text-sm mt-1">{formErrors.organization_sub_type_id}</p>}
+                                    {formErrors.organization_sub_type_id && <p className="text-red-400 font-semibold text-sm mt-1">{formErrors.organization_sub_type_id}</p>}
                                 </div>
                             )}
 
@@ -618,7 +618,7 @@ const FundraisingOnboarding = () => {
                                     onChange={(e) => handleInputChange('organization_name', e.target.value)}
                                     className="w-full p-4 rounded-xl border border-gray-300 focus:outline-none text-white  placeholder-white  transition-all duration-200"
                                 />
-                                {formErrors.organization_name && <p className="text-red-400 font-medium text-sm mt-1">{formErrors.organization_name}</p>}
+                                {formErrors.organization_name && <p className="text-red-400 font-semibold text-sm mt-1">{formErrors.organization_name}</p>}
                             </div>
 
                             <div>
@@ -629,7 +629,7 @@ const FundraisingOnboarding = () => {
                                     onChange={(e) => handleInputChange('zip_code', e.target.value.replace(/\D/g, '').slice(0, 5))}
                                     className="w-full p-4 rounded-xl border border-gray-300 focus:outline-none text-white  placeholder-white  transition-all duration-200"
                                 />
-                                {formErrors.zip_code && <p className="text-red-400 font-medium text-sm mt-1">{formErrors.zip_code}</p>}
+                                {formErrors.zip_code && <p className="text-red-400 font-semibold text-sm mt-1">{formErrors.zip_code}</p>}
                             </div>
                         </div>
                     </div>
@@ -674,7 +674,7 @@ const FundraisingOnboarding = () => {
                                     Pick a Specific Date
                                 </button> */}
 
-                                {formErrors.startTime && <p className="text-red-400 font-medium text-sm">{formErrors.startTime}</p>}
+                                {formErrors.startTime && <p className="text-red-400 font-semibold text-sm">{formErrors.startTime}</p>}
                             </div>
                         ) : (
                             <div className="space-y-6">
@@ -747,7 +747,7 @@ const FundraisingOnboarding = () => {
                                     <span>Back to options</span>
                                 </button>
 
-                                {formErrors.dates && <p className="text-red-400 font-medium text-sm">{formErrors.dates}</p>}
+                                {formErrors.dates && <p className="text-red-400 font-semibold text-sm">{formErrors.dates}</p>}
                             </div>
                         )}
                     </div>
@@ -776,7 +776,7 @@ const FundraisingOnboarding = () => {
                                 </button>
                             ))}
                         </div>
-                        {formErrors.membersCount && <p className="text-red-400 font-medium text-sm mt-4">{formErrors.membersCount}</p>}
+                        {formErrors.membersCount && <p className="text-red-400 font-semibold text-sm mt-4">{formErrors.membersCount}</p>}
                     </div>
                 );
 
@@ -832,7 +832,7 @@ const FundraisingOnboarding = () => {
                             </div>
 
                             {formErrors.otp && (
-                                <p className="text-red-400 font-medium text-sm text-center">{formErrors.otp}</p>
+                                <p className="text-red-400 font-semibold text-sm text-center">{formErrors.otp}</p>
                             )}
 
                             {otpSent && (
@@ -868,69 +868,70 @@ const FundraisingOnboarding = () => {
                             <h1 className="text-4xl  font-splash text-white mt-4 mb-6">
                                 Set up your Popcorn World account
                             </h1>
-                        <div className="space-y-4">
-                            <div className="grid grid-cols-2 gap-4">
-                                <div>
+                            <div className="space-y-4">
+                                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                                    <div>
+                                        <input
+                                            type="text"
+                                            placeholder="Full Name"
+                                            value={formData.fundraiser_name}
+                                            onChange={(e) => handleInputChange('fundraiser_name', e.target.value)}
+                                            className="w-full p-4 rounded-xl border border-gray-300 focus:outline-none text-white  placeholder-white  transition-all duration-200"
+                                        />
+                                        {formErrors.fundraiser_name && <p className="text-red-400 font-semibold text-sm mt-1">{formErrors.fundraiser_name}</p>}
+                                    </div>
+                                          <div>
                                     <input
-                                        type="text"
-                                        placeholder="Full Name"
-                                        value={formData.fundraiser_name}
-                                        onChange={(e) => handleInputChange('fundraiser_name', e.target.value)}
+                                        type="tel"
+                                        placeholder="Mobile Phone (10-11 digits)"
+                                        value={formData.phone_no}
+                                        onChange={(e) => handleInputChange('phone_no', e.target.value)}
+                                        maxLength={13}
                                         className="w-full p-4 rounded-xl border border-gray-300 focus:outline-none text-white  placeholder-white  transition-all duration-200"
                                     />
-                                    {formErrors.fundraiser_name && <p className="text-red-400 font-medium text-sm mt-1">{formErrors.fundraiser_name}</p>}
+                                    {formErrors.phone_no && <p className="text-red-400 font-semibold text-sm mt-1">{formErrors.phone_no}</p>}
                                 </div>
-                            </div>
+                                </div>
 
-                            <div>
-                                <input
-                                    type="tel"
-                                    placeholder="Mobile Phone (10-11 digits)"
-                                    value={formData.phone_no}
-                                    onChange={(e) => handleInputChange('phone_no', e.target.value)}
-                                    maxLength={13}
-                                    className="w-full p-4 rounded-xl border border-gray-300 focus:outline-none text-white  placeholder-white  transition-all duration-200"
-                                />
-                                {formErrors.phone_no && <p className="text-red-400 font-medium text-sm mt-1">{formErrors.phone_no}</p>}
-                            </div>
+                          
 
-                            <div className="flex items-start space-x-3 mt-6">
-                                <div className="relative">
-                                    <input
-                                        type="checkbox"
-                                        id="terms"
-                                        checked={formData.acceptTerms}
-                                        onChange={(e) => handleInputChange('acceptTerms', e.target.checked)}
-                                        className="sr-only"
-                                    />
-                                    <label
-                                        htmlFor="terms"
-                                        className={`
+                                <div className="flex items-start space-x-3 mt-6">
+                                    <div className="relative">
+                                        <input
+                                            type="checkbox"
+                                            id="terms"
+                                            checked={formData.acceptTerms}
+                                            onChange={(e) => handleInputChange('acceptTerms', e.target.checked)}
+                                            className="sr-only"
+                                        />
+                                        <label
+                                            htmlFor="terms"
+                                            className={`
         flex items-center justify-center w-5 h-5 border-1 rounded-lg cursor-pointer transition-all duration-300 transform 
         ${formData.acceptTerms
-                                                ? 'bg-black border-transparent shadow-lg'
-                                                : 'border-gray-300 bg-white'
-                                            }
+                                                    ? 'bg-black border-transparent shadow-lg'
+                                                    : 'border-gray-300 bg-white'
+                                                }
       `}
-                                    >
-                                        {formData.acceptTerms && (
-                                            <svg className="w-3 h-3 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={3} d="M5 13l4 4L19 7" />
-                                            </svg>
-                                        )}
-                                    </label>
+                                        >
+                                            {formData.acceptTerms && (
+                                                <svg className="w-3 h-3 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={3} d="M5 13l4 4L19 7" />
+                                                </svg>
+                                            )}
+                                        </label>
 
+                                    </div>
+                                    <label htmlFor="terms" className="text-white text-sm leading-relaxed cursor-pointer hover:text-blue-100 transition-colors duration-200">
+                                        By creating an account, you agree to Popcorn World{' '}
+                                        <span className="text-yellow-400 hover:text-white underline transition-colors duration-200">Terms and Conditions</span>{' '}
+                                        and{' '}
+                                        <span className="text-yellow-400 hover:text-white underline transition-colors duration-200">Privacy Policy</span>
+                                    </label>
                                 </div>
-                                <label htmlFor="terms" className="text-white text-sm leading-relaxed cursor-pointer hover:text-blue-100 transition-colors duration-200">
-                                    By creating an account, you agree to Popcorn World{' '}
-                                    <span className="text-yellow-400 hover:text-white underline transition-colors duration-200">Terms and Conditions</span>{' '}
-                                    and{' '}
-                                    <span className="text-yellow-400 hover:text-white underline transition-colors duration-200">Privacy Policy</span>
-                                </label>
+                                {formErrors.acceptTerms && <p className="text-red-400 font-semibold text-sm">{formErrors.acceptTerms}</p>}
                             </div>
-                            {formErrors.acceptTerms && <p className="text-red-400 font-medium text-sm">{formErrors.acceptTerms}</p>}
                         </div>
-                    </div>
                     );
                 }
 
@@ -1017,9 +1018,9 @@ const FundraisingOnboarding = () => {
                                 )}
                             </button>
                         </div>
-                        
+
                         {formErrors.submit && (
-                            <p className="text-red-400 font-medium text-sm text-center mt-4">{formErrors.submit}</p>
+                            <p className="text-red-400 font-semibold text-sm text-center mt-4">{formErrors.submit}</p>
                         )}
                     </div>
 

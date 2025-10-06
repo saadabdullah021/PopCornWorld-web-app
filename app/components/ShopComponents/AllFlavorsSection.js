@@ -89,7 +89,7 @@ const AllFlavorsSection = ({ products, productsLoading, productsError, paginatio
           {allFlavors && allFlavors.length > 0 ? allFlavors.map((flavor, index) => (
             <div
               key={flavor.id}
-              className="group bg-white rounded-2xl shadow-lg transition-all duration-500 transform overflow-hidden"
+              className="group bg-white rounded-2xl shadow-lg transition-all duration-500 transform overflow-hidden flex flex-col h-full"
               style={{
                 animationDelay: `${index * 100}ms`
               }}
@@ -104,7 +104,7 @@ const AllFlavorsSection = ({ products, productsLoading, productsError, paginatio
                         src={flavor.image && typeof flavor.image === 'string' && flavor.image.trim() !== '' ? flavor.image : '/pop_packet.png'}
                         alt={flavor.name || flavor.title || 'Popcorn Flavor'}
                         fill
-                        className="object-contain drop-shadow-2xl w-full h-full transition-transform duration-500"
+                        className="object-fill object-center drop-shadow-2xl w-full h-full transition-transform duration-500"
                         onError={(e) => {
                           e.target.src = '/pop_packet.png';
                         }}
@@ -115,9 +115,9 @@ const AllFlavorsSection = ({ products, productsLoading, productsError, paginatio
               </div>
 
               {/* Content */}
-              <div className="p-6 space-y-4">
+              <div className="p-6 space-y-4 flex flex-col flex-grow">
                 {/* Category Badge */}
-                <span className="inline-block px-4 py-1.5 bg-gray-200 text-black text-xs font-bold uppercase tracking-wider rounded-full">
+                <span className="inline-block px-4 py-1.5 bg-gray-200 text-black text-xs font-bold uppercase tracking-wider w-40 rounded-full">
                   {flavor.product_categories?.[0]?.category?.name || flavor.type || 'FLAVOR'}
                 </span>
 
@@ -133,21 +133,21 @@ const AllFlavorsSection = ({ products, productsLoading, productsError, paginatio
 
                 {/* Description */}
                 <div
-                  className="text-black text-[16px] font-normal leading-relaxed"
+                  className="text-black text-[16px] font-normal leading-relaxed flex-grow"
                   dangerouslySetInnerHTML={{ __html: flavor.description || '' }}
                 />
 
                 {/* Action Buttons */}
-                <div className='flex items-center gap-4'>
+                <div className='flex items-center gap-4  mt-auto pt-4'>
                   <button
                     onClick={() => handleMoreInfo(flavor)}
-                    className="w-full inline-flex items-center gap-3 justify-center mt-6 bg-[#8bc34a] text-white font-bold py-3 px-6 rounded-3xl transition-all duration-300 transform hover:shadow-lg focus:outline-none"
+                    className="w-full inline-flex items-center gap-3 justify-center  bg-[#8bc34a] text-white font-bold py-3 px-6 rounded-3xl transition-all duration-300 transform hover:shadow-lg focus:outline-none"
                   >
                     More Info
                   </button>
                   <button 
                     onClick={() => handleAddToCart(flavor)}
-                    className="w-full inline-flex items-center whitespace-nowrap gap-3 justify-center mt-6 bg-[#8bc34a] text-white font-bold py-3 px-6 rounded-3xl transition-all duration-300 transform hover:shadow-lg focus:outline-none">
+                    className="w-full inline-flex items-center whitespace-nowrap gap-3 justify-center  bg-[#8bc34a] text-white font-bold py-3 px-6 rounded-3xl transition-all duration-300 transform hover:shadow-lg focus:outline-none">
                     Add to Cart
                     <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
                       <path d="m15 11-1 9" />

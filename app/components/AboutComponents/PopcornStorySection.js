@@ -1,3 +1,4 @@
+import Link from 'next/link';
 import React from 'react';
 
 
@@ -46,10 +47,10 @@ const PopcornStorySection = () => {
 
                 {/* Call to Action */}
                 <div className="text-center mt-12 md:mt-16">
-                   <button className="group btn-primary transition-all duration-300 animate-fadeInUp">
+                   <Link  href='/get-started' className="group btn-primary transition-all duration-300 animate-fadeInUp">
                                Get Started
                             
-                             </button>
+                             </Link >
                 </div>
 
             </div>

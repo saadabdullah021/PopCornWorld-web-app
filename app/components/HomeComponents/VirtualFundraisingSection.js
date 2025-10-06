@@ -1,12 +1,21 @@
 'use client'
 import React, { useState } from 'react';
 import Image from 'next/image';
-import girl_team from '../../../public/Girls_team.jpg'
+import groupImage from '../../../public/groupImage.jpg'
+import threepersonImage from '../../../public/threepersonImage.jpg'
+import process1 from '../../../public/process1.jpg'
+import process2 from '../../../public/process2.jpg'
+import blackBoyImage from '../../../public/blackBoyImage.jpg'
+import blueImage from '../../../public/blueImage.jpg'
+
+
+
 import VideoPlayer from '../ui/VideoPlayer';
 import { Swiper, SwiperSlide } from 'swiper/react'
 import { Autoplay, Pagination } from 'swiper/modules'
 import 'swiper/css'
 import 'swiper/css/pagination'
+import Link from 'next/link';
 const VirtualFundraisingSection = () => {
 
   const features = [
@@ -14,42 +23,42 @@ const VirtualFundraisingSection = () => {
       id: 1,
       title: "100% virtual, 4 day fundraiser",
       description: "4 day fundraisers maximize engagement and let you fundraise from anywhere.",
-      image: girl_team,
+      image: groupImage,
       alt: "Warehouse with organized inventory for virtual fundraising"
     },
     {
       id: 2,
       title: "Shipped directly to your supporters",
       description: "You never handle cash, never distribute product.",
-      image: girl_team,
+      image: process1,
       alt: "Products being shipped directly to supporters"
     },
     {
       id: 3,
       title: "No fees or minimums, ever",
       description: "Keep 50% of what you sell, with payments sent to you.",
-      image: girl_team,
+      image: process2,
       alt: "Colorful product display showing no fees policy"
     },
     {
       id: 4,
       title: "No fees or minimums, ever",
       description: "Keep 50% of what you sell, with payments sent to you.",
-      image: girl_team,
+      image: threepersonImage,
       alt: "Colorful product display showing no fees policy"
     }
     , {
       id: 5,
       title: "No fees or minimums, ever",
       description: "Keep 50% of what you sell, with payments sent to you.",
-      image: girl_team,
+      image: blackBoyImage,
       alt: "Colorful product display showing no fees policy"
     }
     , {
       id: 6,
       title: "No fees or minimums, ever",
       description: "Keep 50% of what you sell, with payments sent to you.",
-      image: girl_team,
+      image: blueImage,
       alt: "Colorful product display showing no fees policy"
     }
   ];
@@ -85,21 +94,21 @@ const VirtualFundraisingSection = () => {
             768: { slidesPerView: 2 }, // ✅ tablet screens
 
             // Desktop: ≥1024px → 4 cards
-            1024: { slidesPerView: 2 }, // ✅ desktop screens
+            1024: { slidesPerView: 3 }, // ✅ desktop screens
           }}
           className="py-14"
         >
           {features.map((feature) => (
             <SwiperSlide key={feature.id}>
-              <div className="group text-center pb-12">
+              <div className="group text-center pb-12 px-2">
                 {/* Image Container */}
                 <div className="relative w-full h-48 md:h-56 lg:h-64 rounded-2xl overflow-hidden mb-6 shadow-lg group-hover:shadow-2xl transition-all duration-500 transform ">
                   <Image
-                    src={feature.image && typeof feature.image === 'string' ? feature.image : '/pop_packet.png'}
+                    src={feature.image ||'/pop_packet.png'}
                     alt={feature.alt}
                     fill
                     sizes="(max-width: 768px) 100vw, (max-width: 1200px) 33vw, 25vw"
-                    className="object-cover group-hover:scale-110 transition-transform duration-700 ease-out"
+                    className="object-fill object-center group-hover:scale-101 transition-transform duration-700 ease-out"
                     priority={feature.id === 1}
                     placeholder="blur"
                     blurDataURL="data:image/jpeg;base64,/9j/..."
@@ -142,10 +151,10 @@ const VirtualFundraisingSection = () => {
 
             {/* Action Buttons */}
             <div className="flex flex-col sm:flex-row gap-4">
-              <button className="group btn-primary transition-all text-center justify-center duration-300 animate-fadeInUp">
+              <Link href='/get-started' className="group btn-primary transition-all text-center justify-center duration-300 animate-fadeInUp">
                 Get Started
 
-              </button>
+              </Link>
 
 
             </div>

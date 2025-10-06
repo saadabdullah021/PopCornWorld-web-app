@@ -64,7 +64,7 @@ const FlavorDetailsPage = () => {
     return (
       <div className="bg-gray-50 min-h-screen flex items-center justify-center">
         <div className="text-center">
-          <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-black mx-auto mb-4"></div>
+          <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-[#ffc222] mx-auto mb-4"></div>
           <p className="text-black font-medium">Loading flavor details...</p>
         </div>
       </div>
@@ -126,7 +126,7 @@ const FlavorDetailsPage = () => {
                 src={flavor.image || flavor.images?.[selectedImageIndex] || '/pop_packet.png'}
                 alt={flavor.name || flavor.title || 'Popcorn Flavor'}
                 fill
-                className="object-contain drop-shadow-2xl transition-all duration-300"
+                className="object-fill drop-shadow-2xl transition-all duration-300"
                 onError={(e) => {
                   e.target.src = '/pop_packet.png';
                 }}

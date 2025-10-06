@@ -1,27 +1,32 @@
 import React from 'react';
 import Image from 'next/image';
-import girl_team from '../../../public/Girls_team.jpg'
+import footballImage from '../../../public/footballImage.jpg'
+import blackBoyImage from '../../../public/blackBoyImage.jpg'
+import blueImage from '../../../public/blueImage.jpg'
+
+
+
 const JoyMissionSection = () => {
   const services = [
     {
       id: 1,
       title: "Virtual Fundraising",
       description: "Make more dreams come true with easy fundraising.",
-      image: girl_team,
+      image: blackBoyImage,
       alt: "Team huddle during virtual fundraising event"
     },
     {
       id: 2,
       title: "Popcorn World Kids Foundation",
       description: "Putting dazzling smiles on the faces of kids with special needs.",
-      image: girl_team,
+      image: footballImage,
       alt: "Green foundation bag with popcorn logo"
     },
     {
       id: 3,
       title: "Premium Popcorn",
       description: "Amazing flavors burst out of every bag of our delectable, award-winning popcorn.",
-      image: girl_team,
+      image: blueImage,
       alt: "Premium popcorn products display"
     }
   ];
@@ -47,7 +52,7 @@ const JoyMissionSection = () => {
               {/* Image Container */}
               <div className="relative w-full h-80 md:h-96 rounded-2xl overflow-hidden mb-6 shadow-lg group-hover:shadow-2xl transition-shadow duration-300">
                 <Image
-                  src={service.image && typeof service.image === 'string' ? service.image : '/pop_packet.png'}
+                  src={service.image || '/pop_packet.png'}
                   alt={service.alt}
                   fill
                   sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"

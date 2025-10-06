@@ -50,7 +50,7 @@ const SignInModal = ({
     <div className="fixed inset-0 flex items-center justify-center z-[70] p-4">
       <div className="bg-white rounded-2xl shadow-2xl w-full max-w-2xl transform transition-all duration-300 animate-modal">
         <div className="flex items-center justify-between px-6 pt-6 border-b border-gray-100">
-          <h2 className="text-2xl font-bold text-gray-800">Sign In</h2>
+          <h2 className="text-2xl font-bold text-gray-800">Sign in to your account</h2>
           <button
             onClick={onClose}
             className="p-2 hover:bg-gray-100 rounded-full transition-colors duration-200"
@@ -100,7 +100,7 @@ const SignInModal = ({
             >
               {(authLoading || isLoading) ? (
                 <div className="flex items-center justify-center">
-                  <div className="w-5 h-5 border-2 border-white border-t-transparent rounded-full animate-spin mr-2"></div>
+                  <div className="w-5 h-5 border-2 border-[#ffc222] border-t-transparent rounded-full animate-spin mr-2"></div>
                   Sending...
                 </div>
               ) : (
@@ -109,9 +109,7 @@ const SignInModal = ({
             </button>
           </div>
 
-          <div className="text-center text-sm text-gray-500">
-            By continuing, you agree to our Terms of Service
-          </div>
+        
         </div>
       </div>
     </div>

@@ -53,7 +53,7 @@ const Input = ({
         maxLength={maxLength}
         className={`w-full px-4 py-3 border rounded-xl bg-white transition-all duration-300 placeholder-gray-600 focus:ring-0 outline-0 text-black font-medium shadow-sm hover:shadow-md focus:shadow-lg ${
           error 
-            ? 'border-red-400 focus:border-red-500 focus:ring-4 focus:ring-red-100' 
+            ? 'border-red-400 focus:border-red-500  focus:ring-4 focus:ring-red-100' 
             : 'border-gray-200'
         } ${
           disabled 
@@ -68,7 +68,7 @@ const Input = ({
       )}
     </div>
     {error && (
-      <p className="text-red-500 text-sm mt-2 flex items-center gap-1">
+      <p className="text-red-500 text-sm font-semibold mt-2 flex items-center gap-1">
         <span className="w-1 h-1 bg-red-500 rounded-full"></span>
         {error}
       </p>
@@ -116,7 +116,7 @@ const Dropdown = ({
       ))}
     </select>
     {error && (
-      <p className="text-red-500 text-sm mt-2 flex items-center gap-1">
+      <p className="text-red-500 font-semibold text-sm mt-2 flex items-center gap-1">
         <span className="w-1 h-1 bg-red-500 rounded-full"></span>
         {error}
       </p>
@@ -154,7 +154,7 @@ const TextArea = ({
       }`}
     />
     {error && (
-      <p className="text-red-500 text-sm mt-2 flex items-center gap-1">
+      <p className="text-red-500 text-sm font-semibold mt-2 flex items-center gap-1">
         <span className="w-1 h-1 bg-red-500 rounded-full"></span>
         {error}
       </p>
@@ -224,7 +224,7 @@ const Button = ({
       }`}
     >
       {loading && (
-        <div className="animate-spin rounded-full h-5 w-5 border-2 border-white border-b-transparent"></div>
+        <div className="animate-spin rounded-full h-5 w-5 border-2 border-[#ffc222] border-b-transparent"></div>
       )}
       {children}
     </button>
@@ -261,8 +261,8 @@ const OTPModal = ({ isOpen, onClose, onVerify, loading }) => {
       <div className="bg-white rounded-3xl p-8 w-full max-w-lg shadow-2xl transform animate-in zoom-in duration-300">
         <div className="flex justify-between items-center mb-6">
           <div className="flex items-center gap-3">
-            <div className="w-10 h-10 bg-blue-100 rounded-full flex items-center justify-center">
-              <Shield size={20} className="text-[#3333cb]" />
+            <div className="w-10 h-10 bg-gray-50 rounded-full flex items-center justify-center">
+              <Shield size={20} className="text-[#8BC34A]" />
             </div>
             <h3 className="text-xl font-bold text-black">Verify OTP</h3>
           </div>
@@ -840,7 +840,7 @@ const CheckoutPage = () => {
     return (
       <div className="min-h-screen bg-gradient-to-br from-blue-50/50 via-white to-indigo-50/30 pt-32 lg:pt-40 flex items-center justify-center">
         <div className="text-center">
-          <div className="animate-spin rounded-full h-12 w-12 border-4 border-blue-500 border-b-transparent mx-auto mb-4"></div>
+          <div className="animate-spin rounded-full h-12 w-12 border-4 border-[#ffc222] border-b-transparent mx-auto mb-4"></div>
           <p className="text-gray-600">Redirecting to shop...</p>
         </div>
       </div>

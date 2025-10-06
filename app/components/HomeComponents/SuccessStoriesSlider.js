@@ -1,7 +1,16 @@
 'use client'
 import React, { useState, useEffect } from 'react';
 import Image from 'next/image';
-import girl_school from '../../../public/Girls_team.jpg'
+import leftImage from '../../../public/leftImage.jpg'
+
+import rightImage from '../../../public/rightImage.jpg'
+import threepersonImage from '../../../public/threepersonImage.jpg'
+import process1 from '../../../public/process1.jpg'
+import process2 from '../../../public/process2.jpg'
+import blackBoyImage from '../../../public/blackBoyImage.jpg'
+import blueImage from '../../../public/blueImage.jpg'
+
+
 import { ChevronLeft, ChevronRight } from 'lucide-react';
 import { LuCrown } from "react-icons/lu";
 const SuccessStoriesSlider = () => {
@@ -16,7 +25,7 @@ const SuccessStoriesSlider = () => {
       description: "Partnering with Double Good for the past 3 seasons has given us the ability to enhance many aspects of our program. This year's senior class decided on a tunnel for our pregame entrance. It has added to the Friday night atmosphere in ways we couldn't have anticipated. Underclassmen are already shopping for next year.",
       totalSales: "$56,586",
       sellers: "53",
-      image: girl_school,
+      image: leftImage,
       alt: "Football team running through inflatable tunnel entrance"
     },
     {
@@ -26,7 +35,7 @@ const SuccessStoriesSlider = () => {
       description: "Our fundraising campaign exceeded all expectations! The community came together to support our students, and we were able to purchase brand new playground equipment that will serve our children for years to come. The 4-day format kept everyone engaged.",
       totalSales: "$42,350",
       sellers: "87",
-         image: girl_school,
+         image: rightImage,
       alt: "Children playing on new playground equipment"
     },
     {
@@ -36,7 +45,7 @@ const SuccessStoriesSlider = () => {
       description: "Thanks to our successful fundraising campaign, we were able to purchase new uniforms for the entire team and fund our travel expenses for the state tournament. The virtual format made it so easy for families to participate from anywhere.",
       totalSales: "$38,920",
       sellers: "34",
-     image: girl_school,
+     image: threepersonImage,
       alt: "Basketball team in new uniforms"
     },
     {
@@ -46,7 +55,7 @@ const SuccessStoriesSlider = () => {
       description: "Our band program was in desperate need of new instruments. Through this amazing fundraising platform, we raised enough money to purchase several new instruments and music stands. Our students are thriving with the new equipment.",
       totalSales: "$51,200",
       sellers: "76",
-     image: girl_school,
+     image: blueImage,
       alt: "Students with new musical instruments"
     }
   ];
@@ -150,7 +159,7 @@ const SuccessStoriesSlider = () => {
                     {/* Right Image */}
                     <div className="relative h-96 lg:h-full order-1 lg:order-2">
                       <Image
-                        src={story.image && typeof story.image === 'string' ? story.image : '/pop_packet.png'}
+                        src={story.image || '/pop_packet.png'}
                         alt={story.alt}
                         fill
                         className="object-cover"
