@@ -1,5 +1,5 @@
 import axiosInstance from '../../axios'
-import { get_single_product, get_single_collection, send_otp, verify_otp, create_order, track_order, check_email_exists, get_organization_info, fundraiser_register, get_products_slider } from './endpoints'
+import { get_single_product, get_single_collection, get_single_campaign, send_otp, verify_otp, create_order, track_order, check_email_exists, get_organization_info, fundraiser_register, get_products_slider } from './endpoints'
 
 export const api = {
   get: (url, config = {}) => axiosInstance.get(url, config),
@@ -26,6 +26,20 @@ export const getSingleProduct = async (slug, success, fail) => {
 export const getSingleCollection = async (slug, success, fail) => {
   try {
     const response = await axiosInstance.get(`${get_single_collection}?slug=${slug}`);
+    if (response?.data?.status === 200) {
+      let data = response?.data?.data;
+      success && success(data);
+      return response?.data?.data;
+    }
+  } catch (error) {
+    fail && fail();
+    return error;
+  }
+};
+
+export const getSingleCampaign = async (slug, success, fail) => {
+  try {
+    const response = await axiosInstance.get(`${get_single_campaign}?slug=${slug}`);
     if (response?.data?.status === 200) {
       let data = response?.data?.data;
       success && success(data);
