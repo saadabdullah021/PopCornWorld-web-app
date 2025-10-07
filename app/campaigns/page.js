@@ -225,7 +225,10 @@ const allProjects = useMemo(() => transformCampaigns, []);
 
   // Project Card Component
   const ProjectCard = ({ project }) => (
-    <div className="bg-white rounded-lg shadow-lg overflow-hidden hover:shadow-xl transition-all duration-300 group cursor-pointer h-full flex flex-col">
+    <div 
+      className="bg-white rounded-lg shadow-lg overflow-hidden hover:shadow-xl transition-all duration-300 group cursor-pointer h-full flex flex-col"
+      onClick={() => window.location.href = `/campaigns/${project.slug}`}
+    >
       <div className="relative h-48 overflow-hidden">
         <img
           src={project.image}

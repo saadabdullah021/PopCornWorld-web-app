@@ -36,7 +36,7 @@ const ExploreProjectsSlider = ({ campaigns, campaignsLoading, campaignsError, gl
         author: campaign.fundraiser?.name || "Unknown",
         category: "Campaign",
         categoryColor: "bg-[#8bc34a]",
-        image: `https://onebigmediacompany.online/${campaign.campaign_image}`,
+        image: `https://onebigmediacompany.online/storage/${campaign.campaign_image}`,
         raised: `${currency}${collectedAmount}`,
         goal: `${currency}${raiseAmount}`,
         percentage: Math.min(percentage, 100),
@@ -108,13 +108,19 @@ const ExploreProjectsSlider = ({ campaigns, campaignsLoading, campaignsError, gl
 
 
   const ProjectCard = ({ project }) => (
-    <div className="bg-white rounded shadow-lg overflow-hidden hover:shadow-xl transition-all duration-300 group">
+    <div 
+      className="bg-white rounded shadow-lg overflow-hidden hover:shadow-xl transition-all duration-300 group cursor-pointer"
+      onClick={() => window.location.href = `/campaigns/${project.slug}`}
+    >
       <div className="relative h-48 overflow-hidden">
         <Image
           src={project.image && typeof project.image === 'string' ? project.image : '/pop_packet.png'}
           alt={project.title}
           fill
           className="object-cover group-hover:scale-101 transition-transform duration-500"
+          onError={(e) => {
+            e.target.src = '/pop_packet.png';
+          }}
         />
 
       </div>
