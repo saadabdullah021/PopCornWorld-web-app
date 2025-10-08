@@ -130,7 +130,7 @@ const TrackOrderPage = () => {
                 <button
                   onClick={handleSubmit}
                   disabled={isLoading}
-                  className="lg:w-32 w-full lg:ml-auto bg-[#8bc34a] cursor-pointer disabled:bg-gray-700 text-white font-bold py-3 px-6 rounded-3xl transition-all duration-300 transform hover:shadow-lg focus:outline-none disabled:transform-none disabled:cursor-not-allowed flex items-center justify-center space-x-2"
+                  className="lg:w-40 w-full lg:ml-auto bg-[#8bc34a] cursor-pointer disabled:bg-gray-700 text-white font-bold py-3 px-6 rounded-3xl transition-all duration-300 transform hover:shadow-lg focus:outline-none disabled:transform-none disabled:cursor-not-allowed flex items-center justify-center space-x-2"
                 >
                   {isLoading ? (
                     <>
@@ -141,7 +141,7 @@ const TrackOrderPage = () => {
                       <span>Processing...</span>
                     </>
                   ) : (
-                    <span>Continue</span>
+                    <span>Track Order</span>
                   )}
                 </button>
               </div>

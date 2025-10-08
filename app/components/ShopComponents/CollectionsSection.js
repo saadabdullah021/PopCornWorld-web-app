@@ -10,7 +10,7 @@ const CollectionsSection = ({ collections, collectionsLoading, collectionsError,
   const dispatch = useDispatch();
   // Get global settings from Redux
   const { globalSettings } = useSelector(state => state.app);
-  
+
   // Fallback sample data - will be replaced by API data
   const [fallbackCollections] = useState([
     {
@@ -190,14 +190,21 @@ const CollectionsSection = ({ collections, collectionsLoading, collectionsError,
                   {/* Collection Package Visualization */}
                   <div className="relative w-full h-full">
                     <Image
-                      src={collection.image && typeof collection.image === 'string' && collection.image.trim() !== '' ? collection.image : '/pop_packet.png'}
-                      alt={collection.name  || 'Popcorn Collection'}
+                      src={
+                        collection?.collection_images?.[0]?.image
+                          ? collection.collection_images[0].image.startsWith('http')
+                            ? collection.collection_images[0].image
+                            : `http://127.0.0.1:8000/${collection.collection_images[0].image}`
+                          : '/pop_packet.png'
+                      }
+                      alt={collection?.title || 'Popcorn Collection'}
                       fill
-                      className="object-fill object-center drop-shadow-2xl w-full h-full transition-transform duration-500 "
+                      className="object-fill object-center drop-shadow-2xl w-full h-full transition-transform duration-500"
                       onError={(e) => {
-                        e.target.src = '/pop_packet.png';
+                        e.currentTarget.src = '/pop_packet.png';
                       }}
                     />
+
                   </div>
                 </div>
 
@@ -234,7 +241,7 @@ const CollectionsSection = ({ collections, collectionsLoading, collectionsError,
                   >
                     More Info
                   </button>
-                  <button 
+                  <button
                     onClick={() => handleAddToCart(collection)}
                     className="w-full inline-flex items-center whitespace-nowrap gap-3 justify-center  bg-[#8bc34a] text-white font-bold py-3 px-6 rounded-3xl transition-all duration-300 transform hover:shadow-lg focus:outline-none">
                     Add to Cart

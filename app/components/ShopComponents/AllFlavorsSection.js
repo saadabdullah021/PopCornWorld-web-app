@@ -10,7 +10,7 @@ const AllFlavorsSection = ({ products, productsLoading, productsError, paginatio
   const dispatch = useDispatch();
   // Get global settings from Redux
   const { globalSettings } = useSelector(state => state.app);
-  
+
   // Use only API data
   const allFlavors = products || [];
 
@@ -101,14 +101,19 @@ const AllFlavorsSection = ({ products, productsLoading, productsError, paginatio
                   <div className="relative">
                     <div className="w-96 h-64 relative">
                       <Image
-                        src={flavor.image && typeof flavor.image === 'string' && flavor.image.trim() !== '' ? flavor.image : '/pop_packet.png'}
-                        alt={flavor.name || flavor.title || 'Popcorn Flavor'}
+                        src={
+                          flavor?.product_images?.[0]?.thumbnail && flavor.product_images[0].thumbnail.trim() !== ''
+                            ? flavor.product_images[0].thumbnail
+                            : '/pop_packet.png'
+                        }
+                        alt={flavor?.name || flavor?.title || 'Popcorn Flavor'}
                         fill
                         className="object-fill object-center drop-shadow-2xl w-full h-full transition-transform duration-500"
                         onError={(e) => {
-                          e.target.src = '/pop_packet.png';
+                          e.currentTarget.src = '/pop_packet.png';
                         }}
                       />
+
                     </div>
                   </div>
                 </div>
@@ -117,9 +122,23 @@ const AllFlavorsSection = ({ products, productsLoading, productsError, paginatio
               {/* Content */}
               <div className="p-6 space-y-4 flex flex-col flex-grow">
                 {/* Category Badge */}
-                <span className="inline-block px-4 py-1.5 bg-gray-200 text-black text-xs font-bold uppercase tracking-wider w-40 rounded-full">
-                  {flavor.product_categories?.[0]?.category?.name || flavor.type || 'FLAVOR'}
-                </span>
+                <div className="flex flex-wrap gap-2">
+                  {flavor?.product_categories?.length > 0 ? (
+                    flavor.product_categories.map((catObj) => (
+                      <span
+                        key={catObj.id}
+                        className="inline-block px-4 py-1.5 bg-gray-200 text-black text-xs font-bold uppercase tracking-wider rounded-full"
+                      >
+                        {catObj.category?.name || flavor.type || 'FLAVOR'}
+                      </span>
+                    ))
+                  ) : (
+                    <span className="inline-block px-4 py-1.5 bg-gray-200 text-black text-xs font-bold uppercase tracking-wider rounded-full">
+                      {flavor.type || 'FLAVOR'}
+                    </span>
+                  )}
+                </div>
+
 
                 {/* Title and Price */}
                 <div className="flex items-start justify-between py-1">
@@ -145,7 +164,7 @@ const AllFlavorsSection = ({ products, productsLoading, productsError, paginatio
                   >
                     More Info
                   </button>
-                  <button 
+                  <button
                     onClick={() => handleAddToCart(flavor)}
                     className="w-full inline-flex items-center whitespace-nowrap gap-3 justify-center  bg-[#8bc34a] text-white font-bold py-3 px-6 rounded-3xl transition-all duration-300 transform hover:shadow-lg focus:outline-none">
                     Add to Cart

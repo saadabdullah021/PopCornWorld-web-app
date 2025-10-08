@@ -348,25 +348,18 @@ const FundraisingOnboarding = () => {
 
         if (currentStep === 0) {
             setIsLoading(true);
-
-            try {
-                checkEmailExists(
-                    formData.email_address,
-                    'fundraiser',
-                    (response) => {
-                        setCurrentStep((prev) => prev + 1);
-                        setIsLoading(false);
-                    },
-                    (errorMessage) => {
-                        setFormErrors({ email: errorMessage });
-                        setIsLoading(false);
-                    }
-                );
-            } catch (err) {
-                setFormErrors({ email: 'Something went wrong. Please try again.' });
-                setIsLoading(false);
-            }
-
+            checkEmailExists(
+                formData.email_address,
+                'fundraiser',
+                (response) => {
+                    setCurrentStep((prev) => prev + 1);
+                    setIsLoading(false);
+                },
+                (errorMessage) => {
+                    setFormErrors({ email_address: errorMessage });
+                    setIsLoading(false);
+                }
+            );
             return;
         }
 

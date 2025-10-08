@@ -11,35 +11,35 @@ const HeroSection = () => {
     <section className="relative min-h-screen pb-12 pt-20 lg:pt-32 bg-gradient-to-br from-gray-50 to-gray-100 overflow-hidden">
 
 
-             {/* Header Text Section */}
-        <div
-          className="relative text-center pt-24 lg:pt-36 lg:pb-36 2xl:pb-48 2xl:pt-72 pb-20 bg-cover bg-center bg-no-repeat"
-          style={{ backgroundImage: "url('/heroImage.jpeg')" }}
-        >
+      {/* Header Text Section */}
+      <div
+        className="relative text-center pt-24 lg:pt-36 lg:pb-36 2xl:pb-48 2xl:pt-72 pb-20 bg-cover bg-center bg-no-repeat"
+        style={{ backgroundImage: "url('/heroImage.jpeg')" }}
+      >
 
-          {/* Overlay (optional for dark shade on image) */}
-          <div className="absolute inset-0 bg-black/30"></div>
-          {/* Content */}
-          <div className="relative z-10">
-            <span className="inline-block text-lg font-bold text-[#ffc222] mb-6 animate-fadeInUp">
-              Crowdfunding Agency
-            </span>
+        {/* Overlay (optional for dark shade on image) */}
+        <div className="absolute inset-0 bg-black/30"></div>
+        {/* Content */}
+        <div className="relative z-10">
+          <span className="inline-block text-lg font-bold text-[#ffc222] mb-6 animate-fadeInUp">
+            Crowdfunding Agency
+          </span>
 
-            <h1 className="main_heading font-splash text-white leading-none mb-12 tracking-tight animate-fadeInUp">
-              Raise Hand to Promote <br />
-              <span className="text-gray-200">Best Products</span>
-            </h1>
+          <h1 className="main_heading font-splash text-white leading-none mb-12 tracking-tight animate-fadeInUp">
+            Raise Hand to Promote <br />
+            <span className="text-gray-200">Best Products</span>
+          </h1>
 
-            <Link href='/shop' className="group inline-flex items-center gap-3 px-6 py-3 border-2   font-medium rounded-full bg-[#8BC34A] cursor-pointer text-white border-transparent transition-all duration-300 animate-fadeInUp">
-         Order Now
-            
-            </Link>
-          </div>
+          <Link href='/shop' className="group inline-flex items-center gap-3 px-6 py-3 border-2   font-medium rounded-full bg-[#8BC34A] cursor-pointer text-white border-transparent transition-all duration-300 animate-fadeInUp">
+            Shop Now
+
+          </Link>
         </div>
-      
+      </div>
+
 
       <div className="container max-w-full mx-auto px-4 lg:px-0 relative z-20">
- 
+
 
 
         {/* Images Section */}
@@ -50,12 +50,12 @@ const HeroSection = () => {
               <Image
                 src={leftImage}
                 alt="Professional working"
-                
+
                 loading='lazy'
                 className="w-full h-full object-cover object-center"
               />
             </div>
-      
+
           </div>
 
           {/* Center Main Image */}
@@ -65,7 +65,7 @@ const HeroSection = () => {
                 src={mainImage}
                 alt="Team collaboration"
                 fill
-                  sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 650px"
+                sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 650px"
                 className="w-full h-full object-cover object-center"
                 loading="lazy"
               />
@@ -82,7 +82,7 @@ const HeroSection = () => {
                 className="w-full h-full object-cover object-center"
               />
             </div>
-        
+
           </div>
         </div>
 
