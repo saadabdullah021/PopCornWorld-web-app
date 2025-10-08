@@ -16,7 +16,7 @@ const FundraiserSection = ({ campaign }) => {
     currentAmount: parseFloat(campaign.collected_amount) || 0,
     goalAmount: parseFloat(campaign.raise_amount) || 1000,
     daysToGo: campaign.remaining_time === "Expired" ? 0 : 30,
-    coachImage: campaign.campaign_image ? `https://onebigmediacompany.online/${campaign.campaign_image}` : coachImage
+    coachImage: campaign.campaign_image ? `http://127.0.0.1:8000/${campaign.campaign_image}` : coachImage
   } : {
     title: "Coach Kim's Pop-Up Store",
     description: "Our Track team is doing a fundraiser for the upcoming season to offset the cost of travel and equipment. Help us reach our goal! Thank you for the support!",

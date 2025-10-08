@@ -54,7 +54,7 @@ export const getSingleCampaign = async (slug, success, fail) => {
 export const sendOTP = async (phoneNumber, otpType, success, fail) => {
   try {
     const cleanPhoneNumber = phoneNumber.replace(/[^\d]/g, '');
-    const response = await axiosInstance.post(send_otp, { 
+    const response = await axiosInstance.post(send_otp, {
       phone_number: cleanPhoneNumber,
       otp_type: otpType
     });
@@ -74,7 +74,7 @@ export const sendOTP = async (phoneNumber, otpType, success, fail) => {
 export const verifyOTP = async (phoneNumber, otpCode, otpType, success, fail) => {
   try {
     const cleanPhoneNumber = phoneNumber.replace(/[^\d]/g, '');
-    const response = await axiosInstance.post(verify_otp, { 
+    const response = await axiosInstance.post(verify_otp, {
       phone_number: cleanPhoneNumber,
       otp_code: otpCode,
       otp_type: otpType
@@ -99,7 +99,7 @@ export const createOrder = async (orderData, success, fail) => {
         'Content-Type': 'application/json',
       },
     });
-    
+
     if (response?.data?.status === 200 || response?.status === 200) {
       success && success(response?.data);
       return response?.data;
@@ -120,7 +120,7 @@ export const trackOrder = async (emailAddress, success, fail) => {
         email_address: emailAddress
       }
     });
-    
+
     if (response?.data?.status === 200 || response?.status === 200) {
       success && success(response?.data);
       return response?.data;
@@ -135,6 +135,7 @@ export const trackOrder = async (emailAddress, success, fail) => {
 };
 
 export const checkEmailExists = async (emailAddress, userType, success, fail) => {
+
   try {
     const response = await axiosInstance.get(check_email_exists, {
       params: {
@@ -142,13 +143,13 @@ export const checkEmailExists = async (emailAddress, userType, success, fail) =>
         email_address: emailAddress
       }
     });
-    
-    if (response?.data?.status === 200 || response?.status === 200) {
+
+    if (response?.data?.status == 200) {
       success && success(response?.data);
       return response?.data;
     } else {
       fail && fail(response?.data?.message || 'Email check failed');
-      return response?.data;
+      return response?.data?.message;
     }
   } catch (error) {
     fail && fail(error?.response?.data?.message || 'Network error occurred');
@@ -161,7 +162,7 @@ export const getOrganizationInfo = async (success, fail) => {
     console.log('Making API call to:', get_organization_info);
     const response = await axiosInstance.get(get_organization_info);
     console.log('API response:', response);
-    
+
     if (response?.data?.status === 200 || response?.status === 200) {
       success && success(response?.data);
       return response?.data;
@@ -185,7 +186,7 @@ export const registerFundraiser = async (formData, success, fail) => {
       },
     });
     console.log('Fundraiser registration response:', response);
-    
+
     if (response?.data?.status === 200 || response?.status === 200) {
       success && success(response?.data);
       return response?.data;
@@ -205,7 +206,7 @@ export const getProductsSlider = async (success, fail) => {
     console.log('Fetching products slider data...');
     const response = await axiosInstance.get(get_products_slider);
     console.log('Products slider response:', response);
-    
+
     if (response?.data?.status === 200 || response?.status === 200) {
       success && success(response?.data);
       return response?.data;
@@ -226,10 +227,10 @@ export const getUserOrders = async (success, fail) => {
     console.log('Fetching user orders...');
     console.log('Auth token available:', !!authToken);
     console.log('Auth token:', authToken ? `${authToken.substring(0, 20)}...` : 'No token');
-    
+
     const response = await axiosInstance.get(get_user_orders);
     console.log('User orders response:', response);
-    
+
     if (response?.data?.status === 200 || response?.status === 200) {
       success && success(response?.data);
       return response?.data;

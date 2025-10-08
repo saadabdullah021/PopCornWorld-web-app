@@ -45,15 +45,15 @@ const ShoppingCartIcon = ({ itemCount, onClick }) => {
       className="relative text-sm font-medium outline-none ring-none rounded-full cursor-pointer text-white mr-3  transition-transform duration-200 focus:outline-none "
       aria-label={`Shopping cart with ${itemCount} items`}
     >
-        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                                <path d="m15 11-1 9" />
-                                <path d="m19 11-4-7" />
-                                <path d="M2 11h20" />
-                                <path d="m3.5 11 1.6 7.4a2 2 0 0 0 2 1.6h9.8a2 2 0 0 0 2-1.6l1.7-7.4" />
-                                <path d="M4.5 15.5h15" />
-                                <path d="m5 11 4-7" />
-                                <path d="m9 11 1 9" />
-                            </svg>
+      <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+        <path d="m15 11-1 9" />
+        <path d="m19 11-4-7" />
+        <path d="M2 11h20" />
+        <path d="m3.5 11 1.6 7.4a2 2 0 0 0 2 1.6h9.8a2 2 0 0 0 2-1.6l1.7-7.4" />
+        <path d="M4.5 15.5h15" />
+        <path d="m5 11 4-7" />
+        <path d="m9 11 1 9" />
+      </svg>
 
       {/* Item Count Badge */}
       {itemCount > 0 && (
@@ -79,7 +79,7 @@ const HeaderShoppingCart = ({ isOpen, onClose }) => {
       const config = globalSettings.find(item => item.config_key === key);
       return config ? config.config_value : defaultValue;
     };
-    
+
     const currency = getConfigValue('campaign_currency', '$');
     return `${currency}${price}`;
   };
@@ -103,7 +103,7 @@ const HeaderShoppingCart = ({ isOpen, onClose }) => {
       quantity: 1,
       image: donation_checkout,
       type: "donation",
-    
+
     };
 
     dispatch(addToCart(donationItem));
@@ -231,11 +231,11 @@ const HeaderShoppingCart = ({ isOpen, onClose }) => {
                   </div>
 
                 </div>
-                
+
               ))}
 
               {/* Empty Cart State */}
-      
+
               {cartItems.length === 0 && (
                 <div className="text-center py-12">
                   {/* Existing Empty Cart Design */}
@@ -246,7 +246,7 @@ const HeaderShoppingCart = ({ isOpen, onClose }) => {
                   <p className="text-sm text-gray-400 mt-2">Add some delicious popcorn to get started!</p>
 
                   {/* NEW LINE - Donation Section */}
-                  <div className="mt-8 border border-gray-200 rounded-xl p-6 shadow-sm text-left max-w-md mx-auto">
+                  {/* <div className="mt-8 border border-gray-200 rounded-xl p-6 shadow-sm text-left max-w-md mx-auto">
                     <p className="text-gray-600 text-sm font-medium mb-3">Increase your impact</p>
                     <div className="flex items-start space-x-4">
                       <div className="w-20 h-20 bg-gray-100 rounded-lg flex items-center justify-center">
@@ -273,7 +273,7 @@ const HeaderShoppingCart = ({ isOpen, onClose }) => {
                         </button>
                       </div>
                     </div>
-                  </div>
+                  </div> */}
 
                   {/* NEW LINE - Disabled Checkout Button */}
                   <div className="mt-8">
@@ -289,49 +289,49 @@ const HeaderShoppingCart = ({ isOpen, onClose }) => {
               )}
 
             </div>
-                    {/* NEW LINE - Donation Section */}
-                    <div className="mt-8 border border-gray-200 rounded-xl p-6 shadow-sm text-left max-w-md mx-auto">
-                    <p className="text-gray-600 text-sm font-medium mb-3">Increase your impact</p>
-                    <div className="flex items-start space-x-4">
-                      <div className="w-20 h-20 bg-gray-100 rounded-lg flex items-center justify-center">
-                       <Image
-                       src={donation_checkout}
-                        alt="Donation Icon"
-                        width={56}
-                        height={56}
-                        className="w-8 h-8 text-gray-600"
-                       />
-                      </div>
-                      <div className="flex-1">
-                        <h4 className="font-bold text-lg mb-2">Make a Popcorn Donation</h4>
-                        <ul className="text-sm text-gray-600 space-y-1">
-                          <li>• Sent to essential workers</li>
-                          <li>• No extra shipping cost</li>
-                        </ul>
-                        <p className="font-semibold text-black mt-2">$10</p>
-                        <button 
-                          onClick={addDonationToCart}
-                          className="mt-3 w-full bg-gray-900 text-white font-medium py-2 rounded-lg hover:bg-gray-800 transition"
-                        >
-                          Add to Cart
-                        </button>
-                      </div>
-                    </div>
-                  </div>
+            {/* NEW LINE - Donation Section */}
+            {/* <div className="mt-8 border border-gray-200 rounded-xl p-6 shadow-sm text-left max-w-md mx-auto">
+              <p className="text-gray-600 text-sm font-medium mb-3">Increase your impact</p>
+              <div className="flex items-start space-x-4">
+                <div className="w-20 h-20 bg-gray-100 rounded-lg flex items-center justify-center">
+                  <Image
+                    src={donation_checkout}
+                    alt="Donation Icon"
+                    width={56}
+                    height={56}
+                    className="w-8 h-8 text-gray-600"
+                  />
+                </div>
+                <div className="flex-1">
+                  <h4 className="font-bold text-lg mb-2">Make a Popcorn Donation</h4>
+                  <ul className="text-sm text-gray-600 space-y-1">
+                    <li>• Sent to essential workers</li>
+                    <li>• No extra shipping cost</li>
+                  </ul>
+                  <p className="font-semibold text-black mt-2">$10</p>
+                  <button
+                    onClick={addDonationToCart}
+                    className="mt-3 w-full bg-gray-900 text-white font-medium py-2 rounded-lg hover:bg-gray-800 transition"
+                  >
+                    Add to Cart
+                  </button>
+                </div>
+              </div>
+            </div> */}
           </div>
 
           {/* Checkout Button */}
           {cartItems.length > 0 && (
             <div className="border-t border-gray-200 p-6">
               <Link href='/checkout'>
-              <button
-                className="w-full bg-[#8ac24a] text-white font-bold py-3 px-6 rounded-3xl transition-all duration-300 transform  focus:outline-none  flex items-center justify-center space-x-3"
-                onClick={onClose}
-              >
-                <span>Checkout</span>
-                <span className="font-black">{formatPrice(totalAmount.toFixed(2))}</span>
-              </button>
-                </Link>
+                <button
+                  className="w-full bg-[#8ac24a] text-white font-bold py-3 px-6 rounded-3xl transition-all duration-300 transform  focus:outline-none  flex items-center justify-center space-x-3"
+                  onClick={onClose}
+                >
+                  <span>Checkout</span>
+                  <span className="font-black">{formatPrice(totalAmount.toFixed(2))}</span>
+                </button>
+              </Link>
             </div>
           )}
         </div>

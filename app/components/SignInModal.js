@@ -50,7 +50,7 @@ const SignInModal = ({
     <div className="fixed inset-0 flex items-center justify-center z-[70] p-4">
       <div className="bg-white rounded-2xl shadow-2xl w-full max-w-2xl transform transition-all duration-300 animate-modal">
         <div className="flex items-center justify-between px-6 pt-6 border-b border-gray-100">
-          <h2 className="text-2xl font-bold text-gray-800">Sign in to your account</h2>
+          <h2 className="text-2xl font-bold text-gray-800">Sign in to access your account</h2>
           <button
             onClick={onClose}
             className="p-2 hover:bg-gray-100 rounded-full transition-colors duration-200"

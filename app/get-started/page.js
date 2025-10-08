@@ -347,18 +347,26 @@ const FundraisingOnboarding = () => {
         setIsLoading(true);
 
         if (currentStep === 0) {
-            checkEmailExists(
-                formData.email,
-                'fundraiser',
-                (response) => {
-                    setCurrentStep(currentStep + 1);
-                    setIsLoading(false);
-                },
-                (error) => {
-                    setFormErrors({ email: 'User not found. Please check your email or sign up first.' });
-                    setIsLoading(false);
-                }
-            );
+            setIsLoading(true);
+
+            try {
+                checkEmailExists(
+                    formData.email_address,
+                    'fundraiser',
+                    (response) => {
+                        setCurrentStep((prev) => prev + 1);
+                        setIsLoading(false);
+                    },
+                    (errorMessage) => {
+                        setFormErrors({ email: errorMessage });
+                        setIsLoading(false);
+                    }
+                );
+            } catch (err) {
+                setFormErrors({ email: 'Something went wrong. Please try again.' });
+                setIsLoading(false);
+            }
+
             return;
         }
 
@@ -368,7 +376,7 @@ const FundraisingOnboarding = () => {
             const cleanPhoneNumber = formData.phone_no.replace(/\D/g, '');
             sendOTP(
                 cleanPhoneNumber,
-                'signin',
+                'fundraiser_signup',
                 (response) => {
                     console.log('OTP sent successfully:', response);
                     setShowOtpInput(true);
@@ -389,7 +397,7 @@ const FundraisingOnboarding = () => {
             verifyOTP(
                 cleanPhoneNumber,
                 formData.otp,
-                'order',
+                'fundraiser_signup',
                 (response) => {
                     console.log('OTP verified successfully:', response);
 
@@ -846,7 +854,7 @@ const FundraisingOnboarding = () => {
                                             const cleanPhoneNumber = formData.phone_no.replace(/\D/g, '');
                                             sendOTP(
                                                 cleanPhoneNumber,
-                                                'signin',
+                                                'fundraiser_signup',
                                                 (response) => {
                                                     console.log('OTP resent successfully:', response);
                                                     setFormErrors({});
@@ -883,20 +891,20 @@ const FundraisingOnboarding = () => {
                                         />
                                         {formErrors.fundraiser_name && <p className="text-red-400 font-semibold text-sm mt-1">{formErrors.fundraiser_name}</p>}
                                     </div>
-                                          <div>
-                                    <input
-                                        type="tel"
-                                        placeholder="Mobile Phone (10-11 digits)"
-                                        value={formData.phone_no}
-                                        onChange={(e) => handleInputChange('phone_no', e.target.value)}
-                                        maxLength={13}
-                                        className="w-full p-4 rounded-xl border border-gray-300 focus:outline-none text-white  placeholder-white  transition-all duration-200"
-                                    />
-                                    {formErrors.phone_no && <p className="text-red-400 font-semibold text-sm mt-1">{formErrors.phone_no}</p>}
-                                </div>
+                                    <div>
+                                        <input
+                                            type="tel"
+                                            placeholder="Mobile Phone (10-11 digits)"
+                                            value={formData.phone_no}
+                                            onChange={(e) => handleInputChange('phone_no', e.target.value)}
+                                            maxLength={13}
+                                            className="w-full p-4 rounded-xl border border-gray-300 focus:outline-none text-white  placeholder-white  transition-all duration-200"
+                                        />
+                                        {formErrors.phone_no && <p className="text-red-400 font-semibold text-sm mt-1">{formErrors.phone_no}</p>}
+                                    </div>
                                 </div>
 
-                          
+
 
                                 <div className="flex items-start space-x-3 mt-6">
                                     <div className="relative">

@@ -21,14 +21,14 @@ const ExploreProjectsSlider = ({ campaigns, campaignsLoading, campaignsError, gl
 
   const transformCampaigns = (campaignsData) => {
     if (!campaignsData) return [];
-    
+
     const currency = getCurrency();
-    
+
     return campaignsData.map(campaign => {
       const collectedAmount = parseFloat(campaign.collected_amount) || 0;
       const raiseAmount = parseFloat(campaign.raise_amount) || 1;
       const percentage = Math.round((collectedAmount / raiseAmount) * 100);
-      
+
       return {
         id: campaign.id,
         slug: campaign.slug,
@@ -36,7 +36,7 @@ const ExploreProjectsSlider = ({ campaigns, campaignsLoading, campaignsError, gl
         author: campaign.fundraiser?.name || "Unknown",
         category: "Campaign",
         categoryColor: "bg-[#8bc34a]",
-        image: `https://onebigmediacompany.online/storage/${campaign.campaign_image}`,
+        image: `http://127.0.0.1:8000/storage/${campaign.campaign_image}`,
         raised: `${currency}${collectedAmount}`,
         goal: `${currency}${raiseAmount}`,
         percentage: Math.min(percentage, 100),
@@ -108,7 +108,7 @@ const ExploreProjectsSlider = ({ campaigns, campaignsLoading, campaignsError, gl
 
 
   const ProjectCard = ({ project }) => (
-    <div 
+    <div
       className="bg-white rounded shadow-lg overflow-hidden hover:shadow-xl transition-all duration-300 group cursor-pointer"
       onClick={() => window.location.href = `/campaigns/${project.slug}`}
     >
@@ -126,7 +126,7 @@ const ExploreProjectsSlider = ({ campaigns, campaignsLoading, campaignsError, gl
       </div>
 
       <div className="p-6 relative">
-                <div className="absolute -top-3  left-4">
+        <div className="absolute -top-3  left-4">
           <span
             className={`px-4 shadow-2xl py-2 text-white text-sm font-medium  ${project.categoryColor}`}
           >
@@ -215,7 +215,7 @@ const ExploreProjectsSlider = ({ campaigns, campaignsLoading, campaignsError, gl
               ))}
             </div>
           </div>
-          
+
           {/* Mobile Shimmer */}
           <div className="md:hidden relative">
             <div className="overflow-hidden pb-2">
@@ -271,7 +271,7 @@ const ExploreProjectsSlider = ({ campaigns, campaignsLoading, campaignsError, gl
                 className={`flex gap-6 ${isTransitioning ? 'transition-transform duration-500 ease-in-out' : ''}`}
                 style={{ transform: `translateX(-${currentSlide * (100 / itemsPerView)}%)` }}
                 onTransitionEnd={handleTransitionEnd}
-      
+
               >
                 {projects.map((project, index) => (
                   <div key={`${project.id}-${index}`} className="w-1/4 flex-shrink-0">
@@ -288,7 +288,7 @@ const ExploreProjectsSlider = ({ campaigns, campaignsLoading, campaignsError, gl
                   className={`flex ${isTransitioning ? 'transition-transform duration-500 ease-in-out' : ''}`}
                   style={{ transform: `translateX(-${currentSlide * 100}%)` }}
                   onTransitionEnd={handleTransitionEnd}
-           
+
                 >
                   {projects.map((project, index) => (
                     <div key={`${project.id}-${index}`} className="w-full flex-shrink-0 px-2">
