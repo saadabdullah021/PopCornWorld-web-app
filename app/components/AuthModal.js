@@ -54,7 +54,9 @@ const AuthModal = ({ isOpen, onClose }) => {
       'signin', // OTP type for signin
       (response) => {
         // Success
-        dispatch(loginSuccess({ phone: phoneNumber }));
+        if (response.data && response.data.customer_info && response.data.access_token) {
+          dispatch(loginSuccess(response.data));
+        }
         dispatch(setAuthLoading(false));
         onClose();
         // Reset form

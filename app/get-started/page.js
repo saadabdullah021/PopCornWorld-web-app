@@ -6,6 +6,8 @@ import get2 from '../../public/get2.png';
 import { useRouter } from 'next/navigation';
 import { ArrowLeft, Calendar, CalendarCheck } from 'lucide-react';
 import { checkEmailExists, getOrganizationInfo, registerFundraiser, sendOTP, verifyOTP } from '../services/api';
+import { useDispatch } from 'react-redux';
+import { loginSuccess } from '../store/slices/appSlice';
 
 import { format, parseISO, isBefore, addHours } from 'date-fns';
 import 'react-day-picker/dist/style.css';
@@ -182,6 +184,7 @@ const CustomDateRangePicker = ({ startDate, endDate, onRangeChange }) => {
 const FundraisingOnboarding = () => {
     // Main state management
     const router = useRouter();
+    const dispatch = useDispatch();
     const [currentStep, setCurrentStep] = useState(0);
     const [formData, setFormData] = useState({
         email_address: '',
@@ -386,13 +389,13 @@ const FundraisingOnboarding = () => {
             verifyOTP(
                 cleanPhoneNumber,
                 formData.otp,
-                'signin',
+                'order',
                 (response) => {
                     console.log('OTP verified successfully:', response);
 
                     if (response.data && response.data.customer_info && response.data.access_token) {
-                        localStorage.setItem('auth_token', response.data.access_token);
-                        localStorage.setItem('user_data', JSON.stringify(response.data.customer_info));
+                        // Dispatch login success to Redux
+                        dispatch(loginSuccess(response.data));
                     }
 
                     setCurrentStep(currentStep + 1);

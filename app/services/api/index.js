@@ -1,5 +1,5 @@
 import axiosInstance from '../../axios'
-import { get_single_product, get_single_collection, get_single_campaign, send_otp, verify_otp, create_order, track_order, check_email_exists, get_organization_info, fundraiser_register, get_products_slider } from './endpoints'
+import { get_single_product, get_single_collection, get_single_campaign, send_otp, verify_otp, create_order, track_order, check_email_exists, get_organization_info, fundraiser_register, get_products_slider, get_user_orders } from './endpoints'
 
 export const api = {
   get: (url, config = {}) => axiosInstance.get(url, config),
@@ -215,6 +215,31 @@ export const getProductsSlider = async (success, fail) => {
     }
   } catch (error) {
     console.error('Products slider error:', error);
+    fail && fail(error?.response?.data?.message || 'Network error occurred');
+    return error;
+  }
+};
+
+export const getUserOrders = async (success, fail) => {
+  try {
+    const authToken = localStorage.getItem('auth_token');
+    console.log('Fetching user orders...');
+    console.log('Auth token available:', !!authToken);
+    console.log('Auth token:', authToken ? `${authToken.substring(0, 20)}...` : 'No token');
+    
+    const response = await axiosInstance.get(get_user_orders);
+    console.log('User orders response:', response);
+    
+    if (response?.data?.status === 200 || response?.status === 200) {
+      success && success(response?.data);
+      return response?.data;
+    } else {
+      fail && fail(response?.data?.message || 'Failed to fetch user orders');
+      return response?.data;
+    }
+  } catch (error) {
+    console.error('User orders error:', error);
+    console.error('Error response:', error?.response);
     fail && fail(error?.response?.data?.message || 'Network error occurred');
     return error;
   }

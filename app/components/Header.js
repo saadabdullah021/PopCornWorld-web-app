@@ -2,7 +2,8 @@
 import Link from "next/link";
 import { useState, useEffect, useRef } from "react";
 import { HeaderShoppingCart, ShoppingCartIcon } from './HeaderShoppingCart';
-import { useSelector } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
+import { loginSuccess, logout } from '../store/slices/appSlice';
 // ✅ React Icons
 import {
     FaEnvelope,
@@ -27,6 +28,7 @@ import SignInModal from "./SignInModal";
 import OTPModal from "./OTPModal";
 
 const Header = () => {
+    const dispatch = useDispatch();
     const [sticky, setSticky] = useState(false);
     const [mobileOpen, setMobileOpen] = useState(false);
     const [activeDropdown, setActiveDropdown] = useState("");
@@ -36,8 +38,8 @@ const Header = () => {
     const pathname = usePathname();
     const [isCartOpen, setIsCartOpen] = useState(false);
     
-    // Get cart count from Redux
-    const { cart } = useSelector(state => state.app);
+    // Get cart count and auth state from Redux
+    const { cart, isAuthenticated, customerInfo } = useSelector(state => state.app);
     const cartItemCount = cart ? cart.reduce((sum, item) => sum + item.quantity, 0) : 0;
 
     // Sign-in related states
@@ -45,7 +47,6 @@ const Header = () => {
     const [showOTPModal, setShowOTPModal] = useState(false);
     const [phoneNumber, setPhoneNumber] = useState('');
     const [otp, setOtp] = useState(['', '', '', '', '']);
-    const [isSignedIn, setIsSignedIn] = useState(false);
     const [showProfileDropdown, setShowProfileDropdown] = useState(false);
     const [phoneError, setPhoneError] = useState('');
     const [otpError, setOtpError] = useState('');
@@ -237,7 +238,28 @@ const Header = () => {
         setTimeout(() => {
             setIsLoading(false);
             setShowOTPModal(false);
-            setIsSignedIn(true);
+            
+            // Mock successful login response - replace with actual API call
+            const mockResponse = {
+                access_token: "14|gOlAYJ8zbYrHt0rQvdFdJS2c5GVcjzM1rEin22CR10184077",
+                customer_info: {
+                    id: 3,
+                    name: null,
+                    email: "mubeenhussain8@gmail.com",
+                    customer_id: "17596739",
+                    phone_no: phoneNumber.replace(/\D/g, ''),
+                    email_verified_at: null,
+                    role: "customer",
+                    profile_img: null,
+                    status: "1",
+                    created_at: "2025-10-05T14:18:29.000000Z",
+                    updated_at: "2025-10-05T14:18:29.000000Z"
+                }
+            };
+            
+            // Dispatch login success to Redux
+            dispatch(loginSuccess(mockResponse));
+            
             // Reset all states
             setPhoneNumber('');
             setOtp(['', '', '', '', '']);
@@ -246,7 +268,7 @@ const Header = () => {
     };
 
     const handleLogout = () => {
-        setIsSignedIn(false);
+        dispatch(logout());
         setShowProfileDropdown(false);
         setPhoneNumber('');
         setOtp(['', '', '', '', '']);
@@ -322,7 +344,7 @@ const Header = () => {
                                 </Link>
 
                                 {/* Sign In / Profile Section */}
-                                {isSignedIn ? (
+                                {isAuthenticated ? (
                                     <div className="relative" ref={profileDropdownRef}>
                                         <button
                                             onClick={() => setShowProfileDropdown(!showProfileDropdown)}
@@ -355,7 +377,9 @@ const Header = () => {
                                                         </div>
                                                         <div>
                                                             <span className="font-semibold block">My Profile</span>
-                                                            <span className="text-xs text-gray-500 group-hover:text-gray-600">Personal settings</span>
+                                                            <span className="text-xs text-gray-500 group-hover:text-gray-600">
+                                                                {customerInfo?.name || customerInfo?.email || 'Personal settings'}
+                                                            </span>
                                                         </div>
 
                                                     </Link>
@@ -556,7 +580,7 @@ const Header = () => {
 
                     {/* Sign In / Profile Section - Mobile */}
                     <li className="pt-2 ">
-                        {isSignedIn ? (
+                        {isAuthenticated ? (
                             <div className="space-y-2 border-t px-4 pt-3">
                                 <Link
                                     href="/profile"
