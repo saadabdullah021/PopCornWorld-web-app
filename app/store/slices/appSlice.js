@@ -91,13 +91,17 @@ const saveAuthToStorage = (token, userData) => {
     try {
       if (token) {
         localStorage.setItem('auth_token', token);
+        console.log('Auth token saved to localStorage:', token.substring(0, 20) + '...');
       } else {
         localStorage.removeItem('auth_token');
+        console.log('Auth token removed from localStorage');
       }
       if (userData) {
         localStorage.setItem('user_data', JSON.stringify(userData));
+        console.log('User data saved to localStorage:', userData);
       } else {
         localStorage.removeItem('user_data');
+        console.log('User data removed from localStorage');
       }
     } catch (error) {
       console.error('Error saving auth to localStorage:', error);

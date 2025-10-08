@@ -38,7 +38,12 @@ const OTPModal = ({
       'signin', // OTP type for signin
       (response) => {
         // Success
+        console.log('OTP verification response:', response);
         if (response.data && response.data.customer_info && response.data.access_token) {
+          console.log('Storing auth data:', {
+            access_token: response.data.access_token.substring(0, 20) + '...',
+            customer_info: response.data.customer_info
+          });
           dispatch(loginSuccess(response.data));
         }
         dispatch(setAuthLoading(false));

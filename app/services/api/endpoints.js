@@ -13,3 +13,4 @@ export const check_email_exists = "/api/check-email-exists";
 export const get_organization_info = "/api/get-organization-info";
 export const fundraiser_register = "/api/fundraiser-register";
 export const get_products_slider = "/api/get-products-slider";
+export const get_user_orders = "/api/user-orders";

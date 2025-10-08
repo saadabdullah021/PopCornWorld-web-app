@@ -1,11 +1,13 @@
 'use client'
 import React, { useEffect, useState } from 'react';
 import { ChevronLeft, Package, MapPin, Calendar, Clock, DollarSign, User, Phone, Mail, Search, Filter } from 'lucide-react';
+import { getUserOrders } from '../services/api';
 
 const Orders = () => {
   const [orders, setOrders] = useState([]);
   const [selectedOrder, setSelectedOrder] = useState(null);
   const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
   const [searchTerm, setSearchTerm] = useState('');
   const [statusFilter, setStatusFilter] = useState('all');
 
@@ -103,12 +105,30 @@ const Orders = () => {
   const donation_amount = 50.00;
 
   useEffect(() => {
-    // Simulate API call
-    setTimeout(() => {
-      setOrders(sampleOrders);
-      setSelectedOrder(sampleOrders[0]);
-      setLoading(false);
-    }, 1000);
+    // Fetch user orders from API
+    getUserOrders(
+      (response) => {
+        // Success callback
+        console.log('Orders fetched successfully:', response);
+        setError(null);
+        if (response?.data && Array.isArray(response.data)) {
+          setOrders(response.data);
+          if (response.data.length > 0) {
+            setSelectedOrder(response.data[0]);
+          }
+        } else {
+          setOrders([]);
+        }
+        setLoading(false);
+      },
+      (error) => {
+        // Error callback
+        console.error('Error fetching orders:', error);
+        setError(error || 'Failed to fetch orders');
+        setOrders([]);
+        setLoading(false);
+      }
+    );
   }, []);
 
   const formatDate = (dateString) => {
@@ -159,6 +179,57 @@ const Orders = () => {
         <div className="text-center">
           <div className="animate-spin rounded-full h-16 w-16 border-b-2 border-indigo-600 mx-auto"></div>
           <p className="mt-4 text-gray-800 font-semibold">Loading your orders...</p>
+        </div>
+      </div>
+    );
+  }
+
+  if (error) {
+    return (
+      <div className="min-h-screen bg-gray-50 flex items-center justify-center">
+        <div className="text-center">
+          <Package className="h-16 w-16 text-red-400 mx-auto mb-4" />
+          <h3 className="text-lg font-medium text-gray-900 mb-2">Error Loading Orders</h3>
+          <p className="text-gray-600 mb-4">{error}</p>
+          <button
+            onClick={() => window.location.reload()}
+            className="bg-indigo-600 text-white px-4 py-2 rounded-lg hover:bg-indigo-700 transition-colors"
+          >
+            Try Again
+          </button>
+        </div>
+      </div>
+    );
+  }
+
+  if (orders.length === 0) {
+    return (
+      <div className="min-h-screen bg-gray-50 py-16 lg:pt-40">
+        {/* Header */}
+        <div className="bg-white shadow-sm border-b border-gray-300">
+          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div className="py-6">
+              <h1 className="main_heading font-bold text-black">My Orders</h1>
+              <p className="mt-2 main_description text-black">Track and manage your order history</p>
+            </div>
+          </div>
+        </div>
+
+        {/* Empty State */}
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
+          <div className="text-center">
+            <Package className="h-24 w-24 text-gray-400 mx-auto mb-6" />
+            <h3 className="text-2xl font-medium text-gray-900 mb-4">No Orders Yet</h3>
+            <p className="text-gray-600 mb-8 max-w-md mx-auto">
+              You haven't placed any orders yet. Start shopping to see your order history here.
+            </p>
+            <button
+              onClick={() => window.location.href = '/shop'}
+              className="bg-indigo-600 text-white px-6 py-3 rounded-lg hover:bg-indigo-700 transition-colors font-medium"
+            >
+              Start Shopping
+            </button>
+          </div>
         </div>
       </div>
     );

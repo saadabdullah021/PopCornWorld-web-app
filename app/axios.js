@@ -10,9 +10,12 @@ const axiosInstance = axios.create({
 
 axiosInstance.interceptors.request.use(
   (config) => {
-    const token = localStorage.getItem('token')
+    const token = localStorage.getItem('auth_token')
     if (token) {
       config.headers.Authorization = `Bearer ${token}`
+      console.log('Auth token added to request:', config.url, token.substring(0, 20) + '...')
+    } else {
+      console.log('No auth token found for request:', config.url)
     }
     return config
   },
@@ -27,8 +30,9 @@ axiosInstance.interceptors.response.use(
   },
   (error) => {
     if (error.response?.status === 401) {
-      localStorage.removeItem('token')
-      window.location.href = '/login'
+      localStorage.removeItem('auth_token')
+      localStorage.removeItem('user_data')
+      window.location.href = '/'
     }
     return Promise.reject(error)
   }
