@@ -5,11 +5,19 @@ import coachImage from '../../../public/coachKim.jpg'; // Replace with actual im
 import SharePopup from './SharePopup';
 
 // Main Fundraiser Component
-const FundraiserSection = () => {
+const FundraiserSection = ({ campaign }) => {
   const [showSharePopup, setShowSharePopup] = useState(false);
 
-  // Fundraiser data - replace with your API data
-  const fundraiserData = {
+  // Use campaign data if provided, otherwise use default data
+  const fundraiserData = campaign ? {
+    title: campaign.campaign_title || "Campaign Pop-Up Store",
+    description: campaign.description || "Support our campaign by purchasing delicious popcorn products!",
+    benefitText: "50% of each purchase benefits this fundraiser.",
+    currentAmount: parseFloat(campaign.collected_amount) || 0,
+    goalAmount: parseFloat(campaign.raise_amount) || 1000,
+    daysToGo: campaign.remaining_time === "Expired" ? 0 : 30,
+    coachImage: campaign.campaign_image ? `https://onebigmediacompany.online/${campaign.campaign_image}` : coachImage
+  } : {
     title: "Coach Kim's Pop-Up Store",
     description: "Our Track team is doing a fundraiser for the upcoming season to offset the cost of travel and equipment. Help us reach our goal! Thank you for the support!",
     benefitText: "50% of each purchase benefits this fundraiser.",
