@@ -235,58 +235,32 @@ const HeaderShoppingCart = ({ isOpen, onClose }) => {
               ))}
 
               {/* Empty Cart State */}
+{cartItems.length === 0 && (
+  <div className="flex flex-col justify-between h-full">
+    <div className="text-center py-12 flex-1 overflow-y-auto">
+      {/* Empty Cart Visual */}
+      <div className="w-16 h-16 bg-gray-100 rounded-full flex items-center justify-center mx-auto mb-4">
+        <RiShoppingBag4Fill className="w-8 h-8 text-gray-400" />
+      </div>
+      <p className="text-gray-500 font-medium">Your cart is empty</p>
+      <p className="text-sm text-gray-400 mt-2">Add some delicious popcorn to get started!</p>
+    </div>
 
-              {cartItems.length === 0 && (
-                <div className="text-center py-12">
-                  {/* Existing Empty Cart Design */}
-                  <div className="w-16 h-16 bg-gray-100 rounded-full flex items-center justify-center mx-auto mb-4">
-                    <RiShoppingBag4Fill className="w-8 h-8 text-gray-400" />
-                  </div>
-                  <p className="text-gray-500 font-medium">Your cart is empty</p>
-                  <p className="text-sm text-gray-400 mt-2">Add some delicious popcorn to get started!</p>
+    {/* Fixed Disabled Checkout Button */}
+    <div className="border-t border-gray-200 p-6 bg-white sticky bottom-0 left-0 w-full">
+      <p className="text-gray-500 text-[16px] mb-2 text-center">
+        You haven't reached the $100 order minimum.
+      </p>
+      <button
+        disabled
+        className="w-full bg-blue-100 text-gray-400 font-bold py-3 px-6 rounded-3xl cursor-not-allowed"
+      >
+        Checkout
+      </button>
+    </div>
+  </div>
+)}
 
-                  {/* NEW LINE - Donation Section */}
-                  {/* <div className="mt-8 border border-gray-200 rounded-xl p-6 shadow-sm text-left max-w-md mx-auto">
-                    <p className="text-gray-600 text-sm font-medium mb-3">Increase your impact</p>
-                    <div className="flex items-start space-x-4">
-                      <div className="w-20 h-20 bg-gray-100 rounded-lg flex items-center justify-center">
-                       <Image
-                       src={donation_checkout}
-                        alt="Donation Icon"
-                        width={56}
-                        height={56}
-                        className="w-8 h-8 text-gray-600"
-                       />
-                      </div>
-                      <div className="flex-1">
-                        <h4 className="font-bold text-lg mb-2">Make a Popcorn Donation</h4>
-                        <ul className="text-sm text-gray-600 space-y-1">
-                          <li>• Sent to essential workers</li>
-                          <li>• No extra shipping cost</li>
-                        </ul>
-                        <p className="font-semibold text-black mt-2">$10</p>
-                        <button 
-                          onClick={addDonationToCart}
-                          className="mt-3 w-full bg-gray-900 text-white font-medium py-2 rounded-lg hover:bg-gray-800 transition"
-                        >
-                          Add to Cart
-                        </button>
-                      </div>
-                    </div>
-                  </div> */}
-
-                  {/* NEW LINE - Disabled Checkout Button */}
-                  <div className="mt-8">
-                    <p className="text-gray-500 text-[16px] mb-2">You haven't reached the $100 order minimum.</p>
-                    <button
-                      disabled
-                      className="w-full bg-blue-100 text-gray-400 font-bold py-3 px-6 rounded-3xl cursor-not-allowed"
-                    >
-                      Checkout
-                    </button>
-                  </div>
-                </div>
-              )}
 
             </div>
             {/* NEW LINE - Donation Section */}

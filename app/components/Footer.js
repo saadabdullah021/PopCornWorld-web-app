@@ -13,7 +13,7 @@ const Footer = ({ footerSolidBg }) => {
   return (
     <footer
       className={`relative ${footerSolidBg ? "bg-black" : "bg-black"
-        } text-gray-400 overflow-hidden`}
+        } text-[#C8CED6] overflow-hidden`}
     >
       {/* Animated Background Pattern */}
       <div className="absolute inset-0 opacity-5">
@@ -33,7 +33,7 @@ const Footer = ({ footerSolidBg }) => {
                 alt="Funden"
                 className="mb-6 transition-all duration-300 hover:scale-101"
               />
-              <p className="text-white mb-6 leading-relaxed transition-colors duration-300 hover:text-gray-200">
+              <p className="text-white mb-6 leading-relaxed text-[16px] font-light transition-colors duration-300 hover:text-gray-200">
                 Sed ut perspiciatis unde omnis iste natus error sit voluptatem
               </p>
 
@@ -58,7 +58,7 @@ const Footer = ({ footerSolidBg }) => {
 
             {/* Projects */}
             <div className="transform transition-all duration-500 ">
-              <h4 className="text-lg font-semibold text-white mb-6 relative group">
+              <h4 className="text-[22px] capitalize font-semibold text-white mb-6 relative group">
                 Our Projects
                 <div className="absolute bottom-0 left-0 w-16 h-0.5 bg-primary transform scale-x-0 group-hover:scale-x-100 transition-transform duration-300"></div>
               </h4>
@@ -76,7 +76,7 @@ const Footer = ({ footerSolidBg }) => {
                       className="group flex items-center text-gray-400 hover:text-primary transition-all duration-300 py-1 hover:translate-x-2"
                     >
                       <FaArrowRight className="mr-2 opacity-0 -translate-x-2 group-hover:opacity-100 group-hover:translate-x-0 transition-all duration-300 text-xs" />
-                      <span className="transition-all duration-300">{label}</span>
+                      <span className="transition-all duration-300 text-[16px] font-light ">{label}</span>
                     </Link>
                   </li>
                 ))}
@@ -86,7 +86,7 @@ const Footer = ({ footerSolidBg }) => {
 
             {/* Quick Links */}
             <div className="transform transition-all duration-500 ">
-              <h4 className="text-lg font-semibold text-white mb-6 relative group">
+              <h4 className="text-[22px] capitalize font-semibold text-white mb-6 relative group">
                 Quick Links
                 <div className="absolute bottom-0 left-0 w-16 h-0.5 bg-primary transform scale-x-0 group-hover:scale-x-100 transition-transform duration-300"></div>
               </h4>
@@ -104,7 +104,7 @@ const Footer = ({ footerSolidBg }) => {
                       className="group flex items-center text-gray-400 hover:text-primary transition-all duration-300 py-1 hover:translate-x-2"
                     >
                       <FaArrowRight className="mr-2 opacity-0 -translate-x-2 group-hover:opacity-100 group-hover:translate-x-0 transition-all duration-300 text-xs" />
-                      <span className="transition-all duration-300">{label}</span>
+                      <span className="transition-all duration-300 text-[16px] font-light">{label}</span>
                     </Link>
                   </li>
                 ))}
@@ -114,7 +114,7 @@ const Footer = ({ footerSolidBg }) => {
 
             {/* Contact */}
             <div className="transform transition-all duration-500 ">
-              <h4 className="text-lg font-semibold text-white mb-6 relative group">
+              <h4 className="text-[22px] capitalize font-semibold text-white mb-6 relative group">
                 Contact Us
                 <div className="absolute bottom-0 left-0 w-20 h-0.5 bg-primary transform scale-x-0 group-hover:scale-x-100 transition-transform duration-300"></div>
               </h4>
@@ -124,7 +124,7 @@ const Footer = ({ footerSolidBg }) => {
                     <FaPhone className="transform transition-transform duration-300 " />
                   </span>
                   <span>
-                    <span className="block text-sm text-gray-400 mb-1 transition-colors duration-300 group-hover:text-gray-300">
+                    <span className="block text-[16px] font-light text-gray-400 mb-1 transition-colors duration-300 group-hover:text-gray-300">
                       Phone Number
                     </span>
                     <a
@@ -140,7 +140,7 @@ const Footer = ({ footerSolidBg }) => {
                     <FaEnvelopeOpen className="transform transition-transform duration-300 " />
                   </span>
                   <span>
-                    <span className="block text-sm text-gray-400 mb-1 transition-colors duration-300 group-hover:text-gray-300">
+                    <span className="block text-[16px] font-light text-gray-400 mb-1 transition-colors duration-300 group-hover:text-gray-300">
                       Email Address
                     </span>
                     <a
@@ -156,7 +156,7 @@ const Footer = ({ footerSolidBg }) => {
                     <FaMapMarkerAlt className="transform transition-transform duration-300 " />
                   </span>
                   <span>
-                    <span className="block text-sm text-gray-400 mb-1 transition-colors duration-300 group-hover:text-gray-300">
+                    <span className="block text-[16px] font-light text-gray-400 mb-1 transition-colors duration-300 group-hover:text-gray-300">
                       Locations
                     </span>
                     <a
@@ -175,7 +175,7 @@ const Footer = ({ footerSolidBg }) => {
 
           {/* Bottom Area */}
           <div className="border-t border-gray-700 mt-12 pt-8 flex flex-col md:flex-row justify-center items-center">
-            <p className="text-gray-400 text-sm transition-colors duration-300 hover:text-gray-300">
+            <p className="text-gray-400 text-[16px] font-light transition-colors duration-300 hover:text-gray-300">
               © {new Date().getFullYear()}{" "}
               <a
                 href="#"

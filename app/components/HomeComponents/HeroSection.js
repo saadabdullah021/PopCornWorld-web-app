@@ -21,11 +21,9 @@ const HeroSection = () => {
         <div className="absolute inset-0 bg-black/30"></div>
         {/* Content */}
         <div className="relative z-10">
-          <span className="inline-block text-lg font-bold text-[#ffc222] mb-6 animate-fadeInUp">
-            Crowdfunding Agency
-          </span>
+   
 
-          <h1 className="main_heading font-splash text-white leading-none mb-12 tracking-tight animate-fadeInUp">
+          <h1 className="text-[42px] lg:text-[56px] font-[900] text-white leading-none mb-12 tracking-tight animate-fadeInUp">
             Raise Hand to Promote <br />
             <span className="text-gray-200">Best Products</span>
           </h1>

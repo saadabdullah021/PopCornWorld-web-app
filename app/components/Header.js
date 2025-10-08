@@ -309,22 +309,22 @@ const Header = () => {
                 {/* === Enhanced Topbar === */}
                 <div className={`hidden lg:block bg-black text-white transition-all duration-300 ease-in-out py-4`}>
                     <div className="container mx-auto px-6">
-                        <div className="flex justify-between items-center font-medium text-sm">
+                        <div className="flex justify-between items-center font-light text-xs">
                             <div className="flex space-x-8">
                                 <a
-                                    href="tel:+012345678933"
+                                    href="tel:219-427-1806"
                                     className="group flex items-center hover:text-[#ffc222] transition-all duration-300"
                                 >
                                     <FaPhone className="mr-2 transform group-hover:scale-110 transition-transform duration-300" />
-                                    +012(345) 67 89
+                             219-427-1806
                                 </a>
 
                                 <a
-                                    href="mailto:support@gmail.com"
+                                    href="mailto:orders@doingtheworldaflavor.com"
                                     className="group flex items-center hover:text-[#ffc222] transition-all duration-300"
                                 >
                                     <FaEnvelope className="mr-2 transform group-hover:scale-110 transition-transform duration-300" />
-                                    support@gmail.com
+                                    orders@doingtheworldaflavor.com
                                 </a>
 
                                 <a
@@ -334,7 +334,7 @@ const Header = () => {
                                     className="group flex items-center hover:text-[#ffc222] transition-all duration-300"
                                 >
                                     <FaMapMarkerAlt className="mr-2 transform group-hover:scale-110 transition-transform duration-300" />
-                                    250 Main Street, USA
+                               2560 Garfield St Suite 3, Gary, IN 46404
                                 </a>
                             </div>
 
@@ -453,7 +453,7 @@ const Header = () => {
                             </Link>
 
                             {/* Enhanced Desktop Menu */}
-                            <nav className="hidden lg:flex items-center space-x-8 font-medium text-[16px] uppercase text-white">
+                            <nav className="hidden lg:flex items-center space-x-8 font-semibold text-[16px] capitalize text-white">
                                 {/* Home */}
                                 <div className="relative group">
                                     <Link href='/fundraising' className="flex items-center py-2 hover:text-[#ffc222] transition-colors duration-300 group relative">
@@ -536,7 +536,7 @@ const Header = () => {
 
                 {/* Mobile Navigation */}
                 <div className="overflow-y-auto h-full pb-20">
-                    <ul className="p-6 space-y-2 uppercase">
+                    <ul className="p-6 space-y-2 capitalize">
                         {/* Home */}
                         <li className="border-b border-gray-100 pb-2">
                             <Link href='/fundraising'

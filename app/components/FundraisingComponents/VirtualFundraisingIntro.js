@@ -4,7 +4,7 @@ import heroFundraiser from '../../../public/groupImage.jpg'
 const VirtualFundraisingIntro = () => {
   return (
     <section className="pb-16  pt-20 lg:pt-34 2xl:pt-35 lg:pb-0 lg:pl-4 bg-gradient-to-br from-yellow-100 via-yellow-50 to-white">
-      <div className="w-full lg:pl-4 ">
+      <div className="w-full max-w-7xl mx-auto  ">
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-16 items-center">
           {/* Left Content */}
           <div className="order-2 lg:order-1 px-4 lg:px-0 lg:pt-10">
@@ -16,7 +16,7 @@ const VirtualFundraisingIntro = () => {
             </div>
 
             {/* Main Heading */}
-            <h1 className="text-3xl  md:text-4xl lg:text-5xl font-splash text-black leading-tight tracking-tight uppercase mb-8">
+            <h1 className="main_heading text-black leading-tight tracking-tight uppercase mb-8">
               <span className="block mb-2">Virtually the</span>
               <span className="block mb-2">easiest way to</span>
               <span className="block">fundraise—ever</span>
@@ -24,7 +24,7 @@ const VirtualFundraisingIntro = () => {
 
             {/* Description */}
             <div className="mb-10">
-              <p className="text-lg  md:text-xl text-gray-700 leading-relaxed font-normal">
+              <p className="main_description text-black leading-relaxed font-normal">
                 The Popcorn World platform helps kids' teams, clubs, and other groups run hands-off digital fundraisers to make mind-blowing returns in just four days.
               </p>
             </div>

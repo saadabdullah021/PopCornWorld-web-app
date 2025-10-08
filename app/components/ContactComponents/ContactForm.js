@@ -113,7 +113,7 @@ const ContactForm = () => {
           {/* Contact Form */}
           <div className="bg-green-50 p-8 md:p-12 lg:p-16">
             <form onSubmit={handleSubmit} className="space-y-6">
-              <h3 className="text-3xl md:text-4xl font-splash  text-black mb-8">
+              <h3 className="main_heading text-black mb-8">
                 Send Us Message
               </h3>
 

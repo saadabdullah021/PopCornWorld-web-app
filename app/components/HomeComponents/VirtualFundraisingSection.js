@@ -37,30 +37,19 @@ const VirtualFundraisingSection = () => {
       id: 3,
       title: "No fees or minimums, ever",
       description: "Keep 50% of what you sell, with payments sent to you.",
-      image: process2,
+      image: blueImage,
       alt: "Colorful product display showing no fees policy"
     },
-    {
-      id: 4,
-      title: "No fees or minimums, ever",
-      description: "Keep 50% of what you sell, with payments sent to you.",
-      image: threepersonImage,
-      alt: "Colorful product display showing no fees policy"
-    }
+
     , {
-      id: 5,
-      title: "No fees or minimums, ever",
-      description: "Keep 50% of what you sell, with payments sent to you.",
+      id: 4,
+  title: "Zero fees. Zero limits.",
+description: "Get 50% from every sale — paid directly to you, hassle-free.",
+
       image: blackBoyImage,
       alt: "Colorful product display showing no fees policy"
     }
-    , {
-      id: 6,
-      title: "No fees or minimums, ever",
-      description: "Keep 50% of what you sell, with payments sent to you.",
-      image: blueImage,
-      alt: "Colorful product display showing no fees policy"
-    }
+
   ];
 
   return (

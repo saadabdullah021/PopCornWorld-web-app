@@ -142,10 +142,10 @@ const AllFlavorsSection = ({ products, productsLoading, productsError, paginatio
 
                 {/* Title and Price */}
                 <div className="flex items-start justify-between py-1">
-                  <h3 className="text-xl lg:text-[22px] font-bold text-black transition-colors duration-300 flex-1 pr-4">
+                  <h3 className="sub_heading text-black transition-colors duration-300 flex-1 pr-4">
                     {flavor.name || flavor.title || 'Popcorn Flavor'}
                   </h3>
-                  <span className="text-xl lg:text-[22px] font-semibold text-black flex-shrink-0">
+                  <span className="sub_heading text-black flex-shrink-0">
                     {formatPrice(flavor.price || '0.00')}
                   </span>
                 </div>

@@ -194,7 +194,7 @@ const CollectionsSection = ({ collections, collectionsLoading, collectionsError,
                         collection?.collection_images?.[0]?.image
                           ? collection.collection_images[0].image.startsWith('http')
                             ? collection.collection_images[0].image
-                            : `http://127.0.0.1:8000/${collection.collection_images[0].image}`
+                            : `https://onebigmediacompany.online/${collection.collection_images[0].image}`
                           : '/pop_packet.png'
                       }
                       alt={collection?.title || 'Popcorn Collection'}
@@ -220,10 +220,10 @@ const CollectionsSection = ({ collections, collectionsLoading, collectionsError,
 
                 {/* Title and Price */}
                 <div className="flex items-start justify-between pt-1">
-                  <h3 className="text-xl lg:text-[22px] font-bold text-black transition-colors duration-300 flex-1 pr-4">
+                  <h3 className="sub_heading text-black transition-colors duration-300 flex-1 pr-4">
                     {collection.name || collection.title || 'Collection'}
                   </h3>
-                  <span className="text-xl lg:text-[22px] font-semibold text-black flex-shrink-0">
+                  <span className="sub_heading text-black flex-shrink-0">
                     {formatPrice(collection.price || '0.00')}
                   </span>
                 </div>

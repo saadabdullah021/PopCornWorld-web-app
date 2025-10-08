@@ -71,19 +71,19 @@ const PopularCategories = () => {
           {products.map((product) => (
             <SwiperSlide key={product.id}>
               <Link href={`/flavors/${product.slug}`} className="block">
-                <div className="flex flex-col items-center justify-center pb-10 hover:opacity-80 transition">
-                  <div className="w-[50px] h-[50px] rounded-full overflow-hidden mb-3 shadow-md">
+                <div className="flex flex-col gap-5 items-center justify-center pt-4 pb-5 lg:pb-10 lg:pt-12 hover:opacity-80 transition">
+             
                     <Image
                       src={product.product_images && product.product_images[0] && product.product_images[0].thumbnail 
                         ? product.product_images[0].thumbnail 
                         : '/pop_packet.png'}
                       alt={product.title}
-                      width={50}
-                      height={50}
-                      className="object-cover"
+                      width={110}
+                      height={56}
+                      className="object-contain hover:scale-160 transition-transform duration-500 w-[110px] h-[56px] "
                     />
-                  </div>
-                  <h3 className="text-sm md:text-base font-semibold text-gray-800">
+             
+                  <h3 className="text-xs font-bold text-black">
                     {product.title}
                   </h3>
                 </div>

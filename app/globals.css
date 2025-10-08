@@ -45,9 +45,10 @@ body {
 
 .main_heading {
   /* Default (mobile): text-3xl */
-  font-size: 1.875rem; 
+  font-size: 40px; 
   line-height: 2.25rem; 
   text-transform: uppercase;
+  font-weight: 900;
 
   /* sm (≥640px): text-4xl */
   @media (min-width: 640px) {
@@ -57,7 +58,7 @@ body {
 
   /* lg (≥1024px): text-5xl */
   @media (min-width: 1024px) {
-    font-size: 3rem; 
+    font-size: 50px; 
     line-height: 1;   
   }
 
@@ -68,11 +69,11 @@ body {
   /* Default (mobile): text-lg */
   font-size: 1.125rem;      /* = 18px */
   line-height: 1.75rem;     /* = 28px */
-  font-weight: 700;         /* font-bold */
+  font-weight: 900;         /* font-bold */
 
   /* md (≥768px): text-2xl */
   @media (min-width: 768px) {
-    font-size: 1.5rem;      /* = 24px */
+    font-size: 20px;      /* = 24px */
     line-height: 2rem;      /* = 32px */
   }
 }
@@ -104,9 +105,9 @@ body {
 }
 
 
-.font-splash {
+/* .font-splash {
   font-family: "LHF Splash Regular", sans-serif;
-}
+} */
 
 
 /* Footer */

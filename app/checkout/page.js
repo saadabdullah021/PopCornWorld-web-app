@@ -426,7 +426,7 @@ const OrderSummary = ({ items, subtotal, tax, shipping, total }) => (
         <span className="font-semibold">${shipping.toFixed(2)}</span>
       </div>
       <div className="border-t-2 border-gray-100 pt-3 flex justify-between items-center">
-        <span className="text-lg font-bold text-black">Total</span>
+        <span className="sub_heading font-bold text-black">Total</span>
         <span className="text-2xl font-bold text-[#3333cb]">${total.toFixed(2)}</span>
       </div>
     </div>

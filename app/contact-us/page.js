@@ -48,8 +48,8 @@ const ContactSection = () => {
                   </svg>
                 </div>
                 <div className="bg-green-50 pt-12 pb-6 px-8 -mt-10 rounded-2xl">
-                  <h5 className="text-xl font-bold text-black mb-3">Our Location</h5>
-                  <p className="text-gray-600">5075 Main Road, D- Block, 2nd Floor, New York</p>
+                  <h5 className="sub_heading text-black mb-3">Our Location</h5>
+                  <p className="text-gray-600">2560 Garfield St Suite 3, Gary, IN 46404</p>
                 </div>
               </div>
             </div>
@@ -63,10 +63,10 @@ const ContactSection = () => {
                   </svg>
                 </div>
                 <div className="bg-green-50 pt-12 pb-6 px-8 -mt-10 rounded-2xl">
-                  <h5 className="text-xl font-bold text-black mb-3">Support 24/7</h5>
+                  <h5 className="sub_heading text-black mb-3">Support 24/7</h5>
                   <p className="text-gray-600">
-                    +012 (345) 689 37<br />
-                    012345687
+                  
+            219-427-1806
                   </p>
                 </div>
               </div>
@@ -82,10 +82,10 @@ const ContactSection = () => {
                   </svg>
                 </div>
                 <div className="bg-green-50 pt-12 pb-6 px-8 -mt-10 rounded-2xl">
-                  <h5 className="text-xl font-bold text-black mb-3">Email Address</h5>
+                  <h5 className="sub_heading text-black mb-3">Email Address</h5>
                   <p className="text-gray-600">
-                    supportinfo@gmail.com<br />
-                    www.funden.com
+                   orders@doingtheworldaflavor.com
+
                   </p>
                 </div>
               </div>

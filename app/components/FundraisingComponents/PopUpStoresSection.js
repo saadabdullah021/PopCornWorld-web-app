@@ -51,7 +51,7 @@ const PopUpStoresSection = () => {
       <div className="max-w-7xl mx-auto">
         {/* Header */}
         <div className="text-center mb-12">
-          <h2 className="text-3xl  md:text-4xl lg:text-5xl font-splash text-black leading-tight tracking-tight uppercase mb-4">
+          <h2 className="main_heading text-black leading-tight tracking-tight uppercase mb-4">
             <span className="block mb-2">Pop-Up Stores: Hands-down The Easiest Way to Fundraise</span>
           </h2>
         </div>
@@ -93,7 +93,7 @@ const PopUpStoresSection = () => {
 
                 {/* Content */}
                 <div className="flex-1">
-                  <h3 className="text-2xl md:text-3xl font-bold text-black mb-3  transition-colors duration-300">
+                  <h3 className="sub_heading text-black mb-3  transition-colors duration-300">
                     {feature.title}
                   </h3>
                   <p className="text-black main_description leading-relaxed">

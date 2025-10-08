@@ -36,7 +36,7 @@ const ExploreProjectsSlider = ({ campaigns, campaignsLoading, campaignsError, gl
         author: campaign.fundraiser?.name || "Unknown",
         category: "Campaign",
         categoryColor: "bg-[#8bc34a]",
-        image: `http://127.0.0.1:8000/storage/${campaign.campaign_image}`,
+        image: `https://onebigmediacompany.online/storage/${campaign.campaign_image}`,
         raised: `${currency}${collectedAmount}`,
         goal: `${currency}${raiseAmount}`,
         percentage: Math.min(percentage, 100),
