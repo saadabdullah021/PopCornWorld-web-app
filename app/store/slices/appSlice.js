@@ -68,6 +68,45 @@ const saveCartToStorage = (cart) => {
   }
 };
 
+// Auth persistence functions
+const loadAuthFromStorage = () => {
+  if (typeof window !== 'undefined') {
+    try {
+      const token = localStorage.getItem('auth_token');
+      const userData = localStorage.getItem('user_data');
+      return {
+        token: token || null,
+        userData: userData ? JSON.parse(userData) : null
+      };
+    } catch (error) {
+      console.error('Error loading auth from localStorage:', error);
+      return { token: null, userData: null };
+    }
+  }
+  return { token: null, userData: null };
+};
+
+const saveAuthToStorage = (token, userData) => {
+  if (typeof window !== 'undefined') {
+    try {
+      if (token) {
+        localStorage.setItem('auth_token', token);
+      } else {
+        localStorage.removeItem('auth_token');
+      }
+      if (userData) {
+        localStorage.setItem('user_data', JSON.stringify(userData));
+      } else {
+        localStorage.removeItem('user_data');
+      }
+    } catch (error) {
+      console.error('Error saving auth to localStorage:', error);
+    }
+  }
+};
+
+const { token: savedToken, userData: savedUserData } = loadAuthFromStorage();
+
 const initialState = {
   isLoading: false,
   theme: 'light',
@@ -101,11 +140,13 @@ const initialState = {
   },
   cart: loadCartFromStorage(), // Load cart from localStorage on initialization
   // Auth state
-  isAuthenticated: false,
+  isAuthenticated: !!savedToken,
   authLoading: false,
   authError: null,
   phoneNumber: null,
-  otpSent: false
+  otpSent: false,
+  accessToken: savedToken,
+  customerInfo: savedUserData
 }
 
 const appSlice = createSlice({
@@ -203,17 +244,28 @@ const appSlice = createSlice({
       state.otpSent = action.payload;
     },
     loginSuccess: (state, action) => {
+      const { access_token, customer_info } = action.payload;
       state.isAuthenticated = true;
-      state.user = action.payload;
+      state.accessToken = access_token;
+      state.customerInfo = customer_info;
+      state.user = customer_info; // Keep for backward compatibility
       state.authLoading = false;
       state.authError = null;
+      
+      // Save to localStorage
+      saveAuthToStorage(access_token, customer_info);
     },
     logout: (state) => {
       state.isAuthenticated = false;
+      state.accessToken = null;
+      state.customerInfo = null;
       state.user = null;
       state.phoneNumber = null;
       state.otpSent = false;
       state.authError = null;
+      
+      // Clear from localStorage
+      saveAuthToStorage(null, null);
     }
   },
   extraReducers: (builder) => {

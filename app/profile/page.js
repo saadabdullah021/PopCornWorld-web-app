@@ -1,5 +1,8 @@
 'use client'
 import React, { useEffect, useState } from 'react';
+import { useSelector, useDispatch } from 'react-redux';
+import { useRouter } from 'next/navigation';
+import { logout } from '../store/slices/appSlice';
 import { 
   User, 
   Mail, 
@@ -11,10 +14,16 @@ import {
   Upload,
   Check,
   AlertCircle,
-  Loader2
+  Loader2,
+  LogOut,
+  ArrowLeft
 } from 'lucide-react';
 
 const Profile = () => {
+  const dispatch = useDispatch();
+  const router = useRouter();
+  const { isAuthenticated, customerInfo } = useSelector(state => state.app);
+  
   const [profileData, setProfileData] = useState(null);
   const [loading, setLoading] = useState(true);
   const [updateLoading, setUpdateLoading] = useState(false);
@@ -30,31 +39,43 @@ const Profile = () => {
   const [errors, setErrors] = useState({});
   const [successMessage, setSuccessMessage] = useState('');
 
-  // Sample data - replace with your API integration
-  const sampleProfileData = {
-    name: 'John Doe',
-    email: 'john.doe@example.com',
-    phone_no: '+1234567890',
-    profile_img: null
-  };
-
   useEffect(() => {
-    // Simulate API call
-    setTimeout(() => {
-      setProfileData(sampleProfileData);
-      const formattedPhoneNumber = sampleProfileData.phone_no
-        .replace(/^\+1/, '')
-        .replace(/^(\d{3})(\d{3})(\d{4})$/, '$1-$2-$3');
-      
-      setState({
-        name: sampleProfileData.name,
-        email: sampleProfileData.email,
-        phone_number: formattedPhoneNumber,
-        simple_number: sampleProfileData.phone_no,
-        profile_img: sampleProfileData.profile_img,
-      });
+    // Get user data from localStorage (stored during sign in)
+    const storedUserData = localStorage.getItem('user_data');
+    
+    if (storedUserData) {
+      try {
+        const userData = JSON.parse(storedUserData);
+        
+        const formattedPhoneNumber = userData.phone_no
+          ? userData.phone_no.replace(/^\+1/, '').replace(/^(\d{3})(\d{3})(\d{4})$/, '$1-$2-$3')
+          : '';
+        
+        const profileData = {
+          name: userData.name || 'User',
+          email: userData.email || '',
+          phone_no: userData.phone_no || '',
+          profile_img: userData.profile_img || null,
+          customer_id: userData.customer_id || userData.id || null,
+          created_at: userData.created_at || userData.createdAt || null
+        };
+
+        setProfileData(profileData);
+        setState({
+          name: profileData.name,
+          email: profileData.email,
+          phone_number: formattedPhoneNumber,
+          simple_number: profileData.phone_no,
+          profile_img: profileData.profile_img,
+        });
+        setLoading(false);
+      } catch (error) {
+        console.error('Error parsing user data:', error);
+        setLoading(false);
+      }
+    } else {
       setLoading(false);
-    }, 1000);
+    }
   }, []);
 
   const validatePhoneNumber = (number) => {
@@ -209,6 +230,11 @@ const Profile = () => {
     setSuccessMessage('');
   };
 
+  const handleLogout = () => {
+    dispatch(logout());
+    router.push('/');
+  };
+
   if (loading) {
     return (
       <div className="min-h-screen bg-gradient-to-br from-blue-50 to-indigo-100 flex items-center justify-center">
@@ -224,9 +250,20 @@ const Profile = () => {
     <div className="min-h-screen bg-gradient-to-br from-blue-50 to-indigo-100 py-16 lg:pt-40 xl:pt-52 px-4 sm:px-6 lg:px-8">
       <div className="max-w-4xl mx-auto">
         {/* Header */}
-        <div className="text-center mb-8">
-          <h1 className="main_heading font-bold text-black mb-2">My Profile</h1>
-          <p className="text-balck main_description">Manage your personal information and preferences</p>
+        <div className="mb-8">
+          <div className="flex items-center mb-4">
+            <button
+              onClick={() => router.back()}
+              className="flex items-center text-gray-600 hover:text-gray-800 transition-colors duration-200"
+            >
+              <ArrowLeft className="w-5 h-5 mr-2" />
+              <span className="font-medium">Back</span>
+            </button>
+          </div>
+          <div className="text-center">
+            <h1 className="main_heading font-bold text-black mb-2">My Profile</h1>
+            <p className="text-balck main_description">Manage your personal information and preferences</p>
+          </div>
         </div>
 
         {/* Success Message */}
@@ -283,7 +320,7 @@ const Profile = () => {
                     src={
                       selectedImage ? imageUrl :
                       state.profile_img ? `/api/uploads/${state.profile_img}` :
-                      `https://ui-avatars.com/api/?name=${encodeURIComponent(state.name)}&size=128&background=6366f1&color=ffffff`
+                      `https://ui-avatars.com/api/?name=${encodeURIComponent(state.name || 'User')}&size=128&background=6366f1&color=ffffff`
                     }
                     alt="Profile"
                     className="w-full h-full object-cover"
@@ -309,8 +346,8 @@ const Profile = () => {
                 />
               </div>
               
-              <h2 className="mt-4 text-2xl font-bold text-white ">{state.name}</h2>
-              <p className="text-indigo-100 ">{state.email}</p>
+              <h2 className="mt-4 text-2xl font-bold text-white ">{state.name || 'User'}</h2>
+              <p className="text-indigo-100 ">{state.email || 'No email provided'}</p>
             </div>
           </div>
 
@@ -421,16 +458,65 @@ const Profile = () => {
 
             {/* Account Status */}
             <div className="mt-8 pt-6 border-t border-gray-200">
-              <h3 className="text-lg font-semibold text-black mb-4">Account Status</h3>
-              <div className="flex items-center justify-between p-4 bg-green-50 rounded-lg border border-green-200">
-                <div className="flex items-center">
-                  <div className="w-3 h-3 bg-green-500 rounded-full mr-3"></div>
-                  <div>
-                    <p className="font-medium text-green-800">Account Active</p>
-                    <p className="text-sm text-green-600">Your account is in good standing</p>
+              <h3 className="text-lg font-semibold text-black mb-4">Account Information</h3>
+              <div className="space-y-4">
+                <div className="flex items-center justify-between p-4 bg-green-50 rounded-lg border border-green-200">
+                  <div className="flex items-center">
+                    <div className="w-3 h-3 bg-green-500 rounded-full mr-3"></div>
+                    <div>
+                      <p className="font-medium text-green-800">Account Active</p>
+                      <p className="text-sm text-green-600">Your account is in good standing</p>
+                    </div>
                   </div>
+                  <Check className="h-5 w-5 text-green-600" />
                 </div>
-                <Check className="h-5 w-5 text-green-600" />
+                
+                {profileData?.customer_id && (
+                  <div className="p-4 bg-gray-50 rounded-lg border border-gray-200">
+                    <div className="flex items-center justify-between">
+                      <div>
+                        <p className="font-medium text-gray-800">Customer ID</p>
+                        <p className="text-sm text-gray-600">Your unique customer identifier</p>
+                      </div>
+                      <div className="text-right">
+                        <p className="font-mono text-sm font-semibold text-gray-800">#{profileData.customer_id}</p>
+                      </div>
+                    </div>
+                  </div>
+                )}
+                
+                {profileData?.created_at && (
+                  <div className="p-4 bg-gray-50 rounded-lg border border-gray-200">
+                    <div className="flex items-center justify-between">
+                      <div>
+                        <p className="font-medium text-gray-800">Member Since</p>
+                        <p className="text-sm text-gray-600">Your account creation date</p>
+                      </div>
+                      <div className="text-right">
+                        <p className="text-sm font-semibold text-gray-800">
+                          {new Date(profileData.created_at).toLocaleDateString('en-US', {
+                            year: 'numeric',
+                            month: 'long',
+                            day: 'numeric'
+                          })}
+                        </p>
+                      </div>
+                    </div>
+                  </div>
+                )}
+              </div>
+            </div>
+
+            {/* Logout Section */}
+            <div className="mt-8 pt-6 border-t border-gray-200">
+              <div className="flex justify-center">
+                <button
+                  onClick={handleLogout}
+                  className="flex items-center space-x-2 px-6 py-3 bg-red-50 hover:bg-red-100 text-red-700 hover:text-red-800 rounded-lg transition-all duration-200 border border-red-200 hover:border-red-300"
+                >
+                  <LogOut className="h-5 w-5" />
+                  <span className="font-medium">Sign Out</span>
+                </button>
               </div>
             </div>
 

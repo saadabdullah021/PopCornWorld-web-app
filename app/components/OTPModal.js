@@ -38,7 +38,9 @@ const OTPModal = ({
       'signin', // OTP type for signin
       (response) => {
         // Success
-        dispatch(loginSuccess({ phone: storedPhone || phoneNumber }));
+        if (response.data && response.data.customer_info && response.data.access_token) {
+          dispatch(loginSuccess(response.data));
+        }
         dispatch(setAuthLoading(false));
         onVerify && onVerify();
         onClose();
