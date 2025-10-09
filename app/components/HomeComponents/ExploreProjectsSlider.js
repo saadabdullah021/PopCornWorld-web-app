@@ -36,7 +36,7 @@ const ExploreProjectsSlider = ({ campaigns, campaignsLoading, campaignsError, gl
         author: campaign.fundraiser?.name || "Unknown",
         category: "Campaign",
         categoryColor: "bg-[#8bc34a]",
-        image: `https://onebigmediacompany.online/storage/${campaign.campaign_image}`,
+        image: `https://onebigmediacompany.online/${campaign.campaign_image?.trim()}`,
         raised: `${currency}${collectedAmount}`,
         goal: `${currency}${raiseAmount}`,
         percentage: Math.min(percentage, 100),
@@ -114,10 +114,11 @@ const ExploreProjectsSlider = ({ campaigns, campaignsLoading, campaignsError, gl
     >
       <div className="relative h-48 overflow-hidden">
         <Image
-          src={project.image && typeof project.image === 'string' ? project.image : '/pop_packet.png'}
+          src={project.image|| '/pop_packet.png'}
           alt={project.title}
           fill
-          className="object-cover group-hover:scale-101 transition-transform duration-500"
+          className="object-fill object-center group-hover:scale-101 transition-transform duration-500"
+          unoptimized
           onError={(e) => {
             e.target.src = '/pop_packet.png';
           }}
@@ -140,7 +141,7 @@ const ExploreProjectsSlider = ({ campaigns, campaignsLoading, campaignsError, gl
           <span className="text-sm text-gray-600">{project.author}</span>
         </div>
 
-        <h3 className="text-lg mt-3 font-semibold text-gray-800 mb-4 line-clamp-2 group-hover:text-[#8bc34a] transition-colors">
+        <h3 className="sub_heading mt-3 font-semibold text-gray-800 mb-4 line-clamp-2 group-hover:text-[#8bc34a] transition-colors">
           {project.title}
         </h3>
 

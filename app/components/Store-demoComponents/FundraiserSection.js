@@ -141,7 +141,7 @@ const FundraiserSection = ({ campaign }) => {
                         alt="Happy person holding various popcorn products from Popcorn World"
                         fill
                         className="object-fill h-full w-full object-center rounded-lg"
-
+                        unoptimized
                         priority
                       />
 
