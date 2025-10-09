@@ -1,6 +1,7 @@
 // pages/privacy-policy.js
 import React from 'react';
 import Image from 'next/image';
+import Link from 'next/link';
 
 const PrivacyPolicy = () => {
   const sections = [
@@ -89,7 +90,7 @@ const PrivacyPolicy = () => {
     },
     {
       title: "12. Contact Us",
-      content: "If you have any questions, concerns, or requests regarding this Privacy Policy or our data practices, please contact us at: privacy@popcornworld.com. We are committed to addressing your privacy concerns and will respond to your inquiries in a timely manner."
+      content: "If you have any questions, concerns, or requests regarding this Privacy Policy or our data practices, please contact us at: orders@doingtheworldaflavor.com. We are committed to addressing your privacy concerns and will respond to your inquiries in a timely manner."
     }
   ];
 
@@ -105,7 +106,7 @@ const PrivacyPolicy = () => {
               </h2>
             </div>
 
-            <h1 className="main_heading font-splash font-bold leading-tight tracking-tight uppercase mb-8">
+            <h1 className="main_heading font-splash  leading-tight tracking-tight uppercase mb-8">
               Privacy Policy
             </h1>
 
@@ -127,7 +128,7 @@ const PrivacyPolicy = () => {
         <div className="max-w-5xl mx-auto">
           {/* Introduction */}
           <div className="bg-white rounded-lg shadow-sm p-8 md:p-12 mb-8">
-            <h2 className="text-3xl md:text-4xl font-bold text-[#3333cb] mb-6">
+            <h2 className="text-3xl md:text-4xl font-bold text-[#8ac24a] mb-6">
               Our Commitment to You
             </h2>
             <p className="text-gray-800 leading-relaxed text-lg mb-6">
@@ -145,7 +146,7 @@ const PrivacyPolicy = () => {
                 key={index}
                 className="bg-white rounded-lg shadow-sm p-8 md:p-10 hover:shadow-md transition-shadow duration-300"
               >
-                <h2 className="text-2xl md:text-3xl font-bold text-[#3333cb] mb-6">
+                <h2 className="text-2xl md:text-3xl font-bold text-[#8ac24a] mb-6">
                   {section.title}
                 </h2>
                 
@@ -212,15 +213,15 @@ const PrivacyPolicy = () => {
 
           {/* Contact Section */}
           <div className="bg-white rounded-lg shadow-sm p-8 md:p-12 mt-8 text-center">
-            <h3 className="text-2xl md:text-3xl font-bold text-[#3333cb] mb-4">
+            <h3 className="text-2xl md:text-3xl font-bold text-[#8ac24a] mb-4">
               Questions About Your Privacy?
             </h3>
             <p className="main_description leading-relaxed text-gray-700 mb-6">
               We're committed to transparency and protecting your personal information. If you have any questions or concerns, we're here to help.
             </p>
-            <button className="bg-[#8BC34A] text-white px-8 py-3 rounded-full font-semibold text-lg  transition-all duration-300 transform hover:scale-105 shadow-lg">
+            <Link href='/contact-us' className="bg-[#8BC34A] text-white px-8 py-3 rounded-full font-semibold text-lg  transition-all duration-300 transform hover:scale-105 shadow-lg">
               Contact Privacy Team
-            </button>
+            </Link>
           </div>
         </div>
       </section>

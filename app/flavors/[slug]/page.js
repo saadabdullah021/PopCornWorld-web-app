@@ -5,7 +5,7 @@ import { useRouter, useParams } from 'next/navigation';
 import { useDispatch } from 'react-redux';
 import { getSingleProduct } from '../../services/api';
 import { addToCart, addNotification } from '../../store/slices/appSlice';
-import demoImage from '../../../public/dance_fundraiser.png';
+
 
 const FlavorDetailsPage = () => {
   const router = useRouter();

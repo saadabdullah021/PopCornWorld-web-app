@@ -61,7 +61,7 @@ const SignInModal = ({
 
         <div className="p-6 space-y-6">
           <div className="text-center space-y-6">
-            <p className="text-black font-splash text-xl md:text-3xl font-[900] text-center mt-3 lg:mt-6">
+            <p className="text-black font-splash text-xl md:text-3xl  text-center mt-3 lg:mt-6">
               Enter your mobile phone number
             </p>
             <p className="text-black main_description max-w-xs md:max-w-md mx-auto">

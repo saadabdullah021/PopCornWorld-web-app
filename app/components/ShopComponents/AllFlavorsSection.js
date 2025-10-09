@@ -1,8 +1,7 @@
 'use client'
 import React, { useState } from 'react';
 import Image from 'next/image';
-import demoImage from '../../../public/dance_fundraiser.png';
-import { TiShoppingCart } from 'react-icons/ti';
+
 import { useSelector, useDispatch } from 'react-redux';
 import { addToCart } from '../../store/slices/appSlice';
 
@@ -27,9 +26,18 @@ const AllFlavorsSection = ({ products, productsLoading, productsError, paginatio
     window.location.href = `/flavors/${slug}`;
   };
 
-  const handleAddToCart = (flavor) => {
-    dispatch(addToCart(flavor));
-  };
+const handleAddToCart = (flavor) => {
+  const imageUrl =
+    flavor?.product_images?.[0]?.thumbnail?.trim() ||
+    '/pop_packet.png';
+
+  dispatch(
+    addToCart({
+      ...flavor,
+      image: imageUrl, // <-- yahan image add karo
+    })
+  );
+};
 
   // Simple pagination logic: show Load More if we don't have all records yet
   const hasMore = pagination && allFlavors && allFlavors.length < pagination.totalRecords;
@@ -95,7 +103,7 @@ const AllFlavorsSection = ({ products, productsLoading, productsError, paginatio
               }}
             >
               {/* Image Container */}
-              <div className="relative h-64 bg-gradient-to-br from-orange-100 to-yellow-50 p-8 overflow-hidden">
+              <div className="relative h-64  p-8 overflow-hidden">
                 <div className="absolute inset-0 bg-gradient-to-br from-transparent to-orange-100/30"></div>
                 <div className="relative h-full flex items-center justify-center">
                   <div className="relative">
@@ -108,6 +116,7 @@ const AllFlavorsSection = ({ products, productsLoading, productsError, paginatio
                         }
                         alt={flavor?.name || flavor?.title || 'Popcorn Flavor'}
                         fill
+                                   sizes="(max-width: 1024px) 100vw, 50vw"
                         className="object-fill object-center drop-shadow-2xl w-full h-full transition-transform duration-500"
                         onError={(e) => {
                           e.currentTarget.src = '/pop_packet.png';

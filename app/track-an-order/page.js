@@ -75,7 +75,7 @@ const TrackOrderPage = () => {
             <div className="text-center mb-12">
               <h1 className="main_heading font-splash text-white mb-8 leading-tight">
                 <span className="text-yellow-400">TRACK</span>{' '}
-                <span className="text-white">AN ORDER</span>
+                <span className="">AN ORDER</span>
               </h1>
               
               <p className="main_description text-white max-w-4xl mx-auto">

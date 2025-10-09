@@ -1,8 +1,8 @@
 import React from 'react';
 import Image from 'next/image';
-import footballImage from '../../../public/footballImage.jpg'
-import blackBoyImage from '../../../public/blackBoyImage.jpg'
-import blueImage from '../../../public/blueImage.jpg'
+import footballImage from '../../../public/footballImage.webp'
+import blackBoyImage from '../../../public/blackBoyImage.webp'
+import blueImage from '../../../public/blueImage.webp'
 
 
 

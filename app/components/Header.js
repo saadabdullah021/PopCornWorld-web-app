@@ -20,7 +20,7 @@ import {
     FaEyeSlash
 } from "react-icons/fa";
 
-import logo from '../../public/fundraiserLogo.png'
+import logo from '../../public/fundraiserLogo.webp'
 
 import Image from "next/image";
 import { usePathname } from "next/navigation";
@@ -447,7 +447,7 @@ const Header = () => {
                             <Link href="/" className="group flex items-center transform transition-all duration-300">
                                 <Image
                                     src={logo}
-                                    alt="Funden"
+                                    alt="popcorn world"
                                     className={`transition-all object-contain duration-300 w-full ease-in-out h-12 lg:h-14 group-hover:brightness-110`}
                                 />
                             </Link>
@@ -524,7 +524,7 @@ const Header = () => {
                 {/* Mobile Header */}
                 <div className="flex justify-between items-center p-5 border-b border-gray-100 bg-black">
                     <Link href="/" onClick={closeMobileMenu}>
-                        <Image src={logo} alt="Funden" className="h-8 object-contain w-full transition-transform duration-300" />
+                        <Image src={logo} alt="popcorn world" className="h-8 object-contain w-full transition-transform duration-300" />
                     </Link>
                     <button
                         onClick={closeMobileMenu}

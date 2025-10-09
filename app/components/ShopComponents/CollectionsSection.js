@@ -1,8 +1,7 @@
 'use client'
 import React, { useState } from 'react';
 import Image from 'next/image';
-import demoImage from '../../../public/dance_fundraiser.png';
-import { TiShoppingCart } from "react-icons/ti";
+
 import { useSelector, useDispatch } from 'react-redux';
 import { addToCart } from '../../store/slices/appSlice';
 
@@ -19,7 +18,7 @@ const CollectionsSection = ({ collections, collectionsLoading, collectionsError,
       price: 98.00,
       category: "THE WORK",
       description: "It's total package.",
-      image: demoImage
+         image: "/api/placeholder/400/300"
     },
     {
       id: 2,
@@ -111,9 +110,30 @@ const CollectionsSection = ({ collections, collectionsLoading, collectionsError,
     window.location.href = `/collections/${slug}`;
   };
 
-  const handleAddToCart = (collection) => {
-    dispatch(addToCart(collection));
-  };
+const handleAddToCart = (collection) => {
+  // 1. API image → absolute URL
+  const apiImage = collection?.collection_images?.[0]?.image?.trim();
+  const imageUrl = apiImage
+    ? apiImage.startsWith('http')
+      ? apiImage
+      : `https://onebigmediacompany.online/${apiImage}`
+    : typeof collection.image === 'string'
+    ? collection.image.trim()
+    : typeof collection.image === 'object' && collection.image?.src
+    ? collection.image.src
+    : '/pop_packet.png';
+
+  console.log('Dispatching image:', imageUrl); 
+
+  dispatch(
+    addToCart({
+      ...collection,
+      image: imageUrl,
+    })
+  );
+};
+
+
 
   // Simple pagination logic: show Load More if we don't have all records yet
   const hasMore = pagination && allCollections && allCollections.length < pagination.totalRecords;
@@ -184,21 +204,22 @@ const CollectionsSection = ({ collections, collectionsLoading, collectionsError,
               }}
             >
               {/* Image Container */}
-              <div className="relative h-64 bg-gradient-to-br from-blue-50 to-blue-100 overflow-hidden">
+              <div className="relative h-64  overflow-hidden">
                 <div className="absolute inset-0 bg-gradient-to-br from-transparent to-blue-100/30"></div>
                 <div className="relative h-full flex items-center justify-center ">
                   {/* Collection Package Visualization */}
                   <div className="relative w-full h-full">
                     <Image
                       src={
-                        collection?.collection_images?.[0]?.image
-                          ? collection.collection_images[0].image.startsWith('http')
-                            ? collection.collection_images[0].image
-                            : `https://onebigmediacompany.online/${collection.collection_images[0].image}`
-                          : '/pop_packet.png'
+                    collection?.collection_images?.[0]?.image
+  ? collection.collection_images[0].image.startsWith('http')
+    ? collection.collection_images[0].image
+    : `https://onebigmediacompany.online/${collection.collection_images[0].image.trim()}`
+  : '/pop_packet.png'
                       }
                       alt={collection?.title || 'Popcorn Collection'}
                       fill
+                 
                       className="object-fill object-center drop-shadow-2xl w-full h-full transition-transform duration-500"
                       onError={(e) => {
                         e.currentTarget.src = '/pop_packet.png';

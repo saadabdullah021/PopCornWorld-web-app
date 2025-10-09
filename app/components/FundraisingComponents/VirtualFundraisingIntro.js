@@ -1,6 +1,6 @@
 import React from 'react';
 import Image from 'next/image';
-import heroFundraiser from '../../../public/groupImage.jpg'
+import heroFundraiser from '../../../public/groupImage.webp'
 const VirtualFundraisingIntro = () => {
   return (
     <section className="pb-16  pt-20 lg:pt-34 2xl:pt-35 lg:pb-0 lg:pl-4 bg-gradient-to-br from-yellow-100 via-yellow-50 to-white">
@@ -16,7 +16,7 @@ const VirtualFundraisingIntro = () => {
             </div>
 
             {/* Main Heading */}
-            <h1 className="main_heading text-black leading-tight tracking-tight uppercase mb-8">
+            <h1 className="main_heading font-splash text-black leading-tight tracking-tight uppercase mb-8">
               <span className="block mb-2">Virtually the</span>
               <span className="block mb-2">easiest way to</span>
               <span className="block">fundraise—ever</span>

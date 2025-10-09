@@ -1,12 +1,12 @@
 'use client'
 import React, { useState } from 'react';
 import Image from 'next/image';
-import groupImage from '../../../public/groupImage.jpg'
-import threepersonImage from '../../../public/threepersonImage.jpg'
-import process1 from '../../../public/process1.jpg'
-import process2 from '../../../public/process2.jpg'
-import blackBoyImage from '../../../public/blackBoyImage.jpg'
-import blueImage from '../../../public/blueImage.jpg'
+import groupImage from '../../../public/groupImage.webp'
+import threepersonImage from '../../../public/threepersonImage.webp'
+import process1 from '../../../public/process1.webp'
+import process2 from '../../../public/process2.webp'
+import blackBoyImage from '../../../public/blackBoyImage.webp'
+import blueImage from '../../../public/blueImage.webp'
 
 
 

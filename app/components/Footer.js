@@ -7,7 +7,7 @@ import {
   FaMapMarkerAlt,
   FaArrowRight,
 } from "react-icons/fa";
-import logo from '../../public/fundraiserLogo.png'
+import logo from '../../public/fundraiserLogo.webp'
 import Image from "next/image";
 const Footer = ({ footerSolidBg }) => {
   return (
@@ -30,7 +30,7 @@ const Footer = ({ footerSolidBg }) => {
             <div className="transform transition-all duration-500 ">
               <Image
                 src={logo}
-                alt="Funden"
+                alt="popcorn world"
                 className="mb-6 transition-all duration-300 hover:scale-101"
               />
               <p className="text-white mb-6 leading-relaxed text-[16px] font-light transition-colors duration-300 hover:text-gray-200">
@@ -116,7 +116,7 @@ const Footer = ({ footerSolidBg }) => {
             <div className="transform transition-all duration-500 ">
               <h4 className="text-[22px] capitalize font-semibold text-white mb-6 relative group">
                 Contact Us
-                <div className="absolute bottom-0 left-0 w-20 h-0.5 bg-primary transform scale-x-0 group-hover:scale-x-100 transition-transform duration-300"></div>
+                <div className="absolute bottom-0 left-0 w-20 h-0.5 bg-primary transform scale-x-0 group-hover:scale-x-1 transition-transform duration-300"></div>
               </h4>
               <ul className="space-y-6">
                 <li className="group flex items-center transform transition-all duration-300 hover:translate-x-2">
@@ -128,47 +128,47 @@ const Footer = ({ footerSolidBg }) => {
                       Phone Number
                     </span>
                     <a
-                      href="tel:+01234578933"
+                      href="tel:01234578933"
                       className="text-white hover:text-primary transition-colors duration-300 font-medium"
                     >
-                      +012(345) 78 93
+                      012(345) 78 93
                     </a>
                   </span>
                 </li>
-                <li className="group flex items-center transform transition-all duration-300 hover:translate-x-2">
-                  <span className="h-12 w-12 flex items-center justify-center rounded-full bg-primary text-white mr-4 transition-all duration-300  group-hover:shadow-lg group-hover:shadow-primary/30">
-                    <FaEnvelopeOpen className="transform transition-transform duration-300 " />
-                  </span>
-                  <span>
-                    <span className="block text-[16px] font-light text-gray-400 mb-1 transition-colors duration-300 group-hover:text-gray-300">
-                      Email Address
-                    </span>
-                    <a
-                      href="mailto:support@gmail.com"
-                      className="text-white hover:text-primary transition-colors duration-300 font-medium"
-                    >
-                      support@gmail.com
-                    </a>
-                  </span>
-                </li>
-                <li className="group flex items-center transform transition-all duration-300 hover:translate-x-2">
-                  <span className="h-12 w-12 flex items-center justify-center rounded-full bg-primary text-white mr-4 transition-all duration-300  group-hover:shadow-lg group-hover:shadow-primary/30">
-                    <FaMapMarkerAlt className="transform transition-transform duration-300 " />
-                  </span>
-                  <span>
-                    <span className="block text-[16px] font-light text-gray-400 mb-1 transition-colors duration-300 group-hover:text-gray-300">
-                      Locations
-                    </span>
-                    <a
-                      href="https://maps.google.com"
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="text-white hover:text-primary transition-colors duration-300 font-medium"
-                    >
-                      59 Main Street, USA
-                    </a>
-                  </span>
-                </li>
+         <li className="group flex items-start transform transition-all duration-300 hover:translate-x-2">
+  <span className="h-12 w-12 flex-shrink-0 flex items-center justify-center rounded-full bg-primary text-white mr-4 transition-all duration-300 group-hover:shadow-lg group-hover:shadow-primary/30">
+    <FaEnvelopeOpen className="transform transition-transform duration-300" />
+  </span>
+  <span className="min-w-0">
+    <span className="block text-[16px] font-light text-gray-400 mb-1 transition-colors duration-300 group-hover:text-gray-300">
+      Email Address
+    </span>
+    <a
+      href="mailto:orders@doingtheworldaflavor.com"
+      className="text-white hover:text-primary transition-colors duration-300 font-medium break-words"
+    >
+      orders@doingtheworldaflavor.com
+    </a>
+  </span>
+</li>
+         <li className="group flex items-start transform transition-all duration-300 hover:translate-x-2">
+  <span className="h-12 w-12 flex-shrink-0 flex items-center justify-center rounded-full bg-primary text-white mr-4 transition-all duration-300 group-hover:shadow-lg group-hover:shadow-primary/30">
+    <FaMapMarkerAlt className="transform transition-transform duration-300" />
+  </span>
+  <span className="min-w-0">
+    <span className="block text-[16px] font-light text-gray-400 mb-1 transition-colors duration-300 group-hover:text-gray-300">
+      Locations
+    </span>
+    <a
+      href="https://maps.google.com"
+      target="_blank"
+      rel="noopener noreferrer"
+      className="text-white hover:text-primary transition-colors duration-300 font-medium break-words"
+    >
+      2560 Garfield St Suite 3, Gary, IN 46404
+    </a>
+  </span>
+</li>
               </ul>
             </div>
           </div>

@@ -1,6 +1,6 @@
 import React from 'react';
 import Image from 'next/image';
-import dollar_support from '../../../public/dollar-supports-image.jpg';
+import dollar_support from '../../../public/dollar-supports-image.webp';
 import Link from 'next/link';
 
 const PopcornWorldSection = () => {
@@ -12,7 +12,7 @@ const PopcornWorldSection = () => {
           <div className="text-white space-y-6 lg:space-y-8">
             {/* Main Heading */}
             <div className="space-y-2 lg:space-y-4">
-              <h1 className="text-4xl pb-4  lg:text-6xl xl:text-7xl font-splash text-[#ffc222] leading-none">
+              <h1 className="text-4xl pb-4  lg:text-6xl xl:text-7xl font-splash !text-[#ffc222] leading-none">
                 50%
               </h1>
               <h2 className="main_heading font-splash uppercase  leading-relaxed">

@@ -1,7 +1,7 @@
 import React from 'react';
 import Image from 'next/image';
-import heroFundraiser from '../../../public/blueImage.jpg'
-import danceFundraiser from '../../../public/dance_fundraiser.png'
+import heroFundraiser from '../../../public/blueImage.webp'
+import danceFundraiser from '../../../public/dance_fundraiser.webp'
 const PopUpStoresSection = () => {
   const features = [
     {
@@ -51,7 +51,7 @@ const PopUpStoresSection = () => {
       <div className="max-w-7xl mx-auto">
         {/* Header */}
         <div className="text-center mb-12">
-          <h2 className="main_heading text-black leading-tight tracking-tight uppercase mb-4">
+          <h2 className="main_heading font-splash text-black leading-tight tracking-tight uppercase mb-4">
             <span className="block mb-2">Pop-Up Stores: Hands-down The Easiest Way to Fundraise</span>
           </h2>
         </div>
@@ -85,7 +85,7 @@ const PopUpStoresSection = () => {
                 className="flex items-start space-x-4 group"
               >
                 {/* Check Icon */}
-                <div className="flex-shrink-0 w-8 h-8 bg-green-500 rounded-full flex items-center justify-center text-white group-hover:bg-green-600 transition-colors duration-300">
+                <div className="flex-shrink-0 w-8 h-8 bg-[#8ac24a] rounded-full flex items-center justify-center text-white group-hover:bg-green-600 transition-colors duration-300">
                   <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={3} d="M5 13l4 4L19 7" />
                   </svg>

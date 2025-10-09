@@ -59,7 +59,7 @@ const TermsAndConditions = () => {
     },
     {
       title: "14. Contact Information",
-      content: "If you have any questions about these Terms and Conditions, please contact us at support@popcornworld.com or through the contact information provided on our website. We are committed to addressing your concerns and providing excellent customer service."
+      content: "If you have any questions about these Terms and Conditions, please contact us at orders@doingtheworldaflavor.com or through the contact information provided on our website. We are committed to addressing your concerns and providing excellent customer service."
     }
   ];
 
@@ -75,7 +75,7 @@ const TermsAndConditions = () => {
               </h2>
             </div>
 
-            <h1 className="main_heading font-splash font-bold leading-tight tracking-tight uppercase mb-8">
+            <h1 className="main_heading font-splash  leading-tight tracking-tight uppercase mb-8">
               Terms & Conditions
             </h1>
 
@@ -112,7 +112,7 @@ const TermsAndConditions = () => {
                 key={index}
                 className="bg-white rounded-lg shadow-sm p-8 md:p-10 hover:shadow-md transition-shadow duration-300"
               >
-                <h2 className="sub_heading font-bold text-[#3333cb] mb-6">
+                <h2 className="sub_heading font-bold text-[#8ac24a] mb-6">
                   {section.title}
                 </h2>
                 <p className="text-gray-700 main_description leading-relaxed text-base md:text-lg">

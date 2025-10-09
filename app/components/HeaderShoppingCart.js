@@ -93,6 +93,24 @@ const HeaderShoppingCart = ({ isOpen, onClose }) => {
     dispatch(removeFromCart(id));
   };
 
+  const isValidSrc = (src) => {
+    if (!src || typeof src !== 'string') return false;
+
+    try {
+      new URL(src); // absolute URL
+      return true;
+    } catch {
+
+      return src.startsWith('/') || src.startsWith('uploads/');
+    }
+  };
+
+
+  
+
+  const customLoader = ({ src, width }) => {
+    return `${src}?w=${width}`;
+  };
   // Add donation to cart function
   const addDonationToCart = () => {
     const donationItem = {
@@ -177,24 +195,26 @@ const HeaderShoppingCart = ({ isOpen, onClose }) => {
 
                   {/* Item Image/Icon */}
                   <div className="flex-shrink-0">
-                    {item.image && typeof item.image === 'string' && item.image.trim() !== '' ? (
+                    {isValidSrc(item.image) ? (
                       <div className="w-24 h-24 bg-blue-100 rounded-lg overflow-hidden">
                         <Image
                           src={item.image}
                           alt={item.name || item.title || 'Product'}
-                          width={64}
-                          height={64}
+                          width={96}
+                          height={96}
                           className="w-full h-full object-contain object-center"
+                          loader={customLoader}
                         />
                       </div>
                     ) : (
                       <div className="w-24 h-24 bg-gray-100 rounded-lg flex items-center justify-center">
                         <Image
                           src="/pop_packet.png"
-                          alt={item.name || item.title || 'Product'}
-                          width={64}
-                          height={64}
+                          alt="Default"
+                          width={96}
+                          height={96}
                           className="w-full h-full object-contain object-center"
+                          loader={customLoader}
                         />
                       </div>
                     )}
@@ -235,19 +255,19 @@ const HeaderShoppingCart = ({ isOpen, onClose }) => {
               ))}
 
               {/* Empty Cart State */}
-{cartItems.length === 0 && (
-  <div className="flex flex-col justify-between h-full">
-    <div className="text-center py-12 flex-1 overflow-y-auto">
-      {/* Empty Cart Visual */}
-      <div className="w-16 h-16 bg-gray-100 rounded-full flex items-center justify-center mx-auto mb-4">
+     {cartItems.length === 0 && (
+  <div className="flex flex-col flex-1 justify-between">
+    {/* Empty message – center mein */}
+    <div className="flex-1 flex flex-col items-center justify-center px-6 py-12">
+      <div className="w-16 h-16 bg-gray-100 rounded-full flex items-center justify-center mb-4">
         <RiShoppingBag4Fill className="w-8 h-8 text-gray-400" />
       </div>
       <p className="text-gray-500 font-medium">Your cart is empty</p>
       <p className="text-sm text-gray-400 mt-2">Add some delicious popcorn to get started!</p>
     </div>
 
-    {/* Fixed Disabled Checkout Button */}
-    <div className="border-t border-gray-200 p-6 bg-white sticky bottom-0 left-0 w-full">
+    {/* Disabled checkout – bottom pe fixed */}
+    <div className="border-t border-gray-200 p-6 bg-white">
       <p className="text-gray-500 text-[16px] mb-2 text-center">
         You haven't reached the $100 order minimum.
       </p>

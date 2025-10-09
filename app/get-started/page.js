@@ -1,8 +1,8 @@
 'use client'
 import React, { useState, useEffect } from 'react';
 import Image from 'next/image';
-import get1 from '../../public/get1.png';
-import get2 from '../../public/get2.png';
+import get1 from '../../public/get1.webp';
+import get2 from '../../public/get2.webp';
 import { useRouter } from 'next/navigation';
 import { ArrowLeft, Calendar, CalendarCheck } from 'lucide-react';
 import { checkEmailExists, getOrganizationInfo, registerFundraiser, sendOTP, verifyOTP } from '../services/api';
@@ -529,7 +529,7 @@ const FundraisingOnboarding = () => {
                 return (
                     <div>
                         <span className="text-sm font-semibold text-white uppercase tracking-wide">GET STARTED</span>
-                        <h1 className="text-[26px] lg:text-[30px] font-[900] font-splash text-white mt-2 mb-6">
+                        <h1 className="text-[26px] lg:text-[30px]   font-splash text-white mt-2 mb-6">
                             Your <span className="text-yellow-400">fundraising</span> experience begins here
                         </h1>
                         <p className="text-white mb-8 text-[16px]">
@@ -552,7 +552,7 @@ const FundraisingOnboarding = () => {
                 return (
                     <div>
 
-                        <h1 className="text-[26px] lg:text-[30px] font-[900]  font-splash text-white mt-4 mb-6">
+                        <h1 className="text-[26px] lg:text-[30px]    font-splash text-white mt-4 mb-6">
                             Type in the name of your team
                         </h1>
                         <p className="text-white/90 mb-8 text-lg">
@@ -575,7 +575,7 @@ const FundraisingOnboarding = () => {
                 return (
                     <div>
 
-                        <h1 className="text-[26px] lg:text-[30px] font-[900]  font-splash text-white mt-4 mb-6">
+                        <h1 className="text-[26px] lg:text-[30px]    font-splash text-white mt-4 mb-6">
                             Tell us about your team
                         </h1>
                         <p className="text-white/90 mb-8 text-lg">
@@ -643,7 +643,7 @@ const FundraisingOnboarding = () => {
                 return (
                     <div>
 
-                        <h1 className="text-[26px] lg:text-[30px] font-[900]  font-splash text-white mt-4 mb-6">
+                        <h1 className="text-[26px] lg:text-[30px]    font-splash text-white mt-4 mb-6">
                             When are you looking to start fundraising?
                         </h1>
 
@@ -761,7 +761,7 @@ const FundraisingOnboarding = () => {
                 return (
                     <div>
 
-                        <h1 className="text-[26px] lg:text-[30px] font-[900]  font-splash text-white mt-4 mb-6">
+                        <h1 className="text-[26px] lg:text-[30px]    font-splash text-white mt-4 mb-6">
                             How many members of your team will participate in the fundraiser?
                         </h1>
                         <div className="grid grid-cols-2 gap-4 mt-8">
@@ -788,7 +788,7 @@ const FundraisingOnboarding = () => {
                 return (
                     <div>
 
-                        <h1 className="text-[26px] lg:text-[30px] font-[900]  font-splash text-white mt-4 mb-6">
+                        <h1 className="text-[26px] lg:text-[30px]    font-splash text-white mt-4 mb-6">
                             Your team could earn between ${earnings.min.toLocaleString()}-${earnings.max.toLocaleString()} in just 4 days!
                         </h1>
                         <p className="text-white/90 mb-8 text-lg">
@@ -869,7 +869,7 @@ const FundraisingOnboarding = () => {
                 } else {
                     return (
                         <div>
-                            <h1 className="text-[26px] lg:text-[30px] font-[900]  font-splash text-white mt-4 mb-6">
+                            <h1 className="text-[26px] lg:text-[30px]    font-splash text-white mt-4 mb-6">
                                 Set up your Popcorn World account
                             </h1>
                             <div className="space-y-4">

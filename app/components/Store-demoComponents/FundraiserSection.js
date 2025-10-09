@@ -1,7 +1,7 @@
 'use client'
 import React, { useState, useEffect } from 'react';
 import Image from 'next/image';
-import coachImage from '../../../public/leftImage.jpg'; // Replace with actual image path
+import coachImage from '../../../public/leftImage.webp'; // Replace with actual image path
 import SharePopup from './SharePopup';
 
 // Main Fundraiser Component
@@ -62,7 +62,7 @@ const FundraiserSection = ({ campaign }) => {
 
     return () => clearInterval(counter);
   }, [fundraiserData.currentAmount]);
-
+const imageLoader = ({ src }) => src; 
   return (
     <>
       <section className="bg-[#3333cb] pt-32 pb-16 lg:pt-48 lg:pb-12  px-4 sm:px-6 lg:px-8">
@@ -141,7 +141,7 @@ const FundraiserSection = ({ campaign }) => {
                         alt="Happy person holding various popcorn products from Popcorn World"
                         fill
                         className="object-fill h-full w-full object-center rounded-lg"
-                        unoptimized
+                 loader={imageLoader}
                         priority
                       />
 

@@ -1,9 +1,9 @@
 import Link from 'next/link';
 import React from 'react';
 import Image from 'next/image';
-import mainImage from '../../../public/mainImage.jpg'
-import leftImage from '../../../public/leftImage.jpg'
-import rightImage from '../../../public/rightImage.jpg'
+import mainImage from '../../../public/mainImage.webp'
+import leftImage from '../../../public/leftImage.webp'
+import rightImage from '../../../public/rightImage.webp'
 
 
 const HeroSection = () => {
@@ -14,7 +14,7 @@ const HeroSection = () => {
       {/* Header Text Section */}
       <div
         className="relative text-center pt-24 lg:pt-36 lg:pb-36 2xl:pb-48 2xl:pt-72 pb-20 bg-cover bg-center bg-no-repeat"
-        style={{ backgroundImage: "url('/heroImage.jpeg')" }}
+        style={{ backgroundImage: "url('/heroImage.webp')" }}
       >
 
         {/* Overlay (optional for dark shade on image) */}
@@ -23,9 +23,9 @@ const HeroSection = () => {
         <div className="relative z-10">
    
 
-          <h1 className="text-[42px] lg:text-[56px] font-[900] text-white leading-none mb-12 tracking-tight animate-fadeInUp">
+          <h1 className="text-[42px] lg:text-[56px] font-splash text-white leading-none mb-12 tracking-tight animate-fadeInUp">
             Raise Hand to Promote <br />
-            <span className="text-gray-200">Best Products</span>
+            <span className="!text-white">Best Products</span>
           </h1>
 
           <Link href='/shop' className="group inline-flex items-center gap-3 px-6 py-3 border-2   font-medium rounded-full bg-[#8BC34A] cursor-pointer text-white border-transparent transition-all duration-300 animate-fadeInUp">
@@ -58,7 +58,7 @@ const HeroSection = () => {
 
           {/* Center Main Image */}
           <div className=" group animate-fadeInUp">
-            <div className="relative w-full lg:w-[500px] xl:w-[650px] xl:h-[460px] 2xl:w-[800px] h-84 2xl:h-[600px] rounded overflow-hidden shadow-2xl transform  transition-transform duration-500">
+            <div className="relative w-90 sm:w-[400px] lg:w-[500px] xl:w-[650px] xl:h-[460px] 2xl:w-[800px] h-84 2xl:h-[600px] rounded overflow-hidden shadow-2xl transform  transition-transform duration-500">
               <Image
                 src={mainImage}
                 alt="Team collaboration"

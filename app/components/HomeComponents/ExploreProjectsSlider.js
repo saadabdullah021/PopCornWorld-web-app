@@ -106,6 +106,7 @@ const ExploreProjectsSlider = ({ campaigns, campaignsLoading, campaignsError, gl
     setCurrentSlide((prev) => prev - 1);
   };
 
+const imageLoader = ({ src, width }) => `${src}?w=${width}`;
 
   const ProjectCard = ({ project }) => (
     <div
@@ -118,7 +119,7 @@ const ExploreProjectsSlider = ({ campaigns, campaignsLoading, campaignsError, gl
           alt={project.title}
           fill
           className="object-fill object-center group-hover:scale-101 transition-transform duration-500"
-          unoptimized
+        loader={imageLoader}
           onError={(e) => {
             e.target.src = '/pop_packet.png';
           }}

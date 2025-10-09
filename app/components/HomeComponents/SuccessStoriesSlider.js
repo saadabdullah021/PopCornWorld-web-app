@@ -1,14 +1,14 @@
 'use client'
 import React, { useState, useEffect } from 'react';
 import Image from 'next/image';
-import leftImage from '../../../public/leftImage.jpg'
+import leftImage from '../../../public/leftImage.webp'
 
-import rightImage from '../../../public/rightImage.jpg'
-import threepersonImage from '../../../public/threepersonImage.jpg'
-import process1 from '../../../public/process1.jpg'
-import process2 from '../../../public/process2.jpg'
-import blackBoyImage from '../../../public/blackBoyImage.jpg'
-import blueImage from '../../../public/blueImage.jpg'
+import rightImage from '../../../public/rightImage.webp'
+import threepersonImage from '../../../public/threepersonImage.webp'
+import process1 from '../../../public/process1.webp'
+import process2 from '../../../public/process2.webp'
+import blackBoyImage from '../../../public/blackBoyImage.webp'
+import blueImage from '../../../public/blueImage.webp'
 
 
 import { ChevronLeft, ChevronRight } from 'lucide-react';
@@ -22,7 +22,7 @@ const SuccessStoriesSlider = () => {
       id: 1,
       organization: "LAKE CENTRAL HIGH SCHOOL FOOTBALL",
       title: "Inflatable Tunnel",
-      description: "Partnering with Double Good for the past 3 seasons has given us the ability to enhance many aspects of our program. This year's senior class decided on a tunnel for our pregame entrance. It has added to the Friday night atmosphere in ways we couldn't have anticipated. Underclassmen are already shopping for next year.",
+      description: "Partnering with Popcorn World for the past 3 seasons has given us the ability to enhance many aspects of our program. This year's senior class decided on a tunnel for our pregame entrance. It has added to the Friday night atmosphere in ways we couldn't have anticipated. Underclassmen are already shopping for next year.",
       totalSales: "$56,586",
       sellers: "53",
       image: leftImage,

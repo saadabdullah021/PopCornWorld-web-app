@@ -48,7 +48,7 @@ body {
   font-size: 40px; 
   line-height: 2.25rem; 
   text-transform: uppercase;
-  font-weight: 900;
+  
 
   /* sm (≥640px): text-4xl */
   @media (min-width: 640px) {
@@ -105,9 +105,10 @@ body {
 }
 
 
-/* .font-splash {
+.font-splash {
   font-family: "LHF Splash Regular", sans-serif;
-} */
+  color:#8BC34A;
+}
 
 
 /* Footer */

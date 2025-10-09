@@ -5,7 +5,7 @@ const PopcornFlavorsHero = () => {
     <section className="py-8 md:py-24 px-4 bg-[#8bc34a]">
       <div className="max-w-7xl mx-auto text-center">
         {/* Main Heading */}
-        <h1 className="main_heading  text-white leading-tight tracking-tight uppercase mb-2 md:mb-6">
+        <h1 className="text-[42px] lg:text-[50px]  font-splash !text-white leading-tight tracking-tight uppercase mb-2 md:mb-6">
           Popcorn Flavors That Sell Themselves
         </h1>
 

@@ -113,7 +113,7 @@ const ContactForm = () => {
           {/* Contact Form */}
           <div className="bg-green-50 p-8 md:p-12 lg:p-16">
             <form onSubmit={handleSubmit} className="space-y-6">
-              <h3 className="main_heading text-black mb-8">
+              <h3 className="main_heading font-splash lg:whitespace-nowrap text-black mb-8">
                 Send Us Message
               </h3>
 
@@ -166,7 +166,7 @@ const ContactForm = () => {
                     name="email"
                     value={formData.email}
                     onChange={handleInputChange}
-                    placeholder="support@gmail.com"
+                    placeholder="orders@doingtheworldaflavor.com"
                     className={`w-full px-4 py-3 border border-green-500 bg-white outline-none ${
                       errors.email ? 'border-red-500 focus:ring-red-500' : ''
                     }`}
