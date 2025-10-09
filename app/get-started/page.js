@@ -1,8 +1,8 @@
 'use client'
 import React, { useState, useEffect } from 'react';
 import Image from 'next/image';
-import get1 from '../../public/get1.webp';
-import get2 from '../../public/get2.webp';
+import get1 from '../../public/rightImage.webp';
+import get2 from '../../public/leftImage.webp';
 import { useRouter } from 'next/navigation';
 import { ArrowLeft, Calendar, CalendarCheck } from 'lucide-react';
 import { checkEmailExists, getOrganizationInfo, registerFundraiser, sendOTP, verifyOTP } from '../services/api';
@@ -1043,7 +1043,7 @@ const FundraisingOnboarding = () => {
                             alt="Fundraising team member 2"
                             width={260}
                             height={240}
-                            className="rounded-2xl shadow-2xl absolute top-50 left-40 z-10"
+                            className="rounded-2xl shadow-2xl absolute top-35 left-40 z-10"
                         />
                     </div>
 

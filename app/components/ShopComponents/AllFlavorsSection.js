@@ -117,7 +117,7 @@ const handleAddToCart = (flavor) => {
                         alt={flavor?.name || flavor?.title || 'Popcorn Flavor'}
                         fill
                                    sizes="(max-width: 1024px) 100vw, 50vw"
-                        className="object-fill object-center drop-shadow-2xl w-full h-full transition-transform duration-500"
+                        className="object-fill object-center drop-shadow-2xl w-full h-full group-hover:scale-110 transition-transform duration-700 ease-out "
                         onError={(e) => {
                           e.currentTarget.src = '/pop_packet.png';
                         }}

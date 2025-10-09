@@ -43,8 +43,8 @@ const VirtualFundraisingSection = () => {
 
     , {
       id: 4,
-  title: "Zero fees. Zero limits.",
-description: "Get 50% from every sale — paid directly to you, hassle-free.",
+      title: "Zero fees. Zero limits.",
+      description: "Get 50% from every sale — paid directly to you, hassle-free.",
 
       image: blackBoyImage,
       alt: "Colorful product display showing no fees policy"
@@ -93,11 +93,11 @@ description: "Get 50% from every sale — paid directly to you, hassle-free.",
                 {/* Image Container */}
                 <div className="relative w-full h-48 md:h-56 lg:h-64 rounded-2xl overflow-hidden mb-6 shadow-lg group-hover:shadow-2xl transition-all duration-500 transform ">
                   <Image
-                    src={feature.image ||'/pop_packet.png'}
+                    src={feature.image || '/pop_packet.png'}
                     alt={feature.alt}
                     fill
                     sizes="(max-width: 768px) 100vw, (max-width: 1200px) 33vw, 25vw"
-                    className="object-fill object-center group-hover:scale-101 transition-transform duration-700 ease-out"
+                    className="object-fill object-center group-hover:scale-110 transition-transform duration-700 ease-out"
                     priority={feature.id === 1}
                     placeholder="blur"
                     blurDataURL="data:image/jpeg;base64,/9j/..."
@@ -121,8 +121,8 @@ description: "Get 50% from every sale — paid directly to you, hassle-free.",
           ))}
         </Swiper>
 
-{/* ✅ Pagination container outside swiper (below cards) */}
-<div className="custom-pagination mt-6 flex justify-center" />
+        {/* ✅ Pagination container outside swiper (below cards) */}
+        <div className="custom-pagination mt-6 flex justify-center" />
 
 
 
