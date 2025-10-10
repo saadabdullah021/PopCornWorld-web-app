@@ -21,8 +21,8 @@ const SuccessStoriesSlider = () => {
     {
       id: 1,
       organization: "LAKE CENTRAL HIGH SCHOOL FOOTBALL",
-      title: "Inflatable Tunnel",
-      description: "Partnering with Popcorn World for the past 3 seasons has given us the ability to enhance many aspects of our program. This year's senior class decided on a tunnel for our pregame entrance. It has added to the Friday night atmosphere in ways we couldn't have anticipated. Underclassmen are already shopping for next year.",
+      title: "Enhanced Game-Day Experience",
+      description: "For the past three seasons, Popcorn World fundraising has helped us elevate our football program in countless ways. This year, our seniors chose to invest in a custom inflatable tunnel for our pregame entrance — it’s become a highlight of every Friday night game, creating unforgettable excitement for players and fans alike.",
       totalSales: "$56,586",
       sellers: "53",
       image: leftImage,
@@ -31,33 +31,34 @@ const SuccessStoriesSlider = () => {
     {
       id: 2,
       organization: "RIVERSIDE ELEMENTARY SCHOOL",
-      title: "New Playground Equipment",
-      description: "Our fundraising campaign exceeded all expectations! The community came together to support our students, and we were able to purchase brand new playground equipment that will serve our children for years to come. The 4-day format kept everyone engaged.",
+      title: "Playground Transformation Project",
+      description: "Our Popcorn World fundraiser brought the whole community together. With the incredible support of parents, teachers, and local businesses, we surpassed our goal and built a brand-new playground that our students will enjoy for years to come. The 4-day online format kept participation high and energy even higher.",
       totalSales: "$42,350",
       sellers: "87",
-         image: rightImage,
+      image: rightImage,
       alt: "Children playing on new playground equipment"
     },
     {
       id: 3,
       organization: "WESTSIDE BASKETBALL TEAM",
-      title: "Team Uniforms & Travel",
-      description: "Thanks to our successful fundraising campaign, we were able to purchase new uniforms for the entire team and fund our travel expenses for the state tournament. The virtual format made it so easy for families to participate from anywhere.",
+      title: "New Gear and Tournament Travel",
+      description: "Popcorn World’s virtual fundraiser made it easy for our basketball team to raise the funds needed for new uniforms and travel to the state championship. Families and supporters loved how effortless the process was — we reached our target faster than ever before.",
       totalSales: "$38,920",
       sellers: "34",
-     image: threepersonImage,
+      image: threepersonImage,
       alt: "Basketball team in new uniforms"
     },
     {
       id: 4,
       organization: "HARMONY MIDDLE SCHOOL BAND",
-      title: "New Musical Instruments",
-      description: "Our band program was in desperate need of new instruments. Through this amazing fundraising platform, we raised enough money to purchase several new instruments and music stands. Our students are thriving with the new equipment.",
+      title: "Modernizing Our Music Program",
+      description: "With help from Popcorn World, our band raised enough money to replace aging instruments and buy new music stands. The entire process was simple and stress-free, and the students are now performing better than ever with quality equipment that inspires them to practice and play with pride.",
       totalSales: "$51,200",
       sellers: "76",
-     image: blueImage,
+      image: blueImage,
       alt: "Students with new musical instruments"
     }
+
   ];
 
 
@@ -94,7 +95,7 @@ const SuccessStoriesSlider = () => {
         <div className="relative">
           {/* Main Slider */}
           <div className="relative overflow-hidden rounded-3xl bg-white shadow-2xl">
-            <div 
+            <div
               className="flex transition-transform duration-700 ease-in-out"
               style={{ transform: `translateX(-${currentSlide * 100}%)` }}
             >
@@ -124,7 +125,7 @@ const SuccessStoriesSlider = () => {
                           {/* Total Sales */}
                           <div className="flex items-start lg:items-center">
                             <div className="w-8 h-8 md:w-16 md:h-16 bg-blue-100 rounded-full flex items-center justify-center mr-4">
-                          <LuCrown className='w-8 h-4 md:w-8 md:h-8'/>
+                              <LuCrown className='w-8 h-4 md:w-8 md:h-8' />
                             </div>
                             <div>
                               <div className="text-xl md:text-3xl font-black text-black">
@@ -140,7 +141,7 @@ const SuccessStoriesSlider = () => {
                           <div className="flex items-start lg:items-center">
                             <div className="w-8 h-8 md:w-16 md:h-16 bg-[#ffb600] rounded-full flex items-center justify-center mr-4">
                               <svg className="w-4 h-4 md:w-8 md:h-8 text-black" fill="currentColor" viewBox="0 0 24 24">
-                                <path d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"/>
+                                <path d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
                               </svg>
                             </div>
                             <div>
@@ -168,7 +169,7 @@ const SuccessStoriesSlider = () => {
                         placeholder="blur"
                         blurDataURL="data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wBDAAYEBQYFBAYGBQYHBwYIChAKCgkJChQODwwQFxQYGBcUFhYaHSUfGhsjHBYWICwgIyYnKSopGR8tMC0oMCUoKSj/2wBDAQcHBwoIChMKChMoGhYaKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCj/wAARCAAIAAoDASIAAhEBAxEB/8QAFQABAQAAAAAAAAAAAAAAAAAAAAv/xAAhEAACAQMDBQAAAAAAAAAAAAABAgMABAUGIWEREiMxUf/EABUBAQEAAAAAAAAAAAAAAAAAAAMF/8QAGhEAAgIDAAAAAAAAAAAAAAAAAAECEgMRkf/aAAwDAQACEQMRAD8AltJagyeH0AthI5xdrLcNM91BF5pX2HaH9bcfaSXWGaRmknyJckliyjqTzSlT54b6bk+h0R//2Q=="
                       />
-                      
+
                       {/* Image Overlay */}
                       <div className="absolute inset-0 bg-gradient-to-t from-black/20 via-transparent to-transparent lg:bg-gradient-to-l" />
                     </div>
@@ -179,23 +180,23 @@ const SuccessStoriesSlider = () => {
           </div>
 
 
-                 {/* Controls */}
-        <div className="flex items-center justify-center gap-4 mt-8">
-          <button
-            onClick={prevSlide}
-            className="w-12 h-12 bg-white/90 hover:bg-white rounded-full shadow-lg flex items-center justify-center transition-all duration-200 hover:scale-105"
-            aria-label="Next slide"
-          >
-            <ChevronLeft className="w-6 h-6 text-gray-700" />
-          </button>
-          <button
-            onClick={nextSlide}
-            className="w-12 h-12 bg-white/90 hover:bg-white rounded-full shadow-lg flex items-center justify-center transition-all duration-200 hover:scale-105"
-            aria-label="Next slide"
-          >
-            <ChevronRight className="w-6 h-6 text-gray-700" />
-          </button>
-        </div>
+          {/* Controls */}
+          <div className="flex items-center justify-center gap-4 mt-8">
+            <button
+              onClick={prevSlide}
+              className="w-12 h-12 bg-white/90 hover:bg-white rounded-full shadow-lg flex items-center justify-center transition-all duration-200 hover:scale-105"
+              aria-label="Next slide"
+            >
+              <ChevronLeft className="w-6 h-6 text-gray-700" />
+            </button>
+            <button
+              onClick={nextSlide}
+              className="w-12 h-12 bg-white/90 hover:bg-white rounded-full shadow-lg flex items-center justify-center transition-all duration-200 hover:scale-105"
+              aria-label="Next slide"
+            >
+              <ChevronRight className="w-6 h-6 text-gray-700" />
+            </button>
+          </div>
         </div>
 
       </div>

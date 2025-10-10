@@ -106,7 +106,7 @@ const HeaderShoppingCart = ({ isOpen, onClose }) => {
   };
 
 
-  
+
 
   const customLoader = ({ src, width }) => {
     return `${src}?w=${width}`;
@@ -183,7 +183,7 @@ const HeaderShoppingCart = ({ isOpen, onClose }) => {
           {/* Foundation Message */}
           <div className="px-6 py-4 bg-yellow-50 border-b border-green-100">
             <p className="text-[16px] text-gray-700">
-              50% of each purchase benefits the Popcorn World Kids Foundation
+              Support kids while you shop — 50% of each purchase benefits the Popcorn World Kids Foundation.
             </p>
           </div>
 
@@ -255,31 +255,31 @@ const HeaderShoppingCart = ({ isOpen, onClose }) => {
               ))}
 
               {/* Empty Cart State */}
-     {cartItems.length === 0 && (
-  <div className="flex flex-col flex-1 justify-between">
-    {/* Empty message – center mein */}
-    <div className="flex-1 flex flex-col items-center justify-center px-6 py-12">
-      <div className="w-16 h-16 bg-gray-100 rounded-full flex items-center justify-center mb-4">
-        <RiShoppingBag4Fill className="w-8 h-8 text-gray-400" />
-      </div>
-      <p className="text-gray-500 font-medium">Your cart is empty</p>
-      <p className="text-sm text-gray-400 mt-2">Add some delicious popcorn to get started!</p>
-    </div>
+              {cartItems.length === 0 && (
+                <div className="flex flex-col flex-1 justify-between">
+                  {/* Empty message – center mein */}
+                  <div className="flex-1 flex flex-col items-center justify-center px-6 py-12">
+                    <div className="w-16 h-16 bg-gray-100 rounded-full flex items-center justify-center mb-4">
+                      <RiShoppingBag4Fill className="w-8 h-8 text-gray-400" />
+                    </div>
+                    <p className="text-gray-500 font-medium">Your cart is empty</p>
+                    <p className="text-sm text-gray-400 mt-2">Add some delicious popcorn to get started!</p>
+                  </div>
 
-    {/* Disabled checkout – bottom pe fixed */}
-    <div className="border-t border-gray-200 p-6 bg-white">
-      <p className="text-gray-500 text-[16px] mb-2 text-center">
-        You haven't reached the $100 order minimum.
-      </p>
-      <button
-        disabled
-        className="w-full bg-blue-100 text-gray-400 font-bold py-3 px-6 rounded-3xl cursor-not-allowed"
-      >
-        Checkout
-      </button>
-    </div>
-  </div>
-)}
+                  {/* Disabled checkout – bottom pe fixed */}
+                  <div className="border-t border-gray-200 p-6 bg-white">
+                    <p className="text-gray-500 text-[16px] mb-2 text-center">
+                      You haven't reached the $100 order minimum.
+                    </p>
+                    <button
+                      disabled
+                      className="w-full bg-blue-100 text-gray-400 font-bold py-3 px-6 rounded-3xl cursor-not-allowed"
+                    >
+                      Checkout
+                    </button>
+                  </div>
+                </div>
+              )}
 
 
             </div>

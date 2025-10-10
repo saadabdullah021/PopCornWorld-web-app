@@ -17,40 +17,42 @@ const PopcornStorySection = () => {
                 {/* Story Content */}
                 <div className="max-w-7xl mx-auto space-y-8 md:space-y-10">
                     {/* Paragraph 1 */}
+                    {/* Paragraph 1 */}
                     <div className="prose prose-lg md:prose-xl max-w-none">
                         <p className="text-gray-800 leading-relaxed text-lg main_description">
-                            Popcorn World isn't just about delicious flavors (although, let's be honest, that's a big part of it!). It's a story about community, opportunity, and giving back, all wrapped up in a warm, buttery kernel.
+                            Popcorn World isn’t just about gourmet flavors (though that’s a huge part of what we do!). It’s a story of community, opportunity, and giving back — all wrapped in every buttery, hand-crafted kernel.
                         </p>
                     </div>
 
                     {/* Paragraph 2 */}
                     <div className="prose prose-lg md:prose-xl max-w-none">
                         <p className="text-gray-800 leading-relaxed text-lg main_description">
-                            In 2018, LeBarron Burton took the reins of Popcorn World, a company started by two of his childhood friends. LeBarron knew he wanted to honor their legacy, not just by continuing the incredible variety of over 250 gourmet popcorn flavors, but by making Popcorn World a force for good.
+                            Founded by two childhood friends and led by LeBarron Burton since 2018, Popcorn World has grown from a local favorite into a nationwide movement. With over 250 delicious popcorn flavors, LeBarron continues the mission of creating joy while turning popcorn into a powerful fundraising tool for schools, teams, and organizations.
                         </p>
                     </div>
 
                     {/* Paragraph 3 */}
                     <div className="prose prose-lg md:prose-xl max-w-none">
                         <p className="text-gray-800 leading-relaxed text-lg main_description">
-                            Here's where the real magic happens. Popcorn World isn't satisfied with just offering delicious, hand-coated popcorn. They've built a strong fundraising program designed to empower communities across the US.
+                            What makes Popcorn World stand out is our purpose-driven fundraising program. We make it easy for schools, youth groups, and nonprofits across the U.S. to raise money online with a simple, contactless system — powered by irresistible popcorn that supporters love.
                         </p>
                     </div>
 
                     {/* Paragraph 4 */}
                     <div className="prose prose-lg md:prose-xl max-w-none">
                         <p className="text-gray-800 leading-relaxed text-lg main_description">
-                            This is more than popcorn, it's a movement. Join Popcorn World in their mission to build a brighter future, one delicious kernel at a time. Start your fundraiser today and see how your sweet tooth can make a difference!
+                            This is more than just popcorn — it’s a movement for good. Join Popcorn World in building stronger, happier communities one fundraiser at a time. Start your Popcorn World fundraiser today and turn every handful of popcorn into a difference that lasts.
                         </p>
                     </div>
+
                 </div>
 
                 {/* Call to Action */}
                 <div className="text-center mt-12 md:mt-16">
-                   <Link  href='/get-started' className="group btn-primary transition-all duration-300 animate-fadeInUp">
-                               Get Started
-                            
-                             </Link >
+                    <Link href='/get-started' className="group btn-primary transition-all duration-300 animate-fadeInUp">
+                        Get Started
+
+                    </Link >
                 </div>
 
             </div>

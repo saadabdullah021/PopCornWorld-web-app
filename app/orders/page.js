@@ -17,13 +17,13 @@ const Orders = () => {
 
   // Sample data removed - using real API data
 
-  const base_currency = 'PKR ';
+  const base_currency = '$';
   const donation_amount = 50.00;
 
   useEffect(() => {
     // Get phone number from customerInfo or use input
     const userPhoneNumber = customerInfo?.phone_no || phoneNumber;
-    
+
     if (!userPhoneNumber) {
       setShowPhoneInput(true);
       setLoading(false);
@@ -170,7 +170,7 @@ const Orders = () => {
             <h2 className="text-2xl font-bold text-gray-900 mb-2">Enter Your Phone Number</h2>
             <p className="text-gray-600">Enter your phone number to view your orders</p>
           </div>
-          
+
           <div className="space-y-4">
             <div>
               <label htmlFor="phone" className="block text-sm font-medium text-gray-700 mb-2">
@@ -186,11 +186,11 @@ const Orders = () => {
                 maxLength={14}
               />
             </div>
-            
+
             {error && (
               <div className="text-red-600 text-sm">{error}</div>
             )}
-            
+
             <button
               onClick={handlePhoneNumberSubmit}
               disabled={loading}
@@ -256,7 +256,7 @@ const Orders = () => {
             <div className="bg-white rounded-lg shadow-sm border border-gray-300">
               <div className="p-6 border-b border-gray-400">
                 <h2 className="text-lg font-semibold text-black mb-4">Orders</h2>
-                
+
                 {/* Search */}
                 <div className="relative mb-4">
                   <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 h-4 w-4" />
@@ -292,17 +292,16 @@ const Orders = () => {
                     {filteredOrders.map((order) => (
                       <li
                         key={order.order_id}
-                        className={`p-4 cursor-pointer transition-colors hover:bg-gray-50 ${
-                          selectedOrder?.order_id === order.order_id
-                            ? 'bg-indigo-50 border-r-4 border-indigo-500'
-                            : ''
-                        }`}
+                        className={`p-4 cursor-pointer transition-colors hover:bg-gray-50 ${selectedOrder?.order_id === order.order_id
+                          ? 'bg-indigo-50 border-r-4 border-indigo-500'
+                          : ''
+                          }`}
                         onClick={() => setSelectedOrder(order)}
                       >
                         <div className="flex items-center justify-between">
                           <div>
                             <p className="font-medium text-black">
-                              #{truncateOrderId(order.order_id)}
+                              {truncateOrderId(order.order_id)}
                             </p>
                             <p className="text-sm text-gray-500">
                               {formatDate(order.created_at)}
@@ -336,7 +335,7 @@ const Orders = () => {
                   <div className="flex items-center justify-between flex-wrap gap-4">
                     <div>
                       <h2 className="text-2xl font-bold text-black">
-                        Order #{selectedOrder.order_id}
+                        Order {selectedOrder.order_id}
                       </h2>
                       <p className="text-gray-600 mt-1">
                         Placed on {formatDate(selectedOrder.created_at)} at {formatTime(selectedOrder.created_at)}

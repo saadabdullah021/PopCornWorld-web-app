@@ -11,28 +11,29 @@ const VirtualFundraisingIntro = () => {
             {/* Small Header */}
             <div className="mb-6">
               <p className="sub_heading text-black uppercase tracking-widest">
-                What is Virtual Fundraising
+                What Is Virtual Fundraising
               </p>
             </div>
 
             {/* Main Heading */}
             <h1 className="main_heading font-splash text-black leading-tight tracking-tight uppercase mb-8">
-              <span className="block mb-2">Virtually the</span>
-              <span className="block mb-2">easiest way to</span>
-              <span className="block">fundraise—ever</span>
+              <span className="block mb-2">The Smart, Simple</span>
+              <span className="block mb-2">and Most Profitable Way</span>
+              <span className="block">to Fundraise Online</span>
             </h1>
 
             {/* Description */}
             <div className="mb-10">
               <p className="main_description text-black leading-relaxed font-normal">
-                The Popcorn World platform helps kids' teams, clubs, and other groups run hands-off digital fundraisers to make mind-blowing returns in just four days.
+                Popcorn World makes fundraising easier than ever. Our 100% virtual platform
+                empowers schools, sports teams, and community groups to launch effortless
+                online fundraisers that reach more supporters, raise more money, and deliver
+                real results — all in just four days. No product handling, no fees, no stress —
+                just fast, fun and high-profit fundraising.
               </p>
             </div>
-
-   
-
-
           </div>
+
 
           {/* Right Image */}
           <div className="order-1 lg:order-2">
@@ -47,16 +48,13 @@ const VirtualFundraisingIntro = () => {
                 placeholder="blur"
                 blurDataURL="data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wBDAAYEBQYFBAYGBQYHBwYIChAKCgkJChQODwwQFxQYGBcUFhYaHSUfGhsjHBYWICwgIyYnKSopGR8tMC0oMCUoKSj/2wBDAQcHBwoIChMKChMoGhYaKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCj/wAARCAAIAAoDASIAAhEBAxEB/8QAFQABAQAAAAAAAAAAAAAAAAAAAAv/xAAhEAACAQMDBQAAAAAAAAAAAAABAgMABAUGIWEREiMxUf/EABUBAQEAAAAAAAAAAAAAAAAAAAMF/8QAGhEAAgIDAAAAAAAAAAAAAAAAAAECEgMRkf/aAAwDAQACEQMRAD8AltJagyeH0AthI5xdrLcNM91BF5pX2HaH9bcfaSXWGaRmknyJckliyjqTzSlT54b6bk+h0R//2Q=="
               />
-              
               {/* Optional gradient overlay */}
               <div className="absolute inset-0 bg-gradient-to-t from-black/10 via-transparent to-transparent" />
-              
-          
             </div>
           </div>
         </div>
 
- 
+
       </div>
     </section>
   );

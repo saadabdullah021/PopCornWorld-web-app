@@ -23,18 +23,18 @@ const mockStates = [
 ];
 
 // Enhanced Input Component with Icons
-const Input = ({ 
-  label, 
-  type = "text", 
-  name, 
-  value, 
-  onChange, 
-  onBlur, 
-  error, 
-  disabled = false, 
-  placeholder, 
+const Input = ({
+  label,
+  type = "text",
+  name,
+  value,
+  onChange,
+  onBlur,
+  error,
+  disabled = false,
+  placeholder,
   maxLength,
-  icon: IconComponent 
+  icon: IconComponent
 }) => (
   <div className="mb-6">
     <label className=" text-sm font-semibold text-black mb-2 flex items-center gap-2">
@@ -51,15 +51,13 @@ const Input = ({
         disabled={disabled}
         placeholder={placeholder}
         maxLength={maxLength}
-        className={`w-full px-4 py-3 border rounded-xl bg-white transition-all duration-300 placeholder-gray-600 focus:ring-0 outline-0 text-black font-medium shadow-sm hover:shadow-md focus:shadow-lg ${
-          error 
-            ? 'border-red-400 focus:border-red-500  focus:ring-4 focus:ring-red-100' 
+        className={`w-full px-4 py-3 border rounded-xl bg-white transition-all duration-300 placeholder-gray-600 focus:ring-0 outline-0 text-black font-medium shadow-sm hover:shadow-md focus:shadow-lg ${error
+            ? 'border-red-400 focus:border-red-500  focus:ring-4 focus:ring-red-100'
             : 'border-gray-200'
-        } ${
-          disabled 
-            ? 'bg-gray-50 cursor-not-allowed border-gray-100 text-gray-500' 
+          } ${disabled
+            ? 'bg-gray-50 cursor-not-allowed border-gray-100 text-gray-500'
             : 'hover:border-gray-300'
-        }`}
+          }`}
       />
       {disabled && (
         <div className="absolute inset-y-0 right-0 flex items-center pr-4">
@@ -76,16 +74,16 @@ const Input = ({
   </div>
 );
 
-const Dropdown = ({ 
-  label, 
-  name, 
-  value, 
-  onChange, 
-  onBlur, 
-  options, 
-  error, 
+const Dropdown = ({
+  label,
+  name,
+  value,
+  onChange,
+  onBlur,
+  options,
+  error,
   disabled = false,
-  icon: IconComponent 
+  icon: IconComponent
 }) => (
   <div className="mb-6">
     <label className=" text-sm font-semibold text-black mb-2 flex items-center gap-2">
@@ -98,15 +96,13 @@ const Dropdown = ({
       onChange={onChange}
       onBlur={onBlur}
       disabled={disabled}
-      className={`w-full px-4 py-3.5 border rounded-xl bg-white transition-all duration-300 text-black font-medium shadow-sm outline-0 focus:ring-0 hover:shadow-sm  ${
-        error 
-          ? 'border-red-400 focus:border-red-500 focus:ring-4 focus:ring-red-100' 
+      className={`w-full px-4 py-3.5 border rounded-xl bg-white transition-all duration-300 text-black font-medium shadow-sm outline-0 focus:ring-0 hover:shadow-sm  ${error
+          ? 'border-red-400 focus:border-red-500 focus:ring-4 focus:ring-red-100'
           : 'border-gray-200 '
-      } ${
-        disabled 
-          ? 'bg-gray-50 cursor-not-allowed border-gray-100 text-gray-500' 
+        } ${disabled
+          ? 'bg-gray-50 cursor-not-allowed border-gray-100 text-gray-500'
           : 'hover:border-gray-300'
-      }`}
+        }`}
     >
       <option value="" className="text-gray-400">Select {label}</option>
       {options.map((option) => (
@@ -124,16 +120,16 @@ const Dropdown = ({
   </div>
 );
 
-const TextArea = ({ 
-  label, 
-  name, 
-  value, 
-  onChange, 
-  onBlur, 
-  error, 
-  placeholder, 
+const TextArea = ({
+  label,
+  name,
+  value,
+  onChange,
+  onBlur,
+  error,
+  placeholder,
   rows = 4,
-  icon: IconComponent 
+  icon: IconComponent
 }) => (
   <div className="mb-6">
     <label className="text-sm font-semibold text-black mb-2 flex items-center gap-2">
@@ -147,11 +143,10 @@ const TextArea = ({
       onBlur={onBlur}
       placeholder={placeholder}
       rows={rows}
-      className={`w-full px-4 py-3 border rounded-xl bg-white transition-all outline-0 focus:ring-0 duration-300 placeholder-gray-400 text-black font-medium shadow-sm hover:shadow-md focus:shadow-lg resize-none ${
-        error 
-          ? 'border-red-400 focus:border-red-500 focus:ring-4 focus:ring-red-100' 
+      className={`w-full px-4 py-3 border rounded-xl bg-white transition-all outline-0 focus:ring-0 duration-300 placeholder-gray-400 text-black font-medium shadow-sm hover:shadow-md focus:shadow-lg resize-none ${error
+          ? 'border-red-400 focus:border-red-500 focus:ring-4 focus:ring-red-100'
           : 'border-gray-200 '
-      }`}
+        }`}
     />
     {error && (
       <p className="text-red-500 text-sm font-semibold mt-2 flex items-center gap-1">
@@ -172,11 +167,10 @@ const Checkbox = ({ checked, onChange, label, icon: IconComponent }) => (
         className="sr-only"
       />
       <div
-        className={`w-5 h-5 rounded-md border-2 transition-all duration-200 cursor-pointer ${
-          checked 
-            ? 'bg-[#3333cb] border-[#3333cb]' 
+        className={`w-5 h-5 rounded-md border-2 transition-all duration-200 cursor-pointer ${checked
+            ? 'bg-[#3333cb] border-[#3333cb]'
             : 'border-gray-300 hover:border-blue-400'
-        }`}
+          }`}
         onClick={() => onChange(!checked)}
       >
         {checked && (
@@ -184,7 +178,7 @@ const Checkbox = ({ checked, onChange, label, icon: IconComponent }) => (
         )}
       </div>
     </div>
-    <label 
+    <label
       className="ml-3 text-sm font-medium text-gray-700 cursor-pointer flex items-center gap-2"
       onClick={() => onChange(!checked)}
     >
@@ -194,14 +188,14 @@ const Checkbox = ({ checked, onChange, label, icon: IconComponent }) => (
   </div>
 );
 
-const Button = ({ 
-  children, 
-  onClick, 
-  disabled = false, 
-  variant = "primary", 
-  className = "", 
+const Button = ({
+  children,
+  onClick,
+  disabled = false,
+  variant = "primary",
+  className = "",
   loading = false,
-  size = "lg" 
+  size = "lg"
 }) => {
   const baseClasses = "font-semibold rounded-full bg-[#8ac24a] transition-all duration-300 flex items-center justify-center gap-3 transform  active:scale-95 shadow-lg hover:shadow-xl";
   const sizeClasses = {
@@ -219,9 +213,8 @@ const Button = ({
     <button
       onClick={onClick}
       disabled={disabled || loading}
-      className={`${baseClasses} ${sizeClasses[size]} ${variantClasses[variant]} ${className} ${
-        disabled || loading ? 'cursor-not-allowed opacity-60 transform-none' : ''
-      }`}
+      className={`${baseClasses} ${sizeClasses[size]} ${variantClasses[variant]} ${className} ${disabled || loading ? 'cursor-not-allowed opacity-60 transform-none' : ''
+        }`}
     >
       {loading && (
         <div className="animate-spin rounded-full h-5 w-5 border-2 border-[#ffc222] border-b-transparent"></div>
@@ -266,18 +259,18 @@ const OTPModal = ({ isOpen, onClose, onVerify, loading }) => {
             </div>
             <h3 className="text-xl font-bold text-black">Verify OTP</h3>
           </div>
-          <button 
-            onClick={onClose} 
+          <button
+            onClick={onClose}
             className="text-gray-400 hover:text-gray-600 transition-colors p-1 hover:bg-gray-100 rounded-lg"
           >
             <X size={24} />
           </button>
         </div>
-        
+
         <p className="text-gray-600 mb-6 text-center">
           Enter the 5-digit verification code sent to your phone number
         </p>
-        
+
         <div className="flex justify-center gap-3 mb-6">
           {otpCode.map((data, index) => (
             <input
@@ -291,13 +284,13 @@ const OTPModal = ({ isOpen, onClose, onVerify, loading }) => {
             />
           ))}
         </div>
-        
+
         {error && (
           <p className="text-red-500 text-sm text-center mb-6 bg-red-50 p-3 rounded-lg border border-red-200">
             {error}
           </p>
         )}
-        
+
         <div className="flex gap-3">
           <Button variant="secondary" onClick={onClose} className="flex-1" size="md">
             Cancel
@@ -306,7 +299,7 @@ const OTPModal = ({ isOpen, onClose, onVerify, loading }) => {
             Verify Code
           </Button>
         </div>
-        
+
         <p className="text-center text-xs text-gray-500 mt-4">
           Didn't receive the code? <button className="text-[#3333cb] font-medium hover:underline">Resend</button>
         </p>
@@ -327,19 +320,17 @@ const Breadcrumb = ({ steps, currentStep }) => (
       <div key={index} className="flex items-center flex-shrink-0">
         <div
           className={`flex items-center gap-2 px-4 py-2 rounded-full text-sm font-semibold transition-all duration-300
-          ${
-            index <= currentStep
+          ${index <= currentStep
               ? "text-black bg-white shadow-sm"
               : "text-gray-400"
-          }`}
+            }`}
         >
           <div
             className={`w-6 h-6 rounded-full flex items-center justify-center text-xs font-bold
-            ${
-              index <= currentStep
+            ${index <= currentStep
                 ? " bg-[#8ac24a] text-white"
                 : "bg-gray-200 text-gray-400"
-            }`}
+              }`}
           >
             {index < currentStep ? <Check size={14} /> : index + 1}
           </div>
@@ -361,25 +352,25 @@ const Breadcrumb = ({ steps, currentStep }) => (
 const OrderSummary = ({ items, subtotal, tax, shipping, total }) => (
   <div className="bg-gradient-to-br from-white via-blue-50/30 to-indigo-50/50 p-6 rounded-2xl shadow-xl border border-blue-100/50">
     <div className="flex items-center gap-3 mb-6">
-     
+
       <h3 className="sub_heading font-bold text-black">Order Summary</h3>
     </div>
-    
+
     <div className="bg-gradient-to-r from-green-50 to-emerald-50 p-4 rounded-xl mb-6 border border-green-100">
       <p className="text-sm font-medium text-green-800 flex items-center gap-2">
         <Gift size={20} />
-        50% of each purchase benefits the Popcorn World Kids Foundation
+        Support kids while you shop — 50% of each purchase benefits the Popcorn World Kids Foundation.
       </p>
     </div>
-    
+
     <div className="space-y-4 mb-6 overflow-y-auto h-[300px] hide-scrollbar">
       {items.map((item) => (
         <div key={item.id} className="flex items-start gap-4 p-4 bg-white rounded-xl shadow-sm border border-gray-100 hover:shadow-md transition-shadow">
           <div className="w-16 h-16 bg-gradient-to-br from-gray-100 to-gray-200 rounded-xl overflow-hidden shadow-sm">
             <Image
               src={
-                (item.image && typeof item.image === 'string' && !item.image.includes('/api/placeholder')) 
-                  ? item.image 
+                (item.image && typeof item.image === 'string' && !item.image.includes('/api/placeholder'))
+                  ? item.image
                   : (item.images?.[0] && typeof item.images[0] === 'string' && !item.images[0].includes('/api/placeholder'))
                     ? item.images[0]
                     : '/pop_packet.png'
@@ -453,7 +444,7 @@ const PaymentModal = ({ isOpen, onClose, onPaymentSuccess, orderTotal, formData,
     cvv: '',
     billingZip: ''
   });
-  
+
   const [paymentErrors, setPaymentErrors] = useState({});
   const [paymentLoading, setPaymentLoading] = useState(false);
   const [focusedField, setFocusedField] = useState('');
@@ -531,22 +522,22 @@ const PaymentModal = ({ isOpen, onClose, onPaymentSuccess, orderTotal, formData,
 
   const validatePayment = () => {
     const errors = {};
-    
+
     if (!paymentData.cardName.trim()) {
       errors.cardName = 'Cardholder name is required';
     }
-    
+
     const cardNumber = paymentData.cardNumber.replace(/\s/g, '');
     if (!cardNumber) {
       errors.cardNumber = 'Card number is required';
     } else if (cardNumber.length < 13 || cardNumber.length > 19) {
       errors.cardNumber = 'Invalid card number length';
     }
-    
+
     if (!paymentData.cardType) {
       errors.cardType = 'Card type is required';
     }
-    
+
     const expiry = paymentData.expiryDate.replace(/\D/g, '');
     if (!expiry || expiry.length !== 4) {
       errors.expiryDate = 'Invalid expiry date (MM/YY)';
@@ -556,14 +547,14 @@ const PaymentModal = ({ isOpen, onClose, onPaymentSuccess, orderTotal, formData,
       const currentDate = new Date();
       const currentYear = currentDate.getFullYear();
       const currentMonth = currentDate.getMonth() + 1;
-      
+
       if (month < 1 || month > 12) {
         errors.expiryDate = 'Invalid month';
       } else if (year < currentYear || (year === currentYear && month < currentMonth)) {
         errors.expiryDate = 'Card has expired';
       }
     }
-    
+
     if (!paymentData.cvv) {
       errors.cvv = 'Security code is required';
     } else if (paymentData.cvv.length !== 3) {
@@ -578,7 +569,7 @@ const PaymentModal = ({ isOpen, onClose, onPaymentSuccess, orderTotal, formData,
     if (!validatePayment()) return;
 
     setPaymentLoading(true);
-    
+
     try {
       const orderData = {
         cardNumber: paymentData.cardNumber.replace(/\s/g, ''),
@@ -586,10 +577,10 @@ const PaymentModal = ({ isOpen, onClose, onPaymentSuccess, orderTotal, formData,
         cardSecurityCode: paymentData.cvv,
         cardType: paymentData.cardType,
         cardName: paymentData.cardName,
-        
+
         email: formData.email,
         phone_number: formData.phone.replace(/\D/g, ''),
-        
+
         products: cartItems.map(item => ({
           id: item.id.toString(),
           price: item.price.toString(),
@@ -597,7 +588,7 @@ const PaymentModal = ({ isOpen, onClose, onPaymentSuccess, orderTotal, formData,
           type: item.type || 'product',
           link_code: item.link_code || null
         })),
-        
+
         shipping_first_name: formData.shippingFirstName,
         shipping_last_name: formData.shippingLastName,
         shipping_address: formData.shippingAddress,
@@ -605,14 +596,14 @@ const PaymentModal = ({ isOpen, onClose, onPaymentSuccess, orderTotal, formData,
         shipping_state: formData.shippingState,
         shipping_zipcode: formData.shippingZip,
         shipping_apartment: formData.shippingApartment || '',
-        
+
         billing_first_name: formData.billingIsSame ? formData.shippingFirstName : formData.billingFirstName,
         billing_last_name: formData.billingIsSame ? formData.shippingLastName : formData.billingLastName,
         billing_address: formData.billingIsSame ? formData.shippingAddress : formData.billingAddress,
         billing_city: formData.billingIsSame ? formData.shippingCity : formData.billingCity,
         billing_state: formData.billingIsSame ? formData.shippingState : formData.billingState,
         billing_zipcode: formData.billingIsSame ? formData.shippingZip : formData.billingZip,
-        
+
         tax: tax.toFixed(2),
         shipping_charges: shipping.toFixed(2),
         total_amount: orderTotal.toFixed(2)
@@ -626,7 +617,7 @@ const PaymentModal = ({ isOpen, onClose, onPaymentSuccess, orderTotal, formData,
             amount: orderTotal,
             orderData: response?.data
           };
-          
+
           onPaymentSuccess(paymentResult);
           onClose();
         },
@@ -634,7 +625,7 @@ const PaymentModal = ({ isOpen, onClose, onPaymentSuccess, orderTotal, formData,
           setPaymentErrors({ general: error || 'Order creation failed. Please try again.' });
         }
       );
-      
+
     } catch (error) {
       setPaymentErrors({ general: 'Payment processing failed. Please try again.' });
     } finally {
@@ -650,7 +641,7 @@ const PaymentModal = ({ isOpen, onClose, onPaymentSuccess, orderTotal, formData,
         <div className="p-6 border-b border-gray-200 bg-[#3333cb]  text-white rounded-t-2xl">
           <div className="flex justify-between items-center">
             <div className="flex items-center gap-3">
-              
+
               <div>
                 <h2 className="sub_heading font-bold">Secure Payment</h2>
                 <p className="text-blue-100 text-sm">Complete your order safely</p>
@@ -779,7 +770,7 @@ const PaymentModal = ({ isOpen, onClose, onPaymentSuccess, orderTotal, formData,
               {paymentLoading ? 'Processing Payment...' : `Pay ${orderTotal.toFixed(2)}`}
             </Button>
           </div>
-          
+
           <div className="flex items-center justify-center gap-2 mt-4 text-xs text-gray-500">
             <Lock size={12} />
             <span>Powered by industry-leading security standards</span>
@@ -800,13 +791,13 @@ const CheckoutPage = () => {
   const [showPaymentModal, setShowPaymentModal] = useState(false);
   const [loading, setLoading] = useState(false);
   const [errors, setErrors] = useState({});
-  
+
   const [formData, setFormData] = useState({
     name: '',
     email: '',
     phone: '',
     otpVerified: false,
-    
+
     shippingFirstName: '',
     shippingLastName: '',
     shippingAddress: '',
@@ -814,7 +805,7 @@ const CheckoutPage = () => {
     shippingCity: '',
     shippingState: '',
     shippingZip: '',
-    
+
     billingIsSame: true,
     billingFirstName: '',
     billingLastName: '',
@@ -823,14 +814,14 @@ const CheckoutPage = () => {
     billingCity: '',
     billingState: '',
     billingZip: '',
-    
+
     isGift: false,
     giftNote: ''
   });
 
   const cartItems = cart || [];
-  
-  
+
+
   useEffect(() => {
     if (cartItems.length === 0) {
       router.push('/shop');
@@ -847,27 +838,27 @@ const CheckoutPage = () => {
       </div>
     );
   }
-  
+
   const subtotal = cartItems.reduce((sum, item) => sum + (parseFloat(item.price) * item.quantity), 0);
-  
+
   const getConfigValue = (key, defaultValue) => {
     if (!globalSettings || !Array.isArray(globalSettings)) return defaultValue;
     const config = globalSettings.find(item => item.config_key === key);
     return config ? parseFloat(config.config_value) : defaultValue;
   };
-  
+
   const taxRate = getConfigValue('product_tax', 7);
   const tax = subtotal * (taxRate / 100);
   const shipping = getConfigValue('shipping_charges', 15);
   const total = subtotal + tax + shipping;
-console.log(tax, shipping, total,'tax, shipping, total');
+  console.log(tax, shipping, total, 'tax, shipping, total');
   const handleInputChange = (e) => {
     const { name, value, type, checked } = e.target;
     setFormData(prev => ({
       ...prev,
       [name]: type === 'checkbox' ? checked : value
     }));
-    
+
     if (errors[name]) {
       setErrors(prev => ({
         ...prev,
@@ -895,7 +886,7 @@ console.log(tax, shipping, total,'tax, shipping, total');
 
   const validateStep = (step) => {
     const newErrors = {};
-    
+
     if (step === 0) {
       if (!formData.name) newErrors.name = 'Name is required';
       if (!formData.email) newErrors.email = 'Email is required';
@@ -904,7 +895,7 @@ console.log(tax, shipping, total,'tax, shipping, total');
         newErrors.phone = 'Invalid phone format (xxx-xxx-xxxx)';
       }
     }
-    
+
     if (step === 1) {
       if (!formData.shippingFirstName) newErrors.shippingFirstName = 'First name is required';
       if (!formData.shippingLastName) newErrors.shippingLastName = 'Last name is required';
@@ -912,7 +903,7 @@ console.log(tax, shipping, total,'tax, shipping, total');
       if (!formData.shippingCity) newErrors.shippingCity = 'City is required';
       if (!formData.shippingState) newErrors.shippingState = 'State is required';
       if (!formData.shippingZip) newErrors.shippingZip = 'Zip code is required';
-      
+
       if (!formData.billingIsSame) {
         if (!formData.billingFirstName) newErrors.billingFirstName = 'First name is required';
         if (!formData.billingLastName) newErrors.billingLastName = 'Last name is required';
@@ -922,16 +913,16 @@ console.log(tax, shipping, total,'tax, shipping, total');
         if (!formData.billingZip) newErrors.billingZip = 'Zip code is required';
       }
     }
-    
+
     setErrors(newErrors);
     return Object.keys(newErrors).length === 0;
   };
 
   const handleVerifyPhone = async () => {
     if (!validateStep(0)) return;
-    
+
     setLoading(true);
-    
+
     sendOTP(
       formData.phone.replace(/\D/g, ''),
       'order',
@@ -955,7 +946,7 @@ console.log(tax, shipping, total,'tax, shipping, total');
 
   const handleOTPVerify = async (otpCode) => {
     setLoading(true);
-    
+
     verifyOTP(
       formData.phone.replace(/\D/g, ''),
       otpCode,
@@ -988,12 +979,12 @@ console.log(tax, shipping, total,'tax, shipping, total');
 
   const handlePaymentSuccess = (paymentResult) => {
     dispatch(clearCart());
-    
+
     dispatch(addNotification({
       message: '🎉 Payment successful! Your order has been placed and you will receive a confirmation email shortly.',
       type: 'success'
     }));
-    
+
     router.push('/orders');
   };
 
@@ -1021,24 +1012,24 @@ console.log(tax, shipping, total,'tax, shipping, total');
           <div className="lg:col-span-2">
             <div className="bg-white p-8 rounded-2xl shadow-xl border border-gray-100">
               <div className="flex items-center gap-3 mb-8">
-          
+
                 <div>
                   <h1 className="sub_heading font-bold text-black">Checkout</h1>
                   <p className="text-gray-600 ">Complete your secure purchase</p>
                 </div>
               </div>
-              
-              <Breadcrumb 
-                steps={['INFORMATION', 'PAYMENT METHOD']} 
-                currentStep={currentStep} 
+
+              <Breadcrumb
+                steps={['INFORMATION', 'PAYMENT METHOD']}
+                currentStep={currentStep}
               />
 
               <div className="mb-10">
                 <div className="flex items-center gap-3 mb-6">
-                
+
                   <h2 className="text-xl font-bold text-black">Contact Information</h2>
                 </div>
-                
+
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                   <Input
                     label="Full Name*"
@@ -1072,7 +1063,7 @@ console.log(tax, shipping, total,'tax, shipping, total');
                   disabled={formData.otpVerified}
                   icon={Phone}
                 />
-                
+
                 {!formData.otpVerified && (
                   <div className="flex justify-end mt-6">
                     <Button onClick={handleVerifyPhone} loading={loading} size="md">
@@ -1087,10 +1078,10 @@ console.log(tax, shipping, total,'tax, shipping, total');
                 <>
                   <div className="mb-10">
                     <div className="flex items-center gap-3 mb-6">
-                      
+
                       <h2 className="text-xl font-bold text-black">Shipping Address</h2>
                     </div>
-                    
+
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
                       <Input
                         label="First Name*"
@@ -1127,17 +1118,17 @@ console.log(tax, shipping, total,'tax, shipping, total');
                       onChange={handleInputChange}
                       placeholder="Apt 4B (optional)"
                     />
-                        <Input
-                        label="City*"
-                        name="shippingCity"
-                        value={formData.shippingCity}
-                        onChange={handleInputChange}
-                        error={errors.shippingCity}
-                        placeholder="City"
-                        icon={MapPin}
-                      />
+                    <Input
+                      label="City*"
+                      name="shippingCity"
+                      value={formData.shippingCity}
+                      onChange={handleInputChange}
+                      error={errors.shippingCity}
+                      placeholder="City"
+                      icon={MapPin}
+                    />
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                  
+
                       <Dropdown
                         label="State*"
                         name="shippingState"
@@ -1161,17 +1152,17 @@ console.log(tax, shipping, total,'tax, shipping, total');
 
                   <div className="mb-10">
                     <div className="flex items-center gap-3 mb-6">
-                  
+
                       <h2 className="text-xl font-bold text-black">Billing Address</h2>
                     </div>
-                    
+
                     <Checkbox
                       checked={formData.billingIsSame}
                       onChange={(checked) => setFormData(prev => ({ ...prev, billingIsSame: checked }))}
                       label="Same as Shipping Address"
-               
+
                     />
-                    
+
                     {!formData.billingIsSame && (
                       <div className="bg-gray-50 p-6 rounded-xl border-2 border-dashed border-gray-200 mt-6">
                         <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
@@ -1210,17 +1201,17 @@ console.log(tax, shipping, total,'tax, shipping, total');
                           onChange={handleInputChange}
                           placeholder="Apt 4B (optional)"
                         />
-                             <Input
-                            label="City*"
-                            name="billingCity"
-                            value={formData.billingCity}
-                            onChange={handleInputChange}
-                            error={errors.billingCity}
-                            placeholder="City"
-                            icon={MapPin}
-                          />
+                        <Input
+                          label="City*"
+                          name="billingCity"
+                          value={formData.billingCity}
+                          onChange={handleInputChange}
+                          error={errors.billingCity}
+                          placeholder="City"
+                          icon={MapPin}
+                        />
                         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                     
+
                           <Dropdown
                             label="State*"
                             name="billingState"
@@ -1246,17 +1237,17 @@ console.log(tax, shipping, total,'tax, shipping, total');
 
                   <div className="mb-10">
                     <div className="flex items-center gap-3 mb-6">
-                    
+
                       <h2 className="text-xl font-bold text-black">Gift Options</h2>
                     </div>
-                    
+
                     <Checkbox
                       checked={formData.isGift}
                       onChange={(checked) => setFormData(prev => ({ ...prev, isGift: checked }))}
                       label="This order is a gift"
-                    
+
                     />
-                    
+
                     {formData.isGift && (
                       <div className=" mt-6">
                         <TextArea

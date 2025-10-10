@@ -3,14 +3,14 @@ import React, { useEffect, useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { useRouter } from 'next/navigation';
 import { logout } from '../store/slices/appSlice';
-import { 
-  User, 
-  Mail, 
-  Phone, 
-  Edit3, 
-  Save, 
-  X, 
-  Camera, 
+import {
+  User,
+  Mail,
+  Phone,
+  Edit3,
+  Save,
+  X,
+  Camera,
   Upload,
   Check,
   AlertCircle,
@@ -23,7 +23,7 @@ const Profile = () => {
   const dispatch = useDispatch();
   const router = useRouter();
   const { isAuthenticated, customerInfo } = useSelector(state => state.app);
-  
+
   const [profileData, setProfileData] = useState(null);
   const [loading, setLoading] = useState(true);
   const [updateLoading, setUpdateLoading] = useState(false);
@@ -42,15 +42,15 @@ const Profile = () => {
   useEffect(() => {
     // Get user data from localStorage (stored during sign in)
     const storedUserData = localStorage.getItem('user_data');
-    
+
     if (storedUserData) {
       try {
         const userData = JSON.parse(storedUserData);
-        
+
         const formattedPhoneNumber = userData.phone_no
           ? userData.phone_no.replace(/^\+1/, '').replace(/^(\d{3})(\d{3})(\d{4})$/, '$1-$2-$3')
           : '';
-        
+
         const profileData = {
           name: userData.name || 'User',
           email: userData.email || '',
@@ -90,7 +90,7 @@ const Profile = () => {
 
   const handleChange = (e) => {
     const { name, value } = e.target;
-    
+
     if (name === 'phone_number') {
       // Auto-format phone number
       let formattedValue = value.replace(/\D/g, '');
@@ -99,10 +99,10 @@ const Profile = () => {
       } else if (formattedValue.length >= 3) {
         formattedValue = formattedValue.replace(/^(\d{3})(\d{0,3})/, '$1-$2');
       }
-      
+
       if (formattedValue.length <= 12) {
         setState(prev => ({ ...prev, [name]: formattedValue }));
-        
+
         if (!validatePhoneNumber(formattedValue) && formattedValue.length > 0) {
           setErrors(prev => ({ ...prev, [name]: 'Invalid phone number format (XXX-XXX-XXXX)' }));
         } else {
@@ -111,7 +111,7 @@ const Profile = () => {
       }
     } else if (name === 'email') {
       setState(prev => ({ ...prev, [name]: value }));
-      
+
       if (value && !validateEmail(value)) {
         setErrors(prev => ({ ...prev, [name]: 'Please enter a valid email address' }));
       } else {
@@ -125,7 +125,7 @@ const Profile = () => {
         setErrors(prev => ({ ...prev, [name]: '' }));
       }
     }
-    
+
     // Clear success message when editing
     setSuccessMessage('');
     setErrors(prev => ({ ...prev, same: '' }));
@@ -139,13 +139,13 @@ const Profile = () => {
         setErrors(prev => ({ ...prev, image: 'Image size should be less than 5MB' }));
         return;
       }
-      
+
       // Validate file type
       if (!file.type.startsWith('image/')) {
         setErrors(prev => ({ ...prev, image: 'Please select a valid image file' }));
         return;
       }
-      
+
       setSelectedImage(file);
       setImageUrl(URL.createObjectURL(file));
       setErrors(prev => ({ ...prev, image: '', same: '' }));
@@ -156,37 +156,37 @@ const Profile = () => {
   const updateProfile = async () => {
     // Validate all fields
     const newErrors = {};
-    
+
     if (!state.name.trim()) {
       newErrors.name = 'Name is required';
     }
-    
+
     if (state.email && !validateEmail(state.email)) {
       newErrors.email = 'Please enter a valid email address';
     }
-    
+
     if (!validatePhoneNumber(state.phone_number)) {
       newErrors.phone_number = 'Please enter a valid phone number';
     }
-    
+
     // Check if anything changed
     const newNum = state.phone_number.replace(/\D/g, '');
-    const hasChanges = selectedImage || 
-                      state.name !== profileData.name ||
-                      state.email !== profileData.email ||
-                      `+1${newNum}` !== state.simple_number;
-    
+    const hasChanges = selectedImage ||
+      state.name !== profileData.name ||
+      state.email !== profileData.email ||
+      `+1${newNum}` !== state.simple_number;
+
     if (!hasChanges) {
       newErrors.same = 'Please make at least one change to update your profile';
     }
-    
+
     if (Object.keys(newErrors).length > 0) {
       setErrors(newErrors);
       return;
     }
 
     setUpdateLoading(true);
-    
+
     // Simulate API call
     setTimeout(() => {
       // Here you would make your actual API call
@@ -197,13 +197,13 @@ const Profile = () => {
         phone_no: `+1${newNum}`,
         profile_img: selectedImage ? 'updated_image_path' : profileData.profile_img
       };
-      
+
       setProfileData(updatedData);
       setState(prev => ({ ...prev, simple_number: `+1${newNum}` }));
       setCanEdit(false);
       setUpdateLoading(false);
       setSuccessMessage('Profile updated successfully!');
-      
+
       // Clear success message after 3 seconds
       setTimeout(() => setSuccessMessage(''), 3000);
     }, 2000);
@@ -214,7 +214,7 @@ const Profile = () => {
     const formattedPhoneNumber = profileData.phone_no
       .replace(/^\+1/, '')
       .replace(/^(\d{3})(\d{3})(\d{4})$/, '$1-$2-$3');
-    
+
     setState({
       name: profileData.name,
       email: profileData.email,
@@ -222,7 +222,7 @@ const Profile = () => {
       simple_number: profileData.phone_no,
       profile_img: profileData.profile_img,
     });
-    
+
     setSelectedImage(null);
     setImageUrl(null);
     setErrors({});
@@ -319,14 +319,14 @@ const Profile = () => {
                   <img
                     src={
                       selectedImage ? imageUrl :
-                      state.profile_img ? `/api/uploads/${state.profile_img}` :
-                      `https://ui-avatars.com/api/?name=${encodeURIComponent(state.name || 'User')}&size=128&background=6366f1&color=ffffff`
+                        state.profile_img ? `/api/uploads/${state.profile_img}` :
+                          `https://ui-avatars.com/api/?name=${encodeURIComponent(state.name || 'User')}&size=128&background=6366f1&color=ffffff`
                     }
                     alt="Profile"
                     className="w-full h-full object-cover"
                   />
                 </div>
-                
+
                 {canEdit && (
                   <label
                     htmlFor="profile-image"
@@ -335,7 +335,7 @@ const Profile = () => {
                     <Camera className="h-5 w-5 text-white" />
                   </label>
                 )}
-                
+
                 <input
                   type="file"
                   id="profile-image"
@@ -345,7 +345,7 @@ const Profile = () => {
                   disabled={!canEdit}
                 />
               </div>
-              
+
               <h2 className="mt-4 text-2xl font-bold text-white ">{state.name || 'User'}</h2>
               <p className="text-indigo-100 ">{state.email || 'No email provided'}</p>
             </div>
@@ -381,11 +381,10 @@ const Profile = () => {
                     value={state.name}
                     onChange={handleChange}
                     disabled={!canEdit}
-                    className={`w-full pl-11 pr-4 py-3 border rounded-xl transition-all duration-200 ${
-                      canEdit 
-                        ? 'border-gray-300 outline-0' 
+                    className={`w-full pl-11 pr-4 py-3 border rounded-xl transition-all duration-200 ${canEdit
+                        ? 'border-gray-300 outline-0'
                         : 'border-gray-200 bg-gray-50'
-                    } ${errors.name ? 'border-red-500' : ''}`}
+                      } ${errors.name ? 'border-red-500' : ''}`}
                     placeholder="Enter your full name"
                   />
                 </div>
@@ -410,11 +409,10 @@ const Profile = () => {
                     value={state.email}
                     onChange={handleChange}
                     disabled={!canEdit}
-                    className={`w-full pl-11 pr-4 py-3 border rounded-xl transition-all duration-200 ${
-                      canEdit 
-                        ? 'border-gray-300 outline-0' 
+                    className={`w-full pl-11 pr-4 py-3 border rounded-xl transition-all duration-200 ${canEdit
+                        ? 'border-gray-300 outline-0'
                         : 'border-gray-200 bg-gray-50'
-                    } ${errors.email ? 'border-red-500' : ''}`}
+                      } ${errors.email ? 'border-red-500' : ''}`}
                     placeholder="Enter your email address"
                   />
                 </div>
@@ -439,11 +437,10 @@ const Profile = () => {
                     value={state.phone_number}
                     onChange={handleChange}
                     disabled={!canEdit}
-                    className={`w-full pl-11 pr-4 py-3 border rounded-xl transition-all duration-200 ${
-                      canEdit 
-                        ? 'border-gray-300 outline-0' 
+                    className={`w-full pl-11 pr-4 py-3 border rounded-xl transition-all duration-200 ${canEdit
+                        ? 'border-gray-300 outline-0'
                         : 'border-gray-200 bg-gray-50'
-                    } ${errors.phone_number ? 'border-red-500' : ''}`}
+                      } ${errors.phone_number ? 'border-red-500' : ''}`}
                     placeholder="XXX-XXX-XXXX"
                   />
                 </div>
@@ -456,27 +453,30 @@ const Profile = () => {
               </div>
             </div>
 
-            {/* Account Status */}
+            {/* Account Overview */}
             <div className="mt-8 pt-6 border-t border-gray-200">
-              <h3 className="text-lg font-semibold text-black mb-4">Account Information</h3>
+              <h3 className="text-lg font-semibold text-black mb-4">Your Account Details</h3>
               <div className="space-y-4">
+
+                {/* Account Status */}
                 <div className="flex items-center justify-between p-4 bg-green-50 rounded-lg border border-green-200">
                   <div className="flex items-center">
                     <div className="w-3 h-3 bg-green-500 rounded-full mr-3"></div>
                     <div>
-                      <p className="font-medium text-green-800">Account Active</p>
-                      <p className="text-sm text-green-600">Your account is in good standing</p>
+                      <p className="font-medium text-green-800">Active & Healthy</p>
+                      <p className="text-sm text-green-600">Everything is running smoothly with your account</p>
                     </div>
                   </div>
                   <Check className="h-5 w-5 text-green-600" />
                 </div>
-                
+
+                {/* Customer ID */}
                 {profileData?.customer_id && (
                   <div className="p-4 bg-gray-50 rounded-lg border border-gray-200">
                     <div className="flex items-center justify-between">
                       <div>
                         <p className="font-medium text-gray-800">Customer ID</p>
-                        <p className="text-sm text-gray-600">Your unique customer identifier</p>
+                        <p className="text-sm text-gray-600">Your unique Popcorn World identifier</p>
                       </div>
                       <div className="text-right">
                         <p className="font-mono text-sm font-semibold text-gray-800">#{profileData.customer_id}</p>
@@ -484,13 +484,14 @@ const Profile = () => {
                     </div>
                   </div>
                 )}
-                
+
+                {/* Account Creation Date */}
                 {profileData?.created_at && (
                   <div className="p-4 bg-gray-50 rounded-lg border border-gray-200">
                     <div className="flex items-center justify-between">
                       <div>
                         <p className="font-medium text-gray-800">Member Since</p>
-                        <p className="text-sm text-gray-600">Your account creation date</p>
+                        <p className="text-sm text-gray-600">Celebrating your journey with us</p>
                       </div>
                       <div className="text-right">
                         <p className="text-sm font-semibold text-gray-800">
@@ -540,7 +541,7 @@ const Profile = () => {
           </div>
         </div>
 
-  
+
       </div>
     </div>
   );

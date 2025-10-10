@@ -14,20 +14,20 @@ const TrackOrderPage = () => {
     e.preventDefault();
     setError('');
     setSuccess('');
-    
+
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     if (!email) {
       setError('Email address is required');
       return;
     }
-    
+
     if (!emailRegex.test(email)) {
       setError('Please enter a valid email address');
       return;
     }
 
     setIsLoading(true);
-    
+
     trackOrder(
       email,
       (response) => {
@@ -77,23 +77,22 @@ const TrackOrderPage = () => {
                 <span className="text-yellow-400">TRACK</span>{' '}
                 <span className="">AN ORDER</span>
               </h1>
-              
+
               <p className="main_description text-white max-w-4xl mx-auto">
-                Stay joyfully informed. We've got you covered every step of the way with our 'Track 
-                an Order' feature. Easily monitor the status and whereabouts of your delivery.
+                Stay updated every step of the way. Our easy <b>  Track Your Order
+                </b> feature lets you monitor the status and location of your delivery in real time.
               </p>
             </div>
-
             <div className="bg-white rounded-3xl p-8 sm:p-10 shadow-2xl max-w-4xl mx-auto">
               <div className="space-y-6">
                 <div>
-                  <label 
-                    htmlFor="email" 
+                  <label
+                    htmlFor="email"
                     className="block text-black font-semibold sub_heading mb-4"
                   >
                     Enter your email address*
                   </label>
-                  
+
                   <div className="relative">
                     <input
                       type="email"
@@ -101,12 +100,11 @@ const TrackOrderPage = () => {
                       value={email}
                       onChange={handleInputChange}
                       placeholder="ex. Janedoe@gmail.com"
-                      className={`w-full px-4 py-4 bg-gray-50 border rounded-xl text-black placeholder-gray-500 focus:outline-none transition-all duration-300 ${
-                        error ? 'border-red-300 focus:ring-red-300 focus:border-red-500' : 'border-gray-200'
-                      }`}
+                      className={`w-full px-4 py-4 bg-gray-50 border rounded-xl text-black placeholder-gray-500 focus:outline-none transition-all duration-300 ${error ? 'border-red-300 focus:ring-red-300 focus:border-red-500' : 'border-gray-200'
+                        }`}
                       disabled={isLoading}
                     />
-                    
+
                     {error && (
                       <div className="absolute inset-y-0 right-0 pr-3 flex items-center pointer-events-none">
                         <svg className="h-5 w-5 text-red-500" fill="currentColor" viewBox="0 0 20 20">
@@ -115,7 +113,7 @@ const TrackOrderPage = () => {
                       </div>
                     )}
                   </div>
-                  
+
                   {error && (
                     <p className="mt-2 main_description text-red-600 opacity-0 animate-fadeIn">
                       {error}
