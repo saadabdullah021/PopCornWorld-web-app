@@ -11,24 +11,25 @@ const JoyMissionSection = () => {
     {
       id: 1,
       title: "Virtual Fundraising",
-      description: "Make more dreams come true with easy fundraising.",
+      description: "Empower your community and support great causes through our simple and effective virtual fundraising platform.",
       image: blackBoyImage,
-      alt: "Team huddle during virtual fundraising event"
+      alt: "People joining an online fundraising event to support community causes"
     },
     {
       id: 2,
       title: "Popcorn World Kids Foundation",
-      description: "Putting dazzling smiles on the faces of kids with special needs.",
+      description: "Bringing joy and hope to children with special needs through heartfelt programs, community support and every bag of popcorn you buy.",
       image: footballImage,
-      alt: "Green foundation bag with popcorn logo"
+      alt: "Popcorn World Kids Foundation charity program helping children with special needs"
     },
     {
       id: 3,
       title: "Premium Popcorn",
-      description: "Amazing flavors burst out of every bag of our delectable, award-winning popcorn.",
+      description: "Enjoy handcrafted, gourmet popcorn made with the finest ingredients—bursting with irresistible flavors and loved by popcorn fans everywhere.",
       image: blueImage,
-      alt: "Premium popcorn products display"
+      alt: "Assortment of gourmet popcorn flavors from Popcorn World"
     }
+
   ];
 
   return (
