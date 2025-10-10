@@ -217,14 +217,21 @@ export const getProductsSlider = async (success, fail) => {
   }
 };
 
-export const getUserOrders = async (success, fail) => {
+export const getUserOrders = async (phone_number, success, fail) => {
   try {
-    const authToken = localStorage.getItem('auth_token');
     console.log('Fetching user orders...');
-    console.log('Auth token available:', !!authToken);
-    console.log('Auth token:', authToken ? `${authToken.substring(0, 20)}...` : 'No token');
+    console.log('Phone number:', phone_number);
 
-    const response = await axiosInstance.get(get_user_orders);
+    // Build URL with phone_number query parameter
+    const url = phone_number ? `${get_user_orders}?phone_number=${encodeURIComponent(phone_number)}` : get_user_orders;
+    
+    // Make API call without bearer token
+    const response = await axiosInstance.get(url, {
+      headers: {
+        // Explicitly remove authorization header to ensure no bearer token is sent
+        'Authorization': undefined
+      }
+    });
     console.log('User orders response:', response);
 
     if (response?.data?.status === 200 || response?.status === 200) {

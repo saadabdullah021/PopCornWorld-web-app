@@ -1,112 +1,38 @@
 'use client'
 import React, { useEffect, useState } from 'react';
 import { ChevronLeft, Package, MapPin, Calendar, Clock, DollarSign, User, Phone, Mail, Search, Filter } from 'lucide-react';
+import { useSelector } from 'react-redux';
 import { getUserOrders } from '../services/api';
 
 const Orders = () => {
+  const { customerInfo } = useSelector(state => state.app);
   const [orders, setOrders] = useState([]);
   const [selectedOrder, setSelectedOrder] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   const [searchTerm, setSearchTerm] = useState('');
   const [statusFilter, setStatusFilter] = useState('all');
+  const [phoneNumber, setPhoneNumber] = useState('');
+  const [showPhoneInput, setShowPhoneInput] = useState(false);
 
-  // Sample data - replace with your API integration
-  const sampleOrders = [
-    {
-      order_id: 'ORD-2024-001',
-      order_status: 'delivered',
-      created_at: '2024-01-15T10:30:00Z',
-      total_amount: 89.99,
-      shipping_charges: 5.99,
-      tax: 8.99,
-      is_billing_address_same: "1",
-      shipping_address: {
-        shipping_address: '123 Main Street',
-        shipping_apartment: 'Apt 4B',
-        shipping_city: 'Lahore',
-        shipping_state: 'Punjab',
-        shipping_zipcode: '54000'
-      },
-      orderitems: [
-        {
-          id: 1,
-          total_quantity: 2,
-          product: { title: 'Premium T-Shirt', price: 25.00 }
-        },
-        {
-          id: 2,
-          total_quantity: 1,
-          product: { title: 'Jeans', price: 45.00 }
-        }
-      ]
-    },
-    {
-      order_id: 'ORD-2024-002',
-      order_status: 'processing',
-      created_at: '2024-01-20T14:45:00Z',
-      total_amount: 156.99,
-      shipping_charges: 7.99,
-      tax: 14.00,
-      is_billing_address_same: "0",
-      shipping_address: {
-        shipping_address: '456 Oak Avenue',
-        shipping_apartment: 'House 12',
-        shipping_city: 'Karachi',
-        shipping_state: 'Sindh',
-        shipping_zipcode: '75000'
-      },
-      billing_address: {
-        billing_address: '789 Pine Street',
-        billing_apartment: 'Suite 200',
-        billing_city: 'Islamabad',
-        billing_state: 'ICT',
-        billing_zipcode: '44000'
-      },
-      orderitems: [
-        {
-          id: 3,
-          total_quantity: 3,
-          product: { title: 'Sneakers', price: 45.00 }
-        }
-      ]
-    },
-    {
-      order_id: 'ORD-2024-003',
-      order_status: 'pending',
-      created_at: '2024-01-25T09:15:00Z',
-      total_amount: 234.50,
-      shipping_charges: 9.99,
-      tax: 21.45,
-      is_billing_address_same: "1",
-      shipping_address: {
-        shipping_address: '321 Cedar Lane',
-        shipping_apartment: 'Floor 3',
-        shipping_city: 'Faisalabad',
-        shipping_state: 'Punjab',
-        shipping_zipcode: '38000'
-      },
-      orderitems: [
-        {
-          id: 4,
-          total_quantity: 1,
-          relation_from: 'donation'
-        },
-        {
-          id: 5,
-          total_quantity: 2,
-          product: { title: 'Laptop Bag', price: 89.99 }
-        }
-      ]
-    }
-  ];
+  // Sample data removed - using real API data
 
   const base_currency = 'PKR ';
   const donation_amount = 50.00;
 
   useEffect(() => {
+    // Get phone number from customerInfo or use input
+    const userPhoneNumber = customerInfo?.phone_no || phoneNumber;
+    
+    if (!userPhoneNumber) {
+      setShowPhoneInput(true);
+      setLoading(false);
+      return;
+    }
+
     // Fetch user orders from API
     getUserOrders(
+      userPhoneNumber,
       (response) => {
         // Success callback
         console.log('Orders fetched successfully:', response);
@@ -129,7 +55,7 @@ const Orders = () => {
         setLoading(false);
       }
     );
-  }, []);
+  }, [customerInfo?.phone_no, phoneNumber]);
 
   const formatDate = (dateString) => {
     const date = new Date(dateString);
@@ -150,12 +76,44 @@ const Orders = () => {
     });
   };
 
+  const handlePhoneNumberSubmit = () => {
+    if (!phoneNumber.trim()) {
+      setError('Please enter a phone number');
+      return;
+    }
+    setLoading(true);
+    setError(null);
+    // The useEffect will trigger when phoneNumber changes
+  };
+
+  const formatPhoneNumber = (value) => {
+    const phoneNumber = value.replace(/[^\d]/g, '');
+    const phoneNumberLength = phoneNumber.length;
+
+    if (phoneNumberLength < 4) return phoneNumber;
+    if (phoneNumberLength < 7) {
+      return `(${phoneNumber.slice(0, 3)}) ${phoneNumber.slice(3)}`;
+    }
+    if (phoneNumberLength < 10) {
+      return `(${phoneNumber.slice(0, 3)}) ${phoneNumber.slice(3, 6)}-${phoneNumber.slice(6)}`;
+    }
+    return `(${phoneNumber.slice(0, 3)}) ${phoneNumber.slice(3, 6)}-${phoneNumber.slice(6, 10)}`;
+  };
+
+  const handlePhoneChange = (e) => {
+    const formatted = formatPhoneNumber(e.target.value);
+    setPhoneNumber(formatted);
+    if (error) setError('');
+  };
+
   const getStatusColor = (status) => {
     const colors = {
       delivered: 'bg-green-100 text-green-800',
       processing: 'bg-blue-100 text-blue-800',
       pending: 'bg-yellow-100 text-yellow-800',
-      cancelled: 'bg-red-100 text-red-800'
+      cancelled: 'bg-red-100 text-red-800',
+      awaiting_shipment: 'bg-orange-100 text-orange-800',
+      shipped: 'bg-purple-100 text-purple-800'
     };
     return colors[status] || 'bg-gray-100 text-gray-800';
   };
@@ -197,6 +155,50 @@ const Orders = () => {
           >
             Try Again
           </button>
+        </div>
+      </div>
+    );
+  }
+
+  // Show phone number input if user is not authenticated or no phone number available
+  if (showPhoneInput) {
+    return (
+      <div className="min-h-screen bg-gray-50 flex items-center justify-center">
+        <div className="max-w-md w-full bg-white rounded-lg shadow-md p-6">
+          <div className="text-center mb-6">
+            <Phone className="h-12 w-12 text-indigo-600 mx-auto mb-4" />
+            <h2 className="text-2xl font-bold text-gray-900 mb-2">Enter Your Phone Number</h2>
+            <p className="text-gray-600">Enter your phone number to view your orders</p>
+          </div>
+          
+          <div className="space-y-4">
+            <div>
+              <label htmlFor="phone" className="block text-sm font-medium text-gray-700 mb-2">
+                Phone Number
+              </label>
+              <input
+                type="tel"
+                id="phone"
+                value={phoneNumber}
+                onChange={handlePhoneChange}
+                placeholder="(123) 456-7890"
+                className="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500"
+                maxLength={14}
+              />
+            </div>
+            
+            {error && (
+              <div className="text-red-600 text-sm">{error}</div>
+            )}
+            
+            <button
+              onClick={handlePhoneNumberSubmit}
+              disabled={loading}
+              className="w-full bg-indigo-600 text-white py-2 px-4 rounded-md hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 disabled:opacity-50 disabled:cursor-not-allowed"
+            >
+              {loading ? 'Loading...' : 'View Orders'}
+            </button>
+          </div>
         </div>
       </div>
     );
@@ -404,11 +406,17 @@ const Orders = () => {
                       Shipping Address
                     </h3>
                     <div className="space-y-2 text-gray-600">
-                      <p><span className="font-medium">Address:</span> {selectedOrder.shipping_address.shipping_address}</p>
-                      <p><span className="font-medium">Apartment:</span> {selectedOrder.shipping_address.shipping_apartment}</p>
-                      <p><span className="font-medium">City:</span> {selectedOrder.shipping_address.shipping_city}</p>
-                      <p><span className="font-medium">State:</span> {selectedOrder.shipping_address.shipping_state}</p>
-                      <p><span className="font-medium">Zipcode:</span> {selectedOrder.shipping_address.shipping_zipcode}</p>
+                      {selectedOrder.shipping_address ? (
+                        <>
+                          <p><span className="font-medium">Address:</span> {selectedOrder.shipping_address.shipping_address}</p>
+                          <p><span className="font-medium">Apartment:</span> {selectedOrder.shipping_address.shipping_apartment}</p>
+                          <p><span className="font-medium">City:</span> {selectedOrder.shipping_address.shipping_city}</p>
+                          <p><span className="font-medium">State:</span> {selectedOrder.shipping_address.shipping_state}</p>
+                          <p><span className="font-medium">Zipcode:</span> {selectedOrder.shipping_address.shipping_zipcode}</p>
+                        </>
+                      ) : (
+                        <p className="text-gray-500 italic">Shipping address information not available</p>
+                      )}
                     </div>
                   </div>
 
@@ -446,7 +454,7 @@ const Orders = () => {
                 </div>
 
                 {/* Billing Address */}
-                <div className="bg-white rounded-lg shadow-sm border border-gray-300 p-6">
+                {/* <div className="bg-white rounded-lg shadow-sm border border-gray-300 p-6">
                   <h3 className="text-lg font-semibold text-black flex items-center mb-4">
                     <User className="h-5 w-5 mr-2" />
                     Billing Address
@@ -462,7 +470,7 @@ const Orders = () => {
                       <p><span className="font-medium">Zipcode:</span> {selectedOrder.billing_address?.billing_zipcode}</p>
                     </div>
                   )}
-                </div>
+                </div> */}
               </div>
             ) : (
               <div className="bg-white rounded-lg shadow-sm border p-12 text-center">
