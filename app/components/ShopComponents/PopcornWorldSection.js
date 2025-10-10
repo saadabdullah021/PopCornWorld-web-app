@@ -12,10 +12,10 @@ const PopcornWorldSection = () => {
           <div className="text-white space-y-6 lg:space-y-8">
             {/* Main Heading */}
             <div className="space-y-2 lg:space-y-4">
-              <h1 className="text-4xl pb-4  lg:text-6xl xl:text-7xl font-splash !text-[#ffc222] leading-none">
+              <h1 className="text-3xl pb-4  lg:text-5xl  font-splash !text-[#ffc222] leading-none">
                 50%
               </h1>
-              <h2 className="main_heading font-splash uppercase  leading-relaxed">
+              <h2 className="main_heading lg:!text-[30px] !text-[24px] !leading-10 font-splash uppercase  ">
                 <span className="block">OF EVERY DOLLAR SUPPORTS</span>
                 <span className="block">OUR POPCORN WORLD</span>
                 <span className="block">COMMUNITIES AND</span>

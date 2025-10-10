@@ -427,11 +427,11 @@ const OrderSummary = ({ items, subtotal, tax, shipping, total }) => (
       </div>
       <div className="border-t-2 border-gray-100 pt-3 flex justify-between items-center">
         <span className="sub_heading font-bold text-black">Total</span>
-        <span className="text-2xl font-bold text-[#3333cb]">${total.toFixed(2)}</span>
+        <span className="text-2xl font-bold text-[#8BC34A]">${total.toFixed(2)}</span>
       </div>
     </div>
 
-    <div className="mt-6 p-4 bg-gradient-to-r from-[#3333cb] to-blue-700 rounded-xl text-white">
+    <div className="mt-6 p-4 bg-[#8BC34A] rounded-xl text-white">
       <div className="flex items-center gap-2 mb-2">
         <Lock size={16} />
         <span className="text-sm font-semibold">Secure Checkout</span>
