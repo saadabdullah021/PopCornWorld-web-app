@@ -1,38 +1,65 @@
-'use client'
-import React, { useState, useEffect } from 'react';
-import Image from 'next/image';
-import coachImage from '../../../public/leftImage.webp'; // Replace with actual image path
-import SharePopup from './SharePopup';
+'use client';
 
-// Main Fundraiser Component
-const FundraiserSection = ({ campaign }) => {
+import { useState, useEffect } from 'react';
+import { Clock, MapPin, Users } from 'lucide-react';
+import SharePopup from './SharePopup';
+import coach_Image from '../../../public/leftImage.webp';
+import Image from 'next/image';
+
+export default function FundraiserSection({ campaign }) {
+  const [selectedImage, setSelectedImage] = useState(0);
   const [showSharePopup, setShowSharePopup] = useState(false);
+  const [animatedWidth, setAnimatedWidth] = useState(0);
+  const [animatedAmount, setAnimatedAmount] = useState(0);
 
   // Use campaign data if provided, otherwise use default data
   const fundraiserData = campaign ? {
-    title: campaign.campaign_title || "Campaign Pop-Up Store",
-    description: campaign.description || "Support our campaign by purchasing delicious popcorn products!",
-    benefitText: "50% of each purchase benefits this fundraiser.",
-    currentAmount: parseFloat(campaign.collected_amount) || 0,
-    goalAmount: parseFloat(campaign.raise_amount) || 1000,
-    daysToGo: campaign.remaining_time === "Expired" ? 0 : 30,
-    coachImage: campaign.campaign_image ? `https://onebigmediacompany.online/${campaign.campaign_image}` : coachImage
+    title: campaign.campaign_title || "Corn for the Cause: Winfrey's Gala Fundraiser",
+    description: campaign.description || "Help us make Pastor Preston R. Winfrey's 44th Anniversary and Retirement Gala a truly unforgettable celebration!",
+    currentAmount: parseFloat(campaign.collected_amount) || 180,
+    goalAmount: parseFloat(campaign.raise_amount) || 5000,
+    supporters: parseInt(campaign.supporters_count) || 12,
+    createdTime: campaign.created_at || '2 months',
+    location: campaign.location || '315 E. 161st Place South Holland, Illinois',
+    organizer: campaign.organizer || 'Retirement G.',
+    coachImage: campaign.campaign_image ? `https://onebigmediacompany.online/${campaign.campaign_image}` : coach_Image,
+    images: campaign.gallery_images && campaign.gallery_images.length > 0
+      ? campaign.gallery_images.map(img => `https://onebigmediacompany.online/${img}`)
+      : [],
+    recentSupporters: campaign.recent_supporters || [
+      { name: 'Renee L.', amount: 16, initial: 'R', time: 'about 2 months ago' },
+      { name: 'Nyphette H.', amount: 8, initial: 'N', time: 'about 2 months ago' },
+      { name: 'Marsha E.', amount: 8, initial: 'M', time: 'about 2 months ago' },
+      { name: 'Nathaniel E.', amount: 16, initial: 'N', time: 'about 2 months ago' },
+      { name: 'Anita M.', amount: 12, initial: 'A', time: 'about 2 months ago' },
+    ]
   } : {
-    title: "Coach Kim's Pop-Up Store",
-    description: "Our Track team is doing a fundraiser for the upcoming season to offset the cost of travel and equipment. Help us reach our goal! Thank you for the support!",
-    benefitText: "50% of each purchase benefits this fundraiser.",
-    currentAmount: 475,
-    goalAmount: 600,
-    daysToGo: 4,
-    coachImage: coachImage
+    title: "Corn for the Cause: Winfrey's Gala Fundraiser",
+    description: "Help us make Pastor Preston R. Winfrey's 44th Anniversary and Retirement Gala a truly unforgettable celebration! We're excited to launch our \"Poppin' for Pastor Winfrey\" fundraiser—a delicious way to show your love, appreciation, and support.",
+    currentAmount: 180,
+    goalAmount: 5000,
+    supporters: 12,
+    createdTime: '2 months',
+    location: '315 E. 161st Place South Holland, Illinois',
+    organizer: 'Retirement G.',
+    coachImage: coach_Image,
+    images: [
+      'https://images.unsplash.com/photo-1578849278619-e73505e9610f?w=800&q=80',
+      'https://images.unsplash.com/photo-1505686994434-e3cc5abf1330?w=800&q=80',
+    ],
+    recentSupporters: [
+      { name: 'Renee L.', amount: 16, initial: 'R', time: 'about 2 months ago' },
+      { name: 'Nyphette H.', amount: 8, initial: 'N', time: 'about 2 months ago' },
+      { name: 'Marsha E.', amount: 8, initial: 'M', time: 'about 2 months ago' },
+      { name: 'Nathaniel E.', amount: 16, initial: 'N', time: 'about 2 months ago' },
+      { name: 'Anita M.', amount: 12, initial: 'A', time: 'about 2 months ago' },
+    ]
   };
 
-  const progressPercentage =
-    (fundraiserData.currentAmount / fundraiserData.goalAmount) * 100;
+  const progressPercentage = (fundraiserData.currentAmount / fundraiserData.goalAmount) * 100;
 
-  // === STATES ===
-  const [animatedWidth, setAnimatedWidth] = useState(0);
-  const [animatedAmount, setAnimatedAmount] = useState(0);
+  // Image loader for Next.js Image component
+  const imageLoader = ({ src }) => src;
 
   // === Animate Progress Bar ===
   useEffect(() => {
@@ -62,33 +89,93 @@ const FundraiserSection = ({ campaign }) => {
 
     return () => clearInterval(counter);
   }, [fundraiserData.currentAmount]);
-const imageLoader = ({ src }) => src; 
+
   return (
     <>
-      <section className="bg-[#3333cb] pt-32 pb-16 lg:pt-48 lg:pb-12  px-4 sm:px-6 lg:px-8">
-        <div className="max-w-7xl mx-auto">
-          <div className="grid lg:grid-cols-2 gap-8 lg:gap-16 items-start">
-            {/* Content Section */}
-            <div className=" space-y-6 lg:space-y-8 text-white">
-              {/* Title */}
-              <h1 className="main_heading font-splash   leading-tight">
-                {fundraiserData.title}
-              </h1>
+      <div className="min-h-screen bg-gray-50 pt-20 sm:pt-28 md:pt-32 lg:pt-40">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6 sm:py-8 lg:py-12">
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 sm:gap-8 lg:gap-12">
+            {/* Left Side - Images */}
+            <div className="space-y-3 sm:space-y-4">
+              {/* Main Image Container */}
+              <div className="relative rounded-xl sm:rounded-2xl overflow-hidden aspect-square sm:aspect-[4/5] lg:aspect-[24/23] h-[400px] w-full">
+                {/* Person Image */}
+                <div className="absolute inset-0 flex items-center justify-center">
+                  <div className="relative w-full h-full">
+                    <Image
+                      src={fundraiserData.images.length > 0 ? fundraiserData.images[selectedImage] : fundraiserData.coachImage}
+                      alt="Happy person holding various popcorn products from Popcorn World"
+                      fill
+                      className="object-cover rounded-lg"
+                      loader={imageLoader}
+                      loading="eager"
+                      sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+                    />
+                  </div>
+                </div>
+              </div>
 
-              {/* Description */}
-              <div className="space-y-4">
-                <p className="main_description leading-relaxed">
-                  {fundraiserData.description}
-                </p>
-                <p className="text-base sm:text-lg font-medium">
-                  {fundraiserData.benefitText}
+              {/* Thumbnail Gallery - Only show if multiple images */}
+              {fundraiserData.images.length > 1 && (
+                <div className="grid grid-cols-3 sm:grid-cols-4 gap-2 sm:gap-3">
+                  {fundraiserData.images.map((img, idx) => (
+                    <button
+                      key={idx}
+                      onClick={() => setSelectedImage(idx)}
+                      className={`relative rounded-lg overflow-hidden border-2 transition-all ${selectedImage === idx
+                          ? 'border-blue-600 ring-2 ring-blue-200'
+                          : 'border-gray-200 hover:border-gray-300'
+                        }`}
+                    >
+                      <img
+                        src={img}
+                        alt={`Thumbnail ${idx + 1}`}
+                        className="w-full h-16 sm:h-20 object-cover"
+                      />
+                    </button>
+                  ))}
+                </div>
+              )}
+
+              {/* Campaign Info */}
+              <div className="bg-[#f5f5f5] rounded-xl sm:rounded-2xl p-4 sm:p-6 shadow-sm space-y-3 sm:space-y-4">
+                <div className="flex items-start sm:items-center gap-2 text-gray-600">
+                  <Clock className="w-4 h-4 sm:w-5 sm:h-5 text-blue-600 flex-shrink-0 mt-0.5 sm:mt-0" />
+                  <span className="main_description ">
+                    <strong>Created:</strong> {fundraiserData.createdTime}
+                  </span>
+                </div>
+                <div className="flex items-start sm:items-center gap-2 text-gray-600">
+                  <MapPin className="w-4 h-4 sm:w-5 sm:h-5 text-blue-600 flex-shrink-0 mt-0.5 sm:mt-0" />
+                  <span className="main_description  break-words">
+                    <strong>Location:</strong> {fundraiserData.location}
+                  </span>
+                </div>
+                <div className="flex items-start sm:items-center gap-2 text-gray-600">
+                  <Users className="w-4 h-4 sm:w-5 sm:h-5 text-blue-600 flex-shrink-0 mt-0.5 sm:mt-0" />
+                  <span className="main_description ">
+                    <strong>Organized by:</strong> {fundraiserData.organizer}
+                  </span>
+                </div>
+              </div>
+            </div>
+
+            {/* Right Side - Campaign Details */}
+            <div className="space-y-4 sm:space-y-6">
+              {/* Title */}
+              <div>
+                <h1 className="main_heading font-bold mb-2 leading-tight">
+                  {fundraiserData.title}
+                </h1>
+                <p className="sub_heading font-semibold text-gray-700">
+                  Funded: {Math.round(progressPercentage)}%
                 </p>
               </div>
 
               {/* Progress Section */}
-              <div className="space-y-4">
+              <div className="space-y-3 sm:space-y-4">
                 {/* Progress Bar */}
-                <div className="w-full bg-white bg-opacity-20 h-2 overflow-hidden">
+                <div className="w-full bg-gray-200 h-2 overflow-hidden rounded-full">
                   <div
                     className="h-full bg-gradient-to-r from-green-400 to-green-500 transition-all duration-1000 ease-out"
                     style={{ width: `${animatedWidth}%` }}
@@ -96,64 +183,88 @@ const imageLoader = ({ src }) => src;
                 </div>
 
                 {/* Progress Info */}
-                <div className="flex items-center justify-between text-lg sm:text-xl font-medium">
+                <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-2 text-sm sm:text-base lg:text-lg font-medium text-gray-900">
                   <div>
-                    <span className="font-bold text-xl sm:text-2xl">
+                    <span className="font-bold sub_heading">
                       ${animatedAmount}
                     </span>{" "}
                     <span className="font-normal">
-                      sold of ${fundraiserData.goalAmount} goal!
+                      raised of ${fundraiserData.goalAmount} goal!
                     </span>
                   </div>
-
-                  <span>{fundraiserData.daysToGo} days to go</span>
                 </div>
+
+                <p className="main_description text-gray-600">
+                  <span className="font-bold text-gray-900">{fundraiserData.supporters}</span> supporters
+                </p>
               </div>
 
-              {/* CTA Button */}
-              <div className="pt-4">
+              {/* Action Buttons */}
+              <div className=" flex flex-col sm:flex-row sm:items-center  gap-4">
+                <button className="w-full bg-[#8ac24a] text-white font-medium py-3 px-6 rounded-full text-base sm:text-lg transition-all duration-300 transform hover:shadow-xl focus:outline-none flex items-center justify-center space-x-2">
+                  Buy Now
+                </button>
+
+                {/* CTA Button */}
                 <button
                   onClick={() => setShowSharePopup(true)}
-                  className="bg-[#8ac24a] text-white font-medium py-3 px-6 rounded-full text-lg transition-all duration-300 transform  hover:shadow-xl focus:outline-none  flex items-center space-x-2"
+                  className="w-full bg-[#8ac24a] text-white font-medium py-3 px-6 rounded-full text-base sm:text-lg transition-all duration-300 transform hover:shadow-xl focus:outline-none flex items-center justify-center space-x-2"
                 >
-                  <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <svg className="w-4 h-4 sm:w-5 sm:h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8.684 13.342C8.886 12.938 9 12.482 9 12c0-.482-.114-.938-.316-1.342m0 2.684a3 3 0 110-2.684m0 2.684l6.632 3.316m-6.632-6l6.632-3.316m0 0a3 3 0 105.367-2.684 3 3 0 00-5.367 2.684zm0 9.316a3 3 0 105.367 2.684 3 3 0 00-5.367-2.684z" />
                   </svg>
                   <span>Share Pop-Up Store</span>
                 </button>
               </div>
-            </div>
 
-            {/* Image Section */}
-
-            <div className="relative">
-              <div className="relative aspect-[4/5] lg:aspect-[24/23] w-full max-w-md mx-auto lg:max-w-full">
-
-                {/* Main Image Container */}
-                <div className="relative rounded-2xl overflow-hidden h-full ">
-
-                  {/* Person Image */}
-                  <div className="absolute inset-0 flex items-center justify-center ">
-
-                    <div className="relative w-full h-full">
-                      <Image
-                        src={fundraiserData.coachImage}
-                        alt="Happy person holding various popcorn products from Popcorn World"
-                        fill
-                        className="object-fill h-full w-full object-center rounded-lg"
-                 loader={imageLoader}
-                        priority
-                      />
-
-
-                    </div>
+              {/* Recent Supporters - Only show if supporters exist */}
+              {fundraiserData.recentSupporters && fundraiserData.recentSupporters.length > 0 && (
+                <div className="bg-white rounded-xl sm:rounded-2xl p-4 sm:p-6 shadow-sm lg:ml-auto w-full lg:max-w-xl mt-8 sm:mt-12 lg:mt-2">
+                  <h2 className="sub_heading mb-4 sm:mb-6">Recent Supporters</h2>
+                  <div className="space-y-4  sm:space-y-6 overflow-y-auto max-h-96 hide-scrollbar">
+                    {fundraiserData.recentSupporters.map((supporter, idx) => (
+                      <div key={idx} className="flex items-center gap-3 border-b border-b-gray-300 pb-4 sm:gap-4">
+                        <div className="w-10 h-10 sm:w-12 sm:h-12 rounded-full bg-[#e0e0e0] flex items-center justify-center flex-shrink-0">
+                          <span className="text-gray-500 font-semibold text-base sm:text-lg">
+                            {supporter.initial}
+                          </span>
+                        </div>
+                        <div className="flex-1 min-w-0">
+                          <p className="font-semibold text-black text-sm sm:text-base truncate">{supporter.name}</p>
+                          <p className="main_description text-gray-600 pt-2">
+                            <span className="font-semibold text-black">${supporter.amount}</span> • {supporter.time}
+                          </p>
+                        </div>
+                      </div>
+                    ))}
                   </div>
+                </div>
+              )}
+            </div>
+          </div>
+
+
+
+          {/* Description Section */}
+          <div className="mt-8 sm:mt-12 lg:mt-2">
+            <div className="bg-white rounded-xl sm:rounded-2xl p-4 sm:p-6 lg:p-12 shadow-sm">
+              <div className="max-w-4xl">
+                <div className="mb-6 sm:mb-8">
+                  <button className="bg-[#8BC34A] text-white font-medium py-3 px-6  rounded-full text-base">
+                    Description
+                  </button>
+                </div>
+
+                <div className="prose prose-sm sm:prose-base lg:prose-lg max-w-none">
+                  <p className="text-black leading-relaxed main_description">
+                    {fundraiserData.description}
+                  </p>
                 </div>
               </div>
             </div>
           </div>
         </div>
-      </section>
+      </div>
 
       {/* Share Popup */}
       <SharePopup
@@ -161,8 +272,8 @@ const imageLoader = ({ src }) => src;
         onClose={() => setShowSharePopup(false)}
         title={fundraiserData.title}
       />
+
+
     </>
   );
-};
-
-export default FundraiserSection;
+}
