@@ -5,7 +5,7 @@ import Image from 'next/image';
 import { useSelector, useDispatch } from 'react-redux';
 import { addToCart } from '../../store/slices/appSlice';
 
-const CollectionsSection = ({ collections, collectionsLoading, collectionsError, pagination, onLoadMore }) => {
+const CollectionsSection = ({ collections, collectionsLoading, collectionsError, pagination, onLoadMore, link_code }) => {
   const dispatch = useDispatch();
   // Get global settings from Redux
   const { globalSettings } = useSelector(state => state.app);
@@ -127,8 +127,11 @@ const handleAddToCart = (collection) => {
 
   dispatch(
     addToCart({
-      ...collection,
-      image: imageUrl,
+      product: {
+        ...collection,
+        image: imageUrl,
+      },
+      link_code: link_code // Add link_code if available
     })
   );
 };

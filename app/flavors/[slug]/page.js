@@ -48,7 +48,7 @@ const FlavorDetailsPage = () => {
     if (!flavor) return;
     
     // Add product to cart
-    dispatch(addToCart(flavor));
+    dispatch(addToCart({ product: flavor }));
     
     // Show success notification
     dispatch(addNotification({

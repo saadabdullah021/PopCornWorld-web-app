@@ -48,7 +48,7 @@ const CollectionDetailsPage = () => {
         if (!collection) return;
         
         // Add collection to cart
-        dispatch(addToCart(collection));
+        dispatch(addToCart({ product: collection }));
         
         // Show success notification
         dispatch(addNotification({

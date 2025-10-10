@@ -124,7 +124,7 @@ const HeaderShoppingCart = ({ isOpen, onClose }) => {
 
     };
 
-    dispatch(addToCart(donationItem));
+    dispatch(addToCart({ product: donationItem }));
   };
 
   const totalAmount = cartItems.reduce((sum, item) => sum + (parseFloat(item.price) * item.quantity), 0);

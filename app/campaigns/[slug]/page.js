@@ -96,6 +96,7 @@ const CampaignDetailPage = () => {
         collectionsError={collectionsError}
         collectionsPagination={collectionsPagination}
         onLoadMoreCollections={handleLoadMoreCollections}
+        link_code={campaign?.link?.link_code}
       />
     </div>
   );

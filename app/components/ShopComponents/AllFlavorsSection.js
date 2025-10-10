@@ -5,7 +5,7 @@ import Image from 'next/image';
 import { useSelector, useDispatch } from 'react-redux';
 import { addToCart } from '../../store/slices/appSlice';
 
-const AllFlavorsSection = ({ products, productsLoading, productsError, pagination, onLoadMore }) => {
+const AllFlavorsSection = ({ products, productsLoading, productsError, pagination, onLoadMore, link_code }) => {
   const dispatch = useDispatch();
   // Get global settings from Redux
   const { globalSettings } = useSelector(state => state.app);
@@ -33,8 +33,11 @@ const handleAddToCart = (flavor) => {
 
   dispatch(
     addToCart({
-      ...flavor,
-      image: imageUrl, // <-- yahan image add karo
+      product: {
+        ...flavor,
+        image: imageUrl, // <-- yahan image add karo
+      },
+      link_code: link_code // Add link_code if available
     })
   );
 };

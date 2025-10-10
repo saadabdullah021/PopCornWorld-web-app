@@ -192,13 +192,23 @@ const appSlice = createSlice({
       state.error = null
     },
     addToCart: (state, action) => {
-      const product = action.payload;
-      const existingItem = state.cart.find(item => item.id === product.id);
+      const { product, link_code } = action.payload;
+      const productToAdd = product || action.payload; // Support both formats for backward compatibility
+      const existingItem = state.cart.find(item => item.id === productToAdd.id);
       
       if (existingItem) {
         existingItem.quantity += 1;
+        // Update link_code if provided
+        if (link_code) {
+          existingItem.link_code = link_code;
+        }
       } else {
-        state.cart.push({ ...product, quantity: 1 });
+        const cartItem = { ...productToAdd, quantity: 1 };
+        // Add link_code if provided
+        if (link_code) {
+          cartItem.link_code = link_code;
+        }
+        state.cart.push(cartItem);
       }
       
       // Save to localStorage

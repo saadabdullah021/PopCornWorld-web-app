@@ -5,7 +5,8 @@ import CollectionsSection from '../ShopComponents/CollectionsSection';
 
 const ShopToggleSection = ({ 
   products, productsLoading, productsError, productsPagination, onLoadMoreProducts,
-  collections, collectionsLoading, collectionsError, collectionsPagination, onLoadMoreCollections 
+  collections, collectionsLoading, collectionsError, collectionsPagination, onLoadMoreCollections,
+  link_code 
 }) => {
   const [activeTab, setActiveTab] = useState('flavors');
   const [isTransitioning, setIsTransitioning] = useState(false);
@@ -36,6 +37,7 @@ const ShopToggleSection = ({
           productsError={productsError}
           pagination={productsPagination}
           onLoadMore={onLoadMoreProducts}
+          link_code={link_code}
         />
       );
     } else {
@@ -46,6 +48,7 @@ const ShopToggleSection = ({
           collectionsError={collectionsError}
           pagination={collectionsPagination}
           onLoadMore={onLoadMoreCollections}
+          link_code={link_code}
         />
       );
     }

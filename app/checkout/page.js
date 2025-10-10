@@ -594,7 +594,8 @@ const PaymentModal = ({ isOpen, onClose, onPaymentSuccess, orderTotal, formData,
           id: item.id.toString(),
           price: item.price.toString(),
           quantity: item.quantity.toString(),
-          type: item.type || 'product'
+          type: item.type || 'product',
+          link_code: item.link_code || null
         })),
         
         shipping_first_name: formData.shippingFirstName,
