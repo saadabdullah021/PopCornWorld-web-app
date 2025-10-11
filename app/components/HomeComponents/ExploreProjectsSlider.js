@@ -36,7 +36,9 @@ const ExploreProjectsSlider = ({ campaigns, campaignsLoading, campaignsError, gl
         author: campaign.fundraiser?.name || "Unknown",
         category: campaign.campaign_categories?.[0]?.campaign_category?.name || "Campaign",
         categoryColor: "bg-[#8bc34a]",
-        image: `https://onebigmediacompany.online/${campaign.campaign_image?.trim()}`,
+        image: campaign.galleries?.[0]?.image 
+          ? `https://onebigmediacompany.online/${campaign.galleries[0].image}` 
+          : `https://onebigmediacompany.online/${campaign.campaign_image?.trim()}`,
         raised: `${currency}${collectedAmount}`,
         goal: `${currency}${raiseAmount}`,
         percentage: Math.min(percentage, 100),
