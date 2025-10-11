@@ -45,8 +45,14 @@ const ExploreProjectsSlider = ({ campaigns, campaignsLoading, campaignsError, gl
         category: campaign.campaign_categories?.[0]?.campaign_category?.name || "Campaign",
         categoryColor: "bg-[#8bc34a]",
         image: campaign.galleries?.[0]?.image 
-          ? `https://onebigmediacompany.online/${campaign.galleries[0].image}` 
-          : `https://onebigmediacompany.online/${campaign.campaign_image?.trim()}`,
+          ? (campaign.galleries[0].image.startsWith('uploads') 
+              ? `https://onebigmediacompany.online/${campaign.galleries[0].image}`
+              : campaign.galleries[0].image)
+          : campaign.campaign_image?.trim()
+            ? (campaign.campaign_image.trim().startsWith('uploads')
+                ? `https://onebigmediacompany.online/${campaign.campaign_image.trim()}`
+                : campaign.campaign_image.trim())
+            : '/pop_packet.png',
         raised: `${currency}${formatNumber(raiseAmount)}`,
         goal: `${currency}${formatNumber(raiseAmount)}`,
         percentage: Math.min(percentage, 100),

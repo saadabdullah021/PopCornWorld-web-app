@@ -14,6 +14,7 @@ const CampaignDetailPage = () => {
   const { products, productsLoading, productsError, productsPagination, collections, collectionsLoading, collectionsError, collectionsPagination } = useSelector(state => state.app);
   const [campaign, setCampaign] = useState(null);
   const [loading, setLoading] = useState(true);
+  const [showShopSection, setShowShopSection] = useState(false);
 
   useEffect(() => {
     if (params.slug) {
@@ -58,6 +59,11 @@ const CampaignDetailPage = () => {
     }));
   };
 
+  // Handle Buy Now click to show shop section
+  const handleBuyNowClick = () => {
+    setShowShopSection(true);
+  };
+
   if (loading) {
     return (
       <div className="min-h-screen flex items-center justify-center">
@@ -84,20 +90,26 @@ const CampaignDetailPage = () => {
 
   return (
     <div>
-      <FundraiserSection campaign={campaign} />
-      <ShopToggleSection 
-        products={products}
-        productsLoading={productsLoading}
-        productsError={productsError}
-        productsPagination={productsPagination}
-        onLoadMoreProducts={handleLoadMoreProducts}
-        collections={collections}
-        collectionsLoading={collectionsLoading}
-        collectionsError={collectionsError}
-        collectionsPagination={collectionsPagination}
-        onLoadMoreCollections={handleLoadMoreCollections}
-        link_code={campaign?.link?.link_code}
+      <FundraiserSection 
+        campaign={campaign} 
+        showShopSection={showShopSection}
+        onBuyNowClick={handleBuyNowClick}
       />
+      {showShopSection && (
+        <ShopToggleSection 
+          products={products}
+          productsLoading={productsLoading}
+          productsError={productsError}
+          productsPagination={productsPagination}
+          onLoadMoreProducts={handleLoadMoreProducts}
+          collections={collections}
+          collectionsLoading={collectionsLoading}
+          collectionsError={collectionsError}
+          collectionsPagination={collectionsPagination}
+          onLoadMoreCollections={handleLoadMoreCollections}
+          link_code={campaign?.link?.link_code}
+        />
+      )}
     </div>
   );
 };
