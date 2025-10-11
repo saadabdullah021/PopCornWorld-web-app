@@ -34,7 +34,7 @@ const ExploreProjectsSlider = ({ campaigns, campaignsLoading, campaignsError, gl
         slug: campaign.slug,
         title: campaign.campaign_title,
         author: campaign.fundraiser?.name || "Unknown",
-        category: "Campaign",
+        category: campaign.campaign_categories?.[0]?.campaign_category?.name || "Campaign",
         categoryColor: "bg-[#8bc34a]",
         image: `https://onebigmediacompany.online/${campaign.campaign_image?.trim()}`,
         raised: `${currency}${collectedAmount}`,
