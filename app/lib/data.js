@@ -1,6 +1,5 @@
 // lib/data.js
 
-import girl_image from '../../public/Girls_team.webp'
 
 export const categories = [
   {

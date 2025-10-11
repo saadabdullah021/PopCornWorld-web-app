@@ -8,7 +8,7 @@ export default function About() {
         <div >
 
             <AboutUsHeroSection />
-            <PopcornStorySection/>
+            <PopcornStorySection />
         </div>
     );
 }
