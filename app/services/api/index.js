@@ -1,5 +1,5 @@
 import axiosInstance from '../../axios'
-import { get_single_product, get_single_collection, get_single_campaign, send_otp, verify_otp, create_order, track_order, check_email_exists, get_organization_info, fundraiser_register, get_products_slider, get_user_orders } from './endpoints'
+import { get_single_product, get_single_collection, get_single_campaign, send_otp, verify_otp, create_order, track_order, check_email_exists, get_organization_info, fundraiser_register, get_products_slider, get_user_orders, update_profile, customer_profile } from './endpoints'
 
 export const api = {
   get: (url, config = {}) => axiosInstance.get(url, config),
@@ -243,6 +243,60 @@ export const getUserOrders = async (phone_number, success, fail) => {
     }
   } catch (error) {
     console.error('User orders error:', error);
+    console.error('Error response:', error?.response);
+    fail && fail(error?.response?.data?.message || 'Network error occurred');
+    return error;
+  }
+};
+
+export const updateUserProfile = async (userData, success, fail) => {
+  try {
+    console.log('Updating user profile...');
+    console.log('User data:', userData);
+
+    const response = await axiosInstance.post(update_profile, userData, {
+      headers: {
+        'Content-Type': 'application/json',
+      },
+    });
+    console.log('Update profile response:', response);
+
+    if (response?.data?.status === 200 || response?.status === 200) {
+      success && success(response?.data);
+      return response?.data;
+    } else {
+      fail && fail(response?.data?.message || 'Failed to update profile');
+      return response?.data;
+    }
+  } catch (error) {
+    console.error('Update profile error:', error);
+    console.error('Error response:', error?.response);
+    fail && fail(error?.response?.data?.message || 'Network error occurred');
+    return error;
+  }
+};
+
+export const getCustomerProfile = async (phone_number, success, fail) => {
+  try {
+    console.log('Fetching customer profile...');
+    console.log('Phone number:', phone_number);
+
+    const response = await axiosInstance.get(customer_profile, {
+      params: {
+        phone_number: phone_number
+      }
+    });
+    console.log('Customer profile response:', response);
+
+    if (response?.data?.status === 200 || response?.status === 200) {
+      success && success(response?.data);
+      return response?.data;
+    } else {
+      fail && fail(response?.data?.message || 'Failed to fetch customer profile');
+      return response?.data;
+    }
+  } catch (error) {
+    console.error('Customer profile error:', error);
     console.error('Error response:', error?.response);
     fail && fail(error?.response?.data?.message || 'Network error occurred');
     return error;

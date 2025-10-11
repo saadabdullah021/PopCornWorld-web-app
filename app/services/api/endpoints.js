@@ -14,3 +14,5 @@ export const get_organization_info = "/api/get-organization-info";
 export const fundraiser_register = "/api/fundraiser-register";
 export const get_products_slider = "/api/get-products-slider";
 export const get_user_orders = "/api/user-orders";
+export const update_profile = "/api/update-profile";
+export const customer_profile = "/api/customer-profile";

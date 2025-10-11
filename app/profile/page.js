@@ -1,8 +1,9 @@
 'use client'
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useRef } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { useRouter } from 'next/navigation';
 import { logout } from '../store/slices/appSlice';
+import { updateUserProfile, getCustomerProfile } from '../services/api';
 import { 
   User, 
   Mail, 
@@ -38,37 +39,68 @@ const Profile = () => {
   });
   const [errors, setErrors] = useState({});
   const [successMessage, setSuccessMessage] = useState('');
+  const apiCalledRef = useRef(false);
 
   useEffect(() => {
-    // Get user data from localStorage (stored during sign in)
+    // Prevent multiple API calls
+    if (apiCalledRef.current) {
+      return;
+    }
+    
+    // Get phone number from localStorage to fetch customer profile
     const storedUserData = localStorage.getItem('user_data');
     
     if (storedUserData) {
       try {
         const userData = JSON.parse(storedUserData);
+        const phoneNumber = userData.phone_no || userData.phone_number;
         
-        const formattedPhoneNumber = userData.phone_no
-          ? userData.phone_no.replace(/^\+1/, '').replace(/^(\d{3})(\d{3})(\d{4})$/, '$1-$2-$3')
-          : '';
-        
-        const profileData = {
-          name: userData.name || 'User',
-          email: userData.email || '',
-          phone_no: userData.phone_no || '',
-          profile_img: userData.profile_img || null,
-          customer_id: userData.customer_id || userData.id || null,
-          created_at: userData.created_at || userData.createdAt || null
-        };
+        if (phoneNumber) {
+          // Mark API as called
+          apiCalledRef.current = true;
+          
+          // Remove +1 prefix if present for API call
+          const cleanPhoneNumber = phoneNumber.replace(/^\+1/, '');
+          
+          // Fetch customer profile from API
+          getCustomerProfile(
+            cleanPhoneNumber,
+            (response) => {
+              if (response?.data) {
+                const { data } = response;
+                const formattedPhoneNumber = data.phone_no
+                  ? data.phone_no.replace(/^\+1/, '').replace(/^(\d{3})(\d{3})(\d{4})$/, '$1-$2-$3')
+                  : '';
+                
+                const profileData = {
+                  name: data.name || 'User',
+                  email: data.email || '',
+                  phone_no: data.phone_no || '',
+                  profile_img: data.profile_img || null,
+                  customer_id: data.customer_id || data.id || null,
+                  user_id: data.id || null,
+                  created_at: data.created_at || null
+                };
 
-        setProfileData(profileData);
-        setState({
-          name: profileData.name,
-          email: profileData.email,
-          phone_number: formattedPhoneNumber,
-          simple_number: profileData.phone_no,
-          profile_img: profileData.profile_img,
-        });
-        setLoading(false);
+                setProfileData(profileData);
+                setState({
+                  name: profileData.name,
+                  email: profileData.email,
+                  phone_number: formattedPhoneNumber,
+                  simple_number: profileData.phone_no,
+                  profile_img: profileData.profile_img,
+                });
+              }
+              setLoading(false);
+            },
+            (error) => {
+              console.error('Failed to fetch customer profile:', error);
+              setLoading(false);
+            }
+          );
+        } else {
+          setLoading(false);
+        }
       } catch (error) {
         console.error('Error parsing user data:', error);
         setLoading(false);
@@ -79,8 +111,9 @@ const Profile = () => {
   }, []);
 
   const validatePhoneNumber = (number) => {
-    const phoneNumberPattern = /^\d{3}-\d{3}-\d{4}$/;
-    return phoneNumberPattern.test(number);
+    // Accept 11 digits (10 digits + 1 country code digit)
+    const phoneNumberPattern = /^\d{11}$/;
+    return phoneNumberPattern.test(number.replace(/\D/g, ''));
   };
 
   const validateEmail = (email) => {
@@ -92,19 +125,23 @@ const Profile = () => {
     const { name, value } = e.target;
     
     if (name === 'phone_number') {
-      // Auto-format phone number
+      // Auto-format phone number for 11 digits
       let formattedValue = value.replace(/\D/g, '');
-      if (formattedValue.length >= 6) {
+      
+      // Format as XXX-XXX-XXXX for display (11 digits total)
+      if (formattedValue.length >= 7) {
         formattedValue = formattedValue.replace(/^(\d{3})(\d{3})(\d{0,4})/, '$1-$2-$3');
-      } else if (formattedValue.length >= 3) {
+      } else if (formattedValue.length >= 4) {
         formattedValue = formattedValue.replace(/^(\d{3})(\d{0,3})/, '$1-$2');
       }
       
-      if (formattedValue.length <= 12) {
+      // Allow up to 13 characters (XXX-XXX-XXXX format)
+      if (formattedValue.length <= 13) {
         setState(prev => ({ ...prev, [name]: formattedValue }));
         
-        if (!validatePhoneNumber(formattedValue) && formattedValue.length > 0) {
-          setErrors(prev => ({ ...prev, [name]: 'Invalid phone number format (XXX-XXX-XXXX)' }));
+        const digitsOnly = formattedValue.replace(/\D/g, '');
+        if (digitsOnly.length > 0 && digitsOnly.length !== 11) {
+          setErrors(prev => ({ ...prev, [name]: 'Phone number must be 11 digits' }));
         } else {
           setErrors(prev => ({ ...prev, [name]: '' }));
         }
@@ -165,20 +202,13 @@ const Profile = () => {
       newErrors.email = 'Please enter a valid email address';
     }
     
-    if (!validatePhoneNumber(state.phone_number)) {
-      newErrors.phone_number = 'Please enter a valid phone number';
+    const phoneDigits = state.phone_number.replace(/\D/g, '');
+    if (phoneDigits.length !== 11) {
+      newErrors.phone_number = 'Phone number must be 11 digits';
     }
     
     // Check if anything changed
     const newNum = state.phone_number.replace(/\D/g, '');
-    const hasChanges = selectedImage || 
-                      state.name !== profileData.name ||
-                      state.email !== profileData.email ||
-                      `+1${newNum}` !== state.simple_number;
-    
-    if (!hasChanges) {
-      newErrors.same = 'Please make at least one change to update your profile';
-    }
     
     if (Object.keys(newErrors).length > 0) {
       setErrors(newErrors);
@@ -187,33 +217,101 @@ const Profile = () => {
 
     setUpdateLoading(true);
     
-    // Simulate API call
-    setTimeout(() => {
-      // Here you would make your actual API call
-      const updatedData = {
-        ...profileData,
-        name: state.name,
-        email: state.email,
-        phone_no: `+1${newNum}`,
-        profile_img: selectedImage ? 'updated_image_path' : profileData.profile_img
-      };
-      
-      setProfileData(updatedData);
-      setState(prev => ({ ...prev, simple_number: `+1${newNum}` }));
-      setCanEdit(false);
-      setUpdateLoading(false);
-      setSuccessMessage('Profile updated successfully!');
-      
-      // Clear success message after 3 seconds
-      setTimeout(() => setSuccessMessage(''), 3000);
-    }, 2000);
+    // Prepare data for API call
+    const userData = {
+      email: state.email,
+      name: state.name,
+      phone_number: newNum, // 11 digits without +1 prefix
+      user_id: profileData?.customer_id || profileData?.id || 'default_user_id'
+    };
+    
+    // Call update-profile API
+    updateUserProfile(
+      userData,
+      (response) => {
+        if (response?.data) {
+          const { data } = response;
+          const formattedPhone = data.phone_no?.replace(/^\+1/, '').replace(/^(\d{3})(\d{3})(\d{4})$/, '$1-$2-$3') || '';
+          
+          // Update state with API response
+          setProfileData({
+            name: data.name || 'User',
+            email: data.email || '',
+            phone_no: data.phone_no || '',
+            profile_img: data.profile_img || null,
+            customer_id: data.customer_id || null,
+            user_id: data.id || null,
+            created_at: data.created_at || null
+          });
+
+          setState({
+            name: data.name || 'User',
+            email: data.email || '',
+            phone_number: formattedPhone,
+            simple_number: data.phone_no || '',
+            profile_img: data.profile_img || null,
+          });
+
+          // Update localStorage
+          localStorage.setItem('user_data', JSON.stringify({
+            ...JSON.parse(localStorage.getItem('user_data') || '{}'),
+            ...data
+          }));
+        }
+        
+        setCanEdit(false);
+        setUpdateLoading(false);
+        setSuccessMessage('Profile updated successfully!');
+        setTimeout(() => setSuccessMessage(''), 3000);
+        
+        // Refresh profile data from customer-profile API after successful update
+        const phoneNumber = newNum; // Use the updated phone number
+        getCustomerProfile(
+          phoneNumber,
+          (response) => {
+            if (response?.data) {
+              const { data } = response;
+              const formattedPhoneNumber = data.phone_no
+                ? data.phone_no.replace(/^\+1/, '').replace(/^(\d{3})(\d{3})(\d{4})$/, '$1-$2-$3')
+                : '';
+              
+              const updatedProfileData = {
+                name: data.name || 'User',
+                email: data.email || '',
+                phone_no: data.phone_no || '',
+                profile_img: data.profile_img || null,
+                customer_id: data.customer_id || data.id || null,
+                user_id: data.id || null,
+                created_at: data.created_at || null
+              };
+
+              setProfileData(updatedProfileData);
+              setState({
+                name: updatedProfileData.name,
+                email: updatedProfileData.email,
+                phone_number: formattedPhoneNumber,
+                simple_number: updatedProfileData.phone_no,
+                profile_img: updatedProfileData.profile_img,
+              });
+            }
+          },
+          (error) => {
+            console.error('Failed to refresh customer profile after update:', error);
+          }
+        );
+      },
+      (error) => {
+        setUpdateLoading(false);
+        setErrors({ api: error || 'Failed to update profile. Please try again.' });
+      }
+    );
   };
 
   const cancelEdit = () => {
     // Reset to original values
     const formattedPhoneNumber = profileData.phone_no
-      .replace(/^\+1/, '')
-      .replace(/^(\d{3})(\d{3})(\d{4})$/, '$1-$2-$3');
+      ? profileData.phone_no.replace(/^\+1/, '').replace(/^(\d{3})(\d{3})(\d{4})$/, '$1-$2-$3')
+      : '';
     
     setState({
       name: profileData.name,
@@ -438,7 +536,7 @@ const Profile = () => {
                     name="phone_number"
                     value={state.phone_number}
                     onChange={handleChange}
-                    disabled={!canEdit}
+                    disabled={true}
                     className={`w-full pl-11 pr-4 py-3 border rounded-xl transition-all duration-200 ${
                       canEdit 
                         ? 'border-gray-300 outline-0' 
