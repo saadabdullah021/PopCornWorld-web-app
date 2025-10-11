@@ -8,21 +8,21 @@ const AboutUsHeroSection = () => {
       <div className="bg-[#3333cb] text-white pt-24 pb-12 lg:pt-40 lg:pb-12 px-4">
         <div className="max-w-7xl mx-auto text-center">
           {/* About Us Label */}
-          <div className="mb-8">
+          {/* <div className="mb-8">
             <h2 className="sub_heading font-bold tracking-widest uppercase opacity-90 mb-4">
               About Us
             </h2>
-          </div>
+          </div> */}
 
           {/* Main Heading */}
-          <h1 className="main_heading font-splash  leading-tight tracking-tight uppercase mb-8">
+          <h1 className="main_heading font-splash  leading-tight tracking-tight uppercase mb-8 mt-5">
             Doing the World a Flavor
           </h1>
 
           {/* Description */}
           <div className="max-w-6xl mx-auto">
             <p className=" main_description leading-relaxed font-light opacity-95">
-              Popcorn World exists to support and create joy for America. Every fundraiser we host empowers our communities to grow and 50% of every purchase made on our site goes to the efforts of building productive and cohesive communities.
+              We believe fundraising should do more than raise money — it should bring people together. That’s why Popcorn World gives 50% of every sale to schools and youth organizations building brighter futures.
             </p>
           </div>
         </div>

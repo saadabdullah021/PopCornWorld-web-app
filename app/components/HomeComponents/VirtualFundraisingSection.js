@@ -21,33 +21,31 @@ const VirtualFundraisingSection = () => {
   const features = [
     {
       id: 1,
-      title: "100% virtual, 4 day fundraiser",
-      description: "4 day fundraisers maximize engagement and let you fundraise from anywhere.",
+      title: "Host a 100% Virtual 4-Day Fundraiser",
+      description: "Run a fully online, four-day fundraiser that drives more participation, saves time, and lets your supporters contribute from anywhere.",
       image: groupImage,
-      alt: "Warehouse with organized inventory for virtual fundraising"
+      alt: "Group planning a 100% virtual online fundraising event"
     },
     {
       id: 2,
-      title: "Shipped directly to your supporters",
-      description: "You never handle cash, never distribute product.",
+      title: "Fast, Direct Shipping to Every Supporter",
+      description: "Skip the stress of handling orders. We ship every product straight to your supporters — no cash collection or deliveries required.",
       image: process1,
-      alt: "Products being shipped directly to supporters"
+      alt: "Fundraising products being packed for direct delivery to supporters"
     },
     {
       id: 3,
-      title: "No fees or minimums, ever",
-      description: "Keep 50% of what you sell, with payments sent to you.",
+      title: "Earn 50% Profit — No Fees, No Minimums",
+      description: "Enjoy a simple fundraising model with zero setup costs and no minimum sales required. Keep 50% of every sale you make — guaranteed.",
       image: blueImage,
-      alt: "Colorful product display showing no fees policy"
+      alt: "Fundraising product display highlighting 50% profit and no fees"
     },
-
-    , {
+    {
       id: 4,
-      title: "Zero fees. Zero limits.",
-      description: "Get 50% from every sale — paid directly to you, hassle-free.",
-
+      title: "Zero Fees. Unlimited Earnings.",
+      description: "Maximize your fundraising success with zero fees, no limits, and instant payouts. Every sale supports your cause — effortlessly.",
       image: blackBoyImage,
-      alt: "Colorful product display showing no fees policy"
+      alt: "Supporter celebrating successful zero-fee fundraising campaign"
     }
 
   ];
@@ -130,19 +128,19 @@ const VirtualFundraisingSection = () => {
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-16 items-start">
           {/* Left Content */}
           <div className="order-2 lg:order-1">
-            <h3 className="text-3xl md:text-[36px] font-bold font-splash  text-black mb-6">
-              Fundraising with Quality
+            <h3 className="text-3xl md:text-[36px] font-bold font-splash text-black mb-6">
+              Fundraising Made Simple and Rewarding
             </h3>
             <p className="text-black main_description mb-8 leading-relaxed">
-              There are no set-up fees. No product handling fees. No extra fees ever. For
-              every dollar you sell through the Popcorn World app, you keep 50%.
+              Enjoy effortless fundraising with zero setup costs, no hidden fees, and no product handling.
+              Earn 50% profit on every sale through the Popcorn World app transparent, easy and rewarding.
             </p>
+
 
             {/* Action Buttons */}
             <div className="flex flex-col sm:flex-row gap-4">
               <Link href='/get-started' className="group btn-primary transition-all text-center justify-center duration-300 animate-fadeInUp">
                 Get Started
-
               </Link>
 
 
