@@ -12,27 +12,48 @@ export default function FundraiserSection({ campaign }) {
   const [animatedWidth, setAnimatedWidth] = useState(0);
   const [animatedAmount, setAnimatedAmount] = useState(0);
 
+  // Format numbers with k suffix for thousands
+  const formatNumber = (num) => {
+    if (num >= 1000) {
+      return (num / 1000).toFixed(0) + 'k';
+    }
+    return num.toString();
+  };
+
   // Use campaign data if provided, otherwise use default data
   const fundraiserData = campaign ? {
     title: campaign.campaign_title || "Corn for the Cause: Winfrey's Gala Fundraiser",
     description: campaign.description || "Help us make Pastor Preston R. Winfrey's 44th Anniversary and Retirement Gala a truly unforgettable celebration!",
-    currentAmount: parseFloat(campaign.collected_amount) || 180,
+    currentAmount: parseFloat(campaign.collected_amount) || 0,
     goalAmount: parseFloat(campaign.raise_amount) || 5000,
     supporters: parseInt(campaign.supporters_count) || 12,
     createdTime: campaign.created_at || '2 months',
     location: campaign.location || '315 E. 161st Place South Holland, Illinois',
     organizer: campaign.organizer || 'Retirement G.',
-    coachImage: campaign.campaign_image ? `https://onebigmediacompany.online/${campaign.campaign_image}` : coach_Image,
-    images: campaign.gallery_images && campaign.gallery_images.length > 0
-      ? campaign.gallery_images.map(img => `https://onebigmediacompany.online/${img}`)
-      : [],
-    recentSupporters: campaign.recent_supporters || [
-      { name: 'Renee L.', amount: 16, initial: 'R', time: 'about 2 months ago' },
-      { name: 'Nyphette H.', amount: 8, initial: 'N', time: 'about 2 months ago' },
-      { name: 'Marsha E.', amount: 8, initial: 'M', time: 'about 2 months ago' },
-      { name: 'Nathaniel E.', amount: 16, initial: 'N', time: 'about 2 months ago' },
-      { name: 'Anita M.', amount: 12, initial: 'A', time: 'about 2 months ago' },
-    ]
+    coachImage: campaign.galleries?.[0]?.image 
+      ? (campaign.galleries[0].image.startsWith('uploads') 
+          ? `https://onebigmediacompany.online/${campaign.galleries[0].image}`
+          : campaign.galleries[0].image)
+      : campaign.campaign_image 
+        ? (campaign.campaign_image.startsWith('uploads')
+            ? `https://onebigmediacompany.online/${campaign.campaign_image}`
+            : campaign.campaign_image)
+        : coach_Image,
+    images: campaign.galleries && campaign.galleries.length > 0
+      ? campaign.galleries.map(img => {
+          const imageUrl = img.image || img.thumbnail;
+          return imageUrl.startsWith('uploads') 
+            ? `https://onebigmediacompany.online/${imageUrl}`
+            : imageUrl;
+        })
+      : campaign.gallery_images && campaign.gallery_images.length > 0
+        ? campaign.gallery_images.map(img => {
+            return img.startsWith('uploads') 
+              ? `https://onebigmediacompany.online/${img}`
+              : img;
+          })
+        : [],
+    recentSupporters: campaign.recent_supporters || []
   } : {
     title: "Corn for the Cause: Winfrey's Gala Fundraiser",
     description: "Help us make Pastor Preston R. Winfrey's 44th Anniversary and Retirement Gala a truly unforgettable celebration! We're excited to launch our \"Poppin' for Pastor Winfrey\" fundraiser—a delicious way to show your love, appreciation, and support.",
@@ -145,12 +166,13 @@ export default function FundraiserSection({ campaign }) {
                     <strong>Created:</strong> {fundraiserData.createdTime}
                   </span>
                 </div>
-                <div className="flex items-start sm:items-center gap-2 text-gray-600">
+                {/* Location hidden as requested */}
+                {/* <div className="flex items-start sm:items-center gap-2 text-gray-600">
                   <MapPin className="w-4 h-4 sm:w-5 sm:h-5 text-blue-600 flex-shrink-0 mt-0.5 sm:mt-0" />
                   <span className="main_description  break-words">
                     <strong>Location:</strong> {fundraiserData.location}
                   </span>
-                </div>
+                </div> */}
                 <div className="flex items-start sm:items-center gap-2 text-gray-600">
                   <Users className="w-4 h-4 sm:w-5 sm:h-5 text-blue-600 flex-shrink-0 mt-0.5 sm:mt-0" />
                   <span className="main_description ">
@@ -168,7 +190,7 @@ export default function FundraiserSection({ campaign }) {
                   {fundraiserData.title}
                 </h1>
                 <p className="sub_heading font-semibold text-gray-700">
-                  Funded: {Math.round(progressPercentage)}%
+                  Funded: {Math.floor(progressPercentage)}%
                 </p>
               </div>
 
@@ -186,10 +208,10 @@ export default function FundraiserSection({ campaign }) {
                 <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-2 text-sm sm:text-base lg:text-lg font-medium text-gray-900">
                   <div>
                     <span className="font-bold sub_heading">
-                      ${animatedAmount}
+                      ${formatNumber(animatedAmount)}
                     </span>{" "}
                     <span className="font-normal">
-                      raised of ${fundraiserData.goalAmount} goal!
+                      raised of ${formatNumber(fundraiserData.goalAmount)} goal!
                     </span>
                   </div>
                 </div>
