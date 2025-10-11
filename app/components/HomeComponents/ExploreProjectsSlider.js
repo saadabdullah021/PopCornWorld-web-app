@@ -27,18 +27,28 @@ const ExploreProjectsSlider = ({ campaigns, campaignsLoading, campaignsError, gl
     return campaignsData.map(campaign => {
       const collectedAmount = parseFloat(campaign.collected_amount) || 0;
       const raiseAmount = parseFloat(campaign.raise_amount) || 1;
-      const percentage = Math.round((collectedAmount / raiseAmount) * 100);
+      const percentage = Math.floor((collectedAmount / raiseAmount) * 100);
+
+      // Format numbers with k suffix for thousands
+      const formatNumber = (num) => {
+        if (num >= 1000) {
+          return (num / 1000).toFixed(0) + 'k';
+        }
+        return num.toString();
+      };
 
       return {
         id: campaign.id,
         slug: campaign.slug,
         title: campaign.campaign_title,
         author: campaign.fundraiser?.name || "Unknown",
-        category: "Campaign",
+        category: campaign.campaign_categories?.[0]?.campaign_category?.name || "Campaign",
         categoryColor: "bg-[#8bc34a]",
-        image: `https://onebigmediacompany.online/${campaign.campaign_image?.trim()}`,
-        raised: `${currency}${collectedAmount}`,
-        goal: `${currency}${raiseAmount}`,
+        image: campaign.galleries?.[0]?.image 
+          ? `https://onebigmediacompany.online/${campaign.galleries[0].image}` 
+          : `https://onebigmediacompany.online/${campaign.campaign_image?.trim()}`,
+        raised: `${currency}${formatNumber(raiseAmount)}`,
+        goal: `${currency}${formatNumber(raiseAmount)}`,
         percentage: Math.min(percentage, 100),
         date: new Date(campaign.campaign_time).toLocaleDateString('en-US', {
           year: 'numeric',
@@ -149,6 +159,7 @@ const imageLoader = ({ src, width }) => `${src}?w=${width}`;
         <div className="mb-4">
           <div className="flex justify-between items-center mb-2">
             <span className="text-sm font-medium text-gray-700">
+              {console.log(project,'project')}
               Raised of {project.raised}
             </span>
             <span className="text-sm font-bold text-gray-800">

@@ -84,6 +84,7 @@ const Profile = () => {
 
                 setProfileData(profileData);
                 setState({
+                  user_id: profileData.user_id,
                   name: profileData.name,
                   email: profileData.email,
                   phone_number: formattedPhoneNumber,
@@ -222,9 +223,9 @@ const Profile = () => {
       email: state.email,
       name: state.name,
       phone_number: newNum, // 11 digits without +1 prefix
-      user_id: profileData?.customer_id || profileData?.id || 'default_user_id'
+      user_id: profileData?.user_id
     };
-
+    console.log(userData, 'userData');
     // Call update-profile API
     updateUserProfile(
       userData,
@@ -534,7 +535,7 @@ const Profile = () => {
                     name="phone_number"
                     value={state.phone_number}
                     onChange={handleChange}
-                    disabled={!canEdit}
+                    disabled={true}
                     className={`w-full pl-11 pr-4 py-3 border rounded-xl transition-all duration-200 ${canEdit
                       ? 'border-gray-300 outline-0'
                       : 'border-gray-200 bg-gray-50'
