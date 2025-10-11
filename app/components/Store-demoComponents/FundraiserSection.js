@@ -2,6 +2,7 @@
 
 import { useState, useEffect } from 'react';
 import { useDispatch } from 'react-redux';
+import { useRouter } from 'next/navigation';
 import { Clock, MapPin, Users } from 'lucide-react';
 import SharePopup from './SharePopup';
 import { clearCart } from '../../store/slices/appSlice';
@@ -10,6 +11,7 @@ import Image from 'next/image';
 
 export default function FundraiserSection({ campaign, showShopSection, onBuyNowClick }) {
   const dispatch = useDispatch();
+  const router = useRouter();
   const [selectedImage, setSelectedImage] = useState(0);
   const [showSharePopup, setShowSharePopup] = useState(false);
   const [animatedWidth, setAnimatedWidth] = useState(0);
@@ -28,8 +30,9 @@ export default function FundraiserSection({ campaign, showShopSection, onBuyNowC
     // Clear cart from Redux and localStorage when Buy Now is clicked
     dispatch(clearCart());
     
-    if (onBuyNowClick) {
-      onBuyNowClick();
+    // Redirect to support campaign page
+    if (campaign?.slug) {
+      router.push(`/campaigns/${campaign.slug}/support-campaign`);
     }
   };
 
@@ -240,9 +243,11 @@ export default function FundraiserSection({ campaign, showShopSection, onBuyNowC
                   </div>
                 </div>
 
-                <p className="main_description text-gray-600">
-                  <span className="font-bold text-gray-900">{fundraiserData.supporters}</span> supporters
-                </p>
+                {fundraiserData.supporters > 0 && (
+                  <p className="main_description text-gray-600">
+                    <span className="font-bold text-gray-900">{fundraiserData.supporters}</span> supporters
+                  </p>
+                )}
               </div>
 
               {/* Action Buttons */}
