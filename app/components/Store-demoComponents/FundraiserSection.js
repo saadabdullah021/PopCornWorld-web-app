@@ -1,12 +1,15 @@
 'use client';
 
 import { useState, useEffect } from 'react';
+import { useDispatch } from 'react-redux';
 import { Clock, MapPin, Users } from 'lucide-react';
 import SharePopup from './SharePopup';
+import { clearCart } from '../../store/slices/appSlice';
 import coach_Image from '../../../public/leftImage.webp';
 import Image from 'next/image';
 
-export default function FundraiserSection({ campaign }) {
+export default function FundraiserSection({ campaign, showShopSection, onBuyNowClick }) {
+  const dispatch = useDispatch();
   const [selectedImage, setSelectedImage] = useState(0);
   const [showSharePopup, setShowSharePopup] = useState(false);
   const [animatedWidth, setAnimatedWidth] = useState(0);
@@ -18,6 +21,27 @@ export default function FundraiserSection({ campaign }) {
       return (num / 1000).toFixed(0) + 'k';
     }
     return num.toString();
+  };
+
+  // Handle Buy Now click
+  const handleBuyNowClick = () => {
+    // Clear cart from Redux and localStorage when Buy Now is clicked
+    dispatch(clearCart());
+    
+    if (onBuyNowClick) {
+      onBuyNowClick();
+    }
+  };
+
+  // Handle Buy button click - clear cart and show shop section
+  const handleBuyClick = () => {
+    // Clear cart from Redux and localStorage
+    dispatch(clearCart());
+    
+    // Show shop section
+    if (onBuyNowClick) {
+      onBuyNowClick();
+    }
   };
 
   // Use campaign data if provided, otherwise use default data
@@ -53,7 +77,7 @@ export default function FundraiserSection({ campaign }) {
               : img;
           })
         : [],
-    recentSupporters: campaign.recent_supporters || []
+    recentSupporters: campaign.supporters || []
   } : {
     title: "Corn for the Cause: Winfrey's Gala Fundraiser",
     description: "Help us make Pastor Preston R. Winfrey's 44th Anniversary and Retirement Gala a truly unforgettable celebration! We're excited to launch our \"Poppin' for Pastor Winfrey\" fundraiser—a delicious way to show your love, appreciation, and support.",
@@ -223,7 +247,10 @@ export default function FundraiserSection({ campaign }) {
 
               {/* Action Buttons */}
               <div className=" flex flex-col sm:flex-row sm:items-center  gap-4">
-                <button className="w-full bg-[#8ac24a] text-white font-medium py-3 px-6 rounded-full text-base sm:text-lg transition-all duration-300 transform hover:shadow-xl focus:outline-none flex items-center justify-center space-x-2">
+                <button 
+                  onClick={handleBuyNowClick}
+                  className="w-full bg-[#8ac24a] text-white font-medium py-3 px-6 rounded-full text-base sm:text-lg transition-all duration-300 transform hover:shadow-xl focus:outline-none flex items-center justify-center space-x-2"
+                >
                   Buy Now
                 </button>
 

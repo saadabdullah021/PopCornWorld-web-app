@@ -3,7 +3,7 @@ import React, { useState } from 'react';
 import Image from 'next/image';
 
 import { useSelector, useDispatch } from 'react-redux';
-import { addToCart } from '../../store/slices/appSlice';
+import { addToCart, clearCart } from '../../store/slices/appSlice';
 
 const CollectionsSection = ({ collections, collectionsLoading, collectionsError, pagination, onLoadMore, link_code }) => {
   const dispatch = useDispatch();
