@@ -339,9 +339,11 @@ const Header = () => {
                             </div>
 
                             <div className="flex items-center space-x-4">
+                                {!isAuthenticated && (
                                 <Link href='/track-an-order' className="text-sm font-semibold cursor-pointer hover:text-[#ffc222] text-white mr-3">
                                     Track Order
                                 </Link>
+                                )}
 
                                 {/* Sign In / Profile Section */}
                                 {isAuthenticated ? (
@@ -491,7 +493,7 @@ const Header = () => {
 
                             {/* Enhanced Donate + Mobile Toggle */}
                             <div className="flex items-center space-x-4">
-                                {pathname === "/store-demo" ? (
+                                {pathname === "/store-demo" && !isAuthenticated  ? (
                                     <Link
                                         href="/get-started"
                                         className="group relative hidden bg-[#8BC34A] text-white px-6 py-3 rounded-full transition-all duration-300 transform lg:flex items-center font-medium overflow-hidden"
@@ -499,13 +501,14 @@ const Header = () => {
                                         <span className="relative z-10">SET UP A FUNDRAISER</span>
                                     </Link>
                                 ) : (
+                                    !isAuthenticated && (
                                     <Link
                                         href="/store-demo"
                                         className="group relative hidden bg-[#8BC34A] text-white px-6 py-3 rounded-full transition-all duration-300 transform lg:flex items-center font-medium overflow-hidden"
                                     >
                                         <span className="relative z-10">Get Started</span>
                                     </Link>
-                                )}
+                                ))}
 
                                 <button
                                     className="lg:hidden p-3 rounded-xl border border-gray-200 hover:border-[#8BC34A] hover:bg-blue-50 transition-all duration-300 transform"
@@ -633,12 +636,13 @@ const Header = () => {
                     {/* Mobile Donate Button */}
                     <div className="p-6">
                         {pathname === "/store-demo" ? (
+                            !isAuthenticated &&
                             <Link
                                 href="/get-started"
                                 onClick={closeMobileMenu}
                                 className="group w-full btn-primary transition-all duration-300 flex items-center justify-center font-medium transform shadow-lg"
                             >
-                                SET UP A FUNDRAISER
+                                SET UP A FUNDRAISER 
                             </Link>
                         ) : (
                             <Link

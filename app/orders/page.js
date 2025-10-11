@@ -307,9 +307,11 @@ const Orders = () => {
                               {formatDate(order.created_at)}
                             </p>
                           </div>
-                          <span className={`px-2 py-1 text-xs font-medium rounded-full ${getStatusColor(order.order_status)}`}>
-                            {order.order_status.toUpperCase()}
-                          </span>
+                          {/* <span className={`px-2 py-1 text-xs font-medium rounded-full ${getStatusColor(order.order_status)}`}>
+                            {order.order_status.toLowerCase()
+  .replace(/_/g, ' ')
+  .replace(/\b\w/g, char => char.toUpperCase())}
+                          </span> */}
                         </div>
                         <p className="mt-2 text-sm font-medium text-black">
                           {base_currency}{order.total_amount}
@@ -342,7 +344,9 @@ const Orders = () => {
                       </p>
                     </div>
                     <span className={`px-4 py-2 text-sm font-medium rounded-full ${getStatusColor(selectedOrder.order_status)}`}>
-                      {selectedOrder.order_status.toUpperCase()}
+                      {selectedOrder.order_status.toLowerCase()
+  .replace(/_/g, ' ')
+  .replace(/\b\w/g, char => char.toUpperCase())}
                     </span>
                   </div>
                 </div>
