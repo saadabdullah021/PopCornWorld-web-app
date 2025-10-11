@@ -4,14 +4,14 @@ import { useSelector, useDispatch } from 'react-redux';
 import { useRouter } from 'next/navigation';
 import { logout } from '../store/slices/appSlice';
 import { updateUserProfile, getCustomerProfile } from '../services/api';
-import { 
-  User, 
-  Mail, 
-  Phone, 
-  Edit3, 
-  Save, 
-  X, 
-  Camera, 
+import {
+  User,
+  Mail,
+  Phone,
+  Edit3,
+  Save,
+  X,
+  Camera,
   Upload,
   Check,
   AlertCircle,
@@ -46,7 +46,7 @@ const Profile = () => {
     if (apiCalledRef.current) {
       return;
     }
-    
+
     // Get phone number from localStorage to fetch customer profile
     const storedUserData = localStorage.getItem('user_data');
 
@@ -54,14 +54,14 @@ const Profile = () => {
       try {
         const userData = JSON.parse(storedUserData);
         const phoneNumber = userData.phone_no || userData.phone_number;
-        
+
         if (phoneNumber) {
           // Mark API as called
           apiCalledRef.current = true;
-          
+
           // Remove +1 prefix if present for API call
           const cleanPhoneNumber = phoneNumber.replace(/^\+1/, '');
-          
+
           // Fetch customer profile from API
           getCustomerProfile(
             cleanPhoneNumber,
@@ -71,7 +71,7 @@ const Profile = () => {
                 const formattedPhoneNumber = data.phone_no
                   ? data.phone_no.replace(/^\+1/, '').replace(/^(\d{3})(\d{3})(\d{4})$/, '$1-$2-$3')
                   : '';
-                
+
                 const profileData = {
                   name: data.name || 'User',
                   email: data.email || '',
@@ -127,18 +127,18 @@ const Profile = () => {
     if (name === 'phone_number') {
       // Auto-format phone number for 11 digits
       let formattedValue = value.replace(/\D/g, '');
-      
+
       // Format as XXX-XXX-XXXX for display (11 digits total)
       if (formattedValue.length >= 7) {
         formattedValue = formattedValue.replace(/^(\d{3})(\d{3})(\d{0,4})/, '$1-$2-$3');
       } else if (formattedValue.length >= 4) {
         formattedValue = formattedValue.replace(/^(\d{3})(\d{0,3})/, '$1-$2');
       }
-      
+
       // Allow up to 13 characters (XXX-XXX-XXXX format)
       if (formattedValue.length <= 13) {
         setState(prev => ({ ...prev, [name]: formattedValue }));
-        
+
         const digitsOnly = formattedValue.replace(/\D/g, '');
         if (digitsOnly.length > 0 && digitsOnly.length !== 11) {
           setErrors(prev => ({ ...prev, [name]: 'Phone number must be 11 digits' }));
@@ -201,7 +201,7 @@ const Profile = () => {
     if (state.email && !validateEmail(state.email)) {
       newErrors.email = 'Please enter a valid email address';
     }
-    
+
     const phoneDigits = state.phone_number.replace(/\D/g, '');
     if (phoneDigits.length !== 11) {
       newErrors.phone_number = 'Phone number must be 11 digits';
@@ -209,14 +209,14 @@ const Profile = () => {
 
     // Check if anything changed
     const newNum = state.phone_number.replace(/\D/g, '');
-    
+
     if (Object.keys(newErrors).length > 0) {
       setErrors(newErrors);
       return;
     }
 
     setUpdateLoading(true);
-    
+
     // Prepare data for API call
     const userData = {
       email: state.email,
@@ -224,7 +224,7 @@ const Profile = () => {
       phone_number: newNum, // 11 digits without +1 prefix
       user_id: profileData?.customer_id || profileData?.id || 'default_user_id'
     };
-    
+
     // Call update-profile API
     updateUserProfile(
       userData,
@@ -232,7 +232,7 @@ const Profile = () => {
         if (response?.data) {
           const { data } = response;
           const formattedPhone = data.phone_no?.replace(/^\+1/, '').replace(/^(\d{3})(\d{3})(\d{4})$/, '$1-$2-$3') || '';
-          
+
           // Update state with API response
           setProfileData({
             name: data.name || 'User',
@@ -258,12 +258,12 @@ const Profile = () => {
             ...data
           }));
         }
-        
+
         setCanEdit(false);
         setUpdateLoading(false);
         setSuccessMessage('Profile updated successfully!');
         setTimeout(() => setSuccessMessage(''), 3000);
-        
+
         // Refresh profile data from customer-profile API after successful update
         const phoneNumber = newNum; // Use the updated phone number
         getCustomerProfile(
@@ -274,7 +274,7 @@ const Profile = () => {
               const formattedPhoneNumber = data.phone_no
                 ? data.phone_no.replace(/^\+1/, '').replace(/^(\d{3})(\d{3})(\d{4})$/, '$1-$2-$3')
                 : '';
-              
+
               const updatedProfileData = {
                 name: data.name || 'User',
                 email: data.email || '',
@@ -312,7 +312,7 @@ const Profile = () => {
     const formattedPhoneNumber = profileData.phone_no
       ? profileData.phone_no.replace(/^\+1/, '').replace(/^(\d{3})(\d{3})(\d{4})$/, '$1-$2-$3')
       : '';
-    
+
     setState({
       name: profileData.name,
       email: profileData.email,
@@ -480,8 +480,8 @@ const Profile = () => {
                     onChange={handleChange}
                     disabled={!canEdit}
                     className={`w-full pl-11 pr-4 py-3 border rounded-xl transition-all duration-200 ${canEdit
-                        ? 'border-gray-300 outline-0'
-                        : 'border-gray-200 bg-gray-50'
+                      ? 'border-gray-300 outline-0'
+                      : 'border-gray-200 bg-gray-50'
                       } ${errors.name ? 'border-red-500' : ''}`}
                     placeholder="Enter your full name"
                   />
@@ -508,8 +508,8 @@ const Profile = () => {
                     onChange={handleChange}
                     disabled={!canEdit}
                     className={`w-full pl-11 pr-4 py-3 border rounded-xl transition-all duration-200 ${canEdit
-                        ? 'border-gray-300 outline-0'
-                        : 'border-gray-200 bg-gray-50'
+                      ? 'border-gray-300 outline-0'
+                      : 'border-gray-200 bg-gray-50'
                       } ${errors.email ? 'border-red-500' : ''}`}
                     placeholder="Enter your email address"
                   />
@@ -534,17 +534,10 @@ const Profile = () => {
                     name="phone_number"
                     value={state.phone_number}
                     onChange={handleChange}
-<<<<<<< HEAD
-                    disabled={true}
-                    className={`w-full pl-11 pr-4 py-3 border rounded-xl transition-all duration-200 ${
-                      canEdit 
-                        ? 'border-gray-300 outline-0' 
-=======
                     disabled={!canEdit}
                     className={`w-full pl-11 pr-4 py-3 border rounded-xl transition-all duration-200 ${canEdit
-                        ? 'border-gray-300 outline-0'
->>>>>>> 028be8eb617cafc850b0c85d8047d0f47aa9d86d
-                        : 'border-gray-200 bg-gray-50'
+                      ? 'border-gray-300 outline-0'
+                      : 'border-gray-200 bg-gray-50'
                       } ${errors.phone_number ? 'border-red-500' : ''}`}
                     placeholder="XXX-XXX-XXXX"
                   />
