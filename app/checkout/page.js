@@ -603,6 +603,7 @@ const PaymentModal = ({ isOpen, onClose, onPaymentSuccess, orderTotal, formData,
         billing_city: formData.billingIsSame ? formData.shippingCity : formData.billingCity,
         billing_state: formData.billingIsSame ? formData.shippingState : formData.billingState,
         billing_zipcode: formData.billingIsSame ? formData.shippingZip : formData.billingZip,
+        link_code: cartItems[0]?.link_code || null,
 
         tax: tax.toFixed(2),
         shipping_charges: shipping.toFixed(2),
