@@ -5,7 +5,7 @@ import Image from 'next/image';
 import { useSelector, useDispatch } from 'react-redux';
 import { addToCart, clearCart } from '../../store/slices/appSlice';
 
-const AllFlavorsSection = ({ products, productsLoading, productsError, pagination, onLoadMore, link_code }) => {
+const AllFlavorsSection = ({ products, productsLoading, productsError, pagination, onLoadMore, link_code, campaignData }) => {
   const dispatch = useDispatch();
   // Get global settings from Redux
   const { globalSettings } = useSelector(state => state.app);
@@ -31,13 +31,20 @@ const handleAddToCart = (flavor) => {
     flavor?.product_images?.[0]?.thumbnail?.trim() ||
     '/pop_packet.png';
 
+  const campaignInfo = campaignData ? {
+    campaign_name: campaignData.campaign_title,
+    campaign_slug: campaignData.slug,
+    campaign_thumbnail: campaignData.galleries?.[0]?.image || campaignData.campaign_image
+  } : null;
+
   dispatch(
     addToCart({
       product: {
         ...flavor,
-        image: imageUrl, // <-- yahan image add karo
+        image: imageUrl,
+        campaign_info: campaignInfo
       },
-      link_code: link_code // Add link_code if available
+      link_code: link_code
     })
   );
 };

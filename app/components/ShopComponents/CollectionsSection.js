@@ -5,7 +5,7 @@ import Image from 'next/image';
 import { useSelector, useDispatch } from 'react-redux';
 import { addToCart, clearCart } from '../../store/slices/appSlice';
 
-const CollectionsSection = ({ collections, collectionsLoading, collectionsError, pagination, onLoadMore, link_code }) => {
+const CollectionsSection = ({ collections, collectionsLoading, collectionsError, pagination, onLoadMore, link_code, campaignData }) => {
   const dispatch = useDispatch();
   // Get global settings from Redux
   const { globalSettings } = useSelector(state => state.app);
@@ -111,7 +111,6 @@ const CollectionsSection = ({ collections, collectionsLoading, collectionsError,
   };
 
 const handleAddToCart = (collection) => {
-  // 1. API image → absolute URL
   const apiImage = collection?.collection_images?.[0]?.image?.trim();
   const imageUrl = apiImage
     ? apiImage.startsWith('http')
@@ -123,15 +122,20 @@ const handleAddToCart = (collection) => {
     ? collection.image.src
     : '/pop_packet.png';
 
-  console.log('Dispatching image:', imageUrl); 
+  const campaignInfo = campaignData ? {
+    campaign_name: campaignData.campaign_title,
+    campaign_slug: campaignData.slug,
+    campaign_thumbnail: campaignData.galleries?.[0]?.image || campaignData.campaign_image
+  } : null;
 
   dispatch(
     addToCart({
       product: {
         ...collection,
         image: imageUrl,
+        campaign_info: campaignInfo
       },
-      link_code: link_code // Add link_code if available
+      link_code: link_code
     })
   );
 };

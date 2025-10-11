@@ -3,7 +3,7 @@ import React, { useState, useEffect } from 'react';
 import { useRouter, useParams } from 'next/navigation';
 import { useDispatch, useSelector } from 'react-redux';
 import { getSingleCampaign } from '../../../services/api';
-import { fetchProducts, fetchCollections } from '../../../store/slices/appSlice';
+import { fetchProducts, fetchCollections, addToCart } from '../../../store/slices/appSlice';
 import { ArrowLeft, User } from 'lucide-react';
 import Image from 'next/image';
 import AllFlavorsSection from '../../../components/ShopComponents/AllFlavorsSection';
@@ -93,6 +93,7 @@ const SupportCampaignPage = () => {
           pagination={productsPagination}
           onLoadMore={handleLoadMoreProducts}
           link_code={campaign?.link?.link_code}
+          campaignData={campaign}
         />
       );
     } else {
@@ -104,6 +105,7 @@ const SupportCampaignPage = () => {
           pagination={collectionsPagination}
           onLoadMore={handleLoadMoreCollections}
           link_code={campaign?.link?.link_code}
+          campaignData={campaign}
         />
       );
     }
