@@ -493,7 +493,7 @@ const Header = () => {
 
                             {/* Enhanced Donate + Mobile Toggle */}
                             <div className="flex items-center space-x-4">
-                                {pathname === "/store-demo" && !isAuthenticated  ? (
+                                {pathname === "/get-started" && !isAuthenticated  ? (
                                     <Link
                                         href="/get-started"
                                         className="group relative hidden bg-[#8BC34A] text-white px-6 py-3 rounded-full transition-all duration-300 transform lg:flex items-center font-medium overflow-hidden"
@@ -503,7 +503,7 @@ const Header = () => {
                                 ) : (
                                     !isAuthenticated && (
                                     <Link
-                                        href="/store-demo"
+                                        href="/get-started"
                                         className="group relative hidden bg-[#8BC34A] text-white px-6 py-3 rounded-full transition-all duration-300 transform lg:flex items-center font-medium overflow-hidden"
                                     >
                                         <span className="relative z-10">Get Started</span>
@@ -635,7 +635,7 @@ const Header = () => {
 
                     {/* Mobile Donate Button */}
                     <div className="p-6">
-                        {pathname === "/store-demo" ? (
+                        {pathname === "/get-started" ? (
                             !isAuthenticated &&
                             <Link
                                 href="/get-started"
@@ -646,7 +646,7 @@ const Header = () => {
                             </Link>
                         ) : (
                             <Link
-                                href="/store-demo"
+                                href="/get-started"
                                 onClick={closeMobileMenu}
                                 className="group w-full btn-primary transition-all duration-300 flex items-center justify-center font-medium transform shadow-lg"
                             >

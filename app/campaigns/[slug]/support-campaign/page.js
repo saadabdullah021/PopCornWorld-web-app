@@ -172,67 +172,46 @@ const SupportCampaignPage = () => {
 
   return (
     <section className="bg-white pt-32 mt-5">
-      {/* Header with Back Button */}
-      <div className="bg-white shadow-sm border-b border-gray-200">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4">
-          <div className="flex items-center gap-4">
-            <button
-              onClick={handleBackToCampaign}
-              className="flex items-center gap-2 text-[#000] hover:text-[#7CB342] transition-colors"
-            >
-              <ArrowLeft className="w-5 h-5" />
-              <span className="font-medium">Back to Campaign</span>
-            </button>
-          </div>
-        </div>
-      </div>
 
-      {/* Campaign Info Section */}
-      <div className="bg-white py-12 px-4 sm:px-6 lg:px-8 border-b border-gray-200">
-        <div className="max-w-7xl mx-auto">
-          <div className="flex flex-col md:flex-row gap-8 items-start mb-8">
-            {/* Campaign Image */}
-            <div className="w-full md:w-80 flex-shrink-0">
-              <div className="relative h-64 md:h-80 rounded-lg overflow-hidden shadow-lg">
-                <Image
-                  src={campaignImage}
+
+     {/* Supporting Organization Section */}
+      <div className="pt-4 w-auto max-w-md mr-auto mb-6 px-4 sm:px-6 lg:px-8 cursor-pointer"
+       onClick={handleBackToCampaign}>
+      <div className="bg-white rounded-2xl border border-[#d6d6d6] hover:border-transparent p-4 ">
+        <div className="flex items-center gap-4">
+     
+            <ArrowLeft className="w-6 h-6 text-gray-700" />
+     
+
+          {/* Organization Logo */}
+          <div className="relative w-10 h-10 flex-shrink-0 rounded-full overflow-hidden border-1 border-gray-200">
+            <Image
+               src={campaignImage}
                   alt={campaign?.campaign_title}
-                  fill
-                  className="object-cover"
-                  onError={(e) => {
+              fill
+              className="object-cover"
+              sizes="64px"
+                   onError={(e) => {
                     e.currentTarget.src = '/pop_packet.png';
                   }}
-                />
-              </div>
-            </div>
+            />
+          </div>
 
-            {/* Campaign Details */}
-            <div className="flex-1">
-              <h1 className="text-3xl md:text-4xl font-bold text-gray-900 mb-4">
-                {campaign?.campaign_title}
-              </h1>
-              
-              <div className="flex items-center gap-2 mb-4">
-                <div className="w-8 h-8 bg-gray-200 rounded-full flex items-center justify-center">
-                  <User className="w-4 h-4 text-gray-500" />
-                </div>
-                <span className="text-gray-600">
-                  Organized by: {campaign.fundraiser?.name || 'Unknown'}
-                </span>
-              </div>
-
-              {campaign.description && (
-                <p className="text-gray-700 main_description leading-relaxed">
-                  {campaign.description}
-                </p>
-              )}
-            </div>
+          {/* Text Content */}
+          <div className="flex-1 min-w-0">
+            <p className="text-xs font-normal text-[#757575] leading-5 mb-0.5">
+              You're supporting
+            </p>
+            <h2 className="text-[16px] font-medium leading-7 text-[#323232] truncate">
+          {campaign?.campaign_title}
+            </h2>
           </div>
         </div>
       </div>
+    </div>
 
       {/* Header Section - Exact copy from ShopToggleSection */}
-      <div className="bg-white py-12 px-4 sm:px-6 lg:px-8 border-b border-gray-200">
+      <div className="bg-white pb-12 pt-4 px-4 sm:px-6 lg:px-8 border-b border-gray-200">
         <div className="max-w-7xl mx-auto">
           {/* Title */}
           <div className="text-center my-8">

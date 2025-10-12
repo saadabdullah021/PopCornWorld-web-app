@@ -145,7 +145,7 @@ export default function FundraiserSection({ campaign, showShopSection, onBuyNowC
                       src={fundraiserData.images.length > 0 ? fundraiserData.images[selectedImage] : fundraiserData.coachImage}
                       alt="Happy person holding various popcorn products from Popcorn World"
                       fill
-                      className="object-cover rounded-lg"
+                      className="object-fill rounded-lg"
                       loader={imageLoader}
                       loading="eager"
                       sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
@@ -162,14 +162,14 @@ export default function FundraiserSection({ campaign, showShopSection, onBuyNowC
                       key={idx}
                       onClick={() => setSelectedImage(idx)}
                       className={`relative rounded-lg overflow-hidden border-2 transition-all ${selectedImage === idx
-                        ? 'border-blue-600 ring-2 ring-blue-200'
+                         ? 'border-[#8ac24a] ring-2 ring-[#8ac24a]'
                         : 'border-gray-200 hover:border-gray-300'
                         }`}
                     >
                       <img
                         src={img}
                         alt={`Thumbnail ${idx + 1}`}
-                        className="w-full h-16 sm:h-20 object-cover"
+                        className="w-full h-16 sm:h-20 object-fill"
                       />
                     </button>
                   ))}
@@ -179,14 +179,14 @@ export default function FundraiserSection({ campaign, showShopSection, onBuyNowC
               {/* Campaign Info */}
               <div className="bg-[#f5f5f5] rounded-xl sm:rounded-2xl p-4 sm:p-6 shadow-sm space-y-3 sm:space-y-4">
                 <div className="flex items-start sm:items-center gap-2 text-gray-600">
-                  <Clock className="w-4 h-4 sm:w-5 sm:h-5 text-blue-600 flex-shrink-0 mt-0.5 sm:mt-0" />
+                  <Clock className="w-4 h-4 sm:w-5 sm:h-5 text-[#8ac24a]  flex-shrink-0 mt-0.5 sm:mt-0" />
                   <span className="main_description ">
                     <strong>Created:</strong> {fundraiserData.createdTime}
                   </span>
                 </div>
 
                 <div className="flex items-start sm:items-center gap-2 text-gray-600">
-                  <Users className="w-4 h-4 sm:w-5 sm:h-5 text-blue-600 flex-shrink-0 mt-0.5 sm:mt-0" />
+                  <Users className="w-4 h-4 sm:w-5 sm:h-5 text-[#8ac24a]  flex-shrink-0 mt-0.5 sm:mt-0" />
                   <span className="main_description ">
                     <strong>Created by:</strong> {fundraiserData?.created_by}
                   </span>
@@ -196,12 +196,35 @@ export default function FundraiserSection({ campaign, showShopSection, onBuyNowC
 
             {/* Right Side - Campaign Details */}
             <div className="space-y-4 sm:space-y-6">
-              {/* Title */}
+             {/* Title */}
               <div>
-                <h1 className="main_heading font-bold mb-2 leading-tight">
-                  {fundraiserData.title}
-                </h1>
-                <p className="sub_heading font-semibold text-gray-700">
+                <div className='flex items-start justify-between'>
+                  <h1 className="text-[20px] lg:text-[24px] font-bold mb-2 leading-tight">
+                    {fundraiserData.title}
+                  </h1>
+
+                  <div
+                    className="mt-2 cursor-pointer"
+                    onClick={() => setShowSharePopup(true)}
+                    aria-label="Share"
+                  >
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      className="w-5 h-5 text-gray-700"
+                      fill="none"
+                      viewBox="0 0 24 24"
+                      stroke="currentColor"
+                      strokeWidth={2}
+                    >
+                      <path
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        d="M8.684 13.342C8.886 12.938 9 12.482 9 12s-.114-.938-.316-1.342m0 2.684a3 3 0 110-2.684m0 2.684l6.632 3.316m-6.632-6.316l6.632-3.316m0 0a3 3 0 105.367-2.684 3 3 0 00-5.367 2.684zm0 9.316a3 3 0 105.367 2.684 3 3 0 00-5.367-2.684z"
+                      />
+                    </svg>
+                  </div>
+                </div>
+                <p className="text-[16px] lg:text-[20px] font-semibold text-gray-700">
                   Funded: {Math.floor(progressPercentage)}%
                 </p>
               </div>
@@ -243,17 +266,6 @@ export default function FundraiserSection({ campaign, showShopSection, onBuyNowC
                 >
                   Buy Now
                 </button>
-
-                {/* CTA Button */}
-                <button
-                  onClick={() => setShowSharePopup(true)}
-                  className="w-full bg-[#8ac24a] text-white font-medium py-3 px-6 rounded-full text-base sm:text-lg transition-all duration-300 transform hover:shadow-xl focus:outline-none flex items-center justify-center space-x-2"
-                >
-                  <svg className="w-4 h-4 sm:w-5 sm:h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8.684 13.342C8.886 12.938 9 12.482 9 12c0-.482-.114-.938-.316-1.342m0 2.684a3 3 0 110-2.684m0 2.684l6.632 3.316m-6.632-6l6.632-3.316m0 0a3 3 0 105.367-2.684 3 3 0 00-5.367 2.684zm0 9.316a3 3 0 105.367 2.684 3 3 0 00-5.367-2.684z" />
-                  </svg>
-                  <span>Share Pop-Up Store</span>
-                </button>
               </div>
 
               {/* Recent Supporters - Only show if supporters exist */}
@@ -284,14 +296,14 @@ export default function FundraiserSection({ campaign, showShopSection, onBuyNowC
 
 
 
-          {/* Description Section */}
+         {/* Description Section */}
           <div className="mt-8 sm:mt-12 lg:mt-2">
             <div className="bg-white rounded-xl sm:rounded-2xl p-4 sm:p-6 lg:p-12 shadow-sm">
               <div className="max-w-4xl">
-                <div className="mb-6 sm:mb-8">
-                  <button className="bg-[#8BC34A] text-white font-medium py-3 px-6  rounded-full text-base">
+                <div className="mb-2 sm:mb-4">
+                  <p className="text-black sub_heading">
                     Description
-                  </button>
+                  </p>
                 </div>
 
                 <div className="prose prose-sm sm:prose-base lg:prose-lg max-w-none">

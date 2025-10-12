@@ -170,19 +170,19 @@ const handleAddToCart = (flavor) => {
                 </div>
 
                 {/* Description */}
-                <div
+                {/* <div
                   className="text-[#323232] text-[16px] font-extralight leading-7  flex-grow"
                   dangerouslySetInnerHTML={{ __html: flavor.description || '' }}
-                />
+                /> */}
 
                 {/* Action Buttons */}
                 <div className='flex items-center gap-4  mt-auto pt-4'>
-                  <button
+                  {/* <button
                     onClick={() => handleMoreInfo(flavor)}
                     className="w-full inline-flex items-center gap-3 justify-center  bg-[#8bc34a] text-white font-bold py-3 px-6 rounded-3xl transition-all duration-300 transform hover:shadow-lg focus:outline-none"
                   >
                     More Info
-                  </button>
+                  </button> */}
                   <button
                     onClick={() => handleAddToCart(flavor)}
                     className="w-full inline-flex items-center whitespace-nowrap gap-3 justify-center  bg-[#8bc34a] text-white font-bold py-3 px-6 rounded-3xl transition-all duration-300 transform hover:shadow-lg focus:outline-none">
