@@ -175,7 +175,7 @@ const SupportCampaignPage = () => {
 
 
      {/* Supporting Organization Section */}
-      <div className="pt-4 w-auto max-w-md mr-auto mb-6 px-4 sm:px-6 lg:px-8 cursor-pointer"
+      <div className="pt-4 w-auto max-w-md mx-auto mb-6 px-4 sm:px-6 lg:px-8 cursor-pointer"
        onClick={handleBackToCampaign}>
       <div className="bg-white rounded-2xl border border-[#d6d6d6] hover:border-transparent p-4 ">
         <div className="flex items-center gap-4">

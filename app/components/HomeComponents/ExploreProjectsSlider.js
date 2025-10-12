@@ -187,10 +187,10 @@ const ProjectCard = ({ project }) => (
         <div className="w-8 h-8 bg-gray-200 rounded-full flex items-center justify-center">
           <User className="w-4 h-4 text-gray-500" />
         </div>
-        <span className="text-sm font-semibold text-gray-600">{project.author}</span>
+        <span className="text-xs font-semibold text-gray-600">{project.author}</span>
       </div>
 
-      <h3 className="sub_heading mt-3 font-semibold text-gray-800 mb-4 line-clamp-2 group-hover:text-[#8bc34a] transition-colors">
+      <h3 className="text-[14px] lg:text-[16px] mt-3 font-semibold text-gray-800 mb-4 line-clamp-2 group-hover:text-[#8bc34a] transition-colors">
         {project.title}
       </h3>
 
