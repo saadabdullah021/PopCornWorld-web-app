@@ -94,8 +94,6 @@ const Footer = ({ footerSolidBg }) => {
                 {[
                   { label: "Privacy Policy", href: "/privacy-policy" },
                   { label: "Conditions", href: "/terms-and-conditions" },
-                  { label: "Get Started", href: "/store-demo" },
-
                   { label: "Contact Us", href: "/contact-us" },
                 ].map(({ label, href }, idx) => (
                   <li key={idx} className="transform transition-all duration-200">
@@ -135,40 +133,40 @@ const Footer = ({ footerSolidBg }) => {
                     </a>
                   </span>
                 </li>
-         <li className="group flex items-start transform transition-all duration-300 hover:translate-x-2">
-  <span className="h-12 w-12 flex-shrink-0 flex items-center justify-center rounded-full bg-primary text-white mr-4 transition-all duration-300 group-hover:shadow-lg group-hover:shadow-primary/30">
-    <FaEnvelopeOpen className="transform transition-transform duration-300" />
-  </span>
-  <span className="min-w-0">
-    <span className="block text-[16px] font-light text-gray-400 mb-1 transition-colors duration-300 group-hover:text-gray-300">
-      Email Address
-    </span>
-    <a
-      href="mailto:orders@doingtheworldaflavor.com"
-      className="text-white hover:text-primary transition-colors duration-300 font-medium break-words"
-    >
-      orders@doingtheworldaflavor.com
-    </a>
-  </span>
-</li>
-         <li className="group flex items-start transform transition-all duration-300 hover:translate-x-2">
-  <span className="h-12 w-12 flex-shrink-0 flex items-center justify-center rounded-full bg-primary text-white mr-4 transition-all duration-300 group-hover:shadow-lg group-hover:shadow-primary/30">
-    <FaMapMarkerAlt className="transform transition-transform duration-300" />
-  </span>
-  <span className="min-w-0">
-    <span className="block text-[16px] font-light text-gray-400 mb-1 transition-colors duration-300 group-hover:text-gray-300">
-      Locations
-    </span>
-    <a
-      href="https://maps.google.com"
-      target="_blank"
-      rel="noopener noreferrer"
-      className="text-white hover:text-primary transition-colors duration-300 font-medium break-words"
-    >
-      2560 Garfield St Suite 3, Gary, IN 46404
-    </a>
-  </span>
-</li>
+                <li className="group flex items-start transform transition-all duration-300 hover:translate-x-2">
+                  <span className="h-12 w-12 flex-shrink-0 flex items-center justify-center rounded-full bg-primary text-white mr-4 transition-all duration-300 group-hover:shadow-lg group-hover:shadow-primary/30">
+                    <FaEnvelopeOpen className="transform transition-transform duration-300" />
+                  </span>
+                  <span className="min-w-0">
+                    <span className="block text-[16px] font-light text-gray-400 mb-1 transition-colors duration-300 group-hover:text-gray-300">
+                      Email Address
+                    </span>
+                    <a
+                      href="mailto:orders@doingtheworldaflavor.com"
+                      className="text-white hover:text-primary transition-colors duration-300 font-medium break-words"
+                    >
+                      orders@doingtheworldaflavor.com
+                    </a>
+                  </span>
+                </li>
+                <li className="group flex items-start transform transition-all duration-300 hover:translate-x-2">
+                  <span className="h-12 w-12 flex-shrink-0 flex items-center justify-center rounded-full bg-primary text-white mr-4 transition-all duration-300 group-hover:shadow-lg group-hover:shadow-primary/30">
+                    <FaMapMarkerAlt className="transform transition-transform duration-300" />
+                  </span>
+                  <span className="min-w-0">
+                    <span className="block text-[16px] font-light text-gray-400 mb-1 transition-colors duration-300 group-hover:text-gray-300">
+                      Locations
+                    </span>
+                    <a
+                      href="https://maps.google.com"
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="text-white hover:text-primary transition-colors duration-300 font-medium break-words"
+                    >
+                      2560 Garfield St Suite 3, Gary, IN 46404
+                    </a>
+                  </span>
+                </li>
               </ul>
             </div>
           </div>
