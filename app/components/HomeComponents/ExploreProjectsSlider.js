@@ -1,7 +1,9 @@
 "use client";
 import React, { useState, useEffect, useRef } from "react";
 import { ChevronLeft, ChevronRight, Calendar, User } from "lucide-react";
+import SharePopup from '../Store-demoComponents/SharePopup';
 import Image from "next/image";
+import ProjectSharePopup from "../ui/ProjectSharePopup";
 
 const ExploreProjectsSlider = ({ campaigns, campaignsLoading, campaignsError, globalSettings }) => {
   const [currentSlide, setCurrentSlide] = useState(0);
@@ -121,72 +123,102 @@ const ExploreProjectsSlider = ({ campaigns, campaignsLoading, campaignsError, gl
     setIsTransitioning(true);
     setCurrentSlide((prev) => prev - 1);
   };
-
+const [shareProject, setShareProject] = useState(null);
+const [openShare, setOpenShare] = useState(false);
 const imageLoader = ({ src, width }) => `${src}?w=${width}`;
 
-  const ProjectCard = ({ project }) => (
-    <div
-      className="bg-white rounded shadow-lg overflow-hidden hover:shadow-xl transition-all duration-300 group cursor-pointer"
-      onClick={() => window.location.href = `/campaigns/${project.slug}`}
-    >
-      <div className="relative h-48 overflow-hidden">
-        <Image
-          src={project.image|| '/pop_packet.png'}
-          alt={project.title}
-          fill
-          className="object-fill object-center group-hover:scale-101 transition-transform duration-500"
+const ProjectCard = ({ project }) => (
+  <div
+    className="bg-white rounded shadow-lg overflow-hidden hover:shadow-xl transition-all duration-300 group cursor-pointer h-[450px]"  
+    onClick={() => (window.location.href = `/campaigns/${project.slug}`)}
+  >
+    {/* Image wrapper – relative so share icon can sit on top-right */}
+    <div className="relative h-48 overflow-hidden">
+      <Image
+        src={project.image || '/pop_packet.png'}
+        alt={project.title}
+        fill
+        className="object-fill object-center group-hover:scale-105 transition-transform duration-500"
         loader={imageLoader}
-          onError={(e) => {
-            e.target.src = '/pop_packet.png';
-          }}
-        />
+        onError={(e) => {
+          e.target.src = '/pop_packet.png';
+        }}
+      />
 
-      </div>
-
-      <div className="p-6 relative">
-        <div className="absolute -top-3  left-4">
-          <span
-            className={`px-4 shadow-2xl py-2 text-white text-sm font-medium  ${project.categoryColor}`}
-          >
-            {project.category}
-          </span>
-        </div>
-        <div className="flex items-center gap-2 mt-6 mb-3">
-          <div className="w-8 h-8 bg-gray-200 rounded-full flex items-center justify-center">
-            <User className="w-4 h-4 text-gray-500" />
-          </div>
-          <span className="text-sm text-gray-600">{project.author}</span>
-        </div>
-
-        <h3 className="sub_heading mt-3 font-semibold text-gray-800 mb-4 line-clamp-2 group-hover:text-[#8bc34a] transition-colors">
-          {project.title}
-        </h3>
-
-        <div className="mb-4">
-          <div className="flex justify-between items-center mb-2">
-            <span className="text-sm font-medium text-gray-700">
-              {console.log(project,'project')}
-              Raised of {project.raised}
-            </span>
-            <span className="text-sm font-bold text-gray-800">
-              {project.percentage}%
-            </span>
-          </div>
-          <div className="w-full bg-gray-200  h-1">
-            <div
-              className="bg-[#8bc34a] h-1  transition-all duration-300"
-              style={{ width: `${project.percentage}%` }}
-            ></div>
-          </div>
-        </div>
-
-        <div className="flex items-center gap-2 text-sm text-gray-500">
-          <Calendar className="w-4 h-4" />
-          <span>{project.date}</span>
-        </div>
+      {/* Share icon – top-right corner over image */}
+      <div
+        className="absolute top-2 right-2 z-10 bg-white/70 backdrop-blur-sm cursor-pointer rounded-full p-2 shadow-md hover:bg-white transition-colors"
+  onClick={(e) => {
+    e.stopPropagation();
+    setShareProject(project);   // ← data save
+    setOpenShare(true);         // ← popup open
+  }}
+        //  onClick={() => setShowSharePopup(true)}
+        aria-label="Share"
+      >
+        {/* HeroIcons outline share icon – replace with your own if needed */}
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          className="w-5 h-5 text-gray-700"
+          fill="none"
+          viewBox="0 0 24 24"
+          stroke="currentColor"
+          strokeWidth={2}
+        >
+          <path
+            strokeLinecap="round"
+            strokeLinejoin="round"
+            d="M8.684 13.342C8.886 12.938 9 12.482 9 12s-.114-.938-.316-1.342m0 2.684a3 3 0 110-2.684m0 2.684l6.632 3.316m-6.632-6.316l6.632-3.316m0 0a3 3 0 105.367-2.684 3 3 0 00-5.367 2.684zm0 9.316a3 3 0 105.367 2.684 3 3 0 00-5.367-2.684z"
+          />
+        </svg>
       </div>
     </div>
-  );
+
+    <div className="p-6 relative">
+      <div className="absolute -top-3 left-4">
+        <span
+          className={`px-4 shadow-2xl py-2 text-white text-sm font-medium ${project.categoryColor}`}
+        >
+          {project.category}
+        </span>
+      </div>
+
+      <div className="flex items-center gap-2 mt-6 mb-3">
+        <div className="w-8 h-8 bg-gray-200 rounded-full flex items-center justify-center">
+          <User className="w-4 h-4 text-gray-500" />
+        </div>
+        <span className="text-sm font-semibold text-gray-600">{project.author}</span>
+      </div>
+
+      <h3 className="sub_heading mt-3 font-semibold text-gray-800 mb-4 line-clamp-2 group-hover:text-[#8bc34a] transition-colors">
+        {project.title}
+      </h3>
+
+      <div className="mb-4">
+        <div className="flex justify-between items-center mb-2">
+          <span className="text-sm font-semibold text-gray-700">
+            Raised of {project.raised}
+          </span>
+          <span className="text-sm font-bold text-gray-800">
+            {project.percentage}%
+          </span>
+        </div>
+        <div className="w-full bg-gray-200 h-1">
+          <div
+            className="bg-[#8bc34a] h-1 transition-all duration-300"
+            style={{ width: `${project.percentage}%` }}
+          />
+        </div>
+      </div>
+
+      <div className="flex items-center gap-2 text-sm font-medium text-gray-500">
+        <Calendar className="w-4 h-4" />
+        <span>{project.date}</span>
+      </div>
+    </div>
+
+  </div>
+);
 
   // Shimmer component for loading state
   const ShimmerCard = () => (
@@ -347,6 +379,17 @@ const imageLoader = ({ src, width }) => `${src}?w=${width}`;
           </>
         )}
       </div>
+   {/* popup */}
+{shareProject && (
+  <ProjectSharePopup
+    isOpen={openShare}
+    onClose={() => {
+      setOpenShare(false);
+      setShareProject(null);   // cleanup
+    }}
+    project={shareProject}
+  />
+)}
     </section>
   );
 };

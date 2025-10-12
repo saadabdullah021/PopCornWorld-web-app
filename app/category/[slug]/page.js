@@ -58,9 +58,7 @@ export default function CategoryDetailsPage({ params }) {
         return (
             <div className="min-h-screen bg-gray-50 pt-32 lg:pt-48 lg:pb-12 flex items-center justify-center">
                 <div className="text-center">
-                    <div className="w-24 h-24 bg-red-100 rounded-full flex items-center justify-center mx-auto mb-6">
-                        <span className="text-4xl">⚠️</span>
-                    </div>
+                   
                     <h2 className="text-3xl font-bold text-red-600 mb-4">Category Not Found</h2>
                     <p className="text-gray-600 mb-8">The category you're looking for doesn't exist.</p>
                     <button

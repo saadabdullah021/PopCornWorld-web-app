@@ -50,8 +50,8 @@ const SignInModal = ({
   return (
     <div className="fixed inset-0 flex items-center justify-center z-[70] p-4">
       <div className="bg-white rounded-2xl shadow-2xl w-full max-w-2xl transform transition-all duration-300 animate-modal">
-        <div className="flex items-center justify-between px-6 pt-6 border-b border-gray-100">
-          <h2 className="text-2xl font-bold text-gray-800 mb-5">Please sign in to continue</h2>
+        <div className="flex items-start justify-between px-6 pt-6 border-b border-gray-100">
+          <h2 className="text-xl lg:text-2xl font-bold text-gray-800 mb-5">Please sign in to continue</h2>
           <button
             onClick={onClose}
             className="p-2 hover:bg-gray-100 rounded-full transition-colors duration-200">
@@ -61,7 +61,7 @@ const SignInModal = ({
 
         <div className="p-6 space-y-6">
           <div className="text-center space-y-6">
-            <p className="text-black font-splash text-xl md:text-3xl  text-center mt-3 lg:mt-6">
+            <p className="text-black font-splash text-2xl md:text-3xl  text-center mt-3 lg:mt-6">
               Enter your mobile phone number
             </p>
             <p className="text-black main_description max-w-xs md:max-w-md mx-auto">
@@ -82,7 +82,7 @@ const SignInModal = ({
               />
               {(phoneError || authError) && (
                 <p className="mt-2 text-sm text-red-600 flex items-center">
-                  <span className="mr-1">⚠️</span>
+           
                   {phoneError || authError}
                 </p>
               )}

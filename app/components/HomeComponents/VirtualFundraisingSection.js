@@ -128,7 +128,7 @@ const VirtualFundraisingSection = () => {
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-16 items-start">
           {/* Left Content */}
           <div className="order-2 lg:order-1">
-            <h3 className="text-3xl md:text-[36px] font-bold font-splash text-black mb-6">
+            <h3 className="text-[22px] md:text-[30px] leading-9 lg:text-[36px]  font-splash text-black mb-6">
               Fundraising Made Simple and Rewarding
             </h3>
             <p className="text-black main_description mb-8 leading-relaxed">

@@ -114,7 +114,10 @@ const SupportCampaignPage = () => {
   if (loading) {
     return (
       <div className="min-h-screen flex items-center justify-center">
-        <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-[#8BC34A]"></div>
+           <div className="text-center">
+          <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-[#8ac24a] mx-auto mb-4"></div>
+          <p className="text-black font-semibold">Loading...</p>
+        </div>
       </div>
     );
   }
@@ -175,7 +178,7 @@ const SupportCampaignPage = () => {
           <div className="flex items-center gap-4">
             <button
               onClick={handleBackToCampaign}
-              className="flex items-center gap-2 text-[#8BC34A] hover:text-[#7CB342] transition-colors"
+              className="flex items-center gap-2 text-[#000] hover:text-[#7CB342] transition-colors"
             >
               <ArrowLeft className="w-5 h-5" />
               <span className="font-medium">Back to Campaign</span>
@@ -219,7 +222,7 @@ const SupportCampaignPage = () => {
               </div>
 
               {campaign.description && (
-                <p className="text-gray-700 leading-relaxed">
+                <p className="text-gray-700 main_description leading-relaxed">
                   {campaign.description}
                 </p>
               )}

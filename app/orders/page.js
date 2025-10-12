@@ -163,7 +163,7 @@ const Orders = () => {
   // Show phone number input if user is not authenticated or no phone number available
   if (showPhoneInput) {
     return (
-      <div className="min-h-screen bg-gray-50 flex items-center justify-center">
+      <div className="min-h-screen bg-gray-50 flex items-center pt-36 lg:pt-40 justify-center">
         <div className="max-w-md w-full bg-white rounded-lg shadow-md p-6">
           <div className="text-center mb-6">
             <Phone className="h-12 w-12 text-indigo-600 mx-auto mb-4" />

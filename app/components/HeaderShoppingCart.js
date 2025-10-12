@@ -224,7 +224,7 @@ const HeaderShoppingCart = ({ isOpen, onClose }) => {
                   <div className="flex-1 min-w-0">
                     <div className="flex items-start justify-between">
                       <div className="flex-1">
-                        <h4 className="font-semibold text-[16px] text-black">{item.name || item.title || 'Product'}</h4>
+                        <h4 className="font-semibold leading-7 text-[16px] text-black">{item.name || item.title || 'Product'}</h4>
                         {item.description && (
                           <p className="text-xs text-gray-500 mt-1">{item.description}</p>
                         )}
@@ -236,7 +236,7 @@ const HeaderShoppingCart = ({ isOpen, onClose }) => {
                         </button>
                       </div>
                       <div className="text-right ml-4">
-                        <p className="font-bold text-[16px] text-black">{formatPrice((item.price * item.quantity).toFixed(2))}</p>
+                        <p className="font-semibold text-[16px] text-black">{formatPrice((item.price * item.quantity).toFixed(2))}</p>
                       </div>
                     </div>
 

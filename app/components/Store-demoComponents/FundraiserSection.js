@@ -1,105 +1,78 @@
 'use client';
 
 import { useState, useEffect } from 'react';
-import { useDispatch } from 'react-redux';
-import { useRouter } from 'next/navigation';
 import { Clock, MapPin, Users } from 'lucide-react';
 import SharePopup from './SharePopup';
-import { clearCart } from '../../store/slices/appSlice';
 import coach_Image from '../../../public/leftImage.webp';
 import Image from 'next/image';
 
-export default function FundraiserSection({ campaign, showShopSection, onBuyNowClick }) {
-  const dispatch = useDispatch();
-  const router = useRouter();
+export default function FundraiserSection({ campaign }) {
   const [selectedImage, setSelectedImage] = useState(0);
   const [showSharePopup, setShowSharePopup] = useState(false);
   const [animatedWidth, setAnimatedWidth] = useState(0);
   const [animatedAmount, setAnimatedAmount] = useState(0);
 
-  // Format numbers with k suffix for thousands
-  const formatNumber = (num) => {
-    if (num >= 1000) {
-      return (num / 1000).toFixed(0) + 'k';
-    }
-    return num.toString();
-  };
-
-  // Handle Buy Now click
-  const handleBuyNowClick = () => {
-    // Clear cart from Redux and localStorage when Buy Now is clicked
-    dispatch(clearCart());
-
-    // Redirect to support campaign page
-    if (campaign?.slug) {
-      router.push(`/campaigns/${campaign.slug}/support-campaign`);
-    }
-  };
-
-  // Handle Buy button click - clear cart and show shop section
-  const handleBuyClick = () => {
-    // Clear cart from Redux and localStorage
-    dispatch(clearCart());
-
-    // Show shop section
-    if (onBuyNowClick) {
-      onBuyNowClick();
-    }
-  };
-
-
   // Use campaign data if provided, otherwise use default data
-  const fundraiserData = {
+  const fundraiserData = campaign ? {
     title: campaign.campaign_title || "Corn for the Cause: Winfrey's Gala Fundraiser",
     description: campaign.description || "Help us make Pastor Preston R. Winfrey's 44th Anniversary and Retirement Gala a truly unforgettable celebration!",
-    currentAmount: parseFloat(campaign.collected_amount) || 0,
+    currentAmount: parseFloat(campaign.collected_amount) || 180,
     goalAmount: parseFloat(campaign.raise_amount) || 5000,
     supporters: parseInt(campaign.supporters_count) || 12,
     createdTime: campaign.created_at || '2 months',
     location: campaign.location || '315 E. 161st Place South Holland, Illinois',
     organizer: campaign.organizer || 'Retirement G.',
-    coachImage: campaign.galleries?.[0]?.image
-      ? (campaign.galleries[0].image.startsWith('uploads')
-        ? `https://onebigmediacompany.online/${campaign.galleries[0].image}`
-        : campaign.galleries[0].image)
-      : campaign.campaign_image
-        ? (campaign.campaign_image.startsWith('uploads')
-          ? `https://onebigmediacompany.online/${campaign.campaign_image}`
-          : campaign.campaign_image)
-        : coach_Image,
-    images: campaign.galleries && campaign.galleries.length > 0
-      ? campaign.galleries.map(img => {
-        const imageUrl = img.image || img.thumbnail;
-        return imageUrl.startsWith('uploads')
-          ? `https://onebigmediacompany.online/${imageUrl}`
-          : imageUrl;
-      })
-      : campaign.gallery_images && campaign.gallery_images.length > 0
-        ? campaign.gallery_images.map(img => {
-          return img.startsWith('uploads')
-            ? `https://onebigmediacompany.online/${img}`
-            : img;
-        })
-        : [],
-
-    recentSupporters: campaign.supporters || [],
-    created_by: shortName(campaign?.fundraiser?.name)
+    coachImage: campaign.campaign_image ? `https://onebigmediacompany.online/${campaign.campaign_image}` : coach_Image,
+    images: campaign.gallery_images && campaign.gallery_images.length > 0
+      ? campaign.gallery_images.map(img => `https://onebigmediacompany.online/${img}`)
+      : [],
+    recentSupporters: campaign.recent_supporters || [
+      { name: 'Renee L.', amount: 16, initial: 'R', time: 'about 2 months ago' },
+      { name: 'Nyphette H.', amount: 8, initial: 'N', time: 'about 2 months ago' },
+      { name: 'Marsha E.', amount: 8, initial: 'M', time: 'about 2 months ago' },
+      { name: 'Nathaniel E.', amount: 16, initial: 'N', time: 'about 2 months ago' },
+      { name: 'Anita M.', amount: 12, initial: 'A', time: 'about 2 months ago' },
+    ]
+    
+  } : {
+    title: "Corn for the Cause: Winfrey's Gala Fundraiser",
+    description: "Help us make Pastor Preston R. Winfrey's 44th Anniversary and Retirement Gala a truly unforgettable celebration! We're excited to launch our \"Poppin' for Pastor Winfrey\" fundraiser—a delicious way to show your love, appreciation, and support.",
+    currentAmount: 180,
+    goalAmount: 5000,
+    supporters: 12,
+    createdTime: '2 months',
+    location: '315 E. 161st Place South Holland, Illinois',
+    organizer: 'Retirement G.',
+    coachImage: coach_Image,
+    images: [
+      'https://images.unsplash.com/photo-1578849278619-e73505e9610f?w=800&q=80',
+      'https://images.unsplash.com/photo-1505686994434-e3cc5abf1330?w=800&q=80',
+    ],
+    recentSupporters: [
+      { name: 'Renee L.', amount: 16, initial: 'R', time: 'about 2 months ago' },
+      { name: 'Nyphette H.', amount: 8, initial: 'N', time: 'about 2 months ago' },
+      { name: 'Marsha E.', amount: 8, initial: 'M', time: 'about 2 months ago' },
+      { name: 'Nathaniel E.', amount: 16, initial: 'N', time: 'about 2 months ago' },
+      { name: 'Anita M.', amount: 12, initial: 'A', time: 'about 2 months ago' },
+    ]
   };
-
-  function shortName(name) {
-    if (!name) return '';
-    const parts = name.trim().split(' ');
-    return parts.length > 1
-      ? `${parts[0]} ${parts[1].charAt(0).toUpperCase()}.`
-      : parts[0];
-  }
-
 
   const progressPercentage = (fundraiserData.currentAmount / fundraiserData.goalAmount) * 100;
 
   // Image loader for Next.js Image component
   const imageLoader = ({ src }) => src;
 
+
+    // Handle Buy Now click
+    const handleBuyNowClick = () => {
+      // Clear cart from Redux and localStorage when Buy Now is clicked
+      dispatch(clearCart());
+  
+      // Redirect to support campaign page
+      if (campaign?.slug) {
+        router.push(`/campaigns/${campaign.slug}/support-campaign`);
+      }
+    };
   // === Animate Progress Bar ===
   useEffect(() => {
     const timeout = setTimeout(() => {
@@ -145,7 +118,7 @@ export default function FundraiserSection({ campaign, showShopSection, onBuyNowC
                       src={fundraiserData.images.length > 0 ? fundraiserData.images[selectedImage] : fundraiserData.coachImage}
                       alt="Happy person holding various popcorn products from Popcorn World"
                       fill
-                      className="object-cover rounded-lg"
+                      className="object-fill rounded-lg"
                       loader={imageLoader}
                       loading="eager"
                       sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
@@ -162,7 +135,7 @@ export default function FundraiserSection({ campaign, showShopSection, onBuyNowC
                       key={idx}
                       onClick={() => setSelectedImage(idx)}
                       className={`relative rounded-lg overflow-hidden border-2 transition-all ${selectedImage === idx
-                        ? 'border-blue-600 ring-2 ring-blue-200'
+                                ? 'border-[#8ac24a] ring-2 ring-[#8ac24a]'
                         : 'border-gray-200 hover:border-gray-300'
                         }`}
                     >
@@ -176,35 +149,69 @@ export default function FundraiserSection({ campaign, showShopSection, onBuyNowC
                 </div>
               )}
 
-              {/* Campaign Info */}
-              <div className="bg-[#f5f5f5] rounded-xl sm:rounded-2xl p-4 sm:p-6 shadow-sm space-y-3 sm:space-y-4">
+         
+             {/* Campaign Info */}
+          {/* Campaign Info */}
+              <div className="bg-[#fff] rounded-xl sm:rounded-2xl p-4 sm:p-6 shadow-sm space-y-3 sm:space-y-4">
                 <div className="flex items-start sm:items-center gap-2 text-gray-600">
-                  <Clock className="w-4 h-4 sm:w-5 sm:h-5 text-blue-600 flex-shrink-0 mt-0.5 sm:mt-0" />
+                  <Clock className="w-4 h-4 sm:w-5 sm:h-5 text-[#8ac24a] flex-shrink-0 mt-0.5 sm:mt-0" />
                   <span className="main_description ">
                     <strong>Created:</strong> {fundraiserData.createdTime}
                   </span>
                 </div>
-
                 <div className="flex items-start sm:items-center gap-2 text-gray-600">
-                  <Users className="w-4 h-4 sm:w-5 sm:h-5 text-blue-600 flex-shrink-0 mt-0.5 sm:mt-0" />
+                  <MapPin className="w-4 h-4 sm:w-5 sm:h-5 text-[#8ac24a] flex-shrink-0 mt-0.5 sm:mt-0" />
+                  <span className="main_description  break-words">
+                    <strong>Location:</strong> {fundraiserData.location}
+                  </span>
+                </div>
+                <div className="flex items-start sm:items-center gap-2 text-gray-600">
+                  <Users className="w-4 h-4 sm:w-5 sm:h-5 text-[#8ac24a] flex-shrink-0 mt-0.5 sm:mt-0" />
                   <span className="main_description ">
-                    <strong>Created by:</strong> {fundraiserData?.created_by}
+                    <strong>Organized by:</strong> {fundraiserData.organizer}
                   </span>
                 </div>
               </div>
+            
             </div>
 
             {/* Right Side - Campaign Details */}
             <div className="space-y-4 sm:space-y-6">
-              {/* Title */}
+          
+                   {/* Title */}
               <div>
-                <h1 className="main_heading font-bold mb-2 leading-tight">
-                  {fundraiserData.title}
-                </h1>
-                <p className="sub_heading font-semibold text-gray-700">
+                <div className='flex items-start justify-between'>
+                  <h1 className="text-[24px] lg:text-[32px] font-bold mb-2 leading-tight">
+                    {fundraiserData.title}
+                  </h1>
+
+                  <div
+                    className="mt-2 cursor-pointer"
+                    onClick={() => setShowSharePopup(true)}
+                    aria-label="Share"
+                  >
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      className="w-5 h-5 text-gray-700"
+                      fill="none"
+                      viewBox="0 0 24 24"
+                      stroke="currentColor"
+                      strokeWidth={2}
+                    >
+                      <path
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        d="M8.684 13.342C8.886 12.938 9 12.482 9 12s-.114-.938-.316-1.342m0 2.684a3 3 0 110-2.684m0 2.684l6.632 3.316m-6.632-6.316l6.632-3.316m0 0a3 3 0 105.367-2.684 3 3 0 00-5.367 2.684zm0 9.316a3 3 0 105.367 2.684 3 3 0 00-5.367-2.684z"
+                      />
+                    </svg>
+                  </div>
+                </div>
+                <p className="sub_heading text-gray-700">
                   Funded: {Math.floor(progressPercentage)}%
                 </p>
               </div>
+          
+           
 
               {/* Progress Section */}
               <div className="space-y-3 sm:space-y-4">
@@ -220,39 +227,26 @@ export default function FundraiserSection({ campaign, showShopSection, onBuyNowC
                 <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-2 text-sm sm:text-base lg:text-lg font-medium text-gray-900">
                   <div>
                     <span className="font-bold sub_heading">
-                      ${formatNumber(animatedAmount)}
+                      ${animatedAmount}
                     </span>{" "}
                     <span className="font-normal">
-                      raised of ${formatNumber(fundraiserData.goalAmount)} goal!
+                      raised of ${fundraiserData.goalAmount} goal!
                     </span>
                   </div>
                 </div>
 
-                {fundraiserData.supporters > 0 && (
-                  <p className="main_description text-gray-600">
-                    <span className="font-bold text-gray-900">{fundraiserData.supporters}</span> supporters
-                  </p>
-                )}
+                <p className="main_description text-gray-600">
+                  <span className="font-bold text-gray-900">{fundraiserData.supporters}</span> supporters
+                </p>
               </div>
 
-              {/* Action Buttons */}
-              <div className=" flex flex-col sm:flex-row sm:items-center  gap-4">
+               {/* Action Buttons */}
+              <div className="flex flex-col sm:flex-row sm:items-center gap-4">
                 <button
                   onClick={handleBuyNowClick}
                   className="w-full bg-[#8ac24a] text-white font-medium py-3 px-6 rounded-full text-base sm:text-lg transition-all duration-300 transform hover:shadow-xl focus:outline-none flex items-center justify-center space-x-2"
                 >
                   Buy Now
-                </button>
-
-                {/* CTA Button */}
-                <button
-                  onClick={() => setShowSharePopup(true)}
-                  className="w-full bg-[#8ac24a] text-white font-medium py-3 px-6 rounded-full text-base sm:text-lg transition-all duration-300 transform hover:shadow-xl focus:outline-none flex items-center justify-center space-x-2"
-                >
-                  <svg className="w-4 h-4 sm:w-5 sm:h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8.684 13.342C8.886 12.938 9 12.482 9 12c0-.482-.114-.938-.316-1.342m0 2.684a3 3 0 110-2.684m0 2.684l6.632 3.316m-6.632-6l6.632-3.316m0 0a3 3 0 105.367-2.684 3 3 0 00-5.367 2.684zm0 9.316a3 3 0 105.367 2.684 3 3 0 00-5.367-2.684z" />
-                  </svg>
-                  <span>Share Pop-Up Store</span>
                 </button>
               </div>
 
@@ -284,14 +278,14 @@ export default function FundraiserSection({ campaign, showShopSection, onBuyNowC
 
 
 
-          {/* Description Section */}
+            {/* Description Section */}
           <div className="mt-8 sm:mt-12 lg:mt-2">
             <div className="bg-white rounded-xl sm:rounded-2xl p-4 sm:p-6 lg:p-12 shadow-sm">
               <div className="max-w-4xl">
-                <div className="mb-6 sm:mb-8">
-                  <button className="bg-[#8BC34A] text-white font-medium py-3 px-6  rounded-full text-base">
+                <div className="mb-2 sm:mb-4">
+                  <p className="text-black sub_heading">
                     Description
-                  </button>
+                  </p>
                 </div>
 
                 <div className="prose prose-sm sm:prose-base lg:prose-lg max-w-none">

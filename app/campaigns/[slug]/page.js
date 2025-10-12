@@ -67,7 +67,10 @@ const CampaignDetailPage = () => {
   if (loading) {
     return (
       <div className="min-h-screen flex items-center justify-center">
-        <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-[#8BC34A]"></div>
+      <div className="text-center">
+          <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-[#8ac24a] mx-auto mb-4"></div>
+          <p className="text-black font-semibold">Loading...</p>
+        </div>
       </div>
     );
   }

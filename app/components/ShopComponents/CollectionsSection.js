@@ -18,7 +18,7 @@ const CollectionsSection = ({ collections, collectionsLoading, collectionsError,
       price: 98.00,
       category: "THE WORK",
       description: "It's total package.",
-         image: "/api/placeholder/400/300"
+      image: "/api/placeholder/400/300"
     },
     {
       id: 2,
@@ -110,35 +110,35 @@ const CollectionsSection = ({ collections, collectionsLoading, collectionsError,
     window.location.href = `/collections/${slug}`;
   };
 
-const handleAddToCart = (collection) => {
-  const apiImage = collection?.collection_images?.[0]?.image?.trim();
-  const imageUrl = apiImage
-    ? apiImage.startsWith('http')
-      ? apiImage
-      : `https://onebigmediacompany.online/${apiImage}`
-    : typeof collection.image === 'string'
-    ? collection.image.trim()
-    : typeof collection.image === 'object' && collection.image?.src
-    ? collection.image.src
-    : '/pop_packet.png';
+  const handleAddToCart = (collection) => {
+    const apiImage = collection?.collection_images?.[0]?.image?.trim();
+    const imageUrl = apiImage
+      ? apiImage.startsWith('http')
+        ? apiImage
+        : `https://onebigmediacompany.online/${apiImage}`
+      : typeof collection.image === 'string'
+        ? collection.image.trim()
+        : typeof collection.image === 'object' && collection.image?.src
+          ? collection.image.src
+          : '/pop_packet.png';
 
-  const campaignInfo = campaignData ? {
-    campaign_name: campaignData?.campaign_title,
-    campaign_slug: campaignData.slug,
-    campaign_thumbnail: campaignData.galleries?.[0]?.image || campaignData.campaign_image
-  } : null;
+    const campaignInfo = campaignData ? {
+      campaign_name: campaignData?.campaign_title,
+      campaign_slug: campaignData.slug,
+      campaign_thumbnail: campaignData.galleries?.[0]?.image || campaignData.campaign_image
+    } : null;
 
-  dispatch(
-    addToCart({
-      product: {
-        ...collection,
-        image: imageUrl,
-        campaign_info: campaignInfo
-      },
-      link_code: link_code
-    })
-  );
-};
+    dispatch(
+      addToCart({
+        product: {
+          ...collection,
+          image: imageUrl,
+          campaign_info: campaignInfo
+        },
+        link_code: link_code
+      })
+    );
+  };
 
 
 
@@ -162,7 +162,7 @@ const handleAddToCart = (collection) => {
             <div className="w-48 h-1 bg-[#ffc222] mx-auto rounded-full"></div>
           </div>
           <div className="flex justify-center items-center py-20">
-            <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-[#ffc222]"></div>
+            <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-[#8ac24a]"></div>
           </div>
         </div>
       </section>
@@ -205,28 +205,28 @@ const handleAddToCart = (collection) => {
           {allCollections && allCollections.length > 0 ? allCollections.map((collection, index) => (
             <div
               key={collection.id}
-              className="group bg-white rounded-2xl shadow-lg transition-all duration-500 transform overflow-hidden hover:shadow-xl flex flex-col h-full"
+              className="group  transition-all duration-500 transform overflow-hidden  flex flex-col h-full"
               style={{
                 animationDelay: `${index * 100}ms`
               }}
             >
               {/* Image Container */}
-              <div className="relative h-64  overflow-hidden">
+              <div className="relative h-56  overflow-hidden">
                 <div className="absolute inset-0 bg-gradient-to-br from-transparent to-blue-100/30"></div>
                 <div className="relative h-full flex items-center justify-center ">
                   {/* Collection Package Visualization */}
                   <div className="relative w-full h-full">
                     <Image
                       src={
-                    collection?.collection_images?.[0]?.image
-  ? collection.collection_images[0].image.startsWith('http')
-    ? collection.collection_images[0].image
-    : `https://onebigmediacompany.online/${collection.collection_images[0].image.trim()}`
-  : '/pop_packet.png'
+                        collection?.collection_images?.[0]?.image
+                          ? collection.collection_images[0].image.startsWith('http')
+                            ? collection.collection_images[0].image
+                            : `https://onebigmediacompany.online/${collection.collection_images[0].image.trim()}`
+                          : '/pop_packet.png'
                       }
                       alt={collection?.title || 'Popcorn Collection'}
                       fill
-                 
+
                       className="object-fill object-center drop-shadow-2xl w-full h-full group-hover:scale-110 transition-transform duration-700 ease-out"
                       onError={(e) => {
                         e.currentTarget.src = '/pop_packet.png';
@@ -240,25 +240,25 @@ const handleAddToCart = (collection) => {
               </div>
 
               {/* Content */}
-              <div className="p-6 space-y-4 flex flex-col flex-grow">
+              <div className="p-6 space-y-2 flex flex-col flex-grow">
                 {/* Category Badge */}
-                <span className="inline-block px-3 text-center w-32 py-1.5 bg-gray-200 text-black text-xs font-bold uppercase tracking-wider rounded-full">
+                <span className="inline-block text-[#757575] text-xs font-medium leading-4 uppercase">
                   {collection.category || collection.product_categories?.[0]?.category?.name || 'COLLECTION'}
                 </span>
 
                 {/* Title and Price */}
                 <div className="flex items-start justify-between pt-1">
-                  <h3 className="sub_heading text-black transition-colors duration-300 flex-1 pr-4">
+                  <h3 className="text-[16px] leading-7 text-[#000] font-semibold  transition-colors duration-300 flex-1 pr-4">
                     {collection.name || collection.title || 'Collection'}
                   </h3>
-                  <span className="sub_heading text-black flex-shrink-0">
+                  <span className="text-[16px] leading-7 text-[#000] font-semibold flex-shrink-0">
                     {formatPrice(collection.price || '0.00')}
                   </span>
                 </div>
 
                 {/* Description */}
                 <div
-                  className="text-black text-[16px] font-normal leading-relaxed flex-grow"
+                  className="text-[#323232] text-[16px] font-extralight leading-7 flex-grow"
                   dangerouslySetInnerHTML={{ __html: collection.description || '' }}
                 />
                 {/* Action Buttons */}

@@ -64,7 +64,7 @@ const handleAddToCart = (flavor) => {
             <div className="w-48 h-1 bg-[#ffc222] mx-auto rounded-full"></div>
           </div>
           <div className="flex justify-center items-center py-20">
-            <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-[#ffc222]"></div>
+            <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-[#8ac24a]"></div>
           </div>
         </div>
       </section>
@@ -107,13 +107,13 @@ const handleAddToCart = (flavor) => {
           {allFlavors && allFlavors.length > 0 ? allFlavors.map((flavor, index) => (
             <div
               key={flavor.id}
-              className="group bg-white rounded-2xl shadow-lg transition-all duration-500 transform overflow-hidden flex flex-col h-full"
+              className="group  transition-all duration-500 transform overflow-hidden flex flex-col h-full"
               style={{
                 animationDelay: `${index * 100}ms`
               }}
             >
               {/* Image Container */}
-              <div className="relative h-64  p-8 overflow-hidden">
+              <div className="relative h-56  p-8 overflow-hidden">
                 <div className="absolute inset-0 bg-gradient-to-br from-transparent to-orange-100/30"></div>
                 <div className="relative h-full flex items-center justify-center">
                   <div className="relative">
@@ -139,20 +139,20 @@ const handleAddToCart = (flavor) => {
               </div>
 
               {/* Content */}
-              <div className="p-6 space-y-4 flex flex-col flex-grow">
+              <div className="p-6 space-y-2 flex flex-col flex-grow">
                 {/* Category Badge */}
                 <div className="flex flex-wrap gap-2">
                   {flavor?.product_categories?.length > 0 ? (
                     flavor.product_categories.map((catObj) => (
                       <span
                         key={catObj.id}
-                        className="inline-block px-4 py-1.5 bg-gray-200 text-black text-xs font-bold uppercase tracking-wider rounded-full"
+                        className="inline-block text-[#757575] text-xs font-medium leading-4 uppercase "
                       >
                         {catObj.category?.name || flavor.type || 'FLAVOR'}
                       </span>
                     ))
                   ) : (
-                    <span className="inline-block px-4 py-1.5 bg-gray-200 text-black text-xs font-bold uppercase tracking-wider rounded-full">
+                    <span className="inline-block text-[#757575] text-xs font-medium leading-6 uppercase ">
                       {flavor.type || 'FLAVOR'}
                     </span>
                   )}
@@ -161,17 +161,17 @@ const handleAddToCart = (flavor) => {
 
                 {/* Title and Price */}
                 <div className="flex items-start justify-between py-1">
-                  <h3 className="sub_heading text-black transition-colors duration-300 flex-1 pr-4">
+                  <h3 className="text-[16px] leading-7 text-[#000] font-semibold transition-colors duration-300 flex-1 pr-4">
                     {flavor.name || flavor.title || 'Popcorn Flavor'}
                   </h3>
-                  <span className="sub_heading text-black flex-shrink-0">
+                  <span className="text-[16px] leading-7 text-[#000] font-semibold flex-shrink-0">
                     {formatPrice(flavor.price || '0.00')}
                   </span>
                 </div>
 
                 {/* Description */}
                 <div
-                  className="text-black text-[16px] font-normal leading-relaxed flex-grow"
+                  className="text-[#323232] text-[16px] font-extralight leading-7  flex-grow"
                   dangerouslySetInnerHTML={{ __html: flavor.description || '' }}
                 />
 

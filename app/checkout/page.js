@@ -34,11 +34,11 @@ const Input = ({
   disabled = false,
   placeholder,
   maxLength,
-  icon: IconComponent
+
 }) => (
   <div className="mb-6">
     <label className=" text-sm font-semibold text-black mb-2 flex items-center gap-2">
-      {IconComponent && <IconComponent size={16} className="text-[#3333cb]" />}
+     
       {label}
     </label>
     <div className="relative">
@@ -51,7 +51,7 @@ const Input = ({
         disabled={disabled}
         placeholder={placeholder}
         maxLength={maxLength}
-        className={`w-full px-4 py-3 border rounded-xl bg-white transition-all duration-300 placeholder-gray-600 focus:ring-0 outline-0 text-black font-medium shadow-sm hover:shadow-md focus:shadow-lg ${error
+        className={`w-full px-4 py-3 border rounded-xl bg-white transition-all duration-300 placeholder-gray-600 focus:ring-0 outline-black focus:outline-1 text-black font-medium  ${error
             ? 'border-red-400 focus:border-red-500  focus:ring-4 focus:ring-red-100'
             : 'border-gray-200'
           } ${disabled
@@ -83,11 +83,11 @@ const Dropdown = ({
   options,
   error,
   disabled = false,
-  icon: IconComponent
+ 
 }) => (
   <div className="mb-6">
     <label className=" text-sm font-semibold text-black mb-2 flex items-center gap-2">
-      {IconComponent && <IconComponent size={16} className="text-[#3333cb]" />}
+  
       {label}
     </label>
     <select
@@ -96,7 +96,7 @@ const Dropdown = ({
       onChange={onChange}
       onBlur={onBlur}
       disabled={disabled}
-      className={`w-full px-4 py-3.5 border rounded-xl bg-white transition-all duration-300 text-black font-medium shadow-sm outline-0 focus:ring-0 hover:shadow-sm  ${error
+      className={`w-full px-4 py-3.5 border rounded-xl bg-white transition-all duration-300 text-black font-medium shadow-sm focus:outline-1 outline-black focus:ring-0 hover:shadow-sm  ${error
           ? 'border-red-400 focus:border-red-500 focus:ring-4 focus:ring-red-100'
           : 'border-gray-200 '
         } ${disabled
@@ -129,11 +129,11 @@ const TextArea = ({
   error,
   placeholder,
   rows = 4,
-  icon: IconComponent
+
 }) => (
   <div className="mb-6">
     <label className="text-sm font-semibold text-black mb-2 flex items-center gap-2">
-      {IconComponent && <IconComponent size={16} className="text-[#3333cb]" />}
+
       {label}
     </label>
     <textarea
@@ -143,7 +143,7 @@ const TextArea = ({
       onBlur={onBlur}
       placeholder={placeholder}
       rows={rows}
-      className={`w-full px-4 py-3 border rounded-xl bg-white transition-all outline-0 focus:ring-0 duration-300 placeholder-gray-400 text-black font-medium shadow-sm hover:shadow-md focus:shadow-lg resize-none ${error
+      className={`w-full px-4 py-3 border rounded-xl bg-white transition-all focus:outline-1 outline-black focus:ring-0 duration-300 placeholder-gray-400 text-black font-medium  resize-none ${error
           ? 'border-red-400 focus:border-red-500 focus:ring-4 focus:ring-red-100'
           : 'border-gray-200 '
         }`}
@@ -312,7 +312,7 @@ const OTPModal = ({ isOpen, onClose, onVerify, loading }) => {
 const Breadcrumb = ({ steps, currentStep }) => (
   <div
     className="
-      flex items-center mb-8 bg-gradient-to-r from-blue-50 to-indigo-50 p-4 rounded-xl
+      flex items-center mb-8 p-4
       overflow-x-auto hide-scrollbar
     "
   >
@@ -385,15 +385,22 @@ const OrderSummary = ({ items, subtotal, tax, shipping, total }) => (
             />
           </div>
           <div className="flex-1">
-            <h4 className="font-bold text-lg text-black">{item.name || item.title}</h4>
+            <div className='flex items-start justify-between'>
+                 <div>
+
+            <h4 className="font-semibold leading-7 text-[16px] text-black">{item.name || item.title}</h4>
             {item.description && (
               <p className="text-sm text-gray-500 mt-1">{item.description}</p>
             )}
+            </div>
+               <span className="font-semibold leading-7 text-[16px] text-black">${(item.price * item.quantity).toFixed(2)}</span>
+            </div>
+         
             <div className="flex justify-between items-center mt-3">
-              <span className="text-sm font-semibold text-black bg-gray-100 px-4 py-1.5 rounded-full">
+              <span className="text-xs font-semibold leading-5 text-[#757575]">
                 Qty: {item.quantity}
               </span>
-              <span className="font-bold text-black text-lg">${(item.price * item.quantity).toFixed(2)}</span>
+             
             </div>
           </div>
         </div>
@@ -402,27 +409,27 @@ const OrderSummary = ({ items, subtotal, tax, shipping, total }) => (
 
     <div className="space-y-3 text-sm bg-white p-4 rounded-xl shadow-sm">
       <div className="flex justify-between items-center">
-        <span className="text-gray-600 font-semibold text-sm">Subtotal</span>
-        <span className="font-semibold ">${subtotal.toFixed(2)}</span>
+        <span className="text-gray-600 font-normal  text-[16px]">Subtotal</span>
+        <span className=" text-[16px] font-medium  ">${subtotal.toFixed(2)}</span>
       </div>
       <div className="flex justify-between items-center">
-        <span className="text-gray-600 font-semibold text-sm">Tax</span>
-        <span className="font-semibold">${tax.toFixed(2)}</span>
+        <span className="text-gray-600 font-normal text-[16px]">Tax</span>
+        <span className="text-[16px] font-medium ">${tax.toFixed(2)}</span>
       </div>
       <div className="flex justify-between items-center">
-        <span className="text-gray-600 font-semibold text-sm flex items-center gap-1">
+        <span className="text-gray-600 font-normal text-[16px] flex items-center gap-1">
           <Truck size={14} />
           Shipping
         </span>
-        <span className="font-semibold">${shipping.toFixed(2)}</span>
+        <span className="text-[16px] font-medium ">${shipping.toFixed(2)}</span>
       </div>
       <div className="border-t-2 border-gray-100 pt-3 flex justify-between items-center">
         <span className="sub_heading font-bold text-black">Total</span>
-        <span className="text-2xl font-bold text-[#8BC34A]">${total.toFixed(2)}</span>
+        <span className="text-xl font-bold text-[#8BC34A]">${total.toFixed(2)}</span>
       </div>
     </div>
 
-    <div className="mt-6 p-4 bg-[#8BC34A] rounded-xl text-white">
+    {/* <div className="mt-6 p-4 bg-[#8BC34A] rounded-xl text-white">
       <div className="flex items-center gap-2 mb-2">
         <Lock size={16} />
         <span className="text-sm font-semibold">Secure Checkout</span>
@@ -430,7 +437,7 @@ const OrderSummary = ({ items, subtotal, tax, shipping, total }) => (
       <p className="text-xs opacity-90">
         Your payment information is encrypted and secure
       </p>
-    </div>
+    </div> */}
   </div>
 );
 
@@ -1055,7 +1062,7 @@ const CheckoutPage = () => {
               <div className="mb-10">
                 <div className="flex items-center gap-3 mb-6">
 
-                  <h2 className="text-xl font-bold text-black">Contact Information</h2>
+                  <h2 className="text-2xl font-semibold text-black">Contact Information</h2>
                 </div>
 
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-6">

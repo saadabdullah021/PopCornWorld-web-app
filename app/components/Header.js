@@ -340,7 +340,7 @@ const Header = () => {
 
                             <div className="flex items-center space-x-4">
                                 {!isAuthenticated && (
-                                <Link href='/track-an-order' className="text-sm font-semibold cursor-pointer hover:text-[#ffc222] text-white mr-3">
+                                <Link href='/track-an-order' className="text-sm lg:text-[16px] font-medium  cursor-pointer hover:text-[#ffc222] text-white mr-3">
                                     Track Order
                                 </Link>
                                 )}
@@ -426,7 +426,7 @@ const Header = () => {
                                 ) : (
                                     <button
                                         onClick={handleSignInClick}
-                                        className="text-sm font-semibold bg-gray-200 px-3 py-1 outline-none ring-none rounded-full text-black cursor-pointer mr-3 hover:bg-gray-300 transition-colors duration-200"
+                                        className="text-sm lg:text-[16px] font-medium  bg-gray-200 px-3 py-1 outline-none ring-none rounded-full text-black cursor-pointer mr-3 hover:bg-gray-300 transition-colors duration-200"
                                     >
                                         Sign In
                                     </button>
@@ -455,7 +455,7 @@ const Header = () => {
                             </Link>
 
                             {/* Enhanced Desktop Menu */}
-                            <nav className="hidden lg:flex items-center space-x-8 font-semibold text-[16px] capitalize text-white">
+                            <nav className="hidden lg:flex items-center space-x-8 font-medium text-[16px] capitalize text-white">
                                 {/* Home */}
                                 <div className="relative group">
                                     <Link href='/fundraising' className="flex items-center py-2 hover:text-[#ffc222] transition-colors duration-300 group relative">

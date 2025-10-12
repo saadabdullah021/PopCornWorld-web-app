@@ -69,7 +69,7 @@ body {
   /* Default (mobile): text-lg */
   font-size: 20px;      /* = 18px */
   line-height: 1.75rem;     /* = 28px */
-  font-weight: 600;         /* font-bold */
+  font-weight: 700;         /* font-bold */
 
   /* md (≥768px): text-2xl */
   @media (min-width: 768px) {
@@ -87,7 +87,7 @@ body {
   /* sm (≥640px): text-lg */
   @media (min-width: 640px) {
     font-size:16px;    
-    line-height: 1.75rem;  
+    line-height: 1.5rem;  
   }
 }
 
