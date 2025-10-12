@@ -37,12 +37,12 @@ const MinimalSharePopup = ({ isOpen, onClose, url, title }) => {
   const copyToClipboard = async () => {
     try {
       await navigator.clipboard.writeText(shareUrl);
-      toast.success('Copied!', {
+      toast.success('Copied', {
         position: 'top-center',
         duration: 1500,
         style: {
           background: '#000',
-          color: 'white',
+          color: '#fff',
           borderRadius: '25px',
           fontSize: '14px',
           padding: '8px 16px',
