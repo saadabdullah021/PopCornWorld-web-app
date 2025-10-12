@@ -193,7 +193,7 @@ const SupportCampaignPage = () => {
               <div className="relative h-64 md:h-80 rounded-lg overflow-hidden shadow-lg">
                 <Image
                   src={campaignImage}
-                  alt={campaign.campaign_title}
+                  alt={campaign?.campaign_title}
                   fill
                   className="object-cover"
                   onError={(e) => {
@@ -206,7 +206,7 @@ const SupportCampaignPage = () => {
             {/* Campaign Details */}
             <div className="flex-1">
               <h1 className="text-3xl md:text-4xl font-bold text-gray-900 mb-4">
-                {campaign.campaign_title}
+                {campaign?.campaign_title}
               </h1>
               
               <div className="flex items-center gap-2 mb-4">

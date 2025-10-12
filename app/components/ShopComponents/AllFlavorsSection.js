@@ -32,9 +32,9 @@ const handleAddToCart = (flavor) => {
     '/pop_packet.png';
 
   const campaignInfo = campaignData ? {
-    campaign_name: campaignData.campaign_title,
-    campaign_slug: campaignData.slug,
-    campaign_thumbnail: campaignData.galleries?.[0]?.image || campaignData.campaign_image
+    campaign_name: campaignData?.campaign_title,
+    campaign_slug: campaignData?.slug,
+    campaign_thumbnail: campaignData?.galleries?.[0]?.image || campaignData.campaign_image
   } : null;
 
   dispatch(
