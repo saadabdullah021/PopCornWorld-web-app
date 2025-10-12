@@ -1,10 +1,10 @@
 'use client'
 import React, { useState, useEffect } from 'react';
-import { X, ArrowLeft, Check, Lock, Shield, CreditCard, Truck, User, Mail, Phone, MapPin, Gift } from 'lucide-react';
+import { X, ArrowLeft, Check, Lock, Shield, CreditCard, Truck, User, Mail, Phone, MapPin, Gift, ChevronRight } from 'lucide-react';
 import Link from 'next/link';
 import Image from 'next/image';
 import { useSelector, useDispatch } from 'react-redux';
-import { useRouter } from 'next/navigation';
+import { useParams, useRouter, useSearchParams } from 'next/navigation';
 import { createOrder, sendOTP, verifyOTP } from '../services/api';
 import { clearCart, addNotification } from '../store/slices/appSlice';
 
@@ -228,7 +228,7 @@ const Button = ({
 const OTPModal = ({ isOpen, onClose, onVerify, loading }) => {
   const [otpCode, setOtpCode] = useState(['', '', '', '', '']);
   const [error, setError] = useState('');
-
+const [verifying, setVerifying] = useState(false);
   const handleChange = (element, index) => {
     if (isNaN(element.value)) return false;
     setOtpCode([...otpCode.map((d, idx) => (idx === index ? element.value : d))]);
@@ -237,15 +237,22 @@ const OTPModal = ({ isOpen, onClose, onVerify, loading }) => {
     }
   };
 
-  const handleSubmit = () => {
-    const code = otpCode.join('');
-    if (code.length === 5) {
-      onVerify(code);
-      setError('');
-    } else {
-      setError('Please enter complete OTP');
+// OTPModal
+const handleSubmit = () => {
+  const code = otpCode.join('');
+  if (code.length !== 5) {
+    setError('Please enter complete OTP');
+    return;
+  }
+  setVerifying(true);
+  onVerify(code, (success, errorMsg) => {
+    setVerifying(false);
+    if (!success) {
+      setError(errorMsg || 'Invalid OTP, please try again.');
     }
-  };
+  });
+};
+
 
   if (!isOpen) return null;
 
@@ -286,7 +293,7 @@ const OTPModal = ({ isOpen, onClose, onVerify, loading }) => {
         </div>
 
         {error && (
-          <p className="text-red-500 text-sm text-center mb-6 bg-red-50 p-3 rounded-lg border border-red-200">
+          <p className="text-red-500 text-sm font-semibold text-center mb-6 ">
             {error}
           </p>
         )}
@@ -295,9 +302,9 @@ const OTPModal = ({ isOpen, onClose, onVerify, loading }) => {
           <Button variant="secondary" onClick={onClose} className="flex-1" size="md">
             Cancel
           </Button>
-          <Button onClick={handleSubmit} loading={loading} className="flex-1" size="md">
-            Verify Code
-          </Button>
+  <Button onClick={handleSubmit} loading={verifying} className="flex-1" size="md">
+  Verify Code
+</Button>
         </div>
 
         <p className="text-center text-xs text-gray-500 mt-4">
@@ -310,40 +317,36 @@ const OTPModal = ({ isOpen, onClose, onVerify, loading }) => {
 
 
 const Breadcrumb = ({ steps, currentStep }) => (
-  <div
-    className="
-      flex items-center mb-8 p-4
-      overflow-x-auto hide-scrollbar
-    "
-  >
-    {steps.map((step, index) => (
-      <div key={index} className="flex items-center flex-shrink-0">
-        <div
-          className={`flex items-center gap-2 px-4 py-2 rounded-full text-sm font-semibold transition-all duration-300
-          ${index <= currentStep
-              ? "text-black bg-white shadow-sm"
-              : "text-gray-400"
-            }`}
-        >
-          <div
-            className={`w-6 h-6 rounded-full flex items-center justify-center text-xs font-bold
-            ${index <= currentStep
-                ? " bg-[#8ac24a] text-white"
-                : "bg-gray-200 text-gray-400"
+ <div className="flex items-center gap-2 mb-8 py-4 overflow-x-auto hide-scrollbar">
+      {steps.map((step, index) => (
+        <div key={index} className="flex items-center flex-shrink-0">
+          {/* Step Text */}
+          <span
+            className={`text-sm sm:text-base leading-7 font-medium uppercase tracking-wide whitespace-nowrap transition-all duration-300
+              ${index === currentStep
+                ? "text-gray-900"
+                : index < currentStep
+                  ? "text-gray-500"
+                  : "text-gray-400"
               }`}
           >
-            {index < currentStep ? <Check size={14} /> : index + 1}
-          </div>
-          <span className="whitespace-nowrap">{step}</span>
+            {step}
+          </span>
+
+          {/* Arrow Separator */}
+          {index < steps.length - 1 && (
+            <ChevronRight
+              size={20}
+              className={`mx-0 sm:mx-3 transition-all duration-300
+                ${index < currentStep
+                  ? "text-gray-500"
+                  : "text-gray-400"
+                }`}
+            />
+          )}
         </div>
-        {index < steps.length - 1 && (
-          <div className="mx-3 flex-shrink-0">
-            <ArrowLeft size={20} className="text-gray-500 rotate-180" />
-          </div>
-        )}
-      </div>
-    ))}
-  </div>
+      ))}
+    </div>
 );
 
 
@@ -641,6 +644,8 @@ const PaymentModal = ({ isOpen, onClose, onPaymentSuccess, orderTotal, formData,
     }
   };
 
+  
+
   if (!isOpen) return null;
 
   return (
@@ -799,7 +804,9 @@ const CheckoutPage = () => {
   const [showPaymentModal, setShowPaymentModal] = useState(false);
   const [loading, setLoading] = useState(false);
   const [errors, setErrors] = useState({});
-
+  const params = useSearchParams();
+  const [otpVerifying, setOtpVerifying] = useState(false);   
+  
   const [formData, setFormData] = useState({
     name: '',
     email: '',
@@ -844,8 +851,8 @@ const CheckoutPage = () => {
     return (
       <div className="min-h-screen bg-gradient-to-br from-blue-50/50 via-white to-indigo-50/30 pt-32 lg:pt-40 flex items-center justify-center">
         <div className="text-center">
-          <div className="animate-spin rounded-full h-12 w-12 border-4 border-[#ffc222] border-b-transparent mx-auto mb-4"></div>
-          <p className="text-gray-600">Redirecting to shop...</p>
+          <div className="animate-spin rounded-full h-12 w-12 border-4 border-[#8BC34A] border-b-transparent mx-auto mb-4"></div>
+          <p className="text-gray-600 font-semibold">Loading...</p>
         </div>
       </div>
     );
@@ -956,32 +963,28 @@ const CheckoutPage = () => {
     );
   };
 
-  const handleOTPVerify = async (otpCode) => {
-    setLoading(true);
-
-    verifyOTP(
-      formData.phone.replace(/\D/g, ''),
-      otpCode,
-      'order',
-      (response) => {
-        setLoading(false);
-        setShowOTPModal(false);
-        setFormData(prev => ({ ...prev, otpVerified: true }));
-        setCurrentStep(1);
-        dispatch(addNotification({
-          message: 'Phone number verified successfully!',
-          type: 'success'
-        }));
-      },
-      (error) => {
-        setLoading(false);
-        dispatch(addNotification({
-          message: error || 'Invalid OTP. Please try again.',
-          type: 'error'
-        }));
-      }
-    );
-  };
+const handleOTPVerify = (otpCode, callback) => {
+  setOtpVerifying(true);
+  verifyOTP(
+    formData.phone.replace(/\D/g, ''),
+    otpCode,
+    'order',
+    (res) => {
+      setOtpVerifying(false);
+      setShowOTPModal(false);
+      setFormData(prev => ({ ...prev, otpVerified: true }));
+      setCurrentStep(1);
+      dispatch(addNotification({ message: 'Phone verified!', type: 'success' }));
+      callback(true);
+    },
+    (err) => {
+      setOtpVerifying(false);
+      const msg = err || 'Invalid OTP';
+      dispatch(addNotification({ message: msg, type: 'error' }));
+      callback(false, msg);
+    }
+  );
+};
 
   const handleContinueToPayment = () => {
     if (validateStep(1)) {
@@ -997,50 +1000,59 @@ const CheckoutPage = () => {
       type: 'success'
     }));
 
-    router.push('/orders');
+   router.push(`/order-success?order=${paymentResult.transactionId}`);
   };
 
+    const handleBackToCampaign = () => {
+    router.push(`/campaigns/${params.slug}`);
+  };
+
+
+
+  
   return (
     <div className="min-h-screen bg-gradient-to-br from-blue-50/50 via-white to-indigo-50/30  pt-32 lg:pt-40">
       
-      <div className="bg-white shadow-sm border-b border-gray-100">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
-          <div className="flex items-center justify-between">
-            <div className="flex items-center gap-4">
-              <Link href='/shop' className="flex items-center gap-3 text-gray-600 hover:text-black transition-colors group">
-                <ArrowLeft size={20} className="group-hover:-translate-x-1 transition-transform" />
-                <span className="font-semibold">Back to Shopping</span>
-              </Link >
-            </div>
-            <div className="flex items-center gap-2 text-sm text-gray-500">
-              <Lock size={16} />
-              <span className='font-semibold'>Secure Checkout</span>
-            </div>
-          </div>
-        </div>
-      </div>
+
       {campaignInfo && (
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-2">
-          <div className="bg-white rounded-lg shadow-sm border border-gray-200 p-4 mb-2">
-            <div className="flex items-start gap-3">
-              <div className="w-10 h-10 rounded-full overflow-hidden bg-gray-100">
-                <img 
-                  src={campaignInfo.campaign_thumbnail?.startsWith('uploads') 
+    
+
+
+   <div className="pt-4 w-auto max-w-md mr-auto mb-6 px-4 sm:px-6 lg:px-8 cursor-pointer"
+       onClick={handleBackToCampaign}>
+      <div className="bg-white rounded-2xl border border-[#d6d6d6] hover:border-transparent p-4 ">
+        <div className="flex items-center gap-4">
+     
+            <ArrowLeft className="w-6 h-6 text-gray-700" />
+     
+
+          {/* Organization Logo */}
+          <div className="relative w-10 h-10 flex-shrink-0 rounded-full overflow-hidden border-1 border-gray-200">
+            <Image
+              src={campaignInfo.campaign_thumbnail?.startsWith('uploads') 
                     ? `https://onebigmediacompany.online/${campaignInfo.campaign_thumbnail}`
                     : campaignInfo.campaign_thumbnail || '/pop_packet.png'
                   } 
                   alt={campaignInfo.campaign_name}
                   className="w-full h-full object-cover"
                   onError={(e) => e.target.src = '/pop_packet.png'}
-                />
-              </div>
-              <div>
-                <p className="text-sm text-gray-600">You're supporting</p>
-                <p className="font-semibold text-gray-900">{campaignInfo.campaign_name}</p>
-              </div>
-            </div>
+                  fill
+            />
+          </div>
+
+          {/* Text Content */}
+          <div className="flex-1 min-w-0">
+            <p className="text-xs font-normal text-[#757575] leading-5 mb-0.5">
+              You're supporting
+            </p>
+            <h2 className="text-[16px] font-medium leading-7 text-[#323232] truncate">
+             {campaignInfo.campaign_name}
+            </h2>
           </div>
         </div>
+      </div>
+    </div>
+
       )}
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 ">
         <div className="grid grid-cols-1 lg:grid-cols-4 gap-8">
@@ -1055,7 +1067,7 @@ const CheckoutPage = () => {
               </div>
 
               <Breadcrumb
-                steps={['INFORMATION', 'PAYMENT METHOD']}
+                steps={['INFORMATION', 'PAYMENT METHOD',]}
                 currentStep={currentStep}
               />
 
@@ -1321,6 +1333,9 @@ const CheckoutPage = () => {
         </div>
       </div>
 
+     
+
+
       <PaymentModal
         isOpen={showPaymentModal}
         onClose={() => setShowPaymentModal(false)}
@@ -1333,12 +1348,12 @@ const CheckoutPage = () => {
         shipping={shipping}
       />
 
-      <OTPModal
-        isOpen={showOTPModal}
-        onClose={() => setShowOTPModal(false)}
-        onVerify={handleOTPVerify}
-        loading={loading}
-      />
+   <OTPModal
+  isOpen={showOTPModal}
+  onClose={() => setShowOTPModal(false)}
+  onVerify={handleOTPVerify} 
+  loading={otpVerifying}
+/>
 
     </div>
   );
