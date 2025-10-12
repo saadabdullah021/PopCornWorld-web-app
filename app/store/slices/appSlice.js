@@ -193,20 +193,24 @@ const appSlice = createSlice({
     },
     addToCart: (state, action) => {
       const { product, link_code } = action.payload;
-      const productToAdd = product || action.payload; // Support both formats for backward compatibility
+      const productToAdd = product || action.payload;
       const existingItem = state.cart.find(item => item.id === productToAdd.id);
       
       if (existingItem) {
         existingItem.quantity += 1;
-        // Update link_code if provided
         if (link_code) {
           existingItem.link_code = link_code;
         }
+        if (productToAdd.campaign_info) {
+          existingItem.campaign_info = productToAdd.campaign_info;
+        }
       } else {
         const cartItem = { ...productToAdd, quantity: 1 };
-        // Add link_code if provided
         if (link_code) {
           cartItem.link_code = link_code;
+        }
+        if (productToAdd.campaign_info) {
+          cartItem.campaign_info = productToAdd.campaign_info;
         }
         state.cart.push(cartItem);
       }

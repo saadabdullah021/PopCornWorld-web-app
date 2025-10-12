@@ -603,6 +603,7 @@ const PaymentModal = ({ isOpen, onClose, onPaymentSuccess, orderTotal, formData,
         billing_city: formData.billingIsSame ? formData.shippingCity : formData.billingCity,
         billing_state: formData.billingIsSame ? formData.shippingState : formData.billingState,
         billing_zipcode: formData.billingIsSame ? formData.shippingZip : formData.billingZip,
+        link_code: cartItems[0]?.link_code || null,
 
         tax: tax.toFixed(2),
         shipping_charges: shipping.toFixed(2),
@@ -820,6 +821,10 @@ const CheckoutPage = () => {
   });
 
   const cartItems = cart || [];
+  const campaignInfo = cartItems[0]?.campaign_info;
+  
+  console.log('Cart items:', cartItems);
+  console.log('Campaign info:', campaignInfo);
 
 
   useEffect(() => {
@@ -990,6 +995,7 @@ const CheckoutPage = () => {
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-blue-50/50 via-white to-indigo-50/30  pt-32 lg:pt-40">
+      
       <div className="bg-white shadow-sm border-b border-gray-100">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
           <div className="flex items-center justify-between">
@@ -1006,7 +1012,29 @@ const CheckoutPage = () => {
           </div>
         </div>
       </div>
-
+      {campaignInfo && (
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-2">
+          <div className="bg-white rounded-lg shadow-sm border border-gray-200 p-4 mb-2">
+            <div className="flex items-start gap-3">
+              <div className="w-10 h-10 rounded-full overflow-hidden bg-gray-100">
+                <img 
+                  src={campaignInfo.campaign_thumbnail?.startsWith('uploads') 
+                    ? `https://onebigmediacompany.online/${campaignInfo.campaign_thumbnail}`
+                    : campaignInfo.campaign_thumbnail || '/pop_packet.png'
+                  } 
+                  alt={campaignInfo.campaign_name}
+                  className="w-full h-full object-cover"
+                  onError={(e) => e.target.src = '/pop_packet.png'}
+                />
+              </div>
+              <div>
+                <p className="text-sm text-gray-600">You're supporting</p>
+                <p className="font-semibold text-gray-900">{campaignInfo.campaign_name}</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 ">
         <div className="grid grid-cols-1 lg:grid-cols-4 gap-8">
           <div className="lg:col-span-2">

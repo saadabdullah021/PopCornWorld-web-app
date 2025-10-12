@@ -95,21 +95,6 @@ const CampaignDetailPage = () => {
         showShopSection={showShopSection}
         onBuyNowClick={handleBuyNowClick}
       />
-      {showShopSection && (
-        <ShopToggleSection 
-          products={products}
-          productsLoading={productsLoading}
-          productsError={productsError}
-          productsPagination={productsPagination}
-          onLoadMoreProducts={handleLoadMoreProducts}
-          collections={collections}
-          collectionsLoading={collectionsLoading}
-          collectionsError={collectionsError}
-          collectionsPagination={collectionsPagination}
-          onLoadMoreCollections={handleLoadMoreCollections}
-          link_code={campaign?.link?.link_code}
-        />
-      )}
     </div>
   );
 };
