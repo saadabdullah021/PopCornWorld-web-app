@@ -30,7 +30,7 @@ const ProjectSharePopup = ({ isOpen, onClose, project }) => {
   /*  NEW:  share title + URL  */
   const shareNative = () =>
     navigator.share
-      ? navigator.share({ title: shareTitle, url: shareUrl }).catch(() => {})
+      ? navigator.share({ title: shareTitle, url: shareUrl }).catch(() => { })
       : navigator.clipboard.writeText(shareUrl).then(() => toast.success('Link copied!'));
 
   const copyToClipboard = async () => {
@@ -114,8 +114,8 @@ const ProjectSharePopup = ({ isOpen, onClose, project }) => {
                 </svg>
               </div>
               <div>
-                <h3 className="text-2xl font-semibold text-black">Quick Share</h3>
-                <p className="text-sm font-medium text-gray-700">Help this Pop-Up Store reach its goal by sharing the link.</p>
+                <h3 className="text-2xl font-semibold text-black">Quick share options</h3>
+                <p className="text-sm font-medium text-gray-700">Share this fundraiser and make a bigger impact by reaching more donors.</p>
               </div>
             </div>
           </div>

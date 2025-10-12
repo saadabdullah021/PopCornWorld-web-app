@@ -153,8 +153,8 @@ const MinimalSharePopup = ({ isOpen, onClose, url, title }) => {
                 </svg>
               </div>
               <div>
-                <h3 className="text-2xl font-semibold text-black">Quick Share Options</h3>
-                <p className="text-sm font-medium text-gray-700">Help this Pop-Up Store reach its goal by sharing the link.</p>
+                <h3 className="text-2xl font-semibold text-black">Quick share options</h3>
+                <p className="text-sm font-medium text-gray-700">Share this fundraiser and make a bigger impact by reaching more donors.</p>
               </div>
             </div>
           </div>
