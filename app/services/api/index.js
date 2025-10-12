@@ -79,12 +79,16 @@ export const verifyOTP = async (phoneNumber, otpCode, otpType, success, fail) =>
       otp_code: otpCode,
       otp_type: otpType
     });
-    if (response?.data?.status === 200) {
+
+    if (response?.data?.status == 200) {
+      console.log("success");
+
       success && success(response?.data);
       return response?.data;
     } else {
+
       fail && fail(response?.data?.message || 'OTP verification failed');
-      return response?.data;
+      return response?.data?.message;
     }
   } catch (error) {
     fail && fail(error?.response?.data?.message || 'Network error occurred');
@@ -224,7 +228,7 @@ export const getUserOrders = async (phone_number, success, fail) => {
 
     // Build URL with phone_number query parameter
     const url = phone_number ? `${get_user_orders}?phone_number=${encodeURIComponent(phone_number)}` : get_user_orders;
-    
+
     // Make API call without bearer token
     const response = await axiosInstance.get(url, {
       headers: {

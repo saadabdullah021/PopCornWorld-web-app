@@ -6,7 +6,7 @@ import Image from 'next/image';
 import { useSelector, useDispatch } from 'react-redux';
 import { useRouter } from 'next/navigation';
 import { createOrder, sendOTP, verifyOTP } from '../services/api';
-import { clearCart, addNotification } from '../store/slices/appSlice';
+import { clearCart, addNotification, setError } from '../store/slices/appSlice';
 
 
 const mockStates = [
@@ -38,7 +38,7 @@ const Input = ({
 }) => (
   <div className="mb-6">
     <label className=" text-sm font-semibold text-black mb-2 flex items-center gap-2">
-     
+
       {label}
     </label>
     <div className="relative">
@@ -52,8 +52,8 @@ const Input = ({
         placeholder={placeholder}
         maxLength={maxLength}
         className={`w-full px-4 py-3 border rounded-xl bg-white transition-all duration-300 placeholder-gray-600 focus:ring-0 outline-black focus:outline-1 text-black font-medium  ${error
-            ? 'border-red-400 focus:border-red-500  focus:ring-4 focus:ring-red-100'
-            : 'border-gray-200'
+          ? 'border-red-400 focus:border-red-500  focus:ring-4 focus:ring-red-100'
+          : 'border-gray-200'
           } ${disabled
             ? 'bg-gray-50 cursor-not-allowed border-gray-100 text-gray-500'
             : 'hover:border-gray-300'
@@ -83,11 +83,11 @@ const Dropdown = ({
   options,
   error,
   disabled = false,
- 
+
 }) => (
   <div className="mb-6">
     <label className=" text-sm font-semibold text-black mb-2 flex items-center gap-2">
-  
+
       {label}
     </label>
     <select
@@ -97,8 +97,8 @@ const Dropdown = ({
       onBlur={onBlur}
       disabled={disabled}
       className={`w-full px-4 py-3.5 border rounded-xl bg-white transition-all duration-300 text-black font-medium shadow-sm focus:outline-1 outline-black focus:ring-0 hover:shadow-sm  ${error
-          ? 'border-red-400 focus:border-red-500 focus:ring-4 focus:ring-red-100'
-          : 'border-gray-200 '
+        ? 'border-red-400 focus:border-red-500 focus:ring-4 focus:ring-red-100'
+        : 'border-gray-200 '
         } ${disabled
           ? 'bg-gray-50 cursor-not-allowed border-gray-100 text-gray-500'
           : 'hover:border-gray-300'
@@ -144,8 +144,8 @@ const TextArea = ({
       placeholder={placeholder}
       rows={rows}
       className={`w-full px-4 py-3 border rounded-xl bg-white transition-all focus:outline-1 outline-black focus:ring-0 duration-300 placeholder-gray-400 text-black font-medium  resize-none ${error
-          ? 'border-red-400 focus:border-red-500 focus:ring-4 focus:ring-red-100'
-          : 'border-gray-200 '
+        ? 'border-red-400 focus:border-red-500 focus:ring-4 focus:ring-red-100'
+        : 'border-gray-200 '
         }`}
     />
     {error && (
@@ -168,8 +168,8 @@ const Checkbox = ({ checked, onChange, label, icon: IconComponent }) => (
       />
       <div
         className={`w-5 h-5 rounded-md border-2 transition-all duration-200 cursor-pointer ${checked
-            ? 'bg-[#3333cb] border-[#3333cb]'
-            : 'border-gray-300 hover:border-blue-400'
+          ? 'bg-[#3333cb] border-[#3333cb]'
+          : 'border-gray-300 hover:border-blue-400'
           }`}
         onClick={() => onChange(!checked)}
       >
@@ -386,21 +386,21 @@ const OrderSummary = ({ items, subtotal, tax, shipping, total }) => (
           </div>
           <div className="flex-1">
             <div className='flex items-start justify-between'>
-                 <div>
+              <div>
 
-            <h4 className="font-semibold leading-7 text-[16px] text-black">{item.name || item.title}</h4>
-            {item.description && (
-              <p className="text-sm text-gray-500 mt-1">{item.description}</p>
-            )}
+                <h4 className="font-semibold leading-7 text-[16px] text-black">{item.name || item.title}</h4>
+                {item.description && (
+                  <p className="text-sm text-gray-500 mt-1">{item.description}</p>
+                )}
+              </div>
+              <span className="font-semibold leading-7 text-[16px] text-black">${(item.price * item.quantity).toFixed(2)}</span>
             </div>
-               <span className="font-semibold leading-7 text-[16px] text-black">${(item.price * item.quantity).toFixed(2)}</span>
-            </div>
-         
+
             <div className="flex justify-between items-center mt-3">
               <span className="text-xs font-semibold leading-5 text-[#757575]">
                 Qty: {item.quantity}
               </span>
-             
+
             </div>
           </div>
         </div>
@@ -586,8 +586,8 @@ const PaymentModal = ({ isOpen, onClose, onPaymentSuccess, orderTotal, formData,
         cardName: paymentData.cardName,
 
         email: formData.email,
+        name: formData?.name,
         phone_number: formData.phone.replace(/\D/g, ''),
-
         products: cartItems.map(item => ({
           id: item.id.toString(),
           price: item.price.toString(),
@@ -829,7 +829,7 @@ const CheckoutPage = () => {
 
   const cartItems = cart || [];
   const campaignInfo = cartItems[0]?.campaign_info;
-  
+
   console.log('Cart items:', cartItems);
   console.log('Campaign info:', campaignInfo);
 
@@ -960,27 +960,29 @@ const CheckoutPage = () => {
     setLoading(true);
 
     verifyOTP(
-      formData.phone.replace(/\D/g, ''),
+      formData?.phone?.replace(/\D/g, ''),
       otpCode,
       'order',
       (response) => {
         setLoading(false);
         setShowOTPModal(false);
-        setFormData(prev => ({ ...prev, otpVerified: true }));
+        setFormData(prev => ({
+          ...prev,
+          otpVerified: true,
+        }));
+
         setCurrentStep(1);
         dispatch(addNotification({
           message: 'Phone number verified successfully!',
-          type: 'success'
+          type: 'success',
         }));
       },
       (error) => {
         setLoading(false);
-        dispatch(addNotification({
-          message: error || 'Invalid OTP. Please try again.',
-          type: 'error'
-        }));
+        dispatch(setError(error));
       }
     );
+
   };
 
   const handleContinueToPayment = () => {
@@ -1002,7 +1004,7 @@ const CheckoutPage = () => {
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-blue-50/50 via-white to-indigo-50/30  pt-32 lg:pt-40">
-      
+
       <div className="bg-white shadow-sm border-b border-gray-100">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
           <div className="flex items-center justify-between">
@@ -1024,11 +1026,11 @@ const CheckoutPage = () => {
           <div className="bg-white rounded-lg shadow-sm border border-gray-200 p-4 mb-2">
             <div className="flex items-start gap-3">
               <div className="w-10 h-10 rounded-full overflow-hidden bg-gray-100">
-                <img 
-                  src={campaignInfo.campaign_thumbnail?.startsWith('uploads') 
+                <img
+                  src={campaignInfo.campaign_thumbnail?.startsWith('uploads')
                     ? `https://onebigmediacompany.online/${campaignInfo.campaign_thumbnail}`
                     : campaignInfo.campaign_thumbnail || '/pop_packet.png'
-                  } 
+                  }
                   alt={campaignInfo.campaign_name}
                   className="w-full h-full object-cover"
                   onError={(e) => e.target.src = '/pop_packet.png'}

@@ -108,7 +108,7 @@ const Header = () => {
     // Phone number validation for 11-digit numbers
     const validateUSPhone = (phone) => {
         const cleanPhone = phone.replace(/[^\d]/g, '');
-        return cleanPhone.length === 11;
+        return cleanPhone.length === 10;
     };
 
     // Format phone number as user types

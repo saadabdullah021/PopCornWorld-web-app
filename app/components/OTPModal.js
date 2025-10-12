@@ -6,18 +6,18 @@ import { useDispatch, useSelector } from 'react-redux';
 import { verifyOTP } from '../services/api';
 import { setAuthLoading, setAuthError, loginSuccess } from '../store/slices/appSlice';
 
-const OTPModal = ({ 
-  isOpen, 
-  onClose, 
-  onVerify, 
-  onResend, 
-  phoneNumber, 
-  otp, 
-  onOtpChange, 
-  onOtpKeyDown, 
-  otpError, 
+const OTPModal = ({
+  isOpen,
+  onClose,
+  onVerify,
+  onResend,
+  phoneNumber,
+  otp,
+  onOtpChange,
+  onOtpKeyDown,
+  otpError,
   isLoading,
-  otpRefs 
+  otpRefs
 }) => {
   const dispatch = useDispatch();
   const { authLoading, authError, phoneNumber: storedPhone } = useSelector(state => state.app);
@@ -37,13 +37,7 @@ const OTPModal = ({
       otpCode,
       'signin', // OTP type for signin
       (response) => {
-        // Success
-        console.log('OTP verification response:', response);
         if (response.data && response.data.customer_info && response.data.access_token) {
-          console.log('Storing auth data:', {
-            access_token: response.data.access_token.substring(0, 20) + '...',
-            customer_info: response.data.customer_info
-          });
           dispatch(loginSuccess(response.data));
         }
         dispatch(setAuthLoading(false));
@@ -57,6 +51,7 @@ const OTPModal = ({
       }
     );
   };
+
   const [timeLeft, setTimeLeft] = useState(300);
   const [canResend, setCanResend] = useState(false);
 
@@ -109,10 +104,10 @@ const OTPModal = ({
   return (
 
 
-   
+
     <div className="fixed inset-0 flex items-center justify-center z-[70] ">
       <div className="bg-white rounded-2xl shadow-2xl w-full max-w-2xl transform transition-all duration-300 animate-modal p-8">
-        
+
         {/* Header */}
         <div className="flex justify-between items-center mb-6">
           <div className="flex items-center gap-3">
@@ -124,21 +119,21 @@ const OTPModal = ({
               <p className="text-sm text-gray-600">Secure verification</p>
             </div>
           </div>
-          <button 
-            onClick={onClose} 
+          <button
+            onClick={onClose}
             className="text-gray-400 hover:text-gray-600 transition-colors p-2 hover:bg-gray-100 rounded-lg"
           >
             <FaTimes className="text-lg" />
           </button>
         </div>
-        
+
         {/* Description */}
         <p className="text-gray-600 mb-8 text-center text-sm leading-relaxed">
-          Enter the 5-digit verification code sent to 
+          Enter the 5-digit verification code sent to
           <br />
           <span className="font-semibold text-black">{phoneNumber}</span>
         </p>
-        
+
         {/* OTP Inputs */}
         <div className="flex justify-center gap-3 mb-8">
           {otp.map((digit, index) => (
@@ -160,7 +155,7 @@ const OTPModal = ({
             />
           ))}
         </div>
-        
+
         {/* Error Message */}
         {(otpError || authError) && (
           <div className="flex items-center justify-center gap-2 text-red-500 text-sm mb-6 bg-red-50 p-3 rounded-lg border border-red-200">
@@ -180,7 +175,7 @@ const OTPModal = ({
             <span>Code expires in {formatTime(timeLeft)}</span>
           </div>
         </div>
-        
+
         {/* Action Buttons */}
         <div className="flex gap-3 mb-6">
           <button
@@ -195,7 +190,7 @@ const OTPModal = ({
             className={`
               flex-1 py-3 px-4 font-medium rounded-full transition-all duration-200 active:scale-95
               ${(authLoading || isLoading) || otp.join('').length !== 5
-                ? 'bg-gray-300 cursor-not-allowed text-gray-500' 
+                ? 'bg-gray-300 cursor-not-allowed text-gray-500'
                 : 'bg-[#8bc34a]  text-white shadow-lg hover:shadow-xl'
               }
             `}
@@ -213,7 +208,7 @@ const OTPModal = ({
             )}
           </button>
         </div>
-        
+
         {/* Resend Code */}
         <div className="text-center">
           <p className="text-xs text-gray-500">
@@ -224,7 +219,7 @@ const OTPModal = ({
               className={`
                 font-medium transition-all duration-200
                 ${!canResend || isLoading
-                  ? 'text-gray-400 cursor-not-allowed' 
+                  ? 'text-gray-400 cursor-not-allowed'
                   : 'text-[#3333cb] hover:text-[#2a2ab3] hover:underline'
                 }
               `}
@@ -248,7 +243,7 @@ const OTPModal = ({
           </p>
         </div>
       </div>
-      
+
 
     </div>
   );
