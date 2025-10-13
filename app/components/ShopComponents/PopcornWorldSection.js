@@ -25,26 +25,25 @@ const PopcornWorldSection = () => {
 
             {/* Description */}
             <p className="main_description leading-relaxed max-w-lg">
-              Popcorn World always gives back, helping our communities 
+              Popcorn World always gives back, helping our communities
               through experiences, education and supporting local needs.
             </p>
 
             {/* CTA Button */}
             <div className="pt-2">
               <Link href='/get-started' className="group btn-primary  transition-all duration-300 animate-fadeInUp">
-                        Get Started
-                       
-                      </Link>
+                Get Started
+              </Link>
             </div>
           </div>
 
           {/* Image Section */}
           <div className="relative">
             <div className="relative aspect-[4/5] lg:aspect-[9/10] w-full max-w-md mx-auto lg:max-w-full">
-             
+
               {/* Main Image Container */}
               <div className="relative rounded-2xl overflow-hidden h-full ">
-                
+
                 {/* Person Image */}
                 <div className="absolute inset-0 flex items-center justify-center lg:p-6">
 
@@ -57,8 +56,8 @@ const PopcornWorldSection = () => {
                       sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
                       priority
                     />
-                    
-        
+
+
                   </div>
                 </div>
               </div>

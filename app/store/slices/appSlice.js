@@ -195,7 +195,7 @@ const appSlice = createSlice({
       const { product, link_code } = action.payload;
       const productToAdd = product || action.payload;
       const existingItem = state.cart.find(item => item.id === productToAdd.id);
-      
+
       if (existingItem) {
         existingItem.quantity += 1;
         if (link_code) {
@@ -214,14 +214,14 @@ const appSlice = createSlice({
         }
         state.cart.push(cartItem);
       }
-      
+
       // Save to localStorage
       saveCartToStorage(state.cart);
     },
     removeFromCart: (state, action) => {
       const productId = action.payload;
       state.cart = state.cart.filter(item => item.id !== productId);
-      
+
       // Save to localStorage
       saveCartToStorage(state.cart);
     },
@@ -235,13 +235,13 @@ const appSlice = createSlice({
           item.quantity = quantity;
         }
       }
-      
+
       // Save to localStorage
       saveCartToStorage(state.cart);
     },
     clearCart: (state) => {
       state.cart = [];
-      
+
       // Save to localStorage
       saveCartToStorage(state.cart);
     },
@@ -269,7 +269,7 @@ const appSlice = createSlice({
       state.user = customer_info; // Keep for backward compatibility
       state.authLoading = false;
       state.authError = null;
-      
+
       // Save to localStorage
       saveAuthToStorage(access_token, customer_info);
     },
@@ -281,7 +281,7 @@ const appSlice = createSlice({
       state.phoneNumber = null;
       state.otpSent = false;
       state.authError = null;
-      
+
       // Clear from localStorage
       saveAuthToStorage(null, null);
     }
@@ -318,7 +318,7 @@ const appSlice = createSlice({
       })
       .addCase(fetchProducts.fulfilled, (state, action) => {
         state.productsLoading = false
-        
+
         console.log('Reducer - fetchProducts.fulfilled:', {
           append: action.payload.append,
           currentProducts: state.products?.length || 0,
@@ -326,7 +326,7 @@ const appSlice = createSlice({
           page: action.payload.page,
           totalPages: action.payload.total_pages
         });
-        
+
         // If append is true, add new data to existing products
         if (action.payload.append && state.products) {
           state.products = [...state.products, ...action.payload.data]
@@ -335,7 +335,7 @@ const appSlice = createSlice({
           state.products = action.payload.data
           console.log('Replaced data. Total products now:', state.products.length);
         }
-        
+
         // Update pagination info from API response
         state.productsPagination = {
           currentPage: action.payload.page || 1,
@@ -343,7 +343,7 @@ const appSlice = createSlice({
           totalPages: action.payload.total_pages || 0,
           totalRecords: action.payload.total_records || 0
         }
-        
+
         console.log('Updated products pagination:', state.productsPagination);
       })
       .addCase(fetchProducts.rejected, (state, action) => {
@@ -356,7 +356,7 @@ const appSlice = createSlice({
       })
       .addCase(fetchCollections.fulfilled, (state, action) => {
         state.collectionsLoading = false
-        
+
         console.log('Reducer - fetchCollections.fulfilled:', {
           append: action.payload.append,
           currentCollections: state.collections?.length || 0,
@@ -364,7 +364,7 @@ const appSlice = createSlice({
           page: action.payload.page,
           totalPages: action.payload.total_pages
         });
-        
+
         // If append is true, add new data to existing collections
         if (action.payload.append && state.collections) {
           state.collections = [...state.collections, ...action.payload.data]
@@ -373,7 +373,7 @@ const appSlice = createSlice({
           state.collections = action.payload.data
           console.log('Replaced data. Total collections now:', state.collections.length);
         }
-        
+
         // Update pagination info from API response
         state.collectionsPagination = {
           currentPage: action.payload.page || 1,
@@ -381,7 +381,7 @@ const appSlice = createSlice({
           totalPages: action.payload.total_pages || 0,
           totalRecords: action.payload.total_records || 0
         }
-        
+
         console.log('Updated pagination:', state.collectionsPagination);
       })
       .addCase(fetchCollections.rejected, (state, action) => {

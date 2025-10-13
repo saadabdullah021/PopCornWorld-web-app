@@ -142,8 +142,6 @@ const VirtualFundraisingSection = () => {
               <Link href='/get-started' className="group btn-primary transition-all text-center justify-center duration-300 animate-fadeInUp">
                 Get Started
               </Link>
-
-
             </div>
           </div>
 

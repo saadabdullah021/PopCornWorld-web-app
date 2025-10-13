@@ -596,7 +596,7 @@ const PaymentModal = ({ isOpen, onClose, onPaymentSuccess, orderTotal, formData,
           price: item.price.toString(),
           quantity: item.quantity.toString(),
           type: item.type || 'product',
-          link_code: item.link_code || null
+          link_code: item.link_code || ""
         })),
 
         shipping_first_name: formData.shippingFirstName,
@@ -613,7 +613,7 @@ const PaymentModal = ({ isOpen, onClose, onPaymentSuccess, orderTotal, formData,
         billing_city: formData.billingIsSame ? formData.shippingCity : formData.billingCity,
         billing_state: formData.billingIsSame ? formData.shippingState : formData.billingState,
         billing_zipcode: formData.billingIsSame ? formData.shippingZip : formData.billingZip,
-        link_code: cartItems[0]?.link_code || null,
+        link_code: cartItems[0]?.link_code || "",
 
         tax: tax.toFixed(2),
         shipping_charges: shipping.toFixed(2),
@@ -744,7 +744,7 @@ const PaymentModal = ({ isOpen, onClose, onPaymentSuccess, orderTotal, formData,
             </div>
           </div>
 
-          <div className="bg-gradient-to-r from-green-50 to-emerald-50 p-4 rounded-xl border border-green-200">
+          {/* <div className="bg-gradient-to-r from-green-50 to-emerald-50 p-4 rounded-xl border border-green-200">
             <div className="flex items-start gap-3">
               <div className="w-8 h-8 bg-green-100 rounded-full flex items-center justify-center flex-shrink-0 mt-0.5">
                 <Shield size={16} className="text-green-600" />
@@ -754,7 +754,7 @@ const PaymentModal = ({ isOpen, onClose, onPaymentSuccess, orderTotal, formData,
                 <p>Your payment information is encrypted and secure. We never store your card details on our servers.</p>
               </div>
             </div>
-          </div>
+          </div> */}
 
           {paymentErrors.general && (
             <div className="bg-red-50 border-2 border-red-200 rounded-xl p-4">

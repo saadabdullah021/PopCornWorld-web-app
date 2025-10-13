@@ -37,7 +37,7 @@ const Header = () => {
     const timeoutRef = useRef(null);
     const pathname = usePathname();
     const [isCartOpen, setIsCartOpen] = useState(false);
-    
+
     // Get cart count and auth state from Redux
     const { cart, isAuthenticated, customerInfo } = useSelector(state => state.app);
     const cartItemCount = cart ? cart.reduce((sum, item) => sum + item.quantity, 0) : 0;
@@ -238,7 +238,7 @@ const Header = () => {
         setTimeout(() => {
             setIsLoading(false);
             setShowOTPModal(false);
-            
+
             // Mock successful login response - replace with actual API call
             const mockResponse = {
                 access_token: "14|gOlAYJ8zbYrHt0rQvdFdJS2c5GVcjzM1rEin22CR10184077",
@@ -256,10 +256,10 @@ const Header = () => {
                     updated_at: "2025-10-05T14:18:29.000000Z"
                 }
             };
-            
+
             // Dispatch login success to Redux
             dispatch(loginSuccess(mockResponse));
-            
+
             // Reset all states
             setPhoneNumber('');
             setOtp(['', '', '', '', '']);
@@ -316,7 +316,7 @@ const Header = () => {
                                     className="group flex items-center hover:text-[#ffc222] transition-all duration-300"
                                 >
                                     <FaPhone className="mr-2 transform group-hover:scale-110 transition-transform duration-300" />
-                             219-427-1806
+                                    219-427-1806
                                 </a>
 
                                 <a
@@ -334,15 +334,15 @@ const Header = () => {
                                     className="group flex items-center hover:text-[#ffc222] transition-all duration-300"
                                 >
                                     <FaMapMarkerAlt className="mr-2 transform group-hover:scale-110 transition-transform duration-300" />
-                               2560 Garfield St Suite 3, Gary, IN 46404
+                                    2560 Garfield St Suite 3, Gary, IN 46404
                                 </a>
                             </div>
 
                             <div className="flex items-center space-x-4">
                                 {!isAuthenticated && (
-                                <Link href='/track-an-order' className="text-sm lg:text-[16px] font-medium  cursor-pointer hover:text-[#ffc222] text-white mr-3">
-                                    Track Order
-                                </Link>
+                                    <Link href='/track-an-order' className="text-sm lg:text-[16px] font-medium  cursor-pointer hover:text-[#ffc222] text-white mr-3">
+                                        Track Order
+                                    </Link>
                                 )}
 
                                 {/* Sign In / Profile Section */}
@@ -493,14 +493,14 @@ const Header = () => {
 
                             {/* Enhanced Donate + Mobile Toggle */}
                             <div className="flex items-center space-x-4">
-                           
-                                    <Link
-                                        href="/get-started"
-                                        className="group relative hidden bg-[#8BC34A] text-white px-6 py-3 rounded-full transition-all duration-300 transform lg:flex items-center font-medium overflow-hidden"
-                                    >
-                                        <span className="relative z-10">Get Started</span>
-                                    </Link>
-                          
+
+                                <Link
+                                    href="/get-started"
+                                    className="group relative hidden bg-[#8BC34A] text-white px-6 py-3 rounded-full transition-all duration-300 transform lg:flex items-center font-medium overflow-hidden"
+                                >
+                                    <span className="relative z-10">Get Started</span>
+                                </Link>
+
 
                                 <button
                                     className="lg:hidden p-3 rounded-xl border border-gray-200 hover:border-[#8BC34A] hover:bg-blue-50 transition-all duration-300 transform"
@@ -627,15 +627,14 @@ const Header = () => {
 
                     {/* Mobile Donate Button */}
                     <div className="p-6">
-                
-                            <Link
-                                href="/get-started"
-                                onClick={closeMobileMenu}
-                                className="group w-full btn-primary transition-all duration-300 flex items-center justify-center font-medium transform shadow-lg"
-                            >
-                                Get Started
-                            </Link>
-                   
+                        <Link
+                            href="/get-started"
+                            onClick={closeMobileMenu}
+                            className="group w-full btn-primary transition-all duration-300 flex items-center justify-center font-medium transform shadow-lg"
+                        >
+                            Get Started
+                        </Link>
+
                     </div>
                 </div>
             </div>

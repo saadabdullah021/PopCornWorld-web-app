@@ -123,7 +123,7 @@ const FlavorDetailsPage = () => {
             {/* Main Image */}
             <div className="relative h-96 lg:h-[400px] bg-gradient-to-br from-orange-100 to-yellow-50 rounded-2xl overflow-hidden shadow-lg">
               <Image
-                src={flavor.image || flavor.images?.[selectedImageIndex] || '/pop_packet.png'}
+                src={flavor.product_images || flavor.product_images?.[selectedImageIndex]?.thumbnail || '/pop_packet.png'}
                 alt={flavor.name || flavor.title || 'Popcorn Flavor'}
                 fill
                 className="object-fill drop-shadow-2xl transition-all duration-300"
