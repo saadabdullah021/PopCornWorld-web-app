@@ -40,24 +40,28 @@ const CollectionDetailsPage = () => {
         }
     }, [params?.slug, router]);
 
+
+
+
     const handleBack = () => {
         router.push('/shop');
     };
 
+
     const handleAddToCart = () => {
         if (!collection) return;
-        
+
         // Add collection to cart
         dispatch(addToCart({ product: collection }));
-        
+
         // Show success notification
         dispatch(addNotification({
             message: `${collection.name} has been added to your cart!`,
             type: 'success'
         }));
-        
+
         // Redirect to checkout page
-        router.push('/checkout');
+        // router.push('/checkout');
     };
 
     if (loading) {
@@ -121,66 +125,100 @@ const CollectionDetailsPage = () => {
                     {/* Left Side - Images */}
                     <div className="space-y-4">
                         {/* Main Image */}
-                        <div className="relative h-96 lg:h-[400px] bg-gradient-to-br from-orange-100 to-yellow-50 rounded-2xl overflow-hidden shadow-lg">
+                        <div className="relative h-72 lg:h-[350px] bg-gradient-to-br from-orange-100 to-yellow-50 rounded-2xl overflow-hidden shadow-lg">
                             <Image
-                                src={collection.image || collection.images?.[selectedImageIndex] || '/pop_packet.png'}
+                                src={
+                                    collection?.collection_images?.[selectedImageIndex]?.image
+                                        ? collection.collection_images[selectedImageIndex].image.startsWith('http')
+                                            ? collection.collection_images[selectedImageIndex].image
+                                            : `https://onebigmediacompany.online/${collection.collection_images[selectedImageIndex].image.trim()}`
+                                        : collection.image || collection.images?.[selectedImageIndex] || '/pop_packet.png'
+                                }
                                 alt={collection.name || collection.title || 'Collection'}
                                 fill
+                                sizes="(max-width: 1024px) 100vw, 50vw"
+                                priority
                                 className="object-fill drop-shadow-2xl transition-all duration-300"
                                 onError={(e) => {
-                                    e.target.src = '/pop_packet.png';
+                                    e.currentTarget.src = '/pop_packet.png';
                                 }}
                             />
+
                         </div>
 
                         {/* Thumbnail Images */}
-                        {collection.images && collection.images.length > 1 && (
-                            <div className="flex gap-3 overflow-x-auto pb-2">
-                                {collection.images.map((image, index) => (
-                                    <button
-                                        key={index}
-                                        onClick={() => setSelectedImageIndex(index)}
-                                        className={`flex-shrink-0 w-20 h-20 rounded-lg overflow-hidden border-2 transition-all duration-300 ${selectedImageIndex === index
+                        {collection.collection_images && collection.collection_images.length > 1 && (
+                            <div className="flex gap-3 overflow-x-auto px-2 py-2">
+                                {collection.collection_images.map((item, index) => {
+                                    const imageUrl = item?.image
+                                        ? item.image.startsWith('http')
+                                            ? item.image
+                                            : `https://onebigmediacompany.online/${item.image.trim()}`
+                                        : '/pop_packet.png';
+                                    return (
+                                        <button
+                                            key={index}
+                                            onClick={() => setSelectedImageIndex(index)}
+                                            className={`flex-shrink-0 w-20 h-20 rounded-lg overflow-hidden border-2 transition-all duration-300 ${selectedImageIndex === index
                                                 ? 'border-[#8bc34a] shadow-lg scale-105'
                                                 : 'border-gray-200 hover:border-gray-300 hover:scale-102'
-                                            }`}
-                                    >
-                                        <Image
-                                            src={image}
-                                            alt={`${collection.name || collection.title} ${index + 1}`}
-                                            width={80}
-                                            height={80}
-                                            className="w-full h-full object-cover"
-                                            onError={(e) => {
-                                                e.target.src = '/pop_packet.png';
-                                            }}
-                                        />
-                                    </button>
-                                ))}
+                                                }`}
+                                        >
+                                            <Image
+                                                src={imageUrl}
+                                                alt={`${collection.name || collection.title} ${index + 1}`}
+                                                width={80}
+                                                height={80}
+                                                className="w-full h-full object-cover"
+                                                loading="lazy"
+                                                onError={(e) => {
+                                                    e.currentTarget.src = '/pop_packet.png';
+                                                }}
+                                            />
+                                        </button>
+                                    );
+                                })}
                             </div>
                         )}
+
                     </div>
 
                     {/* Right Side - Details */}
                     <div className="space-y-6">
-                        {/* collection Name */}
-                        <h1 className="text-4xl lg:text-5xl font-bold text-black leading-tight">
-                            {collection.name || collection.title || 'Collection'}
-                        </h1>
 
-                        {/* Category */}
-                        <span className="inline-block px-4 py-2 bg-gray-200 text-black text-sm font-bold uppercase tracking-wider rounded-full">
-                            {collection.product_categories?.[0]?.category?.name || collection.type || collection.category || 'COLLECTION'}
-                        </span>
 
-                        {/* Price */}
-                        <div className="text-3xl font-bold text-black">
-                            ${collection.price || '0.00'}
+
+                        <div>
+                            {/* Category */}
+                            <span className="inline-block text-[#757575] text-xs font-medium leading-4 uppercase  ">
+
+
+                                {collection.product_categories?.[0]?.category?.name || collection.type || collection.category || 'COLLECTION'}
+                            </span>
+
+                            <div className='flex items-center justify-between'>
+                                {/* Flavor Name */}
+                                <h1 className="text-[16px] leading-7 font-semibold text-black ">
+                                    {collection.name || collection.title || 'Collection'}
+                                </h1>
+
+
+
+                                {/* Price */}
+                                <div className="text-[16px] leading-7 font-semibold text-black flex-shrink-0 ">
+                                    ${collection.price || '0.00'}
+                                </div>
+                            </div>
+
                         </div>
 
+
+
+
+
                         {/* Description */}
-                        <div 
-                            className="text-black text-lg leading-relaxed"
+                        <div
+                            className="text-black text-[16px] font-medium leading-relaxed"
                             dangerouslySetInnerHTML={{ __html: collection.description || '' }}
                         />
 

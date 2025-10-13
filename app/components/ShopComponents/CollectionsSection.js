@@ -204,8 +204,9 @@ const CollectionsSection = ({ collections, collectionsLoading, collectionsError,
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8 mb-12">
           {allCollections && allCollections.length > 0 ? allCollections.map((collection, index) => (
             <div
+                      onClick={() => handleMoreInfo(collection)}
               key={collection.id}
-              className="group  transition-all duration-500 transform overflow-hidden  flex flex-col h-full"
+              className="group  transition-all duration-500 transform overflow-hidden cursor-pointer  flex flex-col h-full"
               style={{
                 animationDelay: `${index * 100}ms`
               }}
@@ -270,7 +271,11 @@ const CollectionsSection = ({ collections, collectionsLoading, collectionsError,
                     More Info
                   </button> */}
                   <button
-                    onClick={() => handleAddToCart(collection)}
+                 
+                      onClick={(e) => {
+    e.stopPropagation(); // 🧱 prevent parent click events
+    handleAddToCart(collection); // your main function
+  }}
                     className="w-full inline-flex items-center whitespace-nowrap gap-3 justify-center  bg-[#8bc34a] text-white font-bold py-3 px-6 rounded-3xl transition-all duration-300 transform hover:shadow-lg focus:outline-none">
                     Add to Cart
                     <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">

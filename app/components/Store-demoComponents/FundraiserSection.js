@@ -220,11 +220,20 @@ export default function FundraiserSection({ campaign, showShopSection, onBuyNowC
                     <span className="font-normal">raised of ${formatNumber(fundraiserData.goalAmount)} goal!</span>
                   </div>
                 </div>
-                {fundraiserData.supporters > 0 && (
-                  <p className="main_description text-gray-600">
-                    <span className="font-bold text-gray-900">{fundraiserData.supporters}</span> supporters
-                  </p>
-                )}
+
+                {/* supporters there  */}
+
+
+                {/* supporters there  */}
+{fundraiserData.supporters > 0 && (
+  <button
+    type="button"
+    onClick={() => setShowAllSupporters(true)}
+    className="text-left w-fit main_description text-gray-600 hover:text-[#8BC34A] transition-colors underline"
+  >
+    <span className="font-bold text-gray-900">{fundraiserData.supporters}</span> supporters
+  </button>
+)}
               </div>
 
               <div className="flex flex-col sm:flex-row sm:items-center gap-4">
@@ -306,7 +315,7 @@ export default function FundraiserSection({ campaign, showShopSection, onBuyNowC
 
       {/* Modal for All Supporters */}
       {showAllSupporters && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black bg-opacity-50">
+        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/50 ">
           <div className="bg-white rounded-2xl shadow-2xl max-w-2xl w-full max-h-[90vh] flex flex-col">
             <div className="flex items-center justify-between p-6 border-b border-gray-200">
               <div className="flex items-center gap-3">
@@ -315,7 +324,7 @@ export default function FundraiserSection({ campaign, showShopSection, onBuyNowC
                   <div className="w-3 h-3 bg-[#8BC34A] rotate-45"></div>
                   <div className="w-2 h-2 bg-[#8BC34A] rotate-45"></div>
                 </div>
-                <h3 className="text-2xl font-bold text-gray-900">All Supporters ({allSupporters.length})</h3>
+                <h3 className="text-xl lg:text-2xl font-bold text-gray-900">All Supporters ({allSupporters.length})</h3>
               </div>
               <button onClick={() => setShowAllSupporters(false)} className="p-2 hover:bg-gray-100 rounded-full transition-colors" aria-label="Close">
                 <X className="w-6 h-6 text-gray-600" />

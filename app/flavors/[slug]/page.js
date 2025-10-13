@@ -19,7 +19,7 @@ const FlavorDetailsPage = () => {
   useEffect(() => {
     // Get slug from URL params
     const slug = params?.slug;
-    
+
     if (slug) {
       // Fetch flavor data from API
       getSingleProduct(
@@ -46,18 +46,18 @@ const FlavorDetailsPage = () => {
 
   const handleAddToCart = () => {
     if (!flavor) return;
-    
+
     // Add product to cart
     dispatch(addToCart({ product: flavor }));
-    
+
     // Show success notification
     dispatch(addNotification({
       message: `${flavor.name || flavor.title} has been added to your cart!`,
       type: 'success'
     }));
-    
+
     // Redirect to checkout page
-    router.push('/checkout');
+    // router.push('/checkout');
   };
 
   if (loading) {
@@ -96,16 +96,16 @@ const FlavorDetailsPage = () => {
           onClick={handleBack}
           className="mb-8 inline-flex items-center gap-2 text-black hover:text-gray-600 transition-colors duration-300 font-semibold"
         >
-           <svg className="w-5 h-5 transform group-hover:-translate-x-1 transition-transform duration-200" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
-              </svg>
+          <svg className="w-5 h-5 transform group-hover:-translate-x-1 transition-transform duration-200" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
+          </svg>
           Back to All Flavors
         </button>
 
         {/* Breadcrumbs */}
         <nav className="mb-8" aria-label="Breadcrumb">
           <div className="flex items-center space-x-2 text-sm text-gray-600">
-            <button 
+            <button
               onClick={handleBack}
               className="hover:text-black transition-colors"
             >
@@ -121,11 +121,16 @@ const FlavorDetailsPage = () => {
           {/* Left Side - Images */}
           <div className="space-y-4">
             {/* Main Image */}
-            <div className="relative h-96 lg:h-[400px] bg-gradient-to-br from-orange-100 to-yellow-50 rounded-2xl overflow-hidden shadow-lg">
+            <div className="relative h-72 lg:h-[350px] bg-gradient-to-br from-orange-100 to-yellow-50 rounded-2xl overflow-hidden shadow-lg">
               <Image
-                src={flavor.product_images || flavor.product_images?.[selectedImageIndex]?.thumbnail || '/pop_packet.png'}
-                alt={flavor.name || flavor.title || 'Popcorn Flavor'}
+                src={
+                  flavor.product_images?.[selectedImageIndex]?.thumbnail || // 👈 real thumb
+                  flavor.product_images?.[0]?.thumbnail ||                 // first fallback
+                  '/pop_packet.png'                                        // ultimate fallback
+                } alt={flavor.name || flavor.title || 'Popcorn Flavor'}
                 fill
+                          sizes="(max-width: 1024px) 100vw, 50vw"
+                          priority
                 className="object-fill drop-shadow-2xl transition-all duration-300"
                 onError={(e) => {
                   e.target.src = '/pop_packet.png';
@@ -134,26 +139,25 @@ const FlavorDetailsPage = () => {
             </div>
 
             {/* Thumbnail Images */}
-            {flavor.images && flavor.images.length > 1 && (
+            {flavor.product_images && flavor.product_images.length > 1 && (
               <div className="flex gap-3 overflow-x-auto pb-2">
-                {flavor.images.map((image, index) => (
+                {flavor.product_images.map((imgObj, index) => (
                   <button
                     key={index}
                     onClick={() => setSelectedImageIndex(index)}
-                    className={`flex-shrink-0 w-20 h-20 rounded-lg overflow-hidden border-2 transition-all duration-300 ${
-                      selectedImageIndex === index 
-                        ? 'border-[#8bc34a] shadow-lg scale-105' 
+                    className={`flex-shrink-0 w-20 h-20 rounded-lg overflow-hidden border-2 transition-all duration-300 ${selectedImageIndex === index
+                        ? 'border-[#8bc34a] shadow-lg scale-105'
                         : 'border-gray-200 hover:border-gray-300 hover:scale-102'
-                    }`}
+                      }`}
                   >
                     <Image
-                      src={image}
+                      src={imgObj.thumbnail || '/pop_packet.png'}
                       alt={`${flavor.name || flavor.title} ${index + 1}`}
                       width={80}
                       height={80}
                       className="w-full h-full object-cover"
                       onError={(e) => {
-                        e.target.src = '/pop_packet.png';
+                        e.currentTarget.src = '/pop_packet.png';
                       }}
                     />
                   </button>
@@ -164,64 +168,72 @@ const FlavorDetailsPage = () => {
 
           {/* Right Side - Details */}
           <div className="space-y-6">
-            {/* Flavor Name */}
-            <h1 className="text-4xl lg:text-5xl font-bold text-black leading-tight">
-              {flavor.name || flavor.title || 'Popcorn Flavor'}
-            </h1>
 
-            {/* Category */}
-            <span className="inline-block px-4 py-2 bg-gray-200 text-black text-sm font-bold uppercase tracking-wider rounded-full">
-              {flavor.product_categories?.[0]?.category?.name || flavor.type || flavor.category || 'FLAVOR'}
-            </span>
+            <div>
+              {/* Category */}
+              <span className="inline-block text-[#757575] text-xs font-medium leading-4 uppercase  ">
+                {flavor.product_categories?.[0]?.category?.name || flavor.type || flavor.category || 'FLAVOR'}
+              </span>
 
-            {/* Price */}
-            <div className="text-3xl font-bold text-black">
-              ${flavor.price || '0.00'}
+              <div className='flex items-center justify-between'>
+                {/* Flavor Name */}
+                <h1 className="text-[16px] leading-7 font-semibold text-black ">
+                  {flavor.name || flavor.title || 'Popcorn Flavor'}
+                </h1>
+
+
+
+                {/* Price */}
+                <div className="text-[16px] leading-7 font-semibold text-black flex-shrink-0 ">
+                  ${flavor.price || '0.00'}
+                </div>
+              </div>
+
             </div>
 
             {/* Description */}
-            <div 
-              className="text-black text-lg leading-relaxed"
+            <div
+              className="text-black text-[16px] font-medium leading-relaxed"
               dangerouslySetInnerHTML={{ __html: flavor.description || '' }}
             />
 
             {/* Static Line with Icon */}
             <div className="flex items-center gap-3 py-6 border-t border-b border-gray-200">
-              <svg xmlns="http://www.w3.org/2000/svg"  width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#8bc34a" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="text-[#ffc222] flex-shrink-0">
-                <path d="m7.5 4.27 9 5.15"/>
-                <path d="M21 8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16Z"/>
-                <path d="m3.3 7 8.7 5 8.7-5"/>
-                <path d="M12 22V12"/>
+              <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#8bc34a" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="text-[#ffc222] flex-shrink-0">
+                <path d="m7.5 4.27 9 5.15" />
+                <path d="M21 8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16Z" />
+                <path d="m3.3 7 8.7 5 8.7-5" />
+                <path d="M12 22V12" />
               </svg>
               <p className="text-black font-medium">
                 Each order is handcrafted and ships anywhere in the USA.
               </p>
             </div>
 
-   
+
 
             {/* Add to Cart Button */}
-            <button 
+            <button
               onClick={handleAddToCart}
               className="w-full inline-flex items-center gap-3 justify-center bg-[#8bc34a] text-white font-bold py-3 px-8 rounded-3xl transition-all duration-300 transform hover:shadow-lg focus:outline-none text-lg"
             >
               Add to Cart   ${flavor.price || '0.00'}
               <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                <path d="m15 11-1 9"/>
-                <path d="m19 11-4-7"/>
-                <path d="M2 11h20"/>
-                <path d="m3.5 11 1.6 7.4a2 2 0 0 0 2 1.6h9.8a2 2 0 0 0 2-1.6l1.7-7.4"/>
-                <path d="M4.5 15.5h15"/>
-                <path d="m5 11 4-7"/>
-                <path d="m9 11 1 9"/>
+                <path d="m15 11-1 9" />
+                <path d="m19 11-4-7" />
+                <path d="M2 11h20" />
+                <path d="m3.5 11 1.6 7.4a2 2 0 0 0 2 1.6h9.8a2 2 0 0 0 2-1.6l1.7-7.4" />
+                <path d="M4.5 15.5h15" />
+                <path d="m5 11 4-7" />
+                <path d="m9 11 1 9" />
               </svg>
             </button>
 
-        
+
           </div>
         </div>
 
-      
+
       </div>
     </section>
   );

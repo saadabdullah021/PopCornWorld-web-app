@@ -239,7 +239,7 @@ const OTPModal = ({
         {/* Security Note */}
         <div className="mt-6 p-3 bg-blue-50 rounded-lg border border-blue-200">
           <p className="text-xs text-blue-700 text-center">
-            🔒 This code helps keep your account secure. Never share it with anyone.
+      This code helps keep your account secure. Never share it with anyone.
           </p>
         </div>
       </div>

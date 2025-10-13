@@ -224,20 +224,41 @@ const Button = ({
   );
 };
 
+
 // Enhanced OTP Modal
 const OTPModal = ({ isOpen, onClose, onVerify, loading }) => {
   const [otpCode, setOtpCode] = useState(['', '', '', '', '']);
   const [error, setError] = useState('');
   const [verifying, setVerifying] = useState(false);
+
+  /* ---------- 1. handleChange ---------- */
   const handleChange = (element, index) => {
-    if (isNaN(element.value)) return false;
-    setOtpCode([...otpCode.map((d, idx) => (idx === index ? element.value : d))]);
-    if (element.nextSibling) {
+    const val = element.value;
+    if (isNaN(val)) return;                       // allow only digits
+    const newCode = [...otpCode];
+    newCode[index] = val;
+    setOtpCode(newCode);
+
+    // auto-focus next box if a digit was entered
+    if (val && element.nextSibling) {
       element.nextSibling.focus();
     }
   };
 
-  // OTPModal
+  /* ---------- 2. handle Backspace ---------- */
+  const handleKeyDown = (e, index) => {
+    if (e.key === 'Backspace' || e.key === 'Delete') {
+      if (otpCode[index] === '') {                // already empty → go back
+        const prev = e.target.previousSibling;
+        if (prev) prev.focus();
+      } else {                                    // not empty → just clear
+        const newCode = [...otpCode];
+        newCode[index] = '';
+        setOtpCode(newCode);
+      }
+    }
+  };
+
   const handleSubmit = () => {
     const code = otpCode.join('');
     if (code.length !== 5) {
@@ -247,18 +268,16 @@ const OTPModal = ({ isOpen, onClose, onVerify, loading }) => {
     setVerifying(true);
     onVerify(code, (success, errorMsg) => {
       setVerifying(false);
-      if (!success) {
-        setError(errorMsg || 'Invalid OTP, please try again.');
-      }
+      if (!success) setError(errorMsg || 'Invalid OTP, please try again.');
     });
   };
-
 
   if (!isOpen) return null;
 
   return (
     <div className="fixed inset-0 bg-black/30 z-50 flex items-center justify-center p-4">
       <div className="bg-white rounded-3xl p-8 w-full max-w-lg shadow-2xl transform animate-in zoom-in duration-300">
+        {/* header */}
         <div className="flex justify-between items-center mb-6">
           <div className="flex items-center gap-3">
             <div className="w-10 h-10 bg-gray-50 rounded-full flex items-center justify-center">
@@ -278,6 +297,7 @@ const OTPModal = ({ isOpen, onClose, onVerify, loading }) => {
           Enter the 5-digit verification code sent to your phone number
         </p>
 
+        {/* inputs */}
         <div className="flex justify-center gap-3 mb-6">
           {otpCode.map((data, index) => (
             <input
@@ -286,18 +306,18 @@ const OTPModal = ({ isOpen, onClose, onVerify, loading }) => {
               maxLength="1"
               value={data}
               onChange={(e) => handleChange(e.target, index)}
+              onKeyDown={(e) => handleKeyDown(e, index)}
               onFocus={(e) => e.target.select()}
-              className="w-14 h-14 border-2 border-gray-200 rounded-xl text-center text-xl font-bold  transition-all duration-200 hover:border-gray-300"
+              className="w-14 h-14 border-2 border-gray-200 rounded-xl text-center text-xl font-bold transition-all duration-200 hover:border-gray-300"
             />
           ))}
         </div>
 
         {error && (
-          <p className="text-red-500 text-sm font-semibold text-center mb-6 ">
-            {error}
-          </p>
+          <p className="text-red-500 text-sm font-semibold text-center mb-6">{error}</p>
         )}
 
+        {/* buttons */}
         <div className="flex gap-3">
           <Button variant="secondary" onClick={onClose} className="flex-1" size="md">
             Cancel
@@ -308,7 +328,8 @@ const OTPModal = ({ isOpen, onClose, onVerify, loading }) => {
         </div>
 
         <p className="text-center text-xs text-gray-500 mt-4">
-          Didn't receive the code? <button className="text-[#3333cb] font-medium hover:underline">Resend</button>
+          Didn't receive the code?{" "}
+          <button className="text-[#3333cb] font-medium hover:underline">Resend</button>
         </p>
       </div>
     </div>
@@ -1014,13 +1035,16 @@ const CheckoutPage = () => {
     <div className="min-h-screen bg-gradient-to-br from-blue-50/50 via-white to-indigo-50/30  pt-32 lg:pt-40">
 
 
-      {campaignInfo && (
+ 
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 ">
+
+             {campaignInfo && (
 
 
 
-        <div className="pt-4 w-auto max-w-md mr-auto mb-6 px-4 sm:px-6 lg:px-8 cursor-pointer"
+        <div className="pt-4 w-full max-w-[300px] lg:w-auto lg:max-w-[300px]  mr-auto mb-6 cursor-pointer"
           onClick={handleBackToCampaign}>
-          <div className="bg-white rounded-2xl border border-[#d6d6d6] hover:border-transparent p-4 ">
+          <div className="bg-white rounded-2xl border border-[#d6d6d6] hover:border-transparent px-4 py-2 ">
             <div className="flex items-center gap-4">
 
               <ArrowLeft className="w-6 h-6 text-gray-700" />
@@ -1054,7 +1078,6 @@ const CheckoutPage = () => {
         </div>
 
       )}
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 ">
         <div className="grid grid-cols-1 lg:grid-cols-4 gap-8">
           <div className="lg:col-span-2">
             <div className="bg-white p-8 rounded-2xl shadow-xl border border-gray-100">
