@@ -887,7 +887,7 @@ const FundraisingOnboarding = () => {
                                     <div>
                                         <input
                                             type="tel"
-                                            placeholder="Mobile Phone (10-11 digits)"
+                                            placeholder="xxx-xxx-xxxx"
                                             value={formData.phone_no}
                                             onChange={(e) => handleInputChange('phone_no', e.target.value)}
                                             maxLength={13}

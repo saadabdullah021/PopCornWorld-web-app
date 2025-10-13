@@ -37,7 +37,10 @@ const PopularCategories = () => {
             </h2>
           </div>
           <div className="flex justify-center">
-            <div className="text-gray-600">Loading...</div>
+         <div className="text-center">
+          <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-[#8ac24a] mx-auto mb-4"></div>
+          <p className="text-black font-semibold">Loading...</p>
+        </div>
           </div>
         </div>
       </section>
@@ -62,7 +65,7 @@ const PopularCategories = () => {
           autoplay={{ delay: 1000, disableOnInteraction: false }}
           pagination={{ clickable: true }}
           breakpoints={{
-            1024: { slidesPerView: 5 },
+            1024: { slidesPerView: 6 },
             640: { slidesPerView: 2 },
             0: { slidesPerView: 1 },
           }}

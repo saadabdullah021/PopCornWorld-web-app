@@ -107,7 +107,8 @@ const handleAddToCart = (flavor) => {
           {allFlavors && allFlavors.length > 0 ? allFlavors.map((flavor, index) => (
             <div
               key={flavor.id}
-              className="group  transition-all duration-500 transform overflow-hidden flex flex-col h-full"
+                    onClick={() => handleMoreInfo(flavor)}
+              className="group  transition-all duration-500 cursor-pointer transform overflow-hidden flex flex-col h-full"
               style={{
                 animationDelay: `${index * 100}ms`
               }}
@@ -183,20 +184,35 @@ const handleAddToCart = (flavor) => {
                   >
                     More Info
                   </button> */}
-                  <button
-                    onClick={() => handleAddToCart(flavor)}
-                    className="w-full inline-flex items-center whitespace-nowrap gap-3 justify-center  bg-[#8bc34a] text-white font-bold py-3 px-6 rounded-3xl transition-all duration-300 transform hover:shadow-lg focus:outline-none">
-                    Add to Cart
-                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                      <path d="m15 11-1 9" />
-                      <path d="m19 11-4-7" />
-                      <path d="M2 11h20" />
-                      <path d="m3.5 11 1.6 7.4a2 2 0 0 0 2 1.6h9.8a2 2 0 0 0 2-1.6l1.7-7.4" />
-                      <path d="M4.5 15.5h15" />
-                      <path d="m5 11 4-7" />
-                      <path d="m9 11 1 9" />
-                    </svg>
-                  </button>
+             <button
+  onClick={(e) => {
+    e.stopPropagation(); // 🧱 prevent parent click events
+    handleAddToCart(flavor); // your main function
+  }}
+  className="w-full inline-flex items-center whitespace-nowrap gap-3 justify-center bg-[#8bc34a] text-white font-bold py-3 px-6 rounded-3xl transition-all duration-300 transform hover:shadow-lg focus:outline-none"
+>
+  Add to Cart
+  <svg
+    xmlns="http://www.w3.org/2000/svg"
+    width="16"
+    height="16"
+    viewBox="0 0 24 24"
+    fill="none"
+    stroke="currentColor"
+    strokeWidth="2"
+    strokeLinecap="round"
+    strokeLinejoin="round"
+  >
+    <path d="m15 11-1 9" />
+    <path d="m19 11-4-7" />
+    <path d="M2 11h20" />
+    <path d="m3.5 11 1.6 7.4a2 2 0 0 0 2 1.6h9.8a2 2 0 0 0 2-1.6l1.7-7.4" />
+    <path d="M4.5 15.5h15" />
+    <path d="m5 11 4-7" />
+    <path d="m9 11 1 9" />
+  </svg>
+</button>
+
                 </div>
               </div>
 
