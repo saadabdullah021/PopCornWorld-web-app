@@ -104,7 +104,7 @@ export const createOrder = async (orderData, success, fail) => {
       },
     });
 
-    if (response?.data?.status === 200 || response?.status === 200) {
+    if (response?.status === 200 || response?.status === 200) {
       success && success(response?.data);
       return response?.data;
     } else {

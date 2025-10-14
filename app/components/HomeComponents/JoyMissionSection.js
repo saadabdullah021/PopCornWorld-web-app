@@ -10,24 +10,24 @@ const JoyMissionSection = () => {
   const services = [
     {
       id: 1,
-      title: "Virtual Fundraising",
-      description: "Empower your community and support great causes through our simple and effective virtual fundraising platform.",
+      title: "Sign Up for Free",
+      description: "Create your fundraiser page in just a few minutes.",
       image: blackBoyImage,
-      alt: "People joining an online fundraising event to support community causes"
+      alt: "Create your fundraiser page in just a few minutes."
     },
     {
       id: 2,
-      title: "Popcorn World Kids Foundation",
-      description: "Bringing joy and hope to children with special needs through heartfelt programs, community support and every bag of popcorn you buy.",
+      title: "Share Your Link",
+      description: " Send it to friends, family, and supporters anywhere.",
       image: footballImage,
-      alt: "Popcorn World Kids Foundation charity program helping children with special needs"
+      alt: " Send it to friends, family, and supporters anywhere."
     },
     {
       id: 3,
-      title: "Premium Popcorn",
-      description: "Enjoy handcrafted, gourmet popcorn made with the finest ingredients—bursting with irresistible flavors and loved by popcorn fans everywhere.",
+      title: "Earn 50% Profit",
+      description: " Every order helps your cause and fills snack bowls with joy!",
       image: blueImage,
-      alt: "Assortment of gourmet popcorn flavors from Popcorn World"
+      alt: " Every order helps your cause and fills snack bowls with joy!"
     }
 
   ];
@@ -39,7 +39,7 @@ const JoyMissionSection = () => {
         {/* Header */}
         <div className="text-center mb-16">
           <h2 className="main_heading font-splash text-black mb-4 tracking-tight uppercase">
-            We're on a mission to spread joy
+            How Fundraising Gets Poppin
           </h2>
         </div>
 

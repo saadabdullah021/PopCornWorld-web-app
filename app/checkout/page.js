@@ -1035,49 +1035,49 @@ const CheckoutPage = () => {
     <div className="min-h-screen bg-gradient-to-br from-blue-50/50 via-white to-indigo-50/30  pt-32 lg:pt-40">
 
 
- 
+
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 ">
 
-             {campaignInfo && (
+        {campaignInfo && (
 
 
 
-        <div className="pt-4 w-full max-w-[300px] lg:w-auto lg:max-w-[300px]  mr-auto mb-6 cursor-pointer"
-          onClick={handleBackToCampaign}>
-          <div className="bg-white rounded-2xl border border-[#d6d6d6] hover:border-transparent px-4 py-2 ">
-            <div className="flex items-center gap-4">
+          <div className="pt-4 w-full max-w-[300px] lg:w-auto lg:max-w-[300px]  mr-auto mb-6 cursor-pointer"
+            onClick={handleBackToCampaign}>
+            <div className="bg-white rounded-2xl border border-[#d6d6d6] hover:border-transparent px-4 py-2 ">
+              <div className="flex items-center gap-4">
 
-              <ArrowLeft className="w-6 h-6 text-gray-700" />
+                <ArrowLeft className="w-6 h-6 text-gray-700" />
 
 
-              {/* Organization Logo */}
-              <div className="relative w-10 h-10 flex-shrink-0 rounded-full overflow-hidden border-1 border-gray-200">
-                <Image
-                  src={campaignInfo.campaign_thumbnail?.startsWith('uploads')
-                    ? `https://onebigmediacompany.online/${campaignInfo.campaign_thumbnail}`
-                    : campaignInfo.campaign_thumbnail || '/pop_packet.png'
-                  }
-                  alt={campaignInfo.campaign_name}
-                  className="w-full h-full object-cover"
-                  onError={(e) => e.target.src = '/pop_packet.png'}
-                  fill
-                />
-              </div>
+                {/* Organization Logo */}
+                <div className="relative w-10 h-10 flex-shrink-0 rounded-full overflow-hidden border-1 border-gray-200">
+                  <Image
+                    src={campaignInfo.campaign_thumbnail?.startsWith('uploads')
+                      ? `https://onebigmediacompany.online/${campaignInfo.campaign_thumbnail}`
+                      : campaignInfo.campaign_thumbnail || '/pop_packet.png'
+                    }
+                    alt={campaignInfo.campaign_name}
+                    className="w-full h-full object-cover"
+                    onError={(e) => e.target.src = '/pop_packet.png'}
+                    fill
+                  />
+                </div>
 
-              {/* Text Content */}
-              <div className="flex-1 min-w-0">
-                <p className="text-xs font-normal text-[#757575] leading-5 mb-0.5">
-                  You're supporting
-                </p>
-                <h2 className="text-[16px] font-medium leading-7 text-[#323232] truncate">
-                  {campaignInfo.campaign_name}
-                </h2>
+                {/* Text Content */}
+                <div className="flex-1 min-w-0">
+                  <p className="text-xs font-normal text-[#757575] leading-5 mb-0.5">
+                    You're supporting
+                  </p>
+                  <h2 className="text-[16px] font-medium leading-7 text-[#323232] truncate">
+                    {campaignInfo.campaign_name}
+                  </h2>
+                </div>
               </div>
             </div>
           </div>
-        </div>
 
-      )}
+        )}
         <div className="grid grid-cols-1 lg:grid-cols-4 gap-8">
           <div className="lg:col-span-2">
             <div className="bg-white p-8 rounded-2xl shadow-xl border border-gray-100">

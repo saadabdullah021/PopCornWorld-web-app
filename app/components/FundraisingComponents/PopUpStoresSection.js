@@ -6,8 +6,8 @@ const PopUpStoresSection = () => {
   const features = [
     {
       id: 1,
-      title: "Simple & Effortless",
-      description: "Launch your fundraiser in minutes — no setup, no paperwork, no cash handling. Just share your Pop-Up Store link and start earning instantly.",
+      title: "🍿 Keep Half of Every Sale",
+      description: "You earn 50% profit automatically.",
       icon: (
         <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
           <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
@@ -16,8 +16,8 @@ const PopUpStoresSection = () => {
     },
     {
       id: 2,
-      title: "Social by Design",
-      description: "Each seller gets a personal store link to share online, making it easy to reach friends and family anywhere.",
+      title: "🚫 No Minimums or Upfront Costs",
+      description: "Start free and risk-free.",
       icon: (
         <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
           <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z" />
@@ -26,8 +26,8 @@ const PopUpStoresSection = () => {
     },
     {
       id: 3,
-      title: "Completely Contactless",
-      description: "Supporters order online and get gourmet popcorn delivered straight to their door — safe, fast, and hassle-free.",
+      title: "📦 We Handle Everything",
+      description: "Orders ship directly to your supporters.",
       icon: (
         <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
           <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M20 7l-8-4-8 4m16 0l-8 4m8-4v10l-8 4m0-10L4 7m8 4v10M4 7v10l8 4" />
@@ -36,8 +36,8 @@ const PopUpStoresSection = () => {
     },
     {
       id: 4,
-      title: "Fun & Engaging",
-      description: "Live leaderboards spark friendly competition and keep everyone motivated to hit their fundraising goals.",
+      title: "❤️ Popcorn Everyone Loves",
+      description: "Over 250 mouth-watering flavors!",
       icon: (
         <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
           <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 10V3L4 14h7v7l9-11h-7z" />
@@ -46,8 +46,8 @@ const PopUpStoresSection = () => {
     },
     {
       id: 5,
-      title: "Profitable & Stress-Free",
-      description: "Earn 50% of every sale with zero fees or minimums. Quick setup, big results — every time.",
+      title: "💻 Simple Online Setup",
+      description: "Get started in minutes, no tech skills required.",
       icon: (
         <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
           <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8c1.104 0 2 .896 2 2s-.896 2-2 2a2 2 0 110-4zm0 8v2m0-6V4m0 0L8 8m4-4l4 4" />
@@ -63,7 +63,8 @@ const PopUpStoresSection = () => {
         {/* Header */}
         <div className="text-center mb-12">
           <h2 className="main_heading font-splash text-black leading-tight tracking-tight uppercase mb-4">
-            <span className="block mb-2">Pop-Up Stores <br /> Effortless Fundraising Made Simple</span>
+            <span className="block mb-2">WHY POPCORN WORLD FUNDRAISING<br />Fundraising That’s Actually Fun (and Delicious!)
+            </span>
           </h2>
         </div>
 
@@ -96,11 +97,11 @@ const PopUpStoresSection = () => {
                 className="flex items-start space-x-4 group"
               >
                 {/* Check Icon */}
-                <div className="flex-shrink-0 w-8 h-8 bg-[#8ac24a] rounded-full flex items-center justify-center text-white group-hover:bg-green-600 transition-colors duration-300">
+                {/* <div className="flex-shrink-0 w-8 h-8 bg-[#8ac24a] rounded-full flex items-center justify-center text-white group-hover:bg-green-600 transition-colors duration-300">
                   <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={3} d="M5 13l4 4L19 7" />
                   </svg>
-                </div>
+                </div> */}
 
                 {/* Content */}
                 <div className="flex-1">

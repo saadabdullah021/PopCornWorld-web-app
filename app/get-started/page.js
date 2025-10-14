@@ -530,10 +530,10 @@ const FundraisingOnboarding = () => {
                     <div>
                         <span className="text-sm font-semibold text-white uppercase tracking-wide">GET STARTED</span>
                         <h1 className="text-[26px] lg:text-[30px]   font-splash text-white mt-2 mb-6">
-                            Your <span className="text-yellow-400">fundraising</span> experience begins here
+                            <span className="text-yellow-400">Fundraising</span>  Never Tasted So Good!
                         </h1>
                         <p className="text-white mb-8 text-[16px]">
-                            Popcorn World is always free to use, there are no minimums to meet, and you always keep 50% profit.
+                            Join Popcorn World and make every sale count. It’s free to join, no minimum orders, and your group keeps 50% profit on every order!
                         </p>
                         <div className="space-y-4">
                             <input
