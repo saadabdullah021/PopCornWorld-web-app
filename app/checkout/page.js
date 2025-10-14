@@ -64,15 +64,13 @@ const Input = ({
         disabled={disabled}
         placeholder={placeholder}
         maxLength={maxLength}
-        className={`w-full px-4 py-3 border rounded-xl bg-white transition-all duration-300 placeholder-gray-600 focus:ring-0 outline-black focus:outline-1 text-black font-medium  ${
-          error
-            ? "border-red-400 focus:border-red-500  focus:ring-4 focus:ring-red-100"
-            : "border-gray-200"
-        } ${
-          disabled
+        className={`w-full px-4 py-3 border rounded-xl bg-white transition-all duration-300 placeholder-gray-600 focus:ring-0 outline-black focus:outline-1 text-black font-medium  ${error
+          ? "border-red-400 focus:border-red-500  focus:ring-4 focus:ring-red-100"
+          : "border-gray-200"
+          } ${disabled
             ? "bg-gray-50 cursor-not-allowed border-gray-100 text-gray-500"
             : "hover:border-gray-300"
-        }`}
+          }`}
       />
       {disabled && (
         <div className="absolute inset-y-0 right-0 flex items-center pr-4">
@@ -111,15 +109,13 @@ const Dropdown = ({
       onChange={onChange}
       onBlur={onBlur}
       disabled={disabled}
-      className={`w-full px-4 py-3.5 border rounded-xl bg-white transition-all duration-300 text-black font-medium shadow-sm focus:outline-1 outline-black focus:ring-0 hover:shadow-sm  ${
-        error
-          ? "border-red-400 focus:border-red-500 focus:ring-4 focus:ring-red-100"
-          : "border-gray-200 "
-      } ${
-        disabled
+      className={`w-full px-4 py-3.5 border rounded-xl bg-white transition-all duration-300 text-black font-medium shadow-sm focus:outline-1 outline-black focus:ring-0 hover:shadow-sm  ${error
+        ? "border-red-400 focus:border-red-500 focus:ring-4 focus:ring-red-100"
+        : "border-gray-200 "
+        } ${disabled
           ? "bg-gray-50 cursor-not-allowed border-gray-100 text-gray-500"
           : "hover:border-gray-300"
-      }`}
+        }`}
     >
       <option value="" className="text-gray-400">
         Select {label}
@@ -162,11 +158,10 @@ const TextArea = ({
       onBlur={onBlur}
       placeholder={placeholder}
       rows={rows}
-      className={`w-full px-4 py-3 border rounded-xl bg-white transition-all focus:outline-1 outline-black focus:ring-0 duration-300 placeholder-gray-400 text-black font-medium  resize-none ${
-        error
-          ? "border-red-400 focus:border-red-500 focus:ring-4 focus:ring-red-100"
-          : "border-gray-200 "
-      }`}
+      className={`w-full px-4 py-3 border rounded-xl bg-white transition-all focus:outline-1 outline-black focus:ring-0 duration-300 placeholder-gray-400 text-black font-medium  resize-none ${error
+        ? "border-red-400 focus:border-red-500 focus:ring-4 focus:ring-red-100"
+        : "border-gray-200 "
+        }`}
     />
     {error && (
       <p className="text-red-500 text-sm font-semibold mt-2 flex items-center gap-1">
@@ -187,11 +182,10 @@ const Checkbox = ({ checked, onChange, label, icon: IconComponent }) => (
         className="sr-only"
       />
       <div
-        className={`w-5 h-5 rounded-md border-2 transition-all duration-200 cursor-pointer ${
-          checked
-            ? "bg-[#3333cb] border-[#3333cb]"
-            : "border-gray-300 hover:border-blue-400"
-        }`}
+        className={`w-5 h-5 rounded-md border-2 transition-all duration-200 cursor-pointer ${checked
+          ? "bg-[#3333cb] border-[#3333cb]"
+          : "border-gray-300 hover:border-blue-400"
+          }`}
         onClick={() => onChange(!checked)}
       >
         {checked && (
@@ -238,13 +232,11 @@ const Button = ({
     <button
       onClick={onClick}
       disabled={disabled || loading}
-      className={`${baseClasses} ${sizeClasses[size]} ${
-        variantClasses[variant]
-      } ${className} ${
-        disabled || loading
+      className={`${baseClasses} ${sizeClasses[size]} ${variantClasses[variant]
+        } ${className} ${disabled || loading
           ? "cursor-not-allowed opacity-60 transform-none"
           : ""
-      }`}
+        }`}
     >
       {loading && (
         <div className="animate-spin rounded-full h-5 w-5 border-2 border-[#ffc222] border-b-transparent"></div>
@@ -379,13 +371,12 @@ const Breadcrumb = ({ steps, currentStep }) => (
       <div key={index} className="flex items-center flex-shrink-0">
         <span
           className={`text-sm sm:text-base leading-7 font-medium uppercase tracking-wide whitespace-nowrap transition-all duration-300
-              ${
-                index === currentStep
-                  ? "text-gray-900"
-                  : index < currentStep
-                  ? "text-gray-500"
-                  : "text-gray-400"
-              }`}
+              ${index === currentStep
+              ? "text-gray-900"
+              : index < currentStep
+                ? "text-gray-500"
+                : "text-gray-400"
+            }`}
         >
           {step}
         </span>
@@ -427,14 +418,14 @@ const OrderSummary = ({ items, subtotal, tax, shipping, total }) => (
             <Image
               src={
                 item.image &&
-                typeof item.image === "string" &&
-                !item.image.includes("/api/placeholder")
+                  typeof item.image === "string" &&
+                  !item.image.includes("/api/placeholder")
                   ? item.image
                   : item.images?.[0] &&
                     typeof item.images[0] === "string" &&
                     !item.images[0].includes("/api/placeholder")
-                  ? item.images[0]
-                  : "/pop_packet.png"
+                    ? item.images[0]
+                    : "/pop_packet.png"
               }
               alt={item.name || item.title || "Product"}
               width={64}
@@ -719,7 +710,7 @@ const PaymentModal = ({
       //   }
       // );
 
-      
+
 
       // Mock success
       setPaymentLoading(false);
@@ -1023,8 +1014,7 @@ const CheckoutPageInner = () => {
       if (!formData.email) newErrors.email = "Email is required";
       if (!formData.phone) newErrors.phone = "Phone is required";
       if (formData.phone && !validatePhone(formData.phone)) {
-        newErrors.phone =
-          "Invalid phone: Must be 10 digits (xxx-xxx-xxxx), no leading 0 or 1, US format only";
+        newErrors.phone = "Invalid phone number. It must be 10 digits in the format xxx-xxx-xxxx.";
       }
     }
 
