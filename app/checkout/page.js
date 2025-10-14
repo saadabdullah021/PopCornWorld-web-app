@@ -596,13 +596,17 @@ const PaymentModal = ({ isOpen, onClose, onPaymentSuccess, orderTotal, formData,
     return Object.keys(errors).length === 0;
   };
 
+
+
+
   const handlePaymentSubmit = async () => {
-    if (!validatePayment()) return;
+  if (!validatePayment()) return;
 
-    setPaymentLoading(true);
+  setPaymentLoading(true);
+  setFullScreenLoading(true);   // ➜ full-screen loader ON
 
-    try {
-      const orderData = {
+  try {
+        const orderData = {
         cardNumber: paymentData.cardNumber.replace(/\s/g, ''),
         cardExpiration: paymentData.expiryDate,
         cardSecurityCode: paymentData.cvv,
@@ -639,32 +643,32 @@ const PaymentModal = ({ isOpen, onClose, onPaymentSuccess, orderTotal, formData,
         tax: tax.toFixed(2),
         shipping_charges: shipping.toFixed(2),
         total_amount: orderTotal.toFixed(2)
-      };
-      createOrder(
-        orderData,
-        (response) => {
-          const paymentResult = {
-            success: true,
-            transactionId: response?.data?.order_id || 'txn_' + Math.random().toString(36).substr(2, 9),
-            amount: orderTotal,
-            orderData: response?.data
-          };
-
-          onPaymentSuccess(paymentResult);
-          onClose();
-        },
-        (error) => {
-          setPaymentErrors({ general: error || 'Order creation failed. Please try again.' });
-        }
-      );
-
-    } catch (error) {
-      setPaymentErrors({ general: 'Payment processing failed. Please try again.' });
-    } finally {
-      setPaymentLoading(false);
-    }
-  };
-
+      };      // existing orderData
+    createOrder(
+      orderData,
+      (response) => {
+        setPaymentLoading(false);
+        setFullScreenLoading(false);  // ➜ loader OFF
+        onPaymentSuccess({
+          success: true,
+          transactionId: response?.data?.order_id || 'txn_' + Math.random().toString(36).substr(2, 9),
+          amount: orderTotal,
+          orderData: response?.data
+        });
+        onClose();                      // modal band
+      },
+      (error) => {
+        setPaymentLoading(false);
+        setFullScreenLoading(false);  // ➜ loader OFF
+        setPaymentErrors({ general: error || 'Order creation failed. Please try again.' });
+      }
+    );
+  } catch (error) {
+    setPaymentLoading(false);
+    setFullScreenLoading(false);      // ➜ loader OFF
+    setPaymentErrors({ general: 'Payment processing failed. Please try again.' });
+  }
+};
 
 
   if (!isOpen) return null;
@@ -825,6 +829,9 @@ const CheckoutPage = () => {
   const [showPaymentModal, setShowPaymentModal] = useState(false);
   const [loading, setLoading] = useState(false);
   const [errors, setErrors] = useState({});
+
+  const [fullScreenLoading, setFullScreenLoading] = useState(false);
+
   const params = useSearchParams();
   const [otpVerifying, setOtpVerifying] = useState(false);
 
@@ -1007,22 +1014,35 @@ const CheckoutPage = () => {
     );
   };
 
-  const handleContinueToPayment = () => {
-    if (validateStep(1)) {
-      setShowPaymentModal(true);
-    }
-  };
+const handleContinueToPayment = () => {
+  if (validateStep(1)) {
+    setShowPaymentModal(true);
+  }
+};
 
-  const handlePaymentSuccess = (paymentResult) => {
-    dispatch(clearCart());
+const handlePaymentSuccess = (paymentResult) => {
+  // success case
+  dispatch(clearCart());
+  dispatch(addNotification({
+    message: '🎉 Payment successful! Your order has been placed and you will receive a confirmation email shortly.',
+    type: 'success'
+  }));
+  setFullScreenLoading(false);     // ➜ loader band
+  router.push(`/order-success?order=${paymentResult.transactionId}`);
+};
 
-    dispatch(addNotification({
-      message: '🎉 Payment successful! Your order has been placed and you will receive a confirmation email shortly.',
-      type: 'success'
-    }));
 
-    router.push(`/order-success?order=${paymentResult.transactionId}`);
-  };
+
+const handlePaymentModalClose = () => {
+  setShowPaymentModal(false);
+  setFullScreenLoading(false);     // ➜ agar user ne cancel kiya
+  dispatch(addNotification({
+    message: 'Payment was cancelled. Please try again.',
+    type: 'error'
+  }));
+};
+
+
 
   const handleBackToCampaign = () => {
     router.push(`/campaigns/${params.slug}`);
@@ -1361,7 +1381,7 @@ const CheckoutPage = () => {
 
       <PaymentModal
         isOpen={showPaymentModal}
-        onClose={() => setShowPaymentModal(false)}
+       onClose={handlePaymentModalClose}
         onPaymentSuccess={handlePaymentSuccess}
         orderTotal={total}
         formData={formData}
@@ -1378,7 +1398,16 @@ const CheckoutPage = () => {
         loading={otpVerifying}
       />
 
+{fullScreenLoading && (
+  <div className="fixed inset-0 bg-white/80 backdrop-blur-sm z-[100] flex flex-col items-center justify-center">
+    <div className="animate-spin rounded-full h-12 w-12 border-4 border-[#8BC34A] border-b-transparent mb-4" />
+    <p className="text-gray-700 font-semibold">Processing your payment…</p>
+  </div>
+)}
+
     </div>
+
+    
   );
 };
 

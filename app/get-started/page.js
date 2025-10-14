@@ -199,7 +199,8 @@ const FundraisingOnboarding = () => {
         phone_no: '',
         otp: '',
         acceptTerms: false,
-        status: '1'
+        status: '1',
+
     });
 
     const [formErrors, setFormErrors] = useState({});
@@ -209,6 +210,9 @@ const FundraisingOnboarding = () => {
     const [pickSpecificDate, setPickSpecificDate] = useState(false);
     const [organizationData, setOrganizationData] = useState([]);
     const [organizationLabel, setOrganizationLabel] = useState('Organization Name');
+
+    const [customOrgType, setCustomOrgType] = useState('');
+    const [customSubType, setCustomSubType] = useState('');
 
     console.log('Current organizationData:', organizationData);
 
@@ -416,9 +420,9 @@ const FundraisingOnboarding = () => {
                 email_address: formData.email_address,
                 phone_no: formData.phone_no.replace(/\D/g, ''),
                 team_name: formData.team_name,
-                organization_name: formData.organization_name,
-                organization_type_id: formData.organization_type_id,
-                organization_sub_type_id: formData.organization_sub_type_id,
+                organization_name: formData.organization_type_id === 'other' ? customOrgType : formData.organization_name,
+                organization_type_id: formData.organization_type_id === 'other' ? null : formData.organization_type_id,
+                organization_sub_type_id: formData.organization_sub_type_id === 'other' ? null : formData.organization_sub_type_id,
                 zip_code: formData.zip_code,
                 fundraising_start_time: formData.fundraising_start_time,
                 members_count: formData.members_count,
@@ -581,6 +585,9 @@ const FundraisingOnboarding = () => {
                         <p className="text-white/90 mb-8 text-lg">
                             From sports teams to non-profit organizations, Popcorn World has helped raise over $100 million.
                         </p>
+
+                        {/* Organization Type */}
+
                         <div className="space-y-6">
                             <div>
                                 <select
@@ -591,12 +598,28 @@ const FundraisingOnboarding = () => {
                                     <option className='text-black' value="">
                                         {organizationData.length === 0 ? 'Loading...' : 'Select Organization Type'}
                                     </option>
+
+
                                     {organizationData.map(type => (
                                         <option key={type.id} className='text-black' value={type.id}>{type.name}</option>
                                     ))}
+                                    <option className='text-black' value="other">Custom</option>
                                 </select>
                                 {formErrors.organization_type_id && <p className="text-red-400 font-semibold text-sm mt-1">{formErrors.organization_type_id}</p>}
+
+                                {formData.organization_type_id === 'other' && (
+                                    <div>
+                                        <input
+                                            type="text"
+                                            placeholder="Enter your custom organization type"
+                                            value={customOrgType}
+                                            onChange={(e) => setCustomOrgType(e.target.value)}
+                                            className="w-full p-4 mt-6 rounded-xl border border-gray-300 focus:outline-none text-white placeholder-white transition-all duration-200"
+                                        />
+                                    </div>
+                                )}
                             </div>
+                            {/* Select Sub-Type */}
 
                             {formData.organization_type_id && (
                                 <div>
@@ -609,8 +632,20 @@ const FundraisingOnboarding = () => {
                                         {organizationData.find(t => t.id == formData.organization_type_id)?.organization_sub_types.map(subType => (
                                             <option key={subType.id} className='text-black' value={subType.id}>{subType.name}</option>
                                         ))}
+                                        <option className='text-black' value="other">Custom</option>
                                     </select>
                                     {formErrors.organization_sub_type_id && <p className="text-red-400 font-semibold text-sm mt-1">{formErrors.organization_sub_type_id}</p>}
+                                    {formData.organization_sub_type_id === 'other' && (
+                                        <div>
+                                            <input
+                                                type="text"
+                                                placeholder="Enter your custom sub-organization type"
+                                                value={customSubType}
+                                                onChange={(e) => setCustomSubType(e.target.value)}
+                                                className="w-full p-4 mt-6 rounded-xl border border-gray-300 focus:outline-none text-white placeholder-white transition-all duration-200"
+                                            />
+                                        </div>
+                                    )}
                                 </div>
                             )}
 

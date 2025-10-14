@@ -77,7 +77,7 @@ const PopUpStoresSection = () => {
                 src={heroFundraiser}
                 alt="Mobile phone showing Pop-Up Store interface with colorful popcorn packages in background"
                 fill
-                className="object-fill"
+                className="object-cover object-center"
                 sizes="(max-width: 1024px) 100vw, 50vw"
                 priority
                 placeholder="blur"
