@@ -694,21 +694,56 @@ const PaymentModal = ({
         total_amount: orderTotal.toFixed(2),
       };
 
-      // Simulate API call for testing (remove in production)
-      console.log("Simulating order creation with data:", orderData);
-      await new Promise((resolve) => setTimeout(resolve, 2000)); // Simulate delay
-      const mockResponse = { data: { order_id: "mock_order_12345" } };
+           console.log("Sending order creation with data:", orderData); // Log the request data for debugging
 
-      // Comment out actual createOrder and use mock for testing
-      // createOrder(
-      //   orderData,
-      //   (response) => {
-      //     ...
-      //   },
-      //   (error) => {
-      //     ...
-      //   }
-      // );
+      createOrder(
+  orderData,
+  (response) => {
+    console.log("API Success Response:", response);
+    setPaymentLoading(false);
+    setFullScreenLoading(false);
+    dispatch(clearCart());
+
+    dispatch(
+      addNotification({
+        message:
+          response?.data?.message ||
+          "Payment successful! Your order has been placed and you will receive a confirmation email shortly.",
+        type: "success",
+      })
+    );
+
+    // Extract and clean order ID
+    let rawOrderId =
+      response?.data?.order_id ||
+      response?.order_id ||
+      "txn_" + Math.random().toString(36).substr(2, 9);
+
+    // ✅ Remove '#' if present
+    const cleanOrderId = rawOrderId.replace(/^#/, "");
+
+    onPaymentSuccess({
+      success: true,
+      transactionId: cleanOrderId,
+      amount: orderTotal,
+      orderData: response?.data || response,
+    });
+
+    onClose();
+  },
+  (error) => {
+    console.error("API Error Response:", error);
+    setPaymentLoading(false);
+    setFullScreenLoading(false);
+    const errorMsg =
+      error?.response?.data?.message ||
+      error?.message ||
+      "Payment processing failed. Please try again.";
+    setPaymentErrors({ general: errorMsg });
+    dispatch(addNotification({ message: errorMsg, type: "error" }));
+    if (onPaymentError) onPaymentError();
+  }
+);
 
 
 
@@ -725,8 +760,7 @@ const PaymentModal = ({
       );
       onPaymentSuccess({
         success: true,
-        transactionId:
-          mockResponse?.data?.order_id ||
+        transactionId: response?.data?.order_id || response?.data?.order_number  ||
           "txn_" + Math.random().toString(36).substr(2, 9),
         amount: orderTotal,
         orderData: mockResponse?.data,
