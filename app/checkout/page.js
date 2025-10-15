@@ -255,10 +255,34 @@ const Button = ({
 };
 
 // Enhanced OTP Modal
-const OTPModal = ({ isOpen, onClose, onVerify, loading }) => {
+const OTPModal = ({ isOpen, onClose, onVerify, loading, phone, onResend }) => {
   const [otpCode, setOtpCode] = useState(["", "", "", "", ""]);
   const [error, setError] = useState("");
   const [verifying, setVerifying] = useState(false);
+  const [resendAvailable, setResendAvailable] = useState(false);
+  const [countdown, setCountdown] = useState(60);
+
+  useEffect(() => {
+    let interval;
+    if (isOpen && !resendAvailable && countdown > 0) {
+      interval = setInterval(() => {
+        setCountdown((prev) => prev - 1);
+      }, 1000);
+    } else if (countdown <= 0) {
+      setResendAvailable(true);
+      clearInterval(interval);
+    }
+    return () => clearInterval(interval);
+  }, [isOpen, resendAvailable, countdown]);
+
+  const handleResend = () => {
+    onResend(() => {
+      setCountdown(60);
+      setResendAvailable(false);
+      setOtpCode(["", "", "", "", ""]);
+      setError("");
+    });
+  };
 
   const handleChange = (element, index) => {
     const val = element.value;
@@ -364,9 +388,17 @@ const OTPModal = ({ isOpen, onClose, onVerify, loading }) => {
 
         <p className="text-center text-xs text-gray-500 mt-4">
           Didn't receive the code?{" "}
-          <button className="text-[#3333cb] font-medium hover:underline">
-            Resend
-          </button>
+          {!resendAvailable ? (
+            <span className="text-gray-600">Resend in {countdown} seconds</span>
+          ) : (
+            <button 
+              onClick={handleResend} 
+              disabled={loading}
+              className="text-[#3333cb] font-medium hover:underline"
+            >
+              Resend
+            </button>
+          )}
         </p>
       </div>
     </div>
@@ -728,7 +760,7 @@ const PaymentModal = ({
       response?.order_id ||
       "txn_" + Math.random().toString(36).substr(2, 9);
 
-    // ✅ Remove '#' if present
+    // Remove '#' if present
     const cleanOrderId = rawOrderId.replace(/^#/, "");
 
     onPaymentSuccess({
@@ -1092,7 +1124,7 @@ const CheckoutPageInner = () => {
     return Object.keys(newErrors).length === 0;
   };
 
-  const handleVerifyPhone = async () => {
+  const handleSendOTP = (callback) => {
     if (!validateStep(0)) return;
 
     setLoading(true);
@@ -1103,13 +1135,14 @@ const CheckoutPageInner = () => {
       (response) => {
         setLoading(false);
         const apiMessage = response?.data?.message || response?.message || response?.msg || "OTP sent successfully to your phone number";
-        setShowOTPModal(true);
+        if (!showOTPModal) setShowOTPModal(true);
         dispatch(
           addNotification({
             message: apiMessage,
             type: "success",
           })
         );
+        if (callback) callback();
       },
       (error) => {
         setLoading(false);
@@ -1122,6 +1155,10 @@ const CheckoutPageInner = () => {
         );
       }
     );
+  };
+
+  const handleVerifyPhone = () => {
+    handleSendOTP();
   };
 
   const handleOTPVerify = (otpCode, callback) => {
@@ -1530,6 +1567,8 @@ const CheckoutPageInner = () => {
         onClose={() => setShowOTPModal(false)}
         onVerify={handleOTPVerify}
         loading={otpVerifying}
+        phone={formData.phone}
+        onResend={handleSendOTP}
       />
 
       {fullScreenLoading && (

@@ -9,10 +9,7 @@ import { checkEmailExists, getOrganizationInfo, registerFundraiser, sendOTP, ver
 import { useDispatch } from 'react-redux';
 import { loginSuccess } from '../store/slices/appSlice';
 
-import { format, parseISO, isBefore, addHours } from 'date-fns';
-import 'react-day-picker/dist/style.css';
-
-
+import { format } from 'date-fns';
 
 // Custom Date Range Picker Component
 const CustomDateRangePicker = ({ startDate, endDate, onRangeChange }) => {
@@ -176,11 +173,6 @@ const CustomDateRangePicker = ({ startDate, endDate, onRangeChange }) => {
     );
 };
 
-
-
-
-
-
 const FundraisingOnboarding = () => {
     // Main state management
     const router = useRouter();
@@ -200,7 +192,6 @@ const FundraisingOnboarding = () => {
         otp: '',
         acceptTerms: false,
         status: '1',
-
     });
 
     const [formErrors, setFormErrors] = useState({});
@@ -214,20 +205,17 @@ const FundraisingOnboarding = () => {
     const [customOrgType, setCustomOrgType] = useState('');
     const [customSubType, setCustomSubType] = useState('');
 
-    console.log('Current organizationData:', organizationData);
-
-
-
     const [startDate, setStartDate] = useState(null);
     const [endDate, setEndDate] = useState(null);
+
+    const [resendAvailable, setResendAvailable] = useState(false);
+    const [countdown, setCountdown] = useState(60);
 
     const formatDate = (date) => (date ? format(date, 'PPP p') : '');
 
     useEffect(() => {
-        console.log('Fetching organization data...');
         getOrganizationInfo(
             (response) => {
-                console.log('Organization data received:', response);
                 setOrganizationData(response.data || []);
             },
             (error) => {
@@ -236,8 +224,18 @@ const FundraisingOnboarding = () => {
         );
     }, []);
 
-
-
+    useEffect(() => {
+        let interval;
+        if (showOtpInput && !resendAvailable && countdown > 0) {
+            interval = setInterval(() => {
+                setCountdown((prev) => prev - 1);
+            }, 1000);
+        } else if (countdown <= 0) {
+            setResendAvailable(true);
+            clearInterval(interval);
+        }
+        return () => clearInterval(interval);
+    }, [showOtpInput, resendAvailable, countdown]);
 
     const steps = [
         { title: 'Get Started', description: 'Enter your email' },
@@ -317,7 +315,6 @@ const FundraisingOnboarding = () => {
         }
 
         if (field === 'organization_type_id') {
-            // Reset sub-type when organization type changes
             setFormData(prev => ({
                 ...prev,
                 [field]: value,
@@ -325,21 +322,17 @@ const FundraisingOnboarding = () => {
                 organization_name: ''
             }));
             setOrganizationLabel('Organization Name');
-        }
-
-        if (field === 'organization_sub_type_id') {
-            // Update organization label based on selected sub-type
+        } else if (field === 'organization_sub_type_id') {
             const selectedOrgType = organizationData.find(org => org.id == formData.organization_type_id);
             const selectedSubType = selectedOrgType?.organization_sub_types.find(sub => sub.id == value);
             if (selectedSubType) {
                 setOrganizationLabel(selectedSubType.label);
             }
             setFormData(prev => ({ ...prev, [field]: value, organization_name: '' }));
+        } else {
+            setFormData(prev => ({ ...prev, [field]: value }));
         }
 
-        setFormData(prev => ({ ...prev, [field]: value }));
-
-        // Clear specific error when user starts typing
         if (formErrors[field]) {
             setFormErrors(prev => ({ ...prev, [field]: null }));
         }
@@ -351,12 +344,11 @@ const FundraisingOnboarding = () => {
         setIsLoading(true);
 
         if (currentStep === 0) {
-            setIsLoading(true);
             checkEmailExists(
                 formData.email_address,
                 'fundraiser',
-                (response) => {
-                    setCurrentStep((prev) => prev + 1);
+                () => {
+                    setCurrentStep(prev => prev + 1);
                     setIsLoading(false);
                 },
                 (errorMessage) => {
@@ -367,21 +359,19 @@ const FundraisingOnboarding = () => {
             return;
         }
 
-        await new Promise(resolve => setTimeout(resolve, 500));
-
         if (currentStep === 6 && !showOtpInput) {
             const cleanPhoneNumber = formData.phone_no.replace(/\D/g, '');
             sendOTP(
                 cleanPhoneNumber,
                 'fundraiser_signup',
-                (response) => {
-                    console.log('OTP sent successfully:', response);
+                () => {
                     setShowOtpInput(true);
                     setOtpSent(true);
+                    setCountdown(60);
+                    setResendAvailable(false);
                     setIsLoading(false);
                 },
                 (error) => {
-                    console.error('Failed to send OTP:', error);
                     setFormErrors({ phone_no: 'Failed to send OTP. Please try again.' });
                     setIsLoading(false);
                 }
@@ -396,31 +386,27 @@ const FundraisingOnboarding = () => {
                 formData.otp,
                 'fundraiser_signup',
                 (response) => {
-                    console.log('OTP verified successfully:', response);
-
                     if (response.data && response.data.customer_info && response.data.access_token) {
-                        // Dispatch login success to Redux
                         dispatch(loginSuccess(response.data));
                     }
-
                     setCurrentStep(currentStep + 1);
                     setIsLoading(false);
                 },
-                (error) => {
-                    console.error('Failed to verify OTP:', error);
+                () => {
                     setFormErrors({ otp: 'Invalid OTP. Please try again.' });
                     setIsLoading(false);
                 }
             );
             return;
         }
+
         if (currentStep === 7) {
             const payload = {
                 fundraiser_name: formData.fundraiser_name,
                 email_address: formData.email_address,
                 phone_no: formData.phone_no.replace(/\D/g, ''),
                 team_name: formData.team_name,
-                organization_name: formData.organization_type_id === 'other' ? customOrgType : formData.organization_name,
+                organization_name: formData.organization_type_id === 'other' ? customOrgType : (formData.organization_sub_type_id === 'other' ? customSubType : formData.organization_name),
                 organization_type_id: formData.organization_type_id === 'other' ? null : formData.organization_type_id,
                 organization_sub_type_id: formData.organization_sub_type_id === 'other' ? null : formData.organization_sub_type_id,
                 zip_code: formData.zip_code,
@@ -431,24 +417,53 @@ const FundraisingOnboarding = () => {
 
             registerFundraiser(
                 payload,
-                (response) => {
-                    console.log('Fundraiser registered successfully:', response);
+                () => {
                     router.push('/fundraiser-registered');
+                    setIsLoading(false);
                 },
                 (error) => {
-                    console.error('Failed to register fundraiser:', error);
-                    setFormErrors({ submit: 'Registration failed. Please try again.' });
+                    console.error('Registration error:', error);
+                    setFormErrors({ submit: error || 'Registration failed. Please try again.' });
                     setIsLoading(false);
                 }
             );
             return;
         }
 
-        if (currentStep < steps.length - 1) {
-            setCurrentStep(currentStep + 1);
-        }
-
+        setCurrentStep(currentStep + 1);
         setIsLoading(false);
+    };
+
+    const handleResendOTP = () => {
+        const cleanPhoneNumber = formData.phone_no.replace(/\D/g, '');
+        setIsLoading(true);
+        sendOTP(
+            cleanPhoneNumber,
+            'fundraiser_signup',
+            () => {
+                setFormErrors({});
+                setFormData(prev => ({ ...prev, otp: '' }));
+                setCountdown(60);
+                setResendAvailable(false);
+                setIsLoading(false);
+            },
+            (error) => {
+                setFormErrors({ otp: 'Failed to resend OTP. Please try again.' });
+                setIsLoading(false);
+            }
+        );
+    };
+
+    const handleBack = () => {
+        if (currentStep === 7) {
+            setCurrentStep(6);
+            setShowOtpInput(true);
+        } else if (currentStep === 6 && showOtpInput) {
+            setShowOtpInput(false);
+        } else if (currentStep > 0) {
+            setCurrentStep(currentStep - 1);
+        }
+        setFormErrors({});
     };
 
     // Calculate estimated earnings
@@ -463,7 +478,7 @@ const FundraisingOnboarding = () => {
             '51+': 60
         };
 
-        const members = memberCounts[formData.membersCount] || 1;
+        const members = memberCounts[formData.members_count] || 1;
         const minEarning = members * 400;
         const maxEarning = members * 2200;
 
@@ -476,9 +491,9 @@ const FundraisingOnboarding = () => {
         <div className="mb-8">
             <div className="mb-10">
                 <div className="relative">
-                    <div className="absolute top-4 left-0 right-0 h-2 bg-white/20 backdrop-blur-lg rounded-full -translate-y-1/2 border border-white/30">
+                    <div className="absolute top-4 left-0 right-0 h-2 bg-white/20 backdrop-blur-lg rounded-full border border-white/30">
                         <div
-                            className="h-full bg-[#8BC34A] rounded-full transition-all duration-800 ease-out shadow-lg shadow-blue-500/25"
+                            className="h-full bg-[#8BC34A] rounded-full transition-all duration-800 ease-out shadow-lg shadow-green-500/25"
                             style={{
                                 width: `${((currentStep) / (steps.length - 1)) * 100}%`
                             }}
@@ -489,24 +504,23 @@ const FundraisingOnboarding = () => {
                         {steps.map((step, index) => (
                             <div key={index} className="flex flex-col items-center flex-1">
                                 <div className={`
-                        relative w-7 h-7 rounded-full flex items-center justify-center text-sm font-bold transition-all duration-500 ease-out
-                        backdrop-blur-lg border shadow-lg
-                        ${index < currentStep
+                                    relative w-8 h-8 rounded-full flex items-center justify-center text-sm font-bold transition-all duration-500 ease-out
+                                    backdrop-blur-lg border-2 shadow-lg
+                                    ${index < currentStep
                                         ? 'bg-gradient-to-br from-green-500 to-emerald-600 border-green-400 text-white scale-110'
                                         : index === currentStep
-                                            ? 'bg-white/90 border-blue-500 text-blue-600 scale-125 shadow-xl shadow-blue-500/30 ring-1 ring-blue-200'
+                                            ? 'bg-white/95 border-blue-500 text-blue-600 scale-125 shadow-xl shadow-blue-500/30 ring-2 ring-blue-200'
                                             : 'bg-white/60 border-gray-300 text-gray-700'
                                     }
-                    `}>
+                                `}>
                                     {index < currentStep ? (
-                                        <svg className="w-3.5 h-3.5" fill="currentColor" viewBox="0 0 20 20">
+                                        <svg className="w-4 h-4" fill="currentColor" viewBox="0 0 20 20">
                                             <path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd" />
                                         </svg>
                                     ) : (
                                         <span className="relative z-10">{index + 1}</span>
                                     )}
 
-                                    {/* Active Step Animation */}
                                     {index === currentStep && (
                                         <>
                                             <div className="absolute inset-0 rounded-full bg-blue-400 animate-ping opacity-60"></div>
@@ -514,16 +528,11 @@ const FundraisingOnboarding = () => {
                                         </>
                                     )}
                                 </div>
-
-
                             </div>
                         ))}
                     </div>
                 </div>
             </div>
-            {/* <div className="text-center bg-gray-300 rounded-full px-4 py-2 w-fit mx-auto mt-1">
-                <p className="text-sm font-semibold text-black ">{steps[currentStep].description}</p>
-            </div> */}
         </div>
     );
 
@@ -533,8 +542,8 @@ const FundraisingOnboarding = () => {
                 return (
                     <div>
                         <span className="text-sm font-semibold text-white uppercase tracking-wide">GET STARTED</span>
-                        <h1 className="text-[26px] lg:text-[30px]   font-splash text-white mt-2 mb-6">
-                            <span className="text-yellow-400">Fundraising</span>  Never Tasted So Good!
+                        <h1 className="text-[26px] lg:text-[30px] font-splash text-white mt-2 mb-6">
+                            <span className="text-yellow-400">Fundraising</span> Never Tasted So Good!
                         </h1>
                         <p className="text-white mb-8 text-[16px]">
                             Join Popcorn World and make every sale count. It’s free to join, no minimum orders, and your group keeps 50% profit on every order!
@@ -545,7 +554,7 @@ const FundraisingOnboarding = () => {
                                 placeholder="Email address"
                                 value={formData.email_address}
                                 onChange={(e) => handleInputChange('email_address', e.target.value)}
-                                className="w-full p-4 rounded-xl border  border-gray-300 focus:outline-none text-white  placeholder-white  transition-all duration-200"
+                                className="w-full p-4 rounded-xl border border-gray-300 focus:outline-none text-white bg-white/10 backdrop-blur-sm placeholder-white/70 transition-all duration-200 focus:border-white/50"
                             />
                             {formErrors.email_address && <p className="text-red-400 font-semibold text-sm">{formErrors.email_address}</p>}
                         </div>
@@ -555,8 +564,7 @@ const FundraisingOnboarding = () => {
             case 1:
                 return (
                     <div>
-
-                        <h1 className="text-[26px] lg:text-[30px]    font-splash text-white mt-4 mb-6">
+                        <h1 className="text-[26px] lg:text-[30px] font-splash text-white mt-4 mb-6">
                             Type in the name of your team
                         </h1>
                         <p className="text-white/90 mb-8 text-lg">
@@ -568,7 +576,7 @@ const FundraisingOnboarding = () => {
                                 placeholder="Team Name"
                                 value={formData.team_name}
                                 onChange={(e) => handleInputChange('team_name', e.target.value)}
-                                className="w-full p-4 rounded-xl border border-gray-300 focus:outline-none text-white  placeholder-white  transition-all duration-200"
+                                className="w-full p-4 rounded-xl border border-gray-300 focus:outline-none text-white bg-white/10 backdrop-blur-sm placeholder-white/70 transition-all duration-200 focus:border-white/50"
                             />
                             {formErrors.team_name && <p className="text-red-400 font-semibold text-sm">{formErrors.team_name}</p>}
                         </div>
@@ -578,28 +586,23 @@ const FundraisingOnboarding = () => {
             case 2:
                 return (
                     <div>
-
-                        <h1 className="text-[26px] lg:text-[30px]    font-splash text-white mt-4 mb-6">
+                        <h1 className="text-[26px] lg:text-[30px] font-splash text-white mt-4 mb-6">
                             Tell us about your team
                         </h1>
                         <p className="text-white/90 mb-8 text-lg">
                             From sports teams to non-profit organizations, Popcorn World has helped raise over $100 million.
                         </p>
 
-                        {/* Organization Type */}
-
                         <div className="space-y-6">
                             <div>
                                 <select
                                     value={formData.organization_type_id}
                                     onChange={(e) => handleInputChange('organization_type_id', e.target.value)}
-                                    className="w-full p-4 rounded-xl border border-gray-300 focus:outline-none text-white  placeholder-white  transition-all duration-200"
+                                    className="w-full p-4 rounded-xl border border-gray-300 focus:outline-none text-white bg-white/10 backdrop-blur-sm transition-all duration-200 focus:border-white/50"
                                 >
                                     <option className='text-black' value="">
                                         {organizationData.length === 0 ? 'Loading...' : 'Select Organization Type'}
                                     </option>
-
-
                                     {organizationData.map(type => (
                                         <option key={type.id} className='text-black' value={type.id}>{type.name}</option>
                                     ))}
@@ -608,25 +611,22 @@ const FundraisingOnboarding = () => {
                                 {formErrors.organization_type_id && <p className="text-red-400 font-semibold text-sm mt-1">{formErrors.organization_type_id}</p>}
 
                                 {formData.organization_type_id === 'other' && (
-                                    <div>
-                                        <input
-                                            type="text"
-                                            placeholder="Enter your custom organization type"
-                                            value={customOrgType}
-                                            onChange={(e) => setCustomOrgType(e.target.value)}
-                                            className="w-full p-4 mt-6 rounded-xl border border-gray-300 focus:outline-none text-white placeholder-white transition-all duration-200"
-                                        />
-                                    </div>
+                                    <input
+                                        type="text"
+                                        placeholder="Enter your custom organization type"
+                                        value={customOrgType}
+                                        onChange={(e) => setCustomOrgType(e.target.value)}
+                                        className="w-full p-4 mt-4 rounded-xl border border-gray-300 focus:outline-none text-white bg-white/10 backdrop-blur-sm placeholder-white/70 transition-all duration-200 focus:border-white/50"
+                                    />
                                 )}
                             </div>
-                            {/* Select Sub-Type */}
 
-                            {formData.organization_type_id && (
+                            {formData.organization_type_id && formData.organization_type_id !== 'other' && (
                                 <div>
                                     <select
                                         value={formData.organization_sub_type_id}
                                         onChange={(e) => handleInputChange('organization_sub_type_id', e.target.value)}
-                                        className="w-full p-4 rounded-xl border border-gray-300 focus:outline-none text-white  placeholder-white  transition-all duration-200"
+                                        className="w-full p-4 rounded-xl border border-gray-300 focus:outline-none text-white bg-white/10 backdrop-blur-sm transition-all duration-200 focus:border-white/50"
                                     >
                                         <option className='text-black' value="">Select Sub-Type</option>
                                         {organizationData.find(t => t.id == formData.organization_type_id)?.organization_sub_types.map(subType => (
@@ -636,15 +636,13 @@ const FundraisingOnboarding = () => {
                                     </select>
                                     {formErrors.organization_sub_type_id && <p className="text-red-400 font-semibold text-sm mt-1">{formErrors.organization_sub_type_id}</p>}
                                     {formData.organization_sub_type_id === 'other' && (
-                                        <div>
-                                            <input
-                                                type="text"
-                                                placeholder="Enter your custom sub-organization type"
-                                                value={customSubType}
-                                                onChange={(e) => setCustomSubType(e.target.value)}
-                                                className="w-full p-4 mt-6 rounded-xl border border-gray-300 focus:outline-none text-white placeholder-white transition-all duration-200"
-                                            />
-                                        </div>
+                                        <input
+                                            type="text"
+                                            placeholder="Enter your custom sub-organization type"
+                                            value={customSubType}
+                                            onChange={(e) => setCustomSubType(e.target.value)}
+                                            className="w-full p-4 mt-4 rounded-xl border border-gray-300 focus:outline-none text-white bg-white/10 backdrop-blur-sm placeholder-white/70 transition-all duration-200 focus:border-white/50"
+                                        />
                                     )}
                                 </div>
                             )}
@@ -655,7 +653,7 @@ const FundraisingOnboarding = () => {
                                     placeholder={organizationLabel}
                                     value={formData.organization_name}
                                     onChange={(e) => handleInputChange('organization_name', e.target.value)}
-                                    className="w-full p-4 rounded-xl border border-gray-300 focus:outline-none text-white  placeholder-white  transition-all duration-200"
+                                    className="w-full p-4 rounded-xl border border-gray-300 focus:outline-none text-white bg-white/10 backdrop-blur-sm placeholder-white/70 transition-all duration-200 focus:border-white/50"
                                 />
                                 {formErrors.organization_name && <p className="text-red-400 font-semibold text-sm mt-1">{formErrors.organization_name}</p>}
                             </div>
@@ -666,7 +664,7 @@ const FundraisingOnboarding = () => {
                                     placeholder="Zip Code"
                                     value={formData.zip_code}
                                     onChange={(e) => handleInputChange('zip_code', e.target.value.replace(/\D/g, '').slice(0, 5))}
-                                    className="w-full p-4 rounded-xl border border-gray-300 focus:outline-none text-white  placeholder-white  transition-all duration-200"
+                                    className="w-full p-4 rounded-xl border border-gray-300 focus:outline-none text-white bg-white/10 backdrop-blur-sm placeholder-white/70 transition-all duration-200 focus:border-white/50"
                                 />
                                 {formErrors.zip_code && <p className="text-red-400 font-semibold text-sm mt-1">{formErrors.zip_code}</p>}
                             </div>
@@ -677,8 +675,7 @@ const FundraisingOnboarding = () => {
             case 3:
                 return (
                     <div>
-
-                        <h1 className="text-[26px] lg:text-[30px]    font-splash text-white mt-4 mb-6">
+                        <h1 className="text-[26px] lg:text-[30px] font-splash text-white mt-4 mb-6">
                             When are you looking to start fundraising?
                         </h1>
 
@@ -689,10 +686,11 @@ const FundraisingOnboarding = () => {
                                         <button
                                             key={option}
                                             onClick={() => handleInputChange('fundraising_start_time', option)}
-                                            className={`p-4 rounded-xl font-semibold transition-all hover:bg-blue-600 hover:text-white duration-200 ${formData.fundraising_start_time === option
-                                                ? 'bg-blue-600 text-white'
-                                                : 'bg-white text-gray-700 hover:bg-blue-50'
-                                                }`}
+                                            className={`p-4 rounded-xl font-semibold transition-all hover:bg-blue-600 hover:text-white duration-200 ${
+                                                formData.fundraising_start_time === option
+                                                    ? 'bg-blue-600 text-white'
+                                                    : 'bg-white/10 text-white hover:bg-white/20'
+                                            }`}
                                         >
                                             {option === 'asap' && 'ASAP'}
                                             {option === 'next4weeks' && 'In the next 4 weeks'}
@@ -701,89 +699,52 @@ const FundraisingOnboarding = () => {
                                         </button>
                                     ))}
                                 </div>
-
-                                {/* <button
-                                    onClick={() => setPickSpecificDate(true)}
-                                    className="group flex items-center gap-2.5 px-6 py-3 rounded-full  border border-white/10 
-             text-white font-semibold transition-all duration-300 ease-out 
-             hover:border-[#8BC34A]/30 hover:text-[#ffc222] 
-             backdrop-blur-sm shadow-sm hover:shadow-md"
-                                >
-                                    <CalendarCheck />
-                                    Pick a Specific Date
-                                </button> */}
-
-                                {formErrors.startTime && <p className="text-red-400 font-semibold text-sm">{formErrors.startTime}</p>}
+                                {formErrors.fundraising_start_time && <p className="text-red-400 font-semibold text-sm">{formErrors.fundraising_start_time}</p>}
                             </div>
                         ) : (
                             <div className="space-y-6">
-                                <div className="grid grid-cols-1 gap-4">
-                                    {/* Display selected dates */}
-                                    {/* Display selected dates - Enhanced */}
-                                    <div className="backdrop-blur-sm border border-white/10 rounded-2xl p-5 shadow-lg">
-
-
-                                        <div className="space-y-2.5">
-                                            <div className="flex items-center gap-4">
-
-
-                                                <p className="text-gray-200 font-semibold text-xs ">Start Date :</p>
-                                                <p className="text-sm  text-white font-semibold">
-                                                    {startDate ? formatDate(startDate) : <span className="text-gray-400 italic">Not selected</span>}
-                                                </p>
-
-                                            </div>
-
-                                            <div className="flex items-center gap-5">
-
-
-                                                <p className="text-gray-200 font-semibold text-xs">End Date : </p>
-                                                <p className="text-sm  text-white font-semibold ">
-                                                    {endDate ? formatDate(endDate) : <span className="text-gray-400 italic">Not selected</span>}
-                                                </p>
-
-                                            </div>
+                                <div className="backdrop-blur-sm border border-white/10 rounded-2xl p-5 shadow-lg">
+                                    <div className="space-y-2.5">
+                                        <div className="flex items-center gap-4">
+                                            <p className="text-gray-200 font-semibold text-xs">Start Date :</p>
+                                            <p className="text-sm text-white font-semibold">
+                                                {startDate ? formatDate(startDate) : <span className="text-gray-400 italic">Not selected</span>}
+                                            </p>
                                         </div>
-
-                                        {startDate && endDate && (
-                                            <div className="mt-4 pt-3 border-t border-white/10">
-                                                <p className="text-xs text-gray-200 flex items-center font-medium gap-3">
-                                                    <span>
-                                                        <Calendar />
-                                                    </span>
-                                                    <span>
-                                                        Duration: {Math.ceil((endDate - startDate) / (1000 * 60 * 60 * 24)) + 1} day{Math.ceil((endDate - startDate) / (1000 * 60 * 60 * 24)) >= 1 ? 's' : ''}
-                                                    </span>
-                                                </p>
-                                            </div>
-                                        )}
+                                        <div className="flex items-center gap-5">
+                                            <p className="text-gray-200 font-semibold text-xs">End Date :</p>
+                                            <p className="text-sm text-white font-semibold">
+                                                {endDate ? formatDate(endDate) : <span className="text-gray-400 italic">Not selected</span>}
+                                            </p>
+                                        </div>
                                     </div>
+                                    {startDate && endDate && (
+                                        <div className="mt-4 pt-3 border-t border-white/10">
+                                            <p className="text-xs text-gray-200 flex items-center font-medium gap-3">
+                                                <Calendar size={16} />
+                                                Duration: {Math.ceil((endDate - startDate) / (1000 * 60 * 60 * 24)) + 1} day{Math.ceil((endDate - startDate) / (1000 * 60 * 60 * 24)) > 1 ? 's' : ''}
+                                            </p>
+                                        </div>
+                                    )}
+                                </div>
 
-                                    {/* Calendar */}
-                                    {/* Custom Calendar */}
-                                    <div className="bg-white rounded-xl p-4 w-full shadow-md">
-                                        <CustomDateRangePicker
-                                            startDate={startDate}
-                                            endDate={endDate}
-                                            onRangeChange={({ from, to }) => {
-                                                setStartDate(from);
-                                                setEndDate(to);
-                                            }}
-                                        />
-                                    </div>
+                                <div className="bg-white rounded-xl p-4 w-full shadow-md">
+                                    <CustomDateRangePicker
+                                        startDate={startDate}
+                                        endDate={endDate}
+                                        onRangeChange={({ from, to }) => {
+                                            setStartDate(from);
+                                            setEndDate(to);
+                                        }}
+                                    />
                                 </div>
 
                                 <button
                                     onClick={() => setPickSpecificDate(false)}
-                                    className="group flex items-center gap-2.5 px-4 py-2 rounded-full  border border-white/10 
-             text-white font-medium transition-all duration-300 ease-out 
-             hover:border-[#8BC34A]/30 hover:text-[#ffc222] 
-             backdrop-blur-sm shadow-sm hover:shadow-md"
+                                    className="group flex items-center gap-2.5 px-4 py-2 rounded-full border border-white/10 text-white font-medium transition-all duration-300 hover:border-[#8BC34A]/30 hover:text-[#ffc222] backdrop-blur-sm shadow-sm hover:shadow-md"
                                 >
-                                    <ArrowLeft
-                                        className="h-4 w-4 transition-transform duration-300 group-hover:-translate-x-0.5"
-                                    />
-                                    <span>Back to options</span>
+                                    <ArrowLeft className="h-4 w-4 transition-transform duration-300 group-hover:-translate-x-0.5" />
+                                    Back to options
                                 </button>
 
                                 {formErrors.dates && <p className="text-red-400 font-semibold text-sm">{formErrors.dates}</p>}
@@ -795,8 +756,7 @@ const FundraisingOnboarding = () => {
             case 4:
                 return (
                     <div>
-
-                        <h1 className="text-[26px] lg:text-[30px]    font-splash text-white mt-4 mb-6">
+                        <h1 className="text-[26px] lg:text-[30px] font-splash text-white mt-4 mb-6">
                             How many members of your team will participate in the fundraiser?
                         </h1>
                         <div className="grid grid-cols-2 gap-4 mt-8">
@@ -804,10 +764,11 @@ const FundraisingOnboarding = () => {
                                 <button
                                     key={option}
                                     onClick={() => handleInputChange('members_count', option)}
-                                    className={`p-4 rounded-xl font-semibold transition-all hover:bg-blue-600 hover:text-white duration-200 ${formData.members_count === option
-                                        ? 'bg-blue-600 text-white'
-                                        : 'bg-white text-gray-700 hover:bg-blue-50'
-                                        }`}
+                                    className={`p-4 rounded-xl font-semibold transition-all hover:bg-blue-600 hover:text-white duration-200 ${
+                                        formData.members_count === option
+                                            ? 'bg-blue-600 text-white'
+                                            : 'bg-white/10 text-white hover:bg-white/20'
+                                    }`}
                                 >
                                     {option === 'justme' && 'Just me'}
                                     {option === 'notSure' && "I'm not sure"}
@@ -815,15 +776,14 @@ const FundraisingOnboarding = () => {
                                 </button>
                             ))}
                         </div>
-                        {formErrors.membersCount && <p className="text-red-400 font-semibold text-sm mt-4">{formErrors.membersCount}</p>}
+                        {formErrors.members_count && <p className="text-red-400 font-semibold text-sm mt-4">{formErrors.members_count}</p>}
                     </div>
                 );
 
             case 5:
                 return (
                     <div>
-
-                        <h1 className="text-[26px] lg:text-[30px]    font-splash text-white mt-4 mb-6">
+                        <h1 className="text-[26px] lg:text-[30px] font-splash text-white mt-4 mb-6">
                             Your team could earn between ${earnings.min.toLocaleString()}-${earnings.max.toLocaleString()} in just 4 days!
                         </h1>
                         <p className="text-white/90 mb-8 text-lg">
@@ -843,7 +803,7 @@ const FundraisingOnboarding = () => {
                                 We sent a code over SMS to {formData.phone_no}.
                             </p>
 
-                            <div className="flex justify-start gap-3 mb-4">
+                            <div className="flex justify-start gap-3 mb-6">
                                 {Array.from({ length: 5 }).map((_, index) => (
                                     <input
                                         key={index}
@@ -865,46 +825,37 @@ const FundraisingOnboarding = () => {
                                                 e.target.previousSibling.focus();
                                             }
                                         }}
-                                        className="w-14 h-14 text-center text-2xl font-semibold rounded-xl border bg-transparent border-gray-300  text-white  outline-none"
+                                        className="w-14 h-14 text-center text-2xl font-semibold rounded-xl border-2 bg-white/10 backdrop-blur-sm border-gray-300 text-white placeholder-white/50 outline-none focus:border-blue-500 transition-colors"
                                     />
                                 ))}
                             </div>
 
                             {formErrors.otp && (
-                                <p className="text-red-400 font-semibold text-sm text-center">{formErrors.otp}</p>
+                                <p className="text-red-400 font-semibold text-sm text-center mb-4">{formErrors.otp}</p>
                             )}
 
-                            {otpSent && (
-                                <div className="text-center mt-4">
-                                    <p className="text-white/70 text-sm mb-2">Didn't receive the code?</p>
-                                    <button
-                                        onClick={() => {
-                                            const cleanPhoneNumber = formData.phone_no.replace(/\D/g, '');
-                                            sendOTP(
-                                                cleanPhoneNumber,
-                                                'fundraiser_signup',
-                                                (response) => {
-                                                    console.log('OTP resent successfully:', response);
-                                                    setFormErrors({});
-                                                },
-                                                (error) => {
-                                                    console.error('Failed to resend OTP:', error);
-                                                    setFormErrors({ otp: 'Failed to resend OTP. Please try again.' });
-                                                }
-                                            );
-                                        }}
-                                        className="text-[#8ac24a] hover:text-green-400 text-sm font-medium underline"
-                                    >
-                                        Resend OTP
-                                    </button>
-                                </div>
-                            )}
+                            <div className="text-center mt-6">
+                                <p className="text-white/70 text-sm mb-2">
+                                    Didn't receive the code? 
+                                    {!resendAvailable ? (
+                                        <span className="ml-2">Resend in {countdown} seconds</span>
+                                    ) : (
+                                        <button
+                                            onClick={handleResendOTP}
+                                            disabled={isLoading}
+                                            className="ml-2 text-[#8ac24a] hover:text-green-400 text-sm font-medium underline transition-colors"
+                                        >
+                                            Resend OTP
+                                        </button>
+                                    )}
+                                </p>
+                            </div>
                         </div>
                     );
                 } else {
                     return (
                         <div>
-                            <h1 className="text-[26px] lg:text-[30px]    font-splash text-white mt-4 mb-6">
+                            <h1 className="text-[26px] lg:text-[30px] font-splash text-white mt-4 mb-6">
                                 Set up your Popcorn World account
                             </h1>
                             <div className="space-y-4">
@@ -915,7 +866,7 @@ const FundraisingOnboarding = () => {
                                             placeholder="Full Name"
                                             value={formData.fundraiser_name}
                                             onChange={(e) => handleInputChange('fundraiser_name', e.target.value)}
-                                            className="w-full p-4 rounded-xl border border-gray-300 focus:outline-none text-white  placeholder-white  transition-all duration-200"
+                                            className="w-full p-4 rounded-xl border border-gray-300 focus:outline-none text-white bg-white/10 backdrop-blur-sm placeholder-white/70 transition-all duration-200 focus:border-white/50"
                                         />
                                         {formErrors.fundraiser_name && <p className="text-red-400 font-semibold text-sm mt-1">{formErrors.fundraiser_name}</p>}
                                     </div>
@@ -925,14 +876,12 @@ const FundraisingOnboarding = () => {
                                             placeholder="xxx-xxx-xxxx"
                                             value={formData.phone_no}
                                             onChange={(e) => handleInputChange('phone_no', e.target.value)}
-                                            maxLength={13}
-                                            className="w-full p-4 rounded-xl border border-gray-300 focus:outline-none text-white  placeholder-white  transition-all duration-200"
+                                            maxLength={12}
+                                            className="w-full p-4 rounded-xl border border-gray-300 focus:outline-none text-white bg-white/10 backdrop-blur-sm placeholder-white/70 transition-all duration-200 focus:border-white/50"
                                         />
                                         {formErrors.phone_no && <p className="text-red-400 font-semibold text-sm mt-1">{formErrors.phone_no}</p>}
                                     </div>
                                 </div>
-
-
 
                                 <div className="flex items-start space-x-3 mt-6">
                                     <div className="relative">
@@ -946,20 +895,19 @@ const FundraisingOnboarding = () => {
                                         <label
                                             htmlFor="terms"
                                             className={`
-        flex items-center justify-center w-5 h-5 border-1 rounded-lg cursor-pointer transition-all duration-300 transform 
-        ${formData.acceptTerms
-                                                    ? 'bg-black border-transparent shadow-lg'
-                                                    : 'border-gray-300 bg-white'
+                                                flex items-center justify-center w-6 h-6 border-2 rounded-lg cursor-pointer transition-all duration-300 transform 
+                                                ${formData.acceptTerms
+                                                    ? 'bg-[#8BC34A] border-transparent shadow-lg'
+                                                    : 'border-gray-300 bg-transparent'
                                                 }
-      `}
+                                            `}
                                         >
                                             {formData.acceptTerms && (
-                                                <svg className="w-3 h-3 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                                <svg className="w-4 h-4 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                                                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={3} d="M5 13l4 4L19 7" />
                                                 </svg>
                                             )}
                                         </label>
-
                                     </div>
                                     <label htmlFor="terms" className="text-white text-sm leading-relaxed cursor-pointer hover:text-blue-100 transition-colors duration-200">
                                         By creating an account, you agree to Popcorn World{' '}
@@ -984,7 +932,7 @@ const FundraisingOnboarding = () => {
                             Your account has been verified! Click below to complete your fundraising registration.
                         </p>
                         <div className="text-center">
-                            <div className="bg-green-500/20 border border-green-500/30 rounded-xl p-6 mb-6">
+                            <div className="bg-green-500/20 border border-green-500/30 rounded-xl p-6 mb-6 backdrop-blur-sm">
                                 <div className="flex items-center justify-center mb-4">
                                     <svg className="w-12 h-12 text-green-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
@@ -1003,51 +951,32 @@ const FundraisingOnboarding = () => {
     };
 
     return (
-        <section className=" py-32 lg:py-62 bg-[#3333cb]">
+        <section className="py-32 lg:py-62 bg-[#3333cb]">
             <div className="container mx-auto px-4 py-8">
-                <div className="grid lg:grid-cols-2 gap-36 items-start ">
-
-                    <div className="space-y-8 ">
+                <div className="grid lg:grid-cols-2 gap-36 items-start">
+                    <div className="space-y-8">
                         <ProgressBar />
-
-                        <div className="">
-                            {renderStepContent()}
-                        </div>
-
-                        <div className="flex items-center justify-between ">
-                            {currentStep > 0 && !showOtpInput && (
+                        <div>{renderStepContent()}</div>
+                        <div className="flex items-center justify-between pt-6">
+                            {currentStep > 0 && (
                                 <button
-                                    onClick={() => {
-                                        if (currentStep === 6 && showOtpInput) {
-                                            setShowOtpInput(false);
-                                        } else {
-                                            setCurrentStep(currentStep - 1);
-                                        }
-                                    }}
-                                    className="group relative  bg-[#8ac24a] text-white px-6 py-3 rounded-full transition-all duration-300 transform flex items-center font-medium overflow-hidden"
+                                    onClick={handleBack}
+                                    className="group relative bg-white/10 text-white px-6 py-3 rounded-full transition-all duration-300 transform flex items-center font-medium overflow-hidden hover:bg-white/20 backdrop-blur-sm"
                                 >
                                     Back
                                 </button>
                             )}
-
                             <button
                                 onClick={handleNext}
                                 disabled={isLoading}
-                                className={`group relative  bg-[#8ac24a] text-white px-6 py-3 rounded-full transition-all duration-300 transform flex items-center font-medium overflow-hidden  ${currentStep === 0 ? 'ml-auto' : ''
-                                    }`}
+                                className={`group relative bg-[#8ac24a] text-white px-6 py-3 rounded-full transition-all duration-300 transform flex items-center font-medium overflow-hidden ${currentStep === 0 ? 'ml-auto' : ''}`}
                             >
-
                                 <span>
                                     {currentStep === 0 && 'Continue'}
-                                    {currentStep === 1 && 'Next'}
-                                    {currentStep === 2 && 'Next'}
-                                    {currentStep === 3 && 'Next'}
-                                    {currentStep === 4 && 'Next'}
-                                    {currentStep === 5 && 'Next'}
+                                    {[1, 2, 3, 4, 5].includes(currentStep) && 'Next'}
                                     {currentStep === 6 && !showOtpInput && 'Verify Mobile Number'}
                                     {currentStep === 6 && showOtpInput && 'Verify OTP'}
                                     {currentStep === 7 && 'Complete Registration'}
-
                                 </span>
                                 {isLoading && (
                                     <svg className="animate-spin -mr-1 ml-3 h-5 w-5 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
@@ -1057,22 +986,19 @@ const FundraisingOnboarding = () => {
                                 )}
                             </button>
                         </div>
-
                         {formErrors.submit && (
                             <p className="text-red-400 font-semibold text-sm text-center mt-4">{formErrors.submit}</p>
                         )}
                     </div>
 
-                    <div className="hidden  relative lg:block">
+                    <div className="hidden relative lg:block">
                         <Image
                             src={get1}
                             alt="Fundraising team member 1"
                             width={260}
                             height={240}
-                            className="rounded-2xl shadow-2xl  z-0"
+                            className="rounded-2xl shadow-2xl z-0"
                         />
-
-                        {/* Second Image (Overlapping Bottom Right) */}
                         <Image
                             src={get2}
                             alt="Fundraising team member 2"
@@ -1081,8 +1007,6 @@ const FundraisingOnboarding = () => {
                             className="rounded-2xl shadow-2xl absolute top-35 left-40 z-10"
                         />
                     </div>
-
-
                 </div>
             </div>
         </section>
