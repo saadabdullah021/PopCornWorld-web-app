@@ -19,169 +19,169 @@ const CampaignsPage = ({ initialCampaigns, globalSettings }) => {
     return currencySetting?.config_value || "$";
   };
 
-useEffect(() => {
-  const fetchCampaigns = async () => {
-    try {
-      const response = await fetch('YOUR_API_URL/campaigns');
-      const data = await response.json();
-      setCampaigns(data);
-    } catch (error) {
-      console.error('Error fetching campaigns:', error);
-    }
-  };
+  useEffect(() => {
+    const fetchCampaigns = async () => {
+      try {
+        const response = await fetch('YOUR_API_URL/campaigns');
+        const data = await response.json();
+        setCampaigns(data);
+      } catch (error) {
+        console.error('Error fetching campaigns:', error);
+      }
+    };
 
-  fetchCampaigns();
-}, []);
+    fetchCampaigns();
+  }, []);
 
-// ✅ Dummy campaigns data (static)
-const transformCampaigns = [
-  {
-    id: 1,
-    slug: "help-children-education",
-    title: "Help Children Get Quality Education",
-    author: "John Doe",
-    category: "Education",
-    categoryColor: "bg-blue-500",
-    image: "https://via.placeholder.com/400x250.png?text=Education+Campaign",
-    raised: "$2,500",
-    goal: "$5,000",
-    percentage: 50,
-    date: "September 20, 2025",
-  },
-  {
-    id: 2,
-    slug: "medical-support-fund",
-    title: "Medical Support for Needy Families",
-    author: "Jane Smith",
-    category: "Medical",
-    categoryColor: "bg-red-500",
-    image: "https://via.placeholder.com/400x250.png?text=Medical+Campaign",
-    raised: "$1,200",
-    goal: "$3,000",
-    percentage: 40,
-    date: "September 22, 2025",
-  },
-  {
-    id: 3,
-    slug: "animal-shelter-fund",
-    title: "Build a Shelter for Stray Animals",
-    author: "Michael Johnson",
-    category: "Animal Care",
-    categoryColor: "bg-green-500",
-    image: "https://via.placeholder.com/400x250.png?text=Animal+Care+Campaign",
-    raised: "$3,400",
-    goal: "$6,000",
-    percentage: 57,
-    date: "September 25, 2025",
-  },
+  // ✅ Dummy campaigns data (static)
+  const transformCampaigns = [
     {
-    id: 4,
-    slug: "animal-shelter-fund",
-    title: "Build a Shelter for Stray Animals",
-    author: "Michael Johnson",
-    category: "Animal Care",
-    categoryColor: "bg-green-500",
-    image: "https://via.placeholder.com/400x250.png?text=Animal+Care+Campaign",
-    raised: "$3,400",
-    goal: "$6,000",
-    percentage: 57,
-    date: "September 25, 2025",
-  },
+      id: 1,
+      slug: "help-children-education",
+      title: "Help Children Get Quality Education",
+      author: "John Doe",
+      category: "Education",
+      categoryColor: "bg-blue-500",
+      image: "https://via.placeholder.com/400x250.png?text=Education+Campaign",
+      raised: "$2,500",
+      goal: "$5,000",
+      percentage: 50,
+      date: "September 20, 2025",
+    },
     {
-    id: 5,
-    slug: "animal-shelter-fund",
-    title: "Build a Shelter for Stray Animals",
-    author: "Michael Johnson",
-    category: "Animal Care",
-    categoryColor: "bg-green-500",
-    image: "https://via.placeholder.com/400x250.png?text=Animal+Care+Campaign",
-    raised: "$3,400",
-    goal: "$6,000",
-    percentage: 57,
-    date: "September 25, 2025",
-  },
+      id: 2,
+      slug: "medical-support-fund",
+      title: "Medical Support for Needy Families",
+      author: "Jane Smith",
+      category: "Medical",
+      categoryColor: "bg-red-500",
+      image: "https://via.placeholder.com/400x250.png?text=Medical+Campaign",
+      raised: "$1,200",
+      goal: "$3,000",
+      percentage: 40,
+      date: "September 22, 2025",
+    },
     {
-    id: 6,
-    slug: "animal-shelter-fund",
-    title: "Build a Shelter for Stray Animals",
-    author: "Michael Johnson",
-    category: "Animal Care",
-    categoryColor: "bg-green-500",
-    image: "https://via.placeholder.com/400x250.png?text=Animal+Care+Campaign",
-    raised: "$3,400",
-    goal: "$6,000",
-    percentage: 57,
-    date: "September 25, 2025",
-  },
+      id: 3,
+      slug: "animal-shelter-fund",
+      title: "Build a Shelter for Stray Animals",
+      author: "Michael Johnson",
+      category: "Animal Care",
+      categoryColor: "bg-green-500",
+      image: "https://via.placeholder.com/400x250.png?text=Animal+Care+Campaign",
+      raised: "$3,400",
+      goal: "$6,000",
+      percentage: 57,
+      date: "September 25, 2025",
+    },
     {
-    id: 7,
-    slug: "animal-shelter-fund",
-    title: "Build a Shelter for Stray Animals",
-    author: "Michael Johnson",
-    category: "Animal Care",
-    categoryColor: "bg-green-500",
-    image: "https://via.placeholder.com/400x250.png?text=Animal+Care+Campaign",
-    raised: "$3,400",
-    goal: "$6,000",
-    percentage: 57,
-    date: "September 25, 2025",
-  },
+      id: 4,
+      slug: "animal-shelter-fund",
+      title: "Build a Shelter for Stray Animals",
+      author: "Michael Johnson",
+      category: "Animal Care",
+      categoryColor: "bg-green-500",
+      image: "https://via.placeholder.com/400x250.png?text=Animal+Care+Campaign",
+      raised: "$3,400",
+      goal: "$6,000",
+      percentage: 57,
+      date: "September 25, 2025",
+    },
     {
-    id: 8,
-    slug: "animal-shelter-fund",
-    title: "Build a Shelter for Stray Animals",
-    author: "Michael Johnson",
-    category: "Animal Care",
-    categoryColor: "bg-green-500",
-    image: "https://via.placeholder.com/400x250.png?text=Animal+Care+Campaign",
-    raised: "$3,400",
-    goal: "$6,000",
-    percentage: 57,
-    date: "September 25, 2025",
-  },
+      id: 5,
+      slug: "animal-shelter-fund",
+      title: "Build a Shelter for Stray Animals",
+      author: "Michael Johnson",
+      category: "Animal Care",
+      categoryColor: "bg-green-500",
+      image: "https://via.placeholder.com/400x250.png?text=Animal+Care+Campaign",
+      raised: "$3,400",
+      goal: "$6,000",
+      percentage: 57,
+      date: "September 25, 2025",
+    },
     {
-    id: 9,
-    slug: "animal-shelter-fund",
-    title: "Build a Shelter for Stray Animals",
-    author: "Michael Johnson",
-    category: "Animal Care",
-    categoryColor: "bg-green-500",
-    image: "https://via.placeholder.com/400x250.png?text=Animal+Care+Campaign",
-    raised: "$3,400",
-    goal: "$6,000",
-    percentage: 57,
-    date: "September 25, 2025",
-  },
+      id: 6,
+      slug: "animal-shelter-fund",
+      title: "Build a Shelter for Stray Animals",
+      author: "Michael Johnson",
+      category: "Animal Care",
+      categoryColor: "bg-green-500",
+      image: "https://via.placeholder.com/400x250.png?text=Animal+Care+Campaign",
+      raised: "$3,400",
+      goal: "$6,000",
+      percentage: 57,
+      date: "September 25, 2025",
+    },
     {
-    id: 10,
-    slug: "animal-shelter-fund",
-    title: "Build a Shelter for Stray Animals",
-    author: "Michael Johnson",
-    category: "Animal Care",
-    categoryColor: "bg-green-500",
-    image: "https://via.placeholder.com/400x250.png?text=Animal+Care+Campaign",
-    raised: "$3,400",
-    goal: "$6,000",
-    percentage: 57,
-    date: "September 25, 2025",
-  },
+      id: 7,
+      slug: "animal-shelter-fund",
+      title: "Build a Shelter for Stray Animals",
+      author: "Michael Johnson",
+      category: "Animal Care",
+      categoryColor: "bg-green-500",
+      image: "https://via.placeholder.com/400x250.png?text=Animal+Care+Campaign",
+      raised: "$3,400",
+      goal: "$6,000",
+      percentage: 57,
+      date: "September 25, 2025",
+    },
     {
-    id: 11,
-    slug: "animal-shelter-fund",
-    title: "Build a Shelter for Stray Animals",
-    author: "Michael Johnson",
-    category: "Animal Care",
-    categoryColor: "bg-green-500",
-    image: "https://via.placeholder.com/400x250.png?text=Animal+Care+Campaign",
-    raised: "$3,400",
-    goal: "$6,000",
-    percentage: 57,
-    date: "September 25, 2025",
-  },
-];
+      id: 8,
+      slug: "animal-shelter-fund",
+      title: "Build a Shelter for Stray Animals",
+      author: "Michael Johnson",
+      category: "Animal Care",
+      categoryColor: "bg-green-500",
+      image: "https://via.placeholder.com/400x250.png?text=Animal+Care+Campaign",
+      raised: "$3,400",
+      goal: "$6,000",
+      percentage: 57,
+      date: "September 25, 2025",
+    },
+    {
+      id: 9,
+      slug: "animal-shelter-fund",
+      title: "Build a Shelter for Stray Animals",
+      author: "Michael Johnson",
+      category: "Animal Care",
+      categoryColor: "bg-green-500",
+      image: "https://via.placeholder.com/400x250.png?text=Animal+Care+Campaign",
+      raised: "$3,400",
+      goal: "$6,000",
+      percentage: 57,
+      date: "September 25, 2025",
+    },
+    {
+      id: 10,
+      slug: "animal-shelter-fund",
+      title: "Build a Shelter for Stray Animals",
+      author: "Michael Johnson",
+      category: "Animal Care",
+      categoryColor: "bg-green-500",
+      image: "https://via.placeholder.com/400x250.png?text=Animal+Care+Campaign",
+      raised: "$3,400",
+      goal: "$6,000",
+      percentage: 57,
+      date: "September 25, 2025",
+    },
+    {
+      id: 11,
+      slug: "animal-shelter-fund",
+      title: "Build a Shelter for Stray Animals",
+      author: "Michael Johnson",
+      category: "Animal Care",
+      categoryColor: "bg-green-500",
+      image: "https://via.placeholder.com/400x250.png?text=Animal+Care+Campaign",
+      raised: "$3,400",
+      goal: "$6,000",
+      percentage: 57,
+      date: "September 25, 2025",
+    },
+  ];
 
 
-const allProjects = useMemo(() => transformCampaigns, []);
+  const allProjects = useMemo(() => transformCampaigns, []);
 
 
   // Filter projects based on search query
@@ -225,7 +225,7 @@ const allProjects = useMemo(() => transformCampaigns, []);
 
   // Project Card Component
   const ProjectCard = ({ project }) => (
-    <div 
+    <div
       className="bg-white rounded-lg shadow-lg overflow-hidden hover:shadow-xl transition-all duration-300 group cursor-pointer h-full flex flex-col"
       onClick={() => window.location.href = `/campaigns/${project.slug}`}
     >
@@ -344,7 +344,7 @@ const allProjects = useMemo(() => transformCampaigns, []);
             <h2 className="main_heading font-splash font-bold text-black">
               {searchQuery ? "Search Results" : "All Campaigns"}
             </h2>
-        
+
           </div>
 
           {/* No Results */}
@@ -390,16 +390,14 @@ const allProjects = useMemo(() => transformCampaigns, []);
                     {isLoading ? (
                       <>
                         <Loader2 className="w-5 h-5 mr-2 animate-spin " />
-                        Loading...
                       </>
                     ) : (
                       <>
                         Load More Campaigns
-                     
                       </>
                     )}
                   </button>
-              
+
                 </div>
               )}
 

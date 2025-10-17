@@ -345,8 +345,8 @@ const Orders = () => {
                     </div>
                     <span className={`px-4 py-2 text-sm font-medium rounded-full ${getStatusColor(selectedOrder.order_status)}`}>
                       {selectedOrder.order_status.toLowerCase()
-  .replace(/_/g, ' ')
-  .replace(/\b\w/g, char => char.toUpperCase())}
+                        .replace(/_/g, ' ')
+                        .replace(/\b\w/g, char => char.toUpperCase())}
                     </span>
                   </div>
                 </div>

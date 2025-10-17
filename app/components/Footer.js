@@ -6,6 +6,7 @@ import {
   FaEnvelopeOpen,
   FaMapMarkerAlt,
   FaArrowRight,
+  FaInstagram,
 } from "react-icons/fa";
 import logo from '../../public/fundraiserLogo.webp'
 import Image from "next/image";
@@ -34,13 +35,14 @@ const Footer = ({ footerSolidBg }) => {
                 className="mb-6 transition-all duration-300 hover:scale-101"
               />
               <p className="text-white mb-6 leading-relaxed text-[16px] font-light transition-colors duration-300 hover:text-gray-200">
-                Sed ut perspiciatis unde omnis iste natus error sit voluptatem
+                We believe Popcorn should be more than just a snack.
+                It's a journey of taste inspired by flavors from around the world. From sweet to savory, every bite tells a delicious story.
               </p>
-
               <div className="flex space-x-3 mt-6 md:mt-0">
                 {[
-                  { icon: FaFacebookF, href: "#", label: "Facebook" },
-                  { icon: FaTwitter, href: "#", label: "Twitter" },
+                  { icon: FaFacebookF, href: "https://web.facebook.com/popcornworldoaklawn", label: "Facebook" },
+                  { icon: FaInstagram, href: "https://www.instagram.com/doingtheworldaflavor/", label: "Instagram" },
+                  { icon: FaTwitter, href: "https://x.com/Popcorn_World_", label: "Twitter" },
 
                 ].map(({ icon: Icon, href, label }, idx) => (
                   <a
@@ -129,7 +131,7 @@ const Footer = ({ footerSolidBg }) => {
                       href="tel:01234578933"
                       className="text-white hover:text-primary transition-colors duration-300 font-medium"
                     >
-                      012(345) 78 93
+                      219-427-1806
                     </a>
                   </span>
                 </li>
@@ -176,7 +178,7 @@ const Footer = ({ footerSolidBg }) => {
             <p className="text-gray-400 text-[16px] font-light transition-colors duration-300 hover:text-gray-300">
               © {new Date().getFullYear()}{" "}
               <a
-                href="#"
+                href="/"
                 className="text-primary hover:text-white transition-colors duration-300 font-semibold"
               >
                 Popcorn World
