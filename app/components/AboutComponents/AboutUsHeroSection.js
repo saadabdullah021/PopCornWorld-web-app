@@ -5,7 +5,7 @@ const AboutUsHeroSection = () => {
   return (
     <section className="relative overflow-hidden">
       {/* Top Section with Blue Background */}
-      <div className="bg-[#3333cb] text-white pt-24 pb-12 lg:pt-40 lg:pb-12 px-4">
+      <div className="bg-gray-50 text-black pt-24 pb-4 lg:pt-40 lg:pb-4 px-4">
         <div className="max-w-7xl mx-auto text-center">
           {/* About Us Label */}
           {/* <div className="mb-8">
@@ -20,7 +20,7 @@ const AboutUsHeroSection = () => {
           </h1>
 
           {/* Description */}
-          <div className="max-w-6xl mx-auto">
+          <div className="max-w-7xl mx-auto">
             <p className=" main_description leading-relaxed font-light opacity-95">
               We believe fundraising should do more than raise money — it should bring people together. That’s why Popcorn World gives 50% of every sale to schools and youth organizations building brighter futures.
             </p>
@@ -29,8 +29,8 @@ const AboutUsHeroSection = () => {
       </div>
 
       {/* Bottom Section with Team Image */}
-      <div className="relative h-72 md:h-96 lg:h-[500px] xl:h-[600px] 2xl:h-[888px]">
-        {/* Background Image */}
+      {/* <div className="relative h-72 md:h-96 lg:h-[500px] xl:h-[600px] 2xl:h-[888px]">
+ 
         <div className="absolute inset-0">
           <Image
             src={heroImage}
@@ -44,16 +44,11 @@ const AboutUsHeroSection = () => {
           />
         </div>
 
-        {/* Gradient Overlay for better text readability if needed */}
+   
         <div className="absolute inset-0 bg-gradient-to-t from-black/20 via-transparent to-transparent" />
 
-        {/* Optional overlay content can be added here */}
-        <div className="absolute inset-0 flex items-end justify-center pb-8">
-          <div className="text-center text-white opacity-0 hover:opacity-100 transition-opacity duration-300">
-            {/* Optional team caption or call-to-action */}
-          </div>
-        </div>
-      </div>
+
+      </div> */}
 
 
     </section>

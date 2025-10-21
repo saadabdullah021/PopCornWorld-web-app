@@ -28,7 +28,7 @@ export default function Home() {
       <JoyMissionSection/>
       <PopularCategories />
       <VirtualFundraisingSection/>
-      <SuccessStoriesSlider/>
+      {/* <SuccessStoriesSlider/> */}
       <ExploreProjectsSlider 
         campaigns={campaigns}
         campaignsLoading={campaignsLoading}

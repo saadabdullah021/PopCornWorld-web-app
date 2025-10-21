@@ -135,10 +135,10 @@ const ExploreProjectsSlider = ({ campaigns, campaignsLoading, campaignsError, gl
           src={project.image}
           alt={project.title}
           fill
-          className="object-cover object-center group-hover:scale-105 transition-transform duration-500"
+          className="object-contain object-center group-hover:scale-105 transition-transform duration-500"
           loader={imageLoader}
           priority={project.index < itemsPerView}
-          quality={75}
+          quality={100}
           onError={(e) => { e.target.src = '/pop_packet.png'; }}
         />
         <div
@@ -170,12 +170,17 @@ const ExploreProjectsSlider = ({ campaigns, campaignsLoading, campaignsError, gl
           <span className="absolute hidden group-hover/share:block bg-gray-800 text-white text-xs rounded py-1 px-2 -top-10 right-0">Share</span>
         </div>
       </div>
+
       <div className="p-6 relative">
         <div className="absolute -top-3 left-4">
           <span className={`px-4 py-2 text-white text-sm font-medium rounded ${project.categoryColor}`}>
             {project.category}
           </span>
         </div>
+<div className="-mx-6">
+  <hr className="w-full border-gray-300 border-t" />
+</div>
+
         <div className="flex items-center gap-2 mt-6 mb-3">
           <div className="w-8 h-8 bg-gray-200 rounded-full flex items-center justify-center">
             <User className="w-4 h-4 text-gray-500" />
@@ -261,8 +266,13 @@ const ExploreProjectsSlider = ({ campaigns, campaignsLoading, campaignsError, gl
   }
 
   return (
-    <section className="py-16 lg:py-24 bg-black relative overflow-hidden">
+    <section className="pb-16 pt-12 lg:pb-24 lg:pt-12 bg-black relative overflow-hidden">
       <div className="container mx-auto px-4 sm:px-6 lg:px-8">
+              <div className="mb-12 text-center">
+          <h2 className="main_heading  font-splash text-black">
+          Active Campaigns
+          </h2>
+        </div>
         {shouldShowSlider ? (
           <>
             <div className="hidden md:block mx-12 py-4">
