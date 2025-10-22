@@ -10,6 +10,7 @@ import { useDispatch } from 'react-redux';
 import { loginSuccess } from '../store/slices/appSlice';
 
 import { format } from 'date-fns';
+import Link from 'next/link';
 
 // Custom Date Range Picker Component
 const CustomDateRangePicker = ({ startDate, endDate, onRangeChange }) => {
@@ -468,19 +469,24 @@ const FundraisingOnboarding = () => {
 
     // Calculate estimated earnings
     const calculateEarnings = () => {
-        const memberCounts = {
-            'justme': 1,
-            '2-10': 6,
-            '11-20': 15,
-            '21-30': 25,
-            '31-40': 35,
-            '41-50': 45,
-            '51+': 60
+        const rangeMap = {
+            justme: { min: 1, max: 1 },
+            "not_sure": { min: 1, max: 1 },
+            "2-10": { min: 2, max: 10 },
+            "11-20": { min: 11, max: 20 },
+            "21-30": { min: 21, max: 30 },
+            "31-40": { min: 31, max: 40 },
+            "41-50": { min: 41, max: 50 },
+            "51+": { min: 51, max: 51 }, // fixed base for 51+
         };
 
-        const members = memberCounts[formData.members_count] || 1;
-        const minEarning = members * 400;
-        const maxEarning = members * 2200;
+        const range = rangeMap[formData.members_count] || { min: 1, max: 1 };
+
+        // Earnings per member
+        const perMember = 400;
+
+        const minEarning = range.min * perMember;
+        const maxEarning = range.max * perMember;
 
         return { min: minEarning, max: maxEarning };
     };
@@ -650,7 +656,7 @@ const FundraisingOnboarding = () => {
                             <div>
                                 <input
                                     type="text"
-                                    placeholder={organizationLabel}
+                                    placeholder='Organization Name'
                                     value={formData.organization_name}
                                     onChange={(e) => handleInputChange('organization_name', e.target.value)}
                                     className="w-full p-4 rounded-xl border border-gray-300 focus:outline-none text-white bg-white/10 backdrop-blur-sm placeholder-white/70 transition-all duration-200 focus:border-white/50"
@@ -686,11 +692,10 @@ const FundraisingOnboarding = () => {
                                         <button
                                             key={option}
                                             onClick={() => handleInputChange('fundraising_start_time', option)}
-                                            className={`p-4 rounded-xl font-semibold transition-all hover:bg-blue-600 hover:text-white duration-200 ${
-                                                formData.fundraising_start_time === option
+                                            className={`p-4 rounded-xl font-semibold transition-all hover:bg-blue-600 hover:text-white duration-200 ${formData.fundraising_start_time === option
                                                     ? 'bg-blue-600 text-white'
                                                     : 'bg-white/10 text-white hover:bg-white/20'
-                                            }`}
+                                                }`}
                                         >
                                             {option === 'asap' && 'ASAP'}
                                             {option === 'next4weeks' && 'In the next 4 weeks'}
@@ -764,11 +769,10 @@ const FundraisingOnboarding = () => {
                                 <button
                                     key={option}
                                     onClick={() => handleInputChange('members_count', option)}
-                                    className={`p-4 rounded-xl font-semibold transition-all hover:bg-blue-600 hover:text-white duration-200 ${
-                                        formData.members_count === option
+                                    className={`p-4 rounded-xl font-semibold transition-all hover:bg-blue-600 hover:text-white duration-200 ${formData.members_count === option
                                             ? 'bg-blue-600 text-white'
                                             : 'bg-white/10 text-white hover:bg-white/20'
-                                    }`}
+                                        }`}
                                 >
                                     {option === 'justme' && 'Just me'}
                                     {option === 'notSure' && "I'm not sure"}
@@ -784,10 +788,17 @@ const FundraisingOnboarding = () => {
                 return (
                     <div>
                         <h1 className="text-[26px] lg:text-[30px] font-splash text-white mt-4 mb-6">
-                            Your team could earn between ${earnings.min.toLocaleString()}-${earnings.max.toLocaleString()} in just 4 days!
+                            {formData.members_count === "justme" || formData.members_count === "not_sure" ? (
+                                <>Your team could earn <span className="text-[#fec914]">${earnings.min.toLocaleString()}</span> in just 4 days!</>
+                            ) : earnings.min === earnings.max ? (
+                                <>Your team could earn <span className="text-[#fec914]">${earnings.min.toLocaleString()}</span> in just 4 days!</>
+                            ) : (
+                                <>Your team could earn between <span className="text-[#fec914]">${earnings.min.toLocaleString()}</span>–<span className="text-[#fec914]">${earnings.max.toLocaleString()}</span> in just 4 days!</>
+                            )}
                         </h1>
+
                         <p className="text-white/90 mb-8 text-lg">
-                            Our estimate is based on your team activity type and the number of team members you expect to open a Pop-Up Store during your fundraiser. The average participant sells $400!
+                            Our estimate is based on your team activity type and the number of team members you expect to open a Pop-Up Store during your fundraiser.
                         </p>
                     </div>
                 );
@@ -836,7 +847,7 @@ const FundraisingOnboarding = () => {
 
                             <div className="text-center mt-6">
                                 <p className="text-white/70 text-sm mb-2">
-                                    Didn't receive the code? 
+                                    Didn't receive the code?
                                     {!resendAvailable ? (
                                         <span className="ml-2">Resend in {countdown} seconds</span>
                                     ) : (
@@ -911,9 +922,9 @@ const FundraisingOnboarding = () => {
                                     </div>
                                     <label htmlFor="terms" className="text-white text-sm leading-relaxed cursor-pointer hover:text-blue-100 transition-colors duration-200">
                                         By creating an account, you agree to Popcorn World{' '}
-                                        <span className="text-yellow-400 hover:text-white underline transition-colors duration-200">Terms and Conditions</span>{' '}
+                                        <Link href='/privacy-policy' target='_blank' className="text-yellow-400 hover:text-white underline transition-colors duration-200">Terms and Conditions</Link>{' '}
                                         and{' '}
-                                        <span className="text-yellow-400 hover:text-white underline transition-colors duration-200">Privacy Policy</span>
+                                        <Link href='/terms-and-conditions' target='_blank' className="text-yellow-400 hover:text-white underline transition-colors duration-200">Privacy Policy</Link>
                                     </label>
                                 </div>
                                 {formErrors.acceptTerms && <p className="text-red-400 font-semibold text-sm">{formErrors.acceptTerms}</p>}

@@ -56,7 +56,7 @@ const VirtualFundraisingSection = () => {
         {/* Header */}
         <div className="text-center mb-16">
           <h2 className="main_heading font-splash text-black mb-8 tracking-tight uppercase">
-            Virtual Fundraising is Easy
+            Fundraising Made Simple
           </h2>
         </div>
 

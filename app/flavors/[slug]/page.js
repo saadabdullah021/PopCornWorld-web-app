@@ -117,11 +117,11 @@ const FlavorDetailsPage = () => {
         </nav>
 
         {/* Flavor Detail Layout */}
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-start">
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
           {/* Left Side - Images */}
           <div className="space-y-4">
             {/* Main Image */}
-            <div className="relative h-72 lg:h-[350px] bg-gradient-to-br from-orange-100 to-yellow-50 rounded-2xl overflow-hidden shadow-lg">
+            <div className="relative h-72 lg:h-[350px]    ">
               <Image
                 src={
                   flavor.product_images?.[selectedImageIndex]?.thumbnail || // 👈 real thumb
@@ -131,7 +131,8 @@ const FlavorDetailsPage = () => {
                 fill
                           sizes="(max-width: 1024px) 100vw, 50vw"
                           priority
-                className="object-fill drop-shadow-2xl transition-all duration-300"
+                          quality={100}
+                className="object-contain object-center drop-shadow-2xl transition-all duration-300"
                 onError={(e) => {
                   e.target.src = '/pop_packet.png';
                 }}

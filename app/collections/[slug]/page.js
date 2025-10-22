@@ -125,7 +125,7 @@ const CollectionDetailsPage = () => {
                     {/* Left Side - Images */}
                     <div className="space-y-4">
                         {/* Main Image */}
-                        <div className="relative h-72 lg:h-[350px] bg-gradient-to-br from-orange-100 to-yellow-50 rounded-2xl overflow-hidden shadow-lg">
+                        <div className="relative h-72 lg:h-[300px] ">
                             <Image
                                 src={
                                     collection?.collection_images?.[selectedImageIndex]?.image

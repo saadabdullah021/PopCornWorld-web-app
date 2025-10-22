@@ -1,8 +1,8 @@
 import React from 'react';
 import Image from 'next/image';
-import footballImage from '../../../public/footballImage.webp'
-import blackBoyImage from '../../../public/blackBoyImage.webp'
-import blueImage from '../../../public/blueImage.webp'
+import footballImage from '../../../public/signup.webp'
+import blackBoyImage from '../../../public/share-your-link.webp'
+import blueImage from '../../../public/profits.webp'
 
 
 
@@ -57,7 +57,7 @@ const JoyMissionSection = () => {
                   alt={service.alt}
                   fill
                   sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
-                  className="object-cover group-hover:scale-110 transition-transform duration-700 ease-out"
+                  className="object-fill group-hover:scale-110 transition-transform duration-700 ease-out"
                   priority={service.id === 1}
                   placeholder="blur"
                   blurDataURL="data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wBDAAYEBQYFBAYGBQYHBwYIChAKCgkJChQODwwQFxQYGBcUFhYaHSUfGhsjHBYWICwgIyYnKSopGR8tMC0oMCUoKSj/2wBDAQcHBwoIChMKChMoGhYaKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCj/wAARCAAIAAoDASIAAhEBAxEB/8QAFQABAQAAAAAAAAAAAAAAAAAAAAv/xAAhEAACAQMDBQAAAAAAAAAAAAABAgMABAUGIWEREiMxUf/EABUBAQEAAAAAAAAAAAAAAAAAAAMF/8QAGhEAAgIDAAAAAAAAAAAAAAAAAAECEgMRkf/aAAwDAQACEQMRAD8AltJagyeH0AthI5xdrLcNM91BF5pX2HaH9bcfaSXWGaRmknyJckliyjqTzSlT54b6bk+h0R//2Q=="

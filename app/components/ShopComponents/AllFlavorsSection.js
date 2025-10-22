@@ -117,8 +117,8 @@ const handleAddToCart = (flavor) => {
               <div className="relative h-56  p-8 overflow-hidden">
                 <div className="absolute inset-0 bg-gradient-to-br from-transparent to-orange-100/30"></div>
                 <div className="relative h-full flex items-center justify-center">
-                  <div className="relative">
-                    <div className="w-96 h-64 relative">
+                 
+                    <div className="relative w-full h-full">
                       <Image
                         src={
                           flavor?.product_images?.[0]?.thumbnail && flavor.product_images[0].thumbnail.trim() !== ''
@@ -128,14 +128,14 @@ const handleAddToCart = (flavor) => {
                         alt={flavor?.name || flavor?.title || 'Popcorn Flavor'}
                         fill
                                    sizes="(max-width: 1024px) 100vw, 50vw"
-                        className="object-fill object-center drop-shadow-2xl w-full h-full group-hover:scale-110 transition-transform duration-700 ease-out "
+                        className="object-fill object-center drop-shadow-2xl w-full h-full group-hover:scale-110 transition-transform duration-700 ease-out"
                         onError={(e) => {
                           e.currentTarget.src = '/pop_packet.png';
                         }}
                       />
 
                     </div>
-                  </div>
+              
                 </div>
               </div>
 

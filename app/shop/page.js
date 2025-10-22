@@ -53,7 +53,7 @@ export default function shop() {
 
   return (
     <div>
-      <PopcornWorldSection/>
+      {/* <PopcornWorldSection/> */}
       <AllFlavorsSection 
         products={products}
         productsLoading={productsLoading}
