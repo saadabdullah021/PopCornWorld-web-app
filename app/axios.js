@@ -1,8 +1,8 @@
 import axios from 'axios'
 
 const axiosInstance = axios.create({
-  // baseURL: 'http://127.0.0.1:8000/',
-  baseURL: 'https://onebigmediacompany.online/',
+  baseURL: 'http://127.0.0.1:8000/',
+  // baseURL: 'https://onebigmediacompany.online/',
   // timeout: 10000,
   headers: {
     'Content-Type': 'application/json',
