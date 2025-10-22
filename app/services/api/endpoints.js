@@ -1,6 +1,6 @@
 export const get_global_settings = "/api/get-global-settings";
 export const get_campaigns = "/api/get-campaigns";
-export const get_single_campaign = "/api/get-campaign";
+export const get_single_campaign = "/api/get-campaign"; 
 export const get_products = "/api/get-products";
 export const get_shop_collections = "/api/get-collections";
 export const get_single_product = "/api/get-product";
@@ -16,3 +16,4 @@ export const get_products_slider = "/api/get-products-slider";
 export const get_user_orders = "/api/user-orders";
 export const update_profile = "/api/update-profile";
 export const customer_profile = "/api/customer-profile";
+export const contact_us_sms = "/api/contact-us-sms";
