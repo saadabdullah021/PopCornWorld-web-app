@@ -12,14 +12,14 @@ const JoyMissionSection = () => {
       id: 1,
       title: "Sign Up for Free",
       description: "Create your fundraiser page in just a few minutes.",
-      image: blackBoyImage,
+      image: footballImage,
       alt: "Create your fundraiser page in just a few minutes."
     },
     {
       id: 2,
       title: "Share Your Link",
       description: " Send it to friends, family, and supporters anywhere.",
-      image: footballImage,
+      image: blackBoyImage,
       alt: " Send it to friends, family, and supporters anywhere."
     },
     {
