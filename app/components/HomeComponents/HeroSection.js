@@ -8,7 +8,7 @@ import rightImage from '../../../public/rightImage.webp'
 
 const HeroSection = () => {
   return (
-    <section className="relative min-h-screen pb-12 pt-20 lg:pt-32 bg-gradient-to-br from-gray-50 to-gray-100 overflow-hidden">
+    <section className="relative  pb-2 pt-20 lg:pt-32 bg-white overflow-hidden">
 
 
       {/* Header Text Section */}

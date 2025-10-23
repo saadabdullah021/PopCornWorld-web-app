@@ -193,11 +193,10 @@ const ContactForm = () => {
                   onChange={handleInputChange}
                   rows={6}
                   placeholder="Write your message here..."
-                  className={`w-full px-5 py-4 border rounded-xl bg-white transition-all duration-300 placeholder-gray-500 focus:ring-0 outline-none text-black font-medium text-lg shadow-sm hover:shadow-md resize-none ${
-                    errors.message
+                  className={`w-full px-5 py-4 border rounded-xl bg-white transition-all duration-300 placeholder-gray-500 focus:ring-0 outline-none text-black font-medium text-lg shadow-sm hover:shadow-md resize-none ${errors.message
                       ? "border-red-400 focus:border-red-500 focus:ring-4 focus:ring-red-100"
                       : "border-gray-200 hover:border-[#8BC34A]"
-                  }`}
+                    }`}
                 />
                 {errors.message && (
                   <p className="text-red-500 text-sm font-semibold mt-2">
@@ -211,11 +210,10 @@ const ContactForm = () => {
                 <button
                   type="submit"
                   disabled={loading}
-                  className={`group inline-flex items-center gap-3 px-8 py-4 text-white font-semibold rounded-full transition-all duration-300 transform active:scale-95 shadow-lg hover:shadow-xl text-lg ${
-                    loading
+                  className={`group inline-flex items-center gap-3 px-8 py-4 text-white font-semibold rounded-full transition-all duration-300 transform active:scale-95 shadow-lg hover:shadow-xl text-lg ${loading
                       ? "bg-gray-400 cursor-not-allowed"
                       : "bg-[#8BC34A] hover:bg-[#7CB342]"
-                  }`}
+                    }`}
                 >
                   <MessageSquare size={20} />
                   {loading ? "Sending..." : "Send Message"}
@@ -242,11 +240,10 @@ const FormField = ({ icon, label, name, type, placeholder, value, error, onChang
       value={value}
       onChange={onChange}
       placeholder={placeholder}
-      className={`w-full px-5 py-4 border rounded-xl bg-white transition-all duration-300 placeholder-gray-500 focus:ring-0 outline-none text-black font-medium text-lg shadow-sm hover:shadow-md ${
-        error
+      className={`w-full px-5 py-4 border rounded-xl bg-white transition-all duration-300 placeholder-gray-500 focus:ring-0 outline-none text-black font-medium text-lg shadow-sm hover:shadow-md ${error
           ? "border-red-400 focus:border-red-500 focus:ring-4 focus:ring-red-100"
           : "border-gray-200 hover:border-[#8BC34A]"
-      }`}
+        }`}
     />
     {error && (
       <p className="text-red-500 text-sm font-semibold mt-2 flex items-center gap-1">

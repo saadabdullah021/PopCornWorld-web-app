@@ -241,7 +241,7 @@ const SupportCampaignPage = () => {
                 <button
                   key={tab.id}
                   onClick={() => handleTabChange(tab.id)}
-                  className={`relative z-10 px-6 py-3 rounded-full font-bold text-sm transition-all duration-300 ease-in-out transform  focus:outline-none  ${
+                  className={`relative z-10 px-6  py-3 rounded-full font-bold text-sm transition-all duration-300 ease-in-out transform  focus:outline-none  ${
                     activeTab === tab.id
                       ? 'text-black shadow-sm'
                       : 'text-gray-600 hover:text-black'
