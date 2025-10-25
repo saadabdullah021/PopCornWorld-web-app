@@ -45,7 +45,7 @@ const ShoppingCartIcon = ({ itemCount, onClick }) => {
       className="relative text-sm font-medium outline-none ring-none rounded-full cursor-pointer text-white mr-3  transition-transform duration-200 focus:outline-none "
       aria-label={`Shopping cart with ${itemCount} items`}
     >
-      <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+      <svg xmlns="http://www.w3.org/2000/svg" className='w-8 mt-2 lg:mt-0 h-8 lg:w-5 lg:h-5' viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
         <path d="m15 11-1 9" />
         <path d="m19 11-4-7" />
         <path d="M2 11h20" />

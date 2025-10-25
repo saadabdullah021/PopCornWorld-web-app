@@ -500,7 +500,15 @@ const Header = () => {
                                 >
                                     <span className="relative z-10">Get Started</span>
                                 </Link>
+                                <div className="lg:hidden">
 
+
+                                       <ShoppingCartIcon
+                                    itemCount={cartItemCount}
+                                    onClick={() => setIsCartOpen(true)}
+                                    />
+
+                                    </div>
 
                                 <button
                                     className="lg:hidden p-3 rounded-xl border border-gray-200 hover:border-[#8BC34A] hover:bg-blue-50 transition-all duration-300 transform"
@@ -521,6 +529,7 @@ const Header = () => {
                     <Link href="/" onClick={closeMobileMenu}>
                         <Image src={logo} alt="popcorn world" className="h-8 object-contain w-full transition-transform duration-300" />
                     </Link>
+                    
                     <button
                         onClick={closeMobileMenu}
                         className="p-2 rounded-full hover:bg-white/20 transition-colors duration-300"
