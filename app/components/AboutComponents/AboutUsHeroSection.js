@@ -12,16 +12,11 @@ const AboutUsHeroSection = () => {
   }, []);
   return (
 
-     <section className="relative overflow-hidden">
-      {/* Animated Background Blobs */}
-      <div className="absolute inset-0 overflow-hidden">
-        <div className="absolute -top-40 -right-40 w-80 h-80 bg-yellow-200 rounded-full mix-blend-multiply filter blur-3xl opacity-20 animate-blob" />
-        <div className="absolute -bottom-40 -left-40 w-80 h-80 bg-orange-200 rounded-full mix-blend-multiply filter blur-3xl opacity-20 animate-blob animation-delay-2000" />
-        <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-80 h-80 bg-red-200 rounded-full mix-blend-multiply filter blur-3xl opacity-20 animate-blob animation-delay-4000" />
-      </div>
 
-      {/* Main Content */}
-      <div className="relative bg-gray-50 text-black pt-24 lg:pt-40  px-4">
+
+
+
+      <section className=' bg-white text-black pt-24 lg:pt-40  px-4'>
         <div className="max-w-7xl mx-auto text-center">
           
           {/* Decorative About Us Badge */}
@@ -63,9 +58,9 @@ const AboutUsHeroSection = () => {
             <ChevronDown className="w-8 h-8 mx-auto text-[#8bc34a] opacity-70" />
           </div> */}
         </div>
-      </div>
+      </section>
 
-    </section>
+ 
   );
 };
 

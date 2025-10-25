@@ -4,7 +4,7 @@ import React from 'react';
 
 const PopcornStorySection = () => {
     return (
-        <section className="pb-16 pt-6 md:pb-24 md:pt-12 px-4 bg-gray-50">
+        <section className="pb-16 pt-6 md:pb-24 md:pt-12 px-4 bg-white">
             <div className="max-w-7xl mx-auto">
                 {/* Header */}
      
