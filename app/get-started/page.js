@@ -571,10 +571,10 @@ const FundraisingOnboarding = () => {
                 return (
                     <div>
                         <h1 className="text-[26px] lg:text-[30px] font-splash text-white mt-4 mb-6">
-                            Type in the name of your team
+                            Enter your team name
                         </h1>
                         <p className="text-white/90 mb-8 text-lg">
-                            The team name will be displayed on each participant's Pop-Up Store.
+                            This name will appear on every participant’s campaign.
                         </p>
                         <div className="space-y-4">
                             <input
@@ -593,10 +593,10 @@ const FundraisingOnboarding = () => {
                 return (
                     <div>
                         <h1 className="text-[26px] lg:text-[30px] font-splash text-white mt-4 mb-6">
-                            Tell us about your team
+                            Share details about your team
                         </h1>
                         <p className="text-white/90 mb-8 text-lg">
-                            From sports teams to non-profit organizations, Popcorn World has helped raise over $100 million.
+                            Whether you're a sports team or a non-profit organization, Popcorn World has helped groups like yours raise over $100 million.
                         </p>
 
                         <div className="space-y-6">
@@ -682,8 +682,9 @@ const FundraisingOnboarding = () => {
                 return (
                     <div>
                         <h1 className="text-[26px] lg:text-[30px] font-splash text-white mt-4 mb-6">
-                            When are you looking to start fundraising?
+                            When do you plan to begin your fundraising campaign?
                         </h1>
+
 
                         {!pickSpecificDate ? (
                             <div className="space-y-6">
@@ -693,8 +694,8 @@ const FundraisingOnboarding = () => {
                                             key={option}
                                             onClick={() => handleInputChange('fundraising_start_time', option)}
                                             className={`p-4 rounded-xl font-semibold transition-all hover:bg-blue-600 hover:text-white duration-200 ${formData.fundraising_start_time === option
-                                                    ? 'bg-blue-600 text-white'
-                                                    : 'bg-white/10 text-white hover:bg-white/20'
+                                                ? 'bg-blue-600 text-white'
+                                                : 'bg-white/10 text-white hover:bg-white/20'
                                                 }`}
                                         >
                                             {option === 'asap' && 'ASAP'}
@@ -762,16 +763,17 @@ const FundraisingOnboarding = () => {
                 return (
                     <div>
                         <h1 className="text-[26px] lg:text-[30px] font-splash text-white mt-4 mb-6">
-                            How many members of your team will participate in the fundraiser?
+                            How many team members will take part in the fundraiser?
                         </h1>
+
                         <div className="grid grid-cols-2 gap-4 mt-8">
                             {['justme', '2-10', '11-20', '21-30', '31-40', '41-50', '51+', 'notSure'].map(option => (
                                 <button
                                     key={option}
                                     onClick={() => handleInputChange('members_count', option)}
                                     className={`p-4 rounded-xl font-semibold transition-all hover:bg-blue-600 hover:text-white duration-200 ${formData.members_count === option
-                                            ? 'bg-blue-600 text-white'
-                                            : 'bg-white/10 text-white hover:bg-white/20'
+                                        ? 'bg-blue-600 text-white'
+                                        : 'bg-white/10 text-white hover:bg-white/20'
                                         }`}
                                 >
                                     {option === 'justme' && 'Just me'}
@@ -798,8 +800,9 @@ const FundraisingOnboarding = () => {
                         </h1>
 
                         <p className="text-white/90 mb-8 text-lg">
-                            Our estimate is based on your team activity type and the number of team members you expect to open a Pop-Up Store during your fundraiser.
+                            Our estimate is based on your team’s activity type and the number of members you expect to open a Pop-Up Store during your campaign.
                         </p>
+
                     </div>
                 );
 
