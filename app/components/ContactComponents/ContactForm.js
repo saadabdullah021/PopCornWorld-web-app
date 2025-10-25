@@ -132,7 +132,7 @@ case "phone":
   };
 
   return (
-    <section className="min-h-screen bg-gradient-to-br from-blue-50/50 via-white to-indigo-50/30 py-12 px-4 sm:px-6 lg:px-8">
+    <section className="min-h-screen bg-gradient-to-br from-blue-50/50 via-white to-indigo-50/30 py-12  lg:px-8">
       <div className="max-w-7xl mx-auto">
         <div className="grid grid-cols-1 lg:grid-cols-2 rounded-3xl overflow-hidden shadow-2xl border border-gray-100 bg-white">
           {/* Map */}
