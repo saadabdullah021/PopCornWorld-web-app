@@ -13,8 +13,8 @@ const HeroSection = () => {
 
       {/* Header Text Section */}
       <div
-        className="relative text-center pt-24 lg:pt-36 lg:pb-36 2xl:pb-48 2xl:pt-72 pb-20 bg-cover bg-center bg-no-repeat"
-        style={{ backgroundImage: "url('/heroImage.webp')" }}
+        className="relative text-center pt-32 lg:pt-56 lg:pb-56 2xl:pb-96 2xl:pt-96 pb-32  bg-cover bg-center bg-no-repeat"
+        style={{ backgroundImage: "url('/hero-Image.webp')" }}
       >
 
         {/* Overlay (optional for dark shade on image) */}
@@ -23,14 +23,13 @@ const HeroSection = () => {
         <div className="relative z-10">
    
 
-          <h1 className="text-[42px] lg:text-[56px] font-splash text-white leading-none mb-12 tracking-tight animate-fadeInUp">
+          {/* <h1 className="text-[42px] lg:text-[56px] font-splash text-white leading-none mb-12 tracking-tight animate-fadeInUp">
             Raise Hand to Promote <br />
             <span className="!text-white">Best Products</span>
-          </h1>
+          </h1> */}
 
-          <Link href='/shop' className="group inline-flex items-center gap-3 px-6 py-3 border-2   font-medium rounded-full bg-[#8BC34A] cursor-pointer text-white border-transparent transition-all duration-300 animate-fadeInUp">
-            Shop Now
-
+          <Link href='/get-started' className="group inline-flex items-center capitalize gap-3 px-6 py-3 border-2   font-medium rounded-full bg-[#8BC34A] cursor-pointer text-white border-transparent transition-all duration-300 animate-fadeInUp">
+        Start Fundraising
           </Link>
         </div>
       </div>

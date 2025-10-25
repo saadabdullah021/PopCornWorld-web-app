@@ -26,28 +26,28 @@ const AllFlavorsSection = ({ products, productsLoading, productsError, paginatio
     window.location.href = `/flavors/${slug}`;
   };
 
-const handleAddToCart = (flavor) => {
-  const imageUrl =
-    flavor?.product_images?.[0]?.thumbnail?.trim() ||
-    '/pop_packet.png';
+  const handleAddToCart = (flavor) => {
+    const imageUrl =
+      flavor?.product_images?.[0]?.thumbnail?.trim() ||
+      '/pop_packet.png';
 
-  const campaignInfo = campaignData ? {
-    campaign_name: campaignData?.campaign_title,
-    campaign_slug: campaignData?.slug,
-    campaign_thumbnail: campaignData?.galleries?.[0]?.image || campaignData.campaign_image
-  } : null;
+    const campaignInfo = campaignData ? {
+      campaign_name: campaignData?.campaign_title,
+      campaign_slug: campaignData?.slug,
+      campaign_thumbnail: campaignData?.galleries?.[0]?.image || campaignData.campaign_image
+    } : null;
 
-  dispatch(
-    addToCart({
-      product: {
-        ...flavor,
-        image: imageUrl,
-        campaign_info: campaignInfo
-      },
-      link_code: link_code
-    })
-  );
-};
+    dispatch(
+      addToCart({
+        product: {
+          ...flavor,
+          image: imageUrl,
+          campaign_info: campaignInfo
+        },
+        link_code: link_code
+      })
+    );
+  };
 
   // Simple pagination logic: show Load More if we don't have all records yet
   const hasMore = pagination && allFlavors && allFlavors.length < pagination.totalRecords;
@@ -107,7 +107,7 @@ const handleAddToCart = (flavor) => {
           {allFlavors && allFlavors.length > 0 ? allFlavors.map((flavor, index) => (
             <div
               key={flavor.id}
-                    onClick={() => handleMoreInfo(flavor)}
+              onClick={() => handleMoreInfo(flavor)}
               className="group  transition-all duration-500 cursor-pointer transform overflow-hidden flex flex-col h-full"
               style={{
                 animationDelay: `${index * 100}ms`
@@ -117,25 +117,25 @@ const handleAddToCart = (flavor) => {
               <div className="relative h-56  p-8 overflow-hidden">
                 <div className="absolute inset-0 bg-gradient-to-br from-transparent to-orange-100/30"></div>
                 <div className="relative h-full flex items-center justify-center">
-                 
-                    <div className="relative w-full h-full">
-                      <Image
-                        src={
-                          flavor?.product_images?.[0]?.thumbnail && flavor.product_images[0].thumbnail.trim() !== ''
-                            ? flavor.product_images[0].thumbnail
-                            : '/pop_packet.png'
-                        }
-                        alt={flavor?.name || flavor?.title || 'Popcorn Flavor'}
-                        fill
-                                   sizes="(max-width: 1024px) 100vw, 50vw"
-                        className="object-fill object-center drop-shadow-2xl w-full h-full group-hover:scale-110 transition-transform duration-700 ease-out"
-                        onError={(e) => {
-                          e.currentTarget.src = '/pop_packet.png';
-                        }}
-                      />
 
-                    </div>
-              
+                  <div className="relative w-full h-full">
+                    <Image
+                      src={
+                        flavor?.product_images?.[0]?.thumbnail && flavor.product_images[0].thumbnail.trim() !== ''
+                          ? flavor.product_images[0].thumbnail
+                          : '/pop_packet.png'
+                      }
+                      alt={flavor?.name || flavor?.title || 'Popcorn Flavor'}
+                      fill
+                      sizes="(max-width: 1024px) 100vw, 50vw"
+                      className="object-fill object-center drop-shadow-2xl w-full h-full group-hover:scale-110 transition-transform duration-700 ease-out"
+                      onError={(e) => {
+                        e.currentTarget.src = '/pop_packet.png';
+                      }}
+                    />
+
+                  </div>
+
                 </div>
               </div>
 
@@ -184,34 +184,34 @@ const handleAddToCart = (flavor) => {
                   >
                     More Info
                   </button> */}
-             <button
-  onClick={(e) => {
-    e.stopPropagation(); // 🧱 prevent parent click events
-    handleAddToCart(flavor); // your main function
-  }}
-  className="w-full inline-flex items-center whitespace-nowrap gap-3 justify-center bg-[#8bc34a] text-white font-bold py-3 px-6 rounded-3xl transition-all duration-300 transform hover:shadow-lg focus:outline-none"
->
-  Add to Cart
-  <svg
-    xmlns="http://www.w3.org/2000/svg"
-    width="16"
-    height="16"
-    viewBox="0 0 24 24"
-    fill="none"
-    stroke="currentColor"
-    strokeWidth="2"
-    strokeLinecap="round"
-    strokeLinejoin="round"
-  >
-    <path d="m15 11-1 9" />
-    <path d="m19 11-4-7" />
-    <path d="M2 11h20" />
-    <path d="m3.5 11 1.6 7.4a2 2 0 0 0 2 1.6h9.8a2 2 0 0 0 2-1.6l1.7-7.4" />
-    <path d="M4.5 15.5h15" />
-    <path d="m5 11 4-7" />
-    <path d="m9 11 1 9" />
-  </svg>
-</button>
+                  <button
+                    onClick={(e) => {
+                      e.stopPropagation(); // 🧱 prevent parent click events
+                      handleAddToCart(flavor); // your main function
+                    }}
+                    className="w-full inline-flex items-center whitespace-nowrap gap-3 justify-center bg-[#8bc34a] text-white font-bold py-3 px-6 rounded-3xl transition-all duration-300 transform hover:shadow-lg focus:outline-none"
+                  >
+                    Add to Cart
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      width="16"
+                      height="16"
+                      viewBox="0 0 24 24"
+                      fill="none"
+                      stroke="currentColor"
+                      strokeWidth="2"
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                    >
+                      <path d="m15 11-1 9" />
+                      <path d="m19 11-4-7" />
+                      <path d="M2 11h20" />
+                      <path d="m3.5 11 1.6 7.4a2 2 0 0 0 2 1.6h9.8a2 2 0 0 0 2-1.6l1.7-7.4" />
+                      <path d="M4.5 15.5h15" />
+                      <path d="m5 11 4-7" />
+                      <path d="m9 11 1 9" />
+                    </svg>
+                  </button>
 
                 </div>
               </div>

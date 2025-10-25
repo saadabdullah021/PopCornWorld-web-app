@@ -26,7 +26,7 @@ export default function Home() {
     <div >
       <HeroSection />
       <JoyMissionSection/>
-      <PopularCategories />
+      {/* <PopularCategories /> */}
       <VirtualFundraisingSection/>
       {/* <SuccessStoriesSlider/> */}
       <ExploreProjectsSlider 

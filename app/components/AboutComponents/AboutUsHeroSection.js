@@ -27,11 +27,11 @@ const AboutUsHeroSection = () => {
           {/* Decorative About Us Badge */}
           <div className={`flex justify-center mb-8 transition-all duration-1000 ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 -translate-y-10'}`}>
             <div className="inline-flex items-center gap-2 px-6 py-3 bg-white rounded-full shadow-lg hover:shadow-xl transition-all duration-300 hover:scale-105">
-              <Sparkles className="w-5 h-5 text-yellow-500 animate-pulse" />
+              <Sparkles className="w-5 h-5 text-[#8bc34a] animate-pulse" />
               <span className="text-sm font-bold tracking-widest uppercase text-gray-800">
                 About Us
               </span>
-              <Sparkles className="w-5 h-5 text-yellow-500 animate-pulse" />
+              <Sparkles className="w-5 h-5 text-[#8bc34a] animate-pulse" />
             </div>
           </div>
 
@@ -48,22 +48,16 @@ const AboutUsHeroSection = () => {
             <p className="main_description leading-relaxed font-light text-gray-800">
               We believe fundraising should do more than raise money — it should bring people together. 
               That's why Popcorn World gives{' '}
-              <span className="relative inline-block font-bold text-orange-600">
+              <span className="relative inline-block font-bold text-[#8bc34a]">
                 50% of every sale
                 <svg className="absolute -bottom-1 left-0 w-full" height="4" viewBox="0 0 100 4" preserveAspectRatio="none">
-                  <path d="M0,2 Q25,0 50,2 T100,2" stroke="currentColor" strokeWidth="3" fill="none" className="text-orange-400" />
+                  <path d="M0,2 Q25,0 50,2 T100,2" stroke="currentColor" strokeWidth="3" fill="none" className="text-[#8bc34a]" />
                 </svg>
               </span>
               {' '}to schools and youth organizations building brighter futures.
             </p>
           </div>
 
-          {/* Decorative Elements */}
-          <div className={`flex justify-center gap-4 mt-12 transition-all duration-1000 delay-700 ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'}`}>
-            <div className="w-16 h-1 bg-gradient-to-r from-transparent via-[#8bc34a] to-transparent rounded-full" />
-            <div className="w-16 h-1 bg-gradient-to-r from-transparent via-[#8bc34a] to-transparent rounded-full" />
-            <div className="w-16 h-1 bg-gradient-to-r from-transparent via-[#8bc34a] to-transparent rounded-full" />
-          </div>
 
           {/* Scroll Indicator */}
           <div className="mt-16 animate-bounce">

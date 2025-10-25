@@ -15,6 +15,28 @@ const ContactForm = () => {
   const [errors, setErrors] = useState({});
   const [loading, setLoading] = useState(false);
 
+  // Format function for (123) 456-7890
+  const formatPhoneNumber = (value) => {
+    if (!value) return value;
+    const phoneNumberDigits = value.replace(/\D/g, ""); // remove non-numeric
+    const phoneNumberLength = phoneNumberDigits.length;
+
+    if (phoneNumberLength < 4) return phoneNumberDigits;
+    if (phoneNumberLength < 7) {
+      return `(${phoneNumberDigits.slice(0, 3)}) ${phoneNumberDigits.slice(3)}`;
+    }
+    return `(${phoneNumberDigits.slice(0, 3)}) ${phoneNumberDigits.slice(3, 6)}-${phoneNumberDigits.slice(6, 10)}`;
+  };
+
+  // Handle input change with formatting
+const handlePhoneChange = (e) => {
+  const raw = e.target.value.replace(/\D/g, ""); // only digits
+  if (raw.length <= 10) {
+    const formatted = formatPhoneNumber(raw);
+    setFormData((prev) => ({ ...prev, phone: formatted }));
+    setErrors((prev) => ({ ...prev, phone: validateField("phone", raw) }));
+  }
+};
   // ----------  REAL-TIME VALIDATION  ----------
   const validateField = (name, value) => {
     let error = "";
@@ -25,11 +47,12 @@ const ContactForm = () => {
           error = "Name must be at least 3 characters.";
         }
         break;
-      case "phone":
-        if (!/^\d{10,15}$/.test(value)) {
-          error = "Enter a valid phone number (10–15 digits).";
-        }
-        break;
+case "phone":
+  const digitsOnly = value.replace(/\D/g, "");
+  if (digitsOnly.length < 10 ) {
+    error = "Enter a valid phone number (10 digits).";
+  }
+  break;
       case "email":
         if (!/^[\w-.]+@([\w-]+\.)+[\w-]{2,4}$/.test(value)) {
           error = "Enter a valid email address.";
@@ -151,10 +174,10 @@ const ContactForm = () => {
                 label="Phone Number *"
                 name="phone"
                 type="tel"
-                placeholder="+1 234 567 8900"
+                placeholder="(123) 456-7890"
                 value={formData.phone}
                 error={errors.phone}
-                onChange={handleInputChange}
+                onChange={handlePhoneChange}
               />
 
               {/* Email */}
