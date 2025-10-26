@@ -340,9 +340,17 @@ const Header = () => {
 
                             <div className="flex items-center space-x-4">
                                 {!isAuthenticated && (
-                                    <Link href='/track-an-order' className="text-sm lg:text-[16px] font-medium  cursor-pointer hover:text-[#ffc222] text-white mr-3">
+                                        <div className="relative group">
+                                    <Link href='/track-an-order' className="text-sm lg:text-[16px] font-medium  cursor-pointer hover:text-[#ffc222] text-white mr-3 transition-colors duration-300  group relative">
                                         Track Order
+                                        
+                                     <div className="absolute top-6 left-0 w-full h-0.5 bg-[#ffc222] transform scale-x-0 group-hover:scale-x-100 transition-transform duration-300 origin-left will-change-transform [transform:translateZ(0)]"></div>
                                     </Link>
+                                        </div>
+
+                                                  
+                    
+                                    
                                 )}
 
                                 {/* Sign In / Profile Section */}

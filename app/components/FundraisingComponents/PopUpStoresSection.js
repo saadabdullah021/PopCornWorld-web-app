@@ -1,6 +1,6 @@
 import React from 'react';
 import Image from 'next/image';
-import heroFundraiser from '../../../public/blueImage.webp'
+import heroFundraiser from '../../../public/popcorn-image.webp'
 import danceFundraiser from '../../../public/dance_fundraiser.webp'
 const PopUpStoresSection = () => {
   const features = [
@@ -63,7 +63,7 @@ const PopUpStoresSection = () => {
         {/* Header */}
         <div className="text-center mb-12">
           <h2 className="main_heading font-splash text-black leading-tight tracking-tight uppercase mb-4">
-            <span className="block mb-2">WHY POPCORN WORLD FUNDRAISING<br />Fundraising That’s Actually Fun (and Delicious!)
+            <span className="block mb-2">Popcorn World is Fundraising Made Fun and Delicious!
             </span>
           </h2>
         </div>
@@ -72,12 +72,12 @@ const PopUpStoresSection = () => {
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-16 py-12 lg:py-20 items-center">
           {/* Left Side - Image */}
           <div className="order-1 lg:order-1">
-            <div className="relative w-full h-96 md:h-[500px] lg:h-[600px] rounded-3xl overflow-hidden shadow-2xl bg-gradient-to-br from-green-100 to-blue-100">
+            <div className="relative w-full h-96 md:h-[500px] lg:h-[600px] rounded-3xl overflow-hidden shadow-2xl bg-white">
               <Image
                 src={heroFundraiser}
                 alt="Mobile phone showing Pop-Up Store interface with colorful popcorn packages in background"
                 fill
-                className="object-cover object-center"
+                className="object-contain object-center"
                 sizes="(max-width: 1024px) 100vw, 50vw"
                 priority
                 placeholder="blur"

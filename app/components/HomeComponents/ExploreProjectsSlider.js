@@ -243,7 +243,7 @@ const ExploreProjectsSlider = ({ campaigns, campaignsLoading, campaignsError, gl
   // Consolidated rendering for loading, error, and empty states
   if (campaignsLoading || campaignsError || !campaigns || campaigns.length === 0) {
     return (
-      <section className="py-16 lg:py-24 bg-black relative overflow-hidden">
+      <section className="py-16 lg:py-24 bg-[#3333cc] relative overflow-hidden">
         <div className="container mx-auto px-4 sm:px-6 lg:px-8">
           {campaignsLoading ? (
             <div className="grid grid-cols-1 md:grid-cols-4 gap-6">

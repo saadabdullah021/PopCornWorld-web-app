@@ -26,7 +26,7 @@ const Footer = ({ footerSolidBg }) => {
       {/* Footer Content */}
       <div className={`${footerSolidBg ? "pt-16" : "pt-20"} pb-8 relative z-10`}>
         <div className="container mx-auto px-6">
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-10">
+          <div className="grid grid-cols-1  lg:grid-cols-4 gap-10">
             {/* About */}
             <div className="transform transition-all duration-500 ">
               <Image
@@ -59,7 +59,7 @@ const Footer = ({ footerSolidBg }) => {
             </div>
 
             {/* Projects */}
-            <div className="transform transition-all duration-500 ">
+            <div className="transform transition-all duration-500   lg:pl-12">
               <h4 className="text-[22px] capitalize font-semibold text-white mb-6 relative group">
                 Our Projects
                 <div className="absolute bottom-0 left-0 w-16 h-0.5 bg-primary transform scale-x-0 group-hover:scale-x-100 transition-transform duration-300"></div>
@@ -69,20 +69,21 @@ const Footer = ({ footerSolidBg }) => {
                   { label: "Fundraising", href: "/fundraising" },
                   { label: "Shop Popcorn", href: "/shop" },
                   { label: "About", href: "/about-us" },
-
                   { label: "Track Order", href: "/track-an-order" },
                 ].map(({ label, href }, idx) => (
                   <li key={idx} className="transform transition-all duration-200">
                     <Link
                       href={href}
-                      className="group flex items-center text-gray-100 hover:text-primary transition-all duration-300 py-1 hover:translate-x-2"
+                      className="group text-gray-100 hover:text-primary transition-all duration-300 py-1 hover:translate-x-2 inline-block"
                     >
-                      <FaArrowRight className="mr-2 opacity-0 -translate-x-2 group-hover:opacity-100 group-hover:translate-x-0 transition-all duration-300 text-xs" />
-                      <span className="transition-all duration-300 text-[16px] font-light ">{label}</span>
+                      <span className="relative inline-block after:content-[''] after:absolute after:left-0 after:-bottom-[2px] after:h-[2px] after:bg-[#ffc222] after:w-0 group-hover:after:w-full after:transition-all after:duration-300 after:origin-left">
+                        <span className="text-[16px] font-light">{label}</span>
+                      </span>
                     </Link>
                   </li>
                 ))}
               </ul>
+
             </div>
 
 
@@ -101,10 +102,11 @@ const Footer = ({ footerSolidBg }) => {
                   <li key={idx} className="transform transition-all duration-200">
                     <Link
                       href={href}
-                      className="group flex items-center text-gray-100 hover:text-primary transition-all duration-300 py-1 hover:translate-x-2"
+                      className="group text-gray-100 hover:text-primary transition-all duration-300 py-1 hover:translate-x-2 inline-block"
                     >
-                      <FaArrowRight className="mr-2 opacity-0 -translate-x-2 group-hover:opacity-100 group-hover:translate-x-0 transition-all duration-300 text-xs" />
-                      <span className="transition-all duration-300 text-[16px] font-light">{label}</span>
+                      <span className="relative inline-block after:content-[''] after:absolute after:left-0 after:-bottom-[2px] after:h-[2px] after:bg-[#ffc222] after:w-0 group-hover:after:w-full after:transition-all after:duration-300 after:origin-left">
+                        <span className="text-[16px] font-light">{label}</span>
+                      </span>
                     </Link>
                   </li>
                 ))}
@@ -124,7 +126,7 @@ const Footer = ({ footerSolidBg }) => {
                     <FaPhone className="transform transition-transform duration-300 " />
                   </span>
                   <span>
-    
+
                     <a
                       href="tel:01234578933"
                       className="text-white hover:text-primary transition-colors duration-300 font-medium"
@@ -138,7 +140,7 @@ const Footer = ({ footerSolidBg }) => {
                     <FaEnvelopeOpen className="transform transition-transform duration-300" />
                   </span>
                   <span className="min-w-0">
-              
+
                     <a
                       href="mailto:orders@doingtheworldaflavor.com"
                       className="text-white hover:text-primary transition-colors duration-300 font-medium break-words"
@@ -152,7 +154,7 @@ const Footer = ({ footerSolidBg }) => {
                     <FaMapMarkerAlt className="transform transition-transform duration-300" />
                   </span>
                   <span className="min-w-0">
-              
+
                     <a
                       href="https://maps.google.com"
                       target="_blank"

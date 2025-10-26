@@ -5,6 +5,7 @@ import mainImage from '../../../public/mainImage.webp'
 import leftImage from '../../../public/leftImage.webp'
 import rightImage from '../../../public/rightImage.webp'
 
+import logo from '../../../public/fundraiserLogo.webp'
 
 const HeroSection = () => {
   return (
@@ -20,6 +21,16 @@ const HeroSection = () => {
         {/* Overlay (optional for dark shade on image) */}
         <div className="absolute inset-0 bg-black/30"></div>
         {/* Content */}
+
+                   <div className='absolute left-[25%] top-9   '>
+                             <Link href="/" className="group flex items-center transform transition-all duration-300">
+                                <Image
+                                    src={logo}
+                                    alt="popcorn world"
+                                    className={`transition-all object-contain duration-300 w-full ease-in-out h-8 md:h-12 group-hover:brightness-110 bg-blend-overlay`}
+                                />
+                            </Link>
+               </div>
         <div className="relative z-10">
    
 
@@ -28,6 +39,8 @@ const HeroSection = () => {
             <span className="!text-white">Best Products</span>
           </h1> */}
 
+
+    
           <Link href='/get-started' className="group inline-flex items-center capitalize gap-3 px-6 py-3 border-2   font-medium rounded-full bg-[#8BC34A] cursor-pointer text-white border-transparent transition-all duration-300 animate-fadeInUp">
         Start Fundraising
           </Link>
