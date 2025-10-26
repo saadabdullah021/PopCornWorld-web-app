@@ -11,7 +11,7 @@ const PopcornFlavorsHero = () => {
 
         {/* Subheading */}
         <p className="text-sm md:text-2xl  text-white font-medium leading-relaxed max-w-5xl mx-auto">
-          Popcorn World provides a true gourmet experience with hand coded popcorn.
+          Popcorn World provides a true gourmet experience with hand <span className='hover:text-[#ffc222]  cursor-pointer'> coated </span>  popcorn.
         </p>
       </div>
     </section>

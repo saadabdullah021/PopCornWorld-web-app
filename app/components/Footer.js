@@ -13,7 +13,7 @@ import Image from "next/image";
 const Footer = ({ footerSolidBg }) => {
   return (
     <footer
-      className={`relative ${footerSolidBg ? "bg-black" : "bg-black"
+      className={`relative ${footerSolidBg ? "bg-[#3333cc]" : "bg-[#3333cc]"
         } text-[#C8CED6] overflow-hidden`}
     >
       {/* Animated Background Pattern */}
@@ -49,7 +49,7 @@ const Footer = ({ footerSolidBg }) => {
                     key={idx}
                     href={href}
                     aria-label={label}
-                    className="group w-10 h-10 flex items-center justify-center rounded-full bg-gray-800 text-white hover:bg-primary transition-all duration-300 transform hover:scale-110 hover:shadow-lg hover:shadow-primary/30 hover:-translate-y-1"
+                    className="group w-10 h-10 flex items-center justify-center rounded-full bg-[#8BC34A] text-white hover:bg-primary transition-all duration-300 transform hover:scale-110 hover:shadow-lg hover:shadow-primary/30 hover:-translate-y-1"
                   >
                     <Icon className="transform transition-transform duration-300 group-hover:scale-110" />
                   </a>
@@ -75,7 +75,7 @@ const Footer = ({ footerSolidBg }) => {
                   <li key={idx} className="transform transition-all duration-200">
                     <Link
                       href={href}
-                      className="group flex items-center text-gray-400 hover:text-primary transition-all duration-300 py-1 hover:translate-x-2"
+                      className="group flex items-center text-gray-100 hover:text-primary transition-all duration-300 py-1 hover:translate-x-2"
                     >
                       <FaArrowRight className="mr-2 opacity-0 -translate-x-2 group-hover:opacity-100 group-hover:translate-x-0 transition-all duration-300 text-xs" />
                       <span className="transition-all duration-300 text-[16px] font-light ">{label}</span>
@@ -101,7 +101,7 @@ const Footer = ({ footerSolidBg }) => {
                   <li key={idx} className="transform transition-all duration-200">
                     <Link
                       href={href}
-                      className="group flex items-center text-gray-400 hover:text-primary transition-all duration-300 py-1 hover:translate-x-2"
+                      className="group flex items-center text-gray-100 hover:text-primary transition-all duration-300 py-1 hover:translate-x-2"
                     >
                       <FaArrowRight className="mr-2 opacity-0 -translate-x-2 group-hover:opacity-100 group-hover:translate-x-0 transition-all duration-300 text-xs" />
                       <span className="transition-all duration-300 text-[16px] font-light">{label}</span>
@@ -124,9 +124,7 @@ const Footer = ({ footerSolidBg }) => {
                     <FaPhone className="transform transition-transform duration-300 " />
                   </span>
                   <span>
-                    <span className="block text-[16px] font-light text-gray-400 mb-1 transition-colors duration-300 group-hover:text-gray-300">
-                      Phone Number
-                    </span>
+    
                     <a
                       href="tel:01234578933"
                       className="text-white hover:text-primary transition-colors duration-300 font-medium"
@@ -140,9 +138,7 @@ const Footer = ({ footerSolidBg }) => {
                     <FaEnvelopeOpen className="transform transition-transform duration-300" />
                   </span>
                   <span className="min-w-0">
-                    <span className="block text-[16px] font-light text-gray-400 mb-1 transition-colors duration-300 group-hover:text-gray-300">
-                      Email Address
-                    </span>
+              
                     <a
                       href="mailto:orders@doingtheworldaflavor.com"
                       className="text-white hover:text-primary transition-colors duration-300 font-medium break-words"
@@ -156,9 +152,7 @@ const Footer = ({ footerSolidBg }) => {
                     <FaMapMarkerAlt className="transform transition-transform duration-300" />
                   </span>
                   <span className="min-w-0">
-                    <span className="block text-[16px] font-light text-gray-400 mb-1 transition-colors duration-300 group-hover:text-gray-300">
-                      Locations
-                    </span>
+              
                     <a
                       href="https://maps.google.com"
                       target="_blank"
@@ -175,7 +169,7 @@ const Footer = ({ footerSolidBg }) => {
 
           {/* Bottom Area */}
           <div className="border-t border-gray-700 mt-12 pt-8 flex flex-col md:flex-row justify-center items-center">
-            <p className="text-gray-400 text-[16px] font-light transition-colors duration-300 hover:text-gray-300">
+            <p className="text-gray-100 text-[16px] font-light transition-colors duration-300 hover:text-gray-300">
               © {new Date().getFullYear()}{" "}
               <a
                 href="/"

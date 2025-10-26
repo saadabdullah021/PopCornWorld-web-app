@@ -138,7 +138,9 @@ case "phone":
           {/* Map */}
           <div className="relative min-h-[400px] lg:min-h-[600px]">
             <iframe
-              src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d19798554.33307197!2d-25.368250748785513!3d52.71747136828894!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x25a3b1142c791a9%3A0xc4f8a0433288257a!2sUnited%20Kingdom!5e0!3m2!1sen!2s!4v1758829670262!5m2!1sen!2s"
+              src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d2984.8820923000203!2d-87.36151562542841!3d41.57179638453875!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x8811c29fcc4370c9%3A0xdb04d844d96e75f2!2s2560%20Garfield%20St%20Suite%203%2C%20Gary%2C%20IN%2046404%2C%20USA!5e0!3m2!1sen!2s!4v1761508515881!5m2!1sen!2s"
+            
+          
               className="w-full h-full border-0"
               allowFullScreen=""
               loading="lazy"

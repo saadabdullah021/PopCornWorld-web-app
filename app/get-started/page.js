@@ -612,7 +612,7 @@ const FundraisingOnboarding = () => {
                                     {organizationData.map(type => (
                                         <option key={type.id} className='text-black' value={type.id}>{type.name}</option>
                                     ))}
-                                    <option className='text-black' value="other">Custom</option>
+                                    {/* <option className='text-black' value="other">Custom</option> */}
                                 </select>
                                 {formErrors.organization_type_id && <p className="text-red-400 font-semibold text-sm mt-1">{formErrors.organization_type_id}</p>}
 
@@ -638,7 +638,7 @@ const FundraisingOnboarding = () => {
                                         {organizationData.find(t => t.id == formData.organization_type_id)?.organization_sub_types.map(subType => (
                                             <option key={subType.id} className='text-black' value={subType.id}>{subType.name}</option>
                                         ))}
-                                        <option className='text-black' value="other">Custom</option>
+                                        {/* <option className='text-black' value="other">Custom</option> */}
                                     </select>
                                     {formErrors.organization_sub_type_id && <p className="text-red-400 font-semibold text-sm mt-1">{formErrors.organization_sub_type_id}</p>}
                                     {formData.organization_sub_type_id === 'other' && (

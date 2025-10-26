@@ -65,6 +65,7 @@ const VirtualFundraisingSection = () => {
         <Swiper
           modules={[Autoplay, Pagination]}
           // Default mobile view (1 card)
+            style={{ minHeight: '320px' }}
           slidesPerView={1}
           spaceBetween={20}
           loop={true}
@@ -86,36 +87,37 @@ const VirtualFundraisingSection = () => {
           className="py-14"
         >
           {features.map((feature) => (
-            <SwiperSlide key={feature.id}>
-              <div className="group text-center pb-12 px-2">
-                {/* Image Container */}
-                <div className="relative w-full h-48 md:h-56 lg:h-64 rounded-2xl overflow-hidden mb-6 shadow-lg group-hover:shadow-2xl transition-all duration-500 transform ">
-                  <Image
-                    src={feature.image || '/pop_packet.png'}
-                    alt={feature.alt}
-                    fill
-                    sizes="(max-width: 768px) 100vw, (max-width: 1200px) 33vw, 25vw"
-                    className="object-fill object-center group-hover:scale-110 transition-transform duration-700 ease-out"
-                    priority={feature.id === 1}
-                    placeholder="blur"
-                    blurDataURL="data:image/jpeg;base64,/9j/..."
-                  />
+  <SwiperSlide key={feature.id}>
+  <div className="group text-center pb-12 px-2">
+    {/* ----------  IMAGE  ---------- */}
+    <div className="relative w-full overflow-hidden rounded-2xl mb-6 shadow-lg
+                    group-hover:shadow-2xl transition-all duration-500
+                    /* 👇 aspect-ratio = no flash  */
+                    aspect-[4/3] md:aspect-[3/2] lg:aspect-[16/9]">
+      <Image
+        src={feature.image}
+        alt={feature.alt}
+        fill
+        /* 👇 sizes = browser ko pehle hi bata do kitni width chahiye */
+        sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
+        /* 👇 no scaling until image fully decoded  */
+        className="object-cover"
+        /* 👇 only first slide loads instantly, rest lazy */
+        priority={feature.id === 1}
+        /* 👇 optional: tiny 20px blur placeholder while loading */
+        placeholder="blur"
+        blurDataURL={feature.image.blurDataURL} // ← generated automatically by next/image
+      />
+      {/* gradient overlay */}
+      <div className="absolute inset-0 bg-gradient-to-t from-black/30 to-transparent
+                      opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
+    </div>
 
-                  {/* Gradient Overlay */}
-                  <div className="absolute inset-0 bg-gradient-to-t from-black/30 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
-                </div>
-
-                {/* Content */}
-                <div className="text-center w-full">
-                  <h3 className="sub_heading text-black mb-2 text-center transition-colors duration-300">
-                    {feature.title}
-                  </h3>
-                  <p className="text-black main_description">
-                    {feature.description}
-                  </p>
-                </div>
-              </div>
-            </SwiperSlide>
+    {/* ----------  TEXT  ---------- */}
+    <h3 className="sub_heading text-black mb-2">{feature.title}</h3>
+    <p className="main_description text-black">{feature.description}</p>
+  </div>
+</SwiperSlide>
           ))}
         </Swiper>
 

@@ -307,7 +307,7 @@ const Header = () => {
                     fixed top-0 left-0 bg-white/90 shadow-md`}
             >
                 {/* === Enhanced Topbar === */}
-                <div className={`hidden lg:block bg-black text-white transition-all duration-300 ease-in-out py-4`}>
+                <div className={`hidden lg:block bg-[#8BC34A]  text-white transition-all duration-300 ease-in-out py-4`}>
                     <div className="container mx-auto px-6">
                         <div className="flex justify-between items-center font-light text-xs">
                             <div className="flex space-x-8">
@@ -426,7 +426,7 @@ const Header = () => {
                                 ) : (
                                     <button
                                         onClick={handleSignInClick}
-                                        className="text-sm lg:text-[16px] font-medium  bg-gray-200 px-3 py-1 outline-none ring-none rounded-full text-black cursor-pointer mr-3 hover:bg-gray-300 transition-colors duration-200"
+                                        className="text-sm lg:text-[16px] font-medium  bg-[#3333cb] px-3 py-1 outline-none ring-none rounded-full text-white cursor-pointer mr-3  transition-colors duration-200"
                                     >
                                         Sign In
                                     </button>
@@ -450,7 +450,7 @@ const Header = () => {
                                 <Image
                                     src={logo}
                                     alt="popcorn world"
-                                    className={`transition-all object-contain duration-300 w-full ease-in-out h-12 lg:h-14 group-hover:brightness-110`}
+                                    className={`transition-all object-contain duration-300 w-full ease-in-out h-5 md:h-8 group-hover:brightness-110`}
                                 />
                             </Link>
 
@@ -532,7 +532,7 @@ const Header = () => {
                     
                     <button
                         onClick={closeMobileMenu}
-                        className="p-2 rounded-full hover:bg-white/20 transition-colors duration-300"
+                        className="p-2 pl-12 rounded-full hover:bg-white/20 transition-colors duration-300"
                     >
                         <FaTimes className="text-white text-xl" />
                     </button>
