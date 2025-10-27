@@ -28,7 +28,7 @@ const AllFlavorsSection = ({ products, productsLoading, productsError, paginatio
 
   const handleAddToCart = (flavor) => {
     const imageUrl =
-      flavor?.product_images?.[0]?.thumbnail?.trim() ||
+      flavor?.product_images?.[0]?.image?.trim() ||
       '/pop_packet.png';
 
     const campaignInfo = campaignData ? {
@@ -121,14 +121,14 @@ const AllFlavorsSection = ({ products, productsLoading, productsError, paginatio
                   <div className="relative w-full h-full">
                     <Image
                       src={
-                        flavor?.product_images?.[0]?.thumbnail && flavor.product_images[0].thumbnail.trim() !== ''
-                          ? flavor.product_images[0].thumbnail
+                        flavor?.product_images?.[0]?.image && flavor.product_images[0].image.trim() !== ''
+                          ? flavor.product_images[0].image
                           : '/pop_packet.png'
                       }
                       alt={flavor?.name || flavor?.title || 'Popcorn Flavor'}
                       fill
                       sizes="(max-width: 1024px) 100vw, 50vw"
-                      className="object-fill object-center drop-shadow-2xl w-full h-full group-hover:scale-110 transition-transform duration-700 ease-out"
+                      className="object-fill object-center "
                       onError={(e) => {
                         e.currentTarget.src = '/pop_packet.png';
                       }}

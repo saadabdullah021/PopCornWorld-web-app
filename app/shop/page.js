@@ -27,31 +27,20 @@ export default function Shop() {
 
   const handleLoadMoreProducts = () => {
     const nextPage = productsPagination.currentPage + 1;
-    console.log('Load More Products clicked:', {
-      currentPage: productsPagination.currentPage,
-      nextPage: nextPage,
-      perPage: productsPagination.perPage,
-      totalPages: productsPagination.totalPages
-    });
-    dispatch(fetchProducts({ 
-      page: nextPage, 
+
+    dispatch(fetchProducts({
+      page: nextPage,
       per_page: productsPagination.perPage,
-      append: true 
+      append: true
     }));
   };
 
   const handleLoadMoreCollections = () => {
     const nextPage = collectionsPagination.currentPage + 1;
-    console.log('Load More Collections clicked:', {
-      currentPage: collectionsPagination.currentPage,
-      nextPage: nextPage,
-      perPage: collectionsPagination.perPage,
-      totalPages: collectionsPagination.totalPages
-    });
-    dispatch(fetchCollections({ 
-      page: nextPage, 
+    dispatch(fetchCollections({
+      page: nextPage,
       per_page: collectionsPagination.perPage,
-      append: true 
+      append: true
     }));
   };
 
@@ -73,7 +62,7 @@ export default function Shop() {
   const getActiveComponent = () => {
     if (activeTab === 'flavors') {
       return (
-        <AllFlavorsSection 
+        <AllFlavorsSection
           products={products}
           productsLoading={productsLoading}
           productsError={productsError}
@@ -83,7 +72,7 @@ export default function Shop() {
       );
     }
     return (
-      <CollectionsSection 
+      <CollectionsSection
         collections={collections}
         collectionsLoading={collectionsLoading}
         collectionsError={collectionsError}
@@ -103,17 +92,15 @@ export default function Shop() {
           <div className="relative bg-gray-100 p-1 rounded-full flex">
             {/* sliding bg */}
             <div
-              className={`absolute top-1 bottom-1 bg-white rounded-full shadow-md transition-all duration-300 ease-in-out ${
-                activeTab === 'flavors' ? 'left-1 right-1/2' : 'left-1/2 right-1'
-              }`}
+              className={`absolute top-1 bottom-1 bg-white rounded-full shadow-md transition-all duration-300 ease-in-out ${activeTab === 'flavors' ? 'left-1 right-1/2' : 'left-1/2 right-1'
+                }`}
             />
             {tabs.map((tab) => (
               <button
                 key={tab.id}
                 onClick={() => handleTabChange(tab.id)}
-                className={`relative z-10 px-6  py-3 rounded-full font-bold text-sm transition-all duration-300 ease-in-out transform  focus:outline-none ${
-                  activeTab === tab.id ? 'text-black shadow' : 'text-gray-600 hover:text-black'
-                }`}
+                className={`relative z-10 px-6  py-3 rounded-full font-bold text-sm transition-all duration-300 ease-in-out transform  focus:outline-none ${activeTab === tab.id ? 'text-black shadow' : 'text-gray-600 hover:text-black'
+                  }`}
                 disabled={isTransitioning}
               >
                 {tab.label}
@@ -126,11 +113,10 @@ export default function Shop() {
       {/* Content with smooth transition */}
       <div className="relative overflow-hidden">
         <div
-          className={`transition-all duration-300 ease-in-out ${
-            isTransitioning
-              ? 'opacity-0 transform translate-y-4'
-              : 'opacity-100 transform translate-y-0'
-          }`}
+          className={`transition-all duration-300 ease-in-out ${isTransitioning
+            ? 'opacity-0 transform translate-y-4'
+            : 'opacity-100 transform translate-y-0'
+            }`}
         >
           {getActiveComponent()}
         </div>

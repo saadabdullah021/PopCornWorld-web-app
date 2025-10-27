@@ -383,8 +383,8 @@ const OTPModal = ({ isOpen, onClose, onVerify, loading, phone, onResend }) => {
           {!resendAvailable ? (
             <span className="text-gray-600">Resend in {countdown} seconds</span>
           ) : (
-            <button 
-              onClick={handleResend} 
+            <button
+              onClick={handleResend}
               disabled={loading}
               className="text-[#3333cb] font-medium hover:underline"
             >
@@ -725,57 +725,53 @@ const PaymentModal = ({
         shipping_charges: shipping.toFixed(2),
         total_amount: orderTotal.toFixed(2),
       };
-
-           console.log("Sending order creation with data:", orderData); // Log the request data for debugging
-
       createOrder(
-  orderData,
-  (response) => {
-    console.log("API Success Response:", response);
-    setPaymentLoading(false);
-    setFullScreenLoading(false);
-    dispatch(clearCart());
+        orderData,
+        (response) => {
+          setPaymentLoading(false);
+          setFullScreenLoading(false);
+          dispatch(clearCart());
 
-    dispatch(
-      addNotification({
-        message:
-          response?.data?.message ||
-          "Payment successful! Your order has been placed and you will receive a confirmation email shortly.",
-        type: "success",
-      })
-    );
+          dispatch(
+            addNotification({
+              message:
+                response?.data?.message ||
+                "Payment successful! Your order has been placed and you will receive a confirmation email shortly.",
+              type: "success",
+            })
+          );
 
-    // Extract and clean order ID
-    let rawOrderId =
-      response?.data?.order_id ||
-      response?.order_id ||
-      "txn_" + Math.random().toString(36).substr(2, 9);
+          // Extract and clean order ID
+          let rawOrderId =
+            response?.data?.order_id ||
+            response?.order_id ||
+            "txn_" + Math.random().toString(36).substr(2, 9);
 
-    // Remove '#' if present
-    const cleanOrderId = rawOrderId.replace(/^#/, "");
+          // Remove '#' if present
+          const cleanOrderId = rawOrderId.replace(/^#/, "");
 
-    onPaymentSuccess({
-      success: true,
-      transactionId: cleanOrderId,
-      amount: orderTotal,
-      orderData: response?.data || response,
-    });
+          onPaymentSuccess({
+            success: true,
+            transactionId: cleanOrderId,
+            amount: orderTotal,
+            orderData: response?.data || response,
+          });
 
-    onClose();
-  },
-  (error) => {
-    console.error("API Error Response:", error);
-    setPaymentLoading(false);
-    setFullScreenLoading(false);
-    const errorMsg =
-      error?.response?.data?.message ||
-      error?.message ||
-      "Payment processing failed. Please try again.";
-    setPaymentErrors({ general: errorMsg });
-    dispatch(addNotification({ message: errorMsg, type: "error" }));
-    if (onPaymentError) onPaymentError();
-  }
-);
+          onClose();
+        },
+        (error) => {
+          console.error("API Error Response:", error);
+          setPaymentLoading(false);
+          setFullScreenLoading(false);
+          const errorMsg =
+            error?.response?.data?.message ||
+            error?.message ||
+            "Payment processing failed. Please try again.";
+          setPaymentErrors({ general: errorMsg });
+          dispatch(addNotification({ message: errorMsg, type: "error" }));
+          if (onPaymentError) onPaymentError();
+        }
+      );
 
 
 
@@ -792,7 +788,7 @@ const PaymentModal = ({
       );
       onPaymentSuccess({
         success: true,
-        transactionId: response?.data?.order_id || response?.data?.order_number  ||
+        transactionId: response?.data?.order_id || response?.data?.order_number ||
           "txn_" + Math.random().toString(36).substr(2, 9),
         amount: orderTotal,
         orderData: mockResponse?.data,

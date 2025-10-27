@@ -35,7 +35,6 @@ const Orders = () => {
       userPhoneNumber,
       (response) => {
         // Success callback
-        console.log('Orders fetched successfully:', response);
         setError(null);
         if (response?.data && Array.isArray(response.data)) {
           setOrders(response.data);

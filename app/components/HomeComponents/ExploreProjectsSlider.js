@@ -177,9 +177,9 @@ const ExploreProjectsSlider = ({ campaigns, campaignsLoading, campaignsError, gl
             {project.category}
           </span>
         </div>
-<div className="-mx-6">
-  <hr className="w-full border-gray-300 border-t" />
-</div>
+        <div className="-mx-6">
+          <hr className="w-full border-gray-300 border-t" />
+        </div>
 
         <div className="flex items-center gap-2 mt-6 mb-3">
           <div className="w-8 h-8 bg-gray-200 rounded-full flex items-center justify-center">
@@ -268,9 +268,9 @@ const ExploreProjectsSlider = ({ campaigns, campaignsLoading, campaignsError, gl
   return (
     <section className="pb-16 pt-12 lg:pb-24 lg:pt-12 bg-black relative overflow-hidden">
       <div className="container mx-auto px-4 sm:px-6 lg:px-8">
-              <div className="mb-12 text-center">
+        <div className="mb-12 text-center">
           <h2 className="main_heading  font-splash text-black">
-          Active Campaigns
+            Active Campaigns
           </h2>
         </div>
         {shouldShowSlider ? (

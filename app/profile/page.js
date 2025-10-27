@@ -225,7 +225,6 @@ const Profile = () => {
       phone_number: newNum, // 11 digits without +1 prefix
       user_id: profileData?.user_id
     };
-    console.log(userData, 'userData');
     // Call update-profile API
     updateUserProfile(
       userData,

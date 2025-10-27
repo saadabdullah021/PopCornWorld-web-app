@@ -110,8 +110,6 @@ export const verifyOTP = async (
     });
 
     if (response?.data?.status == 200) {
-      console.log("success");
-
       success && success(response?.data);
       return response?.data;
     } else {
@@ -195,9 +193,7 @@ export const checkEmailExists = async (
 
 export const getOrganizationInfo = async (success, fail) => {
   try {
-    console.log("Making API call to:", get_organization_info);
     const response = await axiosInstance.get(get_organization_info);
-    console.log("API response:", response);
 
     if (response?.data?.status === 200 || response?.status === 200) {
       success && success(response?.data);
@@ -236,9 +232,7 @@ export const registerFundraiser = async (formData, success, fail) => {
 
 export const getProductsSlider = async (success, fail) => {
   try {
-    console.log("Fetching products slider data...");
     const response = await axiosInstance.get(get_products_slider);
-    console.log("Products slider response:", response);
 
     if (response?.data?.status === 200 || response?.status === 200) {
       success && success(response?.data);
@@ -257,8 +251,6 @@ export const getProductsSlider = async (success, fail) => {
 
 export const getUserOrders = async (phone_number, success, fail) => {
   try {
-    console.log("Fetching user orders...");
-    console.log("Phone number:", phone_number);
 
     // Build URL with phone_number query parameter
     const url = phone_number
@@ -272,7 +264,6 @@ export const getUserOrders = async (phone_number, success, fail) => {
         Authorization: undefined,
       },
     });
-    console.log("User orders response:", response);
 
     if (response?.data?.status === 200 || response?.status === 200) {
       success && success(response?.data);
@@ -291,15 +282,12 @@ export const getUserOrders = async (phone_number, success, fail) => {
 
 export const updateUserProfile = async (userData, success, fail) => {
   try {
-    console.log("Updating user profile...");
-    console.log("User data:", userData);
 
     const response = await axiosInstance.post(update_profile, userData, {
       headers: {
         "Content-Type": "application/json",
       },
     });
-    console.log("Update profile response:", response);
 
     if (response?.data?.status === 200 || response?.status === 200) {
       success && success(response?.data);
@@ -318,15 +306,12 @@ export const updateUserProfile = async (userData, success, fail) => {
 
 export const getCustomerProfile = async (phone_number, success, fail) => {
   try {
-    console.log("Fetching customer profile...");
-    console.log("Phone number:", phone_number);
 
     const response = await axiosInstance.get(customer_profile, {
       params: {
         phone_number: phone_number,
       },
     });
-    console.log("Customer profile response:", response);
 
     if (response?.data?.status === 200 || response?.status === 200) {
       success && success(response?.data);
@@ -346,7 +331,6 @@ export const getCustomerProfile = async (phone_number, success, fail) => {
 
 export const sendContactForm = async (formData, success, fail) => {
   try {
-    console.log("Sending contact form data...", formData);
 
     const response = await axiosInstance.post(contact_us_sms, formData, {
       headers: {
@@ -354,7 +338,6 @@ export const sendContactForm = async (formData, success, fail) => {
       },
     });
 
-    console.log("Contact form response:", response);
 
     if (response?.data?.status === 200 || response?.data?.success === true) {
       success && success(response?.data);

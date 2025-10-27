@@ -16,12 +16,10 @@ const PopularCategories = () => {
   useEffect(() => {
     getProductsSlider(
       (response) => {
-        console.log('Products slider data received:', response);
         setProducts(response.data || []);
         setLoading(false);
       },
       (error) => {
-        console.error('Failed to fetch products slider:', error);
         setLoading(false);
       }
     );
@@ -37,10 +35,10 @@ const PopularCategories = () => {
             </h2>
           </div>
           <div className="flex justify-center">
-         <div className="text-center">
-          <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-[#8ac24a] mx-auto mb-4"></div>
-          <p className="text-black font-semibold">Loading...</p>
-        </div>
+            <div className="text-center">
+              <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-[#8ac24a] mx-auto mb-4"></div>
+              <p className="text-black font-semibold">Loading...</p>
+            </div>
           </div>
         </div>
       </section>
@@ -69,23 +67,23 @@ const PopularCategories = () => {
             640: { slidesPerView: 2 },
             0: { slidesPerView: 1 },
           }}
-          className="pb-12" 
+          className="pb-12"
         >
           {products.map((product) => (
             <SwiperSlide key={product.id}>
               <Link href={`/flavors/${product.slug}`} className="block">
                 <div className="flex flex-col gap-5 items-center justify-center pt-4 pb-5 lg:pb-10 lg:pt-12 hover:opacity-80 transition">
-             
-                    <Image
-                      src={product.product_images && product.product_images[0] && product.product_images[0].thumbnail 
-                        ? product.product_images[0].thumbnail 
-                        : '/pop_packet.png'}
-                      alt={product.title}
-                      width={110}
-                      height={56}
-                      className="object-contain hover:scale-160 transition-transform duration-500 w-[110px] h-[56px] "
-                    />
-             
+
+                  <Image
+                    src={product.product_images && product.product_images[0] && product.product_images[0].thumbnail
+                      ? product.product_images[0].thumbnail
+                      : '/pop_packet.png'}
+                    alt={product.title}
+                    width={110}
+                    height={56}
+                    className="object-contain hover:scale-160 transition-transform duration-500 w-[110px] h-[56px] "
+                  />
+
                   <h3 className="text-xs font-bold text-black">
                     {product.title}
                   </h3>

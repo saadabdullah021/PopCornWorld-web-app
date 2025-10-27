@@ -171,8 +171,6 @@ const Header = () => {
                     otpRefs.current[0].focus();
                 }
             }, 100);
-            // In real app, you would send SMS here
-            console.log(`OTP sent to ${phoneNumber}: ${newOTP}`);
         }, 1500);
     };
 
@@ -340,17 +338,17 @@ const Header = () => {
 
                             <div className="flex items-center space-x-4">
                                 {!isAuthenticated && (
-                                        <div className="relative group">
-                                    <Link href='/track-an-order' className="text-sm lg:text-[16px] font-medium  cursor-pointer hover:text-[#ffc222] text-white mr-3 transition-colors duration-300  group relative">
-                                        Track Order
-                                        
-                                     <div className="absolute top-6 left-0 w-full h-0.5 bg-[#ffc222] transform scale-x-0 group-hover:scale-x-100 transition-transform duration-300 origin-left will-change-transform [transform:translateZ(0)]"></div>
-                                    </Link>
-                                        </div>
+                                    <div className="relative group">
+                                        <Link href='/track-an-order' className="text-sm lg:text-[16px] font-medium  cursor-pointer hover:text-[#ffc222] text-white mr-3 transition-colors duration-300  group relative">
+                                            Track Order
 
-                                                  
-                    
-                                    
+                                            <div className="absolute top-6 left-0 w-full h-0.5 bg-[#ffc222] transform scale-x-0 group-hover:scale-x-100 transition-transform duration-300 origin-left will-change-transform [transform:translateZ(0)]"></div>
+                                        </Link>
+                                    </div>
+
+
+
+
                                 )}
 
                                 {/* Sign In / Profile Section */}
@@ -511,12 +509,12 @@ const Header = () => {
                                 <div className="lg:hidden">
 
 
-                                       <ShoppingCartIcon
-                                    itemCount={cartItemCount}
-                                    onClick={() => setIsCartOpen(true)}
+                                    <ShoppingCartIcon
+                                        itemCount={cartItemCount}
+                                        onClick={() => setIsCartOpen(true)}
                                     />
 
-                                    </div>
+                                </div>
 
                                 <button
                                     className="lg:hidden p-3 rounded-xl border border-gray-200 hover:border-[#8BC34A] hover:bg-blue-50 transition-all duration-300 transform"
@@ -537,7 +535,7 @@ const Header = () => {
                     <Link href="/" onClick={closeMobileMenu}>
                         <Image src={logo} alt="popcorn world" className="h-8 object-contain w-full transition-transform duration-300" />
                     </Link>
-                    
+
                     <button
                         onClick={closeMobileMenu}
                         className="p-2 pl-12 rounded-full hover:bg-white/20 transition-colors duration-300"

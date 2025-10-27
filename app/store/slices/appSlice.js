@@ -13,9 +13,7 @@ export const fetchGlobalSettings = createAsyncThunk(
 export const fetchCampaigns = createAsyncThunk(
   'app/fetchCampaigns',
   async () => {
-    console.log('Fetching campaigns from:', get_campaigns);
     const response = await axiosInstance.get(get_campaigns)
-    console.log('Campaigns API response:', response.data);
     return response.data
   }
 )
@@ -23,11 +21,9 @@ export const fetchCampaigns = createAsyncThunk(
 export const fetchProducts = createAsyncThunk(
   'app/fetchProducts',
   async ({ page = 1, per_page = 6, append = false } = {}) => {
-    console.log('API Call - fetchProducts:', { page, per_page, append });
     const response = await axiosInstance.get(get_products, {
       params: { page, per_page }
     })
-    console.log('API Response:', response.data);
     return { ...response.data, append }
   }
 )
@@ -35,11 +31,9 @@ export const fetchProducts = createAsyncThunk(
 export const fetchCollections = createAsyncThunk(
   'app/fetchCollections',
   async ({ page = 1, per_page = 6, append = false } = {}) => {
-    console.log('API Call - fetchCollections:', { page, per_page, append });
     const response = await axiosInstance.get(get_shop_collections, {
       params: { page, per_page }
     })
-    console.log('API Response:', response.data);
     return { ...response.data, append }
   }
 )
@@ -91,17 +85,13 @@ const saveAuthToStorage = (token, userData) => {
     try {
       if (token) {
         localStorage.setItem('auth_token', token);
-        console.log('Auth token saved to localStorage:', token.substring(0, 20) + '...');
       } else {
         localStorage.removeItem('auth_token');
-        console.log('Auth token removed from localStorage');
       }
       if (userData) {
         localStorage.setItem('user_data', JSON.stringify(userData));
-        console.log('User data saved to localStorage:', userData);
       } else {
         localStorage.removeItem('user_data');
-        console.log('User data removed from localStorage');
       }
     } catch (error) {
       console.error('Error saving auth to localStorage:', error);
@@ -319,21 +309,13 @@ const appSlice = createSlice({
       .addCase(fetchProducts.fulfilled, (state, action) => {
         state.productsLoading = false
 
-        console.log('Reducer - fetchProducts.fulfilled:', {
-          append: action.payload.append,
-          currentProducts: state.products?.length || 0,
-          newData: action.payload.data?.length || 0,
-          page: action.payload.page,
-          totalPages: action.payload.total_pages
-        });
+
 
         // If append is true, add new data to existing products
         if (action.payload.append && state.products) {
           state.products = [...state.products, ...action.payload.data]
-          console.log('Appended data. Total products now:', state.products.length);
         } else {
           state.products = action.payload.data
-          console.log('Replaced data. Total products now:', state.products.length);
         }
 
         // Update pagination info from API response
@@ -344,7 +326,6 @@ const appSlice = createSlice({
           totalRecords: action.payload.total_records || 0
         }
 
-        console.log('Updated products pagination:', state.productsPagination);
       })
       .addCase(fetchProducts.rejected, (state, action) => {
         state.productsLoading = false
@@ -357,21 +338,12 @@ const appSlice = createSlice({
       .addCase(fetchCollections.fulfilled, (state, action) => {
         state.collectionsLoading = false
 
-        console.log('Reducer - fetchCollections.fulfilled:', {
-          append: action.payload.append,
-          currentCollections: state.collections?.length || 0,
-          newData: action.payload.data?.length || 0,
-          page: action.payload.page,
-          totalPages: action.payload.total_pages
-        });
 
         // If append is true, add new data to existing collections
         if (action.payload.append && state.collections) {
           state.collections = [...state.collections, ...action.payload.data]
-          console.log('Appended data. Total collections now:', state.collections.length);
         } else {
           state.collections = action.payload.data
-          console.log('Replaced data. Total collections now:', state.collections.length);
         }
 
         // Update pagination info from API response
@@ -381,8 +353,6 @@ const appSlice = createSlice({
           totalPages: action.payload.total_pages || 0,
           totalRecords: action.payload.total_records || 0
         }
-
-        console.log('Updated pagination:', state.collectionsPagination);
       })
       .addCase(fetchCollections.rejected, (state, action) => {
         state.collectionsLoading = false

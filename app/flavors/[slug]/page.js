@@ -124,22 +124,21 @@ const FlavorDetailsPage = () => {
             <div className="relative h-72 lg:h-[350px]    ">
               <Image
                 src={
-                  flavor.product_images?.[selectedImageIndex]?.thumbnail || // 👈 real thumb
-                  flavor.product_images?.[0]?.thumbnail ||                 // first fallback
-                  '/pop_packet.png'                                        // ultimate fallback
+                  flavor.product_images?.[selectedImageIndex]?.image ||
+                  flavor.product_images?.[0]?.image ||
+                  '/pop_packet.png'
                 } alt={flavor.name || flavor.title || 'Popcorn Flavor'}
                 fill
-                          sizes="(max-width: 1024px) 100vw, 50vw"
-                          priority
-                          quality={100}
-                className="object-contain object-center drop-shadow-2xl transition-all duration-300"
+                sizes="(max-width: 1024px) 100vw, 50vw"
+                priority
+                quality={100}
+                className="object-contain object-center transition-all duration-300"
                 onError={(e) => {
                   e.target.src = '/pop_packet.png';
                 }}
               />
             </div>
 
-            {/* Thumbnail Images */}
             {flavor.product_images && flavor.product_images.length > 1 && (
               <div className="flex gap-3 overflow-x-auto pb-2">
                 {flavor.product_images.map((imgObj, index) => (
@@ -147,12 +146,12 @@ const FlavorDetailsPage = () => {
                     key={index}
                     onClick={() => setSelectedImageIndex(index)}
                     className={`flex-shrink-0 w-20 h-20 rounded-lg overflow-hidden border-2 transition-all duration-300 ${selectedImageIndex === index
-                        ? 'border-[#8bc34a] shadow-lg scale-105'
-                        : 'border-gray-200 hover:border-gray-300 hover:scale-102'
+                      ? 'border-[#8bc34a] shadow-lg scale-105'
+                      : 'border-gray-200 hover:border-gray-300 hover:scale-102'
                       }`}
                   >
                     <Image
-                      src={imgObj.thumbnail || '/pop_packet.png'}
+                      src={imgObj.image || '/pop_packet.png'}
                       alt={`${flavor.name || flavor.title} ${index + 1}`}
                       width={80}
                       height={80}
@@ -210,8 +209,6 @@ const FlavorDetailsPage = () => {
                 Each order is handcrafted and ships anywhere in the USA.
               </p>
             </div>
-
-
 
             {/* Add to Cart Button */}
             <button

@@ -236,7 +236,6 @@ const CollectionDetailsPage = () => {
                         </div>
 
 
-
                         {/* Add to Cart Button */}
                         <button
                             onClick={handleAddToCart}
