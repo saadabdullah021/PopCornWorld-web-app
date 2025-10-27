@@ -74,13 +74,14 @@ const Footer = ({ footerSolidBg }) => {
                   <li key={idx} className="transform transition-all duration-200">
                     <Link
                       href={href}
-                      className="group text-gray-100 hover:text-primary transition-all duration-300 py-1 hover:translate-x-2 inline-block"
+                      className="group inline-block text-gray-100 transition-all duration-300 py-1 hover:translate-x-2"
                     >
-                      <span className="relative inline-block after:content-[''] after:absolute after:left-0 after:-bottom-[2px] after:h-[2px] after:bg-[#ffc222] after:w-0 group-hover:after:w-full after:transition-all after:duration-300 after:origin-left">
-                        <span className="text-[16px] font-light">{label}</span>
+                      <span className="relative inline-block after:content-[''] after:absolute after:left-0 after:-bottom-[2px] after:h-[2px] after:bg-[#ffc222] after:w-0 group-hover:after:w-full after:transition-all after:duration-300 after:origin-left group-hover:text-[#ffc222] transition-colors duration-300 text-[16px] font-light">
+                        {label}
                       </span>
                     </Link>
                   </li>
+
                 ))}
               </ul>
 
@@ -102,13 +103,14 @@ const Footer = ({ footerSolidBg }) => {
                   <li key={idx} className="transform transition-all duration-200">
                     <Link
                       href={href}
-                      className="group text-gray-100 hover:text-primary transition-all duration-300 py-1 hover:translate-x-2 inline-block"
+                      className="group inline-block text-gray-100 transition-all duration-300 py-1 hover:translate-x-2"
                     >
-                      <span className="relative inline-block after:content-[''] after:absolute after:left-0 after:-bottom-[2px] after:h-[2px] after:bg-[#ffc222] after:w-0 group-hover:after:w-full after:transition-all after:duration-300 after:origin-left">
-                        <span className="text-[16px] font-light">{label}</span>
+                      <span className="relative inline-block after:content-[''] after:absolute after:left-0 after:-bottom-[2px] after:h-[2px] after:bg-[#ffc222] after:w-0 group-hover:after:w-full after:transition-all after:duration-300 after:origin-left group-hover:text-[#ffc222] transition-colors duration-300 text-[16px] font-light">
+                        {label}
                       </span>
                     </Link>
                   </li>
+
                 ))}
               </ul>
             </div>
@@ -129,7 +131,7 @@ const Footer = ({ footerSolidBg }) => {
 
                     <a
                       href="tel:01234578933"
-                      className="text-white hover:text-primary transition-colors duration-300 font-medium"
+                      className="text-white group-hover:text-[#ffc222] transition-colors duration-300 font-medium"
                     >
                       219-427-1806
                     </a>
@@ -143,7 +145,7 @@ const Footer = ({ footerSolidBg }) => {
 
                     <a
                       href="mailto:orders@doingtheworldaflavor.com"
-                      className="text-white hover:text-primary transition-colors duration-300 font-medium break-words"
+                      className="text-white group-hover:text-[#ffc222] transition-colors duration-300 font-medium break-words"
                     >
                       orders@doingtheworldaflavor.com
                     </a>
@@ -159,7 +161,7 @@ const Footer = ({ footerSolidBg }) => {
                       href="https://maps.google.com"
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="text-white hover:text-primary transition-colors duration-300 font-medium break-words"
+                      className="text-white group-hover:text-[#ffc222] transition-colors duration-300 font-medium break-words"
                     >
                       2560 Garfield St Suite 3, Gary, IN 46404
                     </a>
