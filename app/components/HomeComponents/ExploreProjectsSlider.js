@@ -241,35 +241,45 @@ const ExploreProjectsSlider = ({ campaigns, campaignsLoading, campaignsError, gl
   );
 
   // Consolidated rendering for loading, error, and empty states
-  if (campaignsLoading || campaignsError || !campaigns || campaigns.length === 0) {
-    return (
-      <section className="py-16 lg:py-24 bg-[#3333cc] relative overflow-hidden">
-        <div className="container mx-auto px-4 sm:px-6 lg:px-8">
-          {campaignsLoading ? (
-            <div className="grid grid-cols-1 md:grid-cols-4 gap-6">
-              {[...Array(isMobile ? 3 : 4)].map((_, index) => (
-                <ShimmerCard key={index} />
-              ))}
-            </div>
-          ) : campaignsError ? (
-            <div className="flex justify-center items-center h-64">
-              <p className="text-red-400 text-xl text-center">Failed to load campaigns. Please try again later.</p>
-            </div>
-          ) : (
-            <div className="flex justify-center items-center h-64">
-              {/* <p className="text-white text-xl text-center">No campaigns available at the moment.</p> */}
-            </div>
-          )}
+ if (campaignsLoading) {
+  return (
+    <section className="py-16 lg:py-24 bg-[#3333cc] relative overflow-hidden">
+      <div className="container mx-auto px-4 sm:px-6 lg:px-8">
+        <div className="grid grid-cols-1 md:grid-cols-4 gap-6">
+          {[...Array(isMobile ? 3 : 4)].map((_, index) => (
+            <ShimmerCard key={index} />
+          ))}
         </div>
-      </section>
-    );
-  }
+      </div>
+    </section>
+  );
+}
+
+if (campaignsError) {
+  return (
+    <section className="py-16 lg:py-24 bg-[#3333cc] relative overflow-hidden">
+      <div className="container mx-auto px-4 sm:px-6 lg:px-8">
+        <div className="flex justify-center items-center h-64">
+          <p className="text-red-400 text-xl text-center">
+            Failed to load campaigns. Please try again later.
+          </p>
+        </div>
+      </div>
+    </section>
+  );
+}
+
+// 👇 This line hides the entire section if no campaigns exist
+if (!campaigns || campaigns.length === 0) {
+  return null;
+}
+
 
   return (
-    <section className="pb-16 pt-12 lg:pb-24 lg:pt-12 bg-black relative overflow-hidden">
+    <section className="pb-16 pt-12 lg:pb-24 lg:pt-12 bg-[#3333cc] relative overflow-hidden">
       <div className="container mx-auto px-4 sm:px-6 lg:px-8">
         <div className="mb-12 text-center">
-          <h2 className="main_heading  font-splash text-black">
+          <h2 className="main_heading  font-splash text-white">
             Active Campaigns
           </h2>
         </div>
