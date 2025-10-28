@@ -257,7 +257,7 @@ const ExploreProjectsSlider = ({ campaigns, campaignsLoading, campaignsError, gl
             </div>
           ) : (
             <div className="flex justify-center items-center h-64">
-              <p className="text-white text-xl text-center">No campaigns available at the moment.</p>
+              {/* <p className="text-white text-xl text-center">No campaigns available at the moment.</p> */}
             </div>
           )}
         </div>
