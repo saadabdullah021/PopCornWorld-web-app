@@ -204,7 +204,6 @@ export const getOrganizationInfo = async (success, fail) => {
       return response?.data;
     }
   } catch (error) {
-    console.error("API error:", error);
     fail && fail(error?.response?.data?.message || "Network error occurred");
     return error;
   }
@@ -243,7 +242,6 @@ export const getProductsSlider = async (success, fail) => {
       return response?.data;
     }
   } catch (error) {
-    console.error("Products slider error:", error);
     fail && fail(error?.response?.data?.message || "Network error occurred");
     return error;
   }
@@ -273,8 +271,6 @@ export const getUserOrders = async (phone_number, success, fail) => {
       return response?.data;
     }
   } catch (error) {
-    console.error("User orders error:", error);
-    console.error("Error response:", error?.response);
     fail && fail(error?.response?.data?.message || "Network error occurred");
     return error;
   }
@@ -297,8 +293,6 @@ export const updateUserProfile = async (userData, success, fail) => {
       return response?.data;
     }
   } catch (error) {
-    console.error("Update profile error:", error);
-    console.error("Error response:", error?.response);
     fail && fail(error?.response?.data?.message || "Network error occurred");
     return error;
   }
@@ -322,8 +316,6 @@ export const getCustomerProfile = async (phone_number, success, fail) => {
       return response?.data;
     }
   } catch (error) {
-    console.error("Customer profile error:", error);
-    console.error("Error response:", error?.response);
     fail && fail(error?.response?.data?.message || "Network error occurred");
     return error;
   }
@@ -347,7 +339,6 @@ export const sendContactForm = async (formData, success, fail) => {
       return response?.data;
     }
   } catch (error) {
-    console.error("Contact form error:", error);
     fail && fail(error?.response?.data?.message || "Network error occurred");
     return error;
   }

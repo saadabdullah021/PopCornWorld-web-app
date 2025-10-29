@@ -220,7 +220,6 @@ const FundraisingOnboarding = () => {
                 setOrganizationData(response.data || []);
             },
             (error) => {
-                console.error('Failed to fetch organization data:', error);
             }
         );
     }, []);
@@ -423,7 +422,6 @@ const FundraisingOnboarding = () => {
                     setIsLoading(false);
                 },
                 (error) => {
-                    console.error('Registration error:', error);
                     setFormErrors({ submit: error || 'Registration failed. Please try again.' });
                     setIsLoading(false);
                 }

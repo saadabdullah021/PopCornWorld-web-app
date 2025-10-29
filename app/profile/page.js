@@ -95,7 +95,6 @@ const Profile = () => {
               setLoading(false);
             },
             (error) => {
-              console.error('Failed to fetch customer profile:', error);
               setLoading(false);
             }
           );
@@ -103,7 +102,6 @@ const Profile = () => {
           setLoading(false);
         }
       } catch (error) {
-        console.error('Error parsing user data:', error);
         setLoading(false);
       }
     } else {
@@ -296,7 +294,6 @@ const Profile = () => {
             }
           },
           (error) => {
-            console.error('Failed to refresh customer profile after update:', error);
           }
         );
       },

@@ -14,8 +14,6 @@ export default function Shop() {
   const [activeTab, setActiveTab] = useState('flavors');
   const [isTransitioning, setIsTransitioning] = useState(false);
 
-  console.log(globalSettings, 'globalsettings');
-
   useEffect(() => {
     if (!products && !productsLoading) {
       dispatch(fetchProducts({ page: 1, per_page: 6 }));
@@ -46,7 +44,7 @@ export default function Shop() {
 
   // ------- Toggle Helpers -------
   const tabs = [
-    { id: 'flavors', label: 'All Flavours' },
+    { id: 'flavors', label: 'All Flavors' },
     { id: 'collections', label: 'Collections' }
   ];
 

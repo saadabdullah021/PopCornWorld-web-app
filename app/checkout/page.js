@@ -760,7 +760,6 @@ const PaymentModal = ({
           onClose();
         },
         (error) => {
-          console.error("API Error Response:", error);
           setPaymentLoading(false);
           setFullScreenLoading(false);
           const errorMsg =

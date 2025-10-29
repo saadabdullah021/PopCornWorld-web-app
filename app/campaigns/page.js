@@ -26,7 +26,6 @@ const CampaignsPage = ({ initialCampaigns, globalSettings }) => {
         const data = await response.json();
         setCampaigns(data);
       } catch (error) {
-        console.error('Error fetching campaigns:', error);
       }
     };
 

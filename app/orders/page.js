@@ -48,7 +48,6 @@ const Orders = () => {
       },
       (error) => {
         // Error callback
-        console.error('Error fetching orders:', error);
         setError(error || 'Failed to fetch orders');
         setOrders([]);
         setLoading(false);

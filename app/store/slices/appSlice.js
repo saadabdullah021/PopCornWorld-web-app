@@ -45,7 +45,6 @@ const loadCartFromStorage = () => {
       const savedCart = localStorage.getItem('popcorn_cart');
       return savedCart ? JSON.parse(savedCart) : [];
     } catch (error) {
-      console.error('Error loading cart from localStorage:', error);
       return [];
     }
   }
@@ -57,7 +56,6 @@ const saveCartToStorage = (cart) => {
     try {
       localStorage.setItem('popcorn_cart', JSON.stringify(cart));
     } catch (error) {
-      console.error('Error saving cart to localStorage:', error);
     }
   }
 };
@@ -73,7 +71,6 @@ const loadAuthFromStorage = () => {
         userData: userData ? JSON.parse(userData) : null
       };
     } catch (error) {
-      console.error('Error loading auth from localStorage:', error);
       return { token: null, userData: null };
     }
   }
@@ -94,7 +91,6 @@ const saveAuthToStorage = (token, userData) => {
         localStorage.removeItem('user_data');
       }
     } catch (error) {
-      console.error('Error saving auth to localStorage:', error);
     }
   }
 };

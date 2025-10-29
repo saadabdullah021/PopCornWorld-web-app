@@ -22,27 +22,26 @@ const HeroSection = () => {
         <div className="absolute inset-0 bg-black/30"></div>
         {/* Content */}
 
-                   <div className='absolute left-[25%] top-9   '>
-                             <Link href="/" className="group flex items-center transform transition-all duration-300">
+        <div className='absolute left-[25%] top-9   '>
+          {/* <Link href="/" className="group flex items-center transform transition-all duration-300">
                                 <Image
                                     src={logo}
                                     alt="popcorn world"
                                     className={`transition-all object-contain duration-300 w-full ease-in-out h-8 md:h-12 group-hover:brightness-110 bg-blend-overlay`}
                                 />
-                            </Link>
-               </div>
+                            </Link> */}
+        </div>
         <div className="relative z-10">
-   
-
-          {/* <h1 className="text-[42px] lg:text-[56px] font-splash text-white leading-none mb-12 tracking-tight animate-fadeInUp">
-            Raise Hand to Promote <br />
-            <span className="!text-white">Best Products</span>
-          </h1> */}
-
-
-    
+          <h1 className="text-[42px]   lg:text-[56px] font-splash text-white leading-none mb-12 tracking-tight animate-fadeInUp">
+            <span style={{ color: "oklch(85.2% 0.199 91.936)" }}> Fundraising </span>  <span className="text-white">
+              never tasted
+              <br />
+              so good!
+            </span>
+            {/* <span className="!text-white">Best Products</span> */}
+          </h1>
           <Link href='/get-started' className="group inline-flex items-center capitalize gap-3 px-6 py-3 border-2   font-medium rounded-full bg-[#8BC34A] cursor-pointer text-white border-transparent transition-all duration-300 animate-fadeInUp">
-        Start Fundraising
+            Start Fundraising
           </Link>
         </div>
       </div>
