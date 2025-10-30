@@ -19,7 +19,7 @@ const HeroSection = () => {
       >
 
         {/* Overlay (optional for dark shade on image) */}
-        <div className="absolute inset-0 bg-black/30"></div>
+        <div className="absolute inset-0 bg-black/10"></div>
         {/* Content */}
 
         <div className='absolute left-[25%] top-9   '>
