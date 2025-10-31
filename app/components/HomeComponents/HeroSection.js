@@ -32,11 +32,11 @@ const HeroSection = () => {
                             </Link> */}
         </div>
         <div className="relative z-10">
-          <h1 className="text-[42px]   lg:text-[56px] font-splash text-white leading-none mb-12 tracking-tight animate-fadeInUp">
+          <h1 className="text-[42px]  uppercase leading-12 lg:leading-none  lg:text-[56px] font-splash text-white  mb-12 tracking-tight animate-fadeInUp">
             <span style={{ color: "oklch(85.2% 0.199 91.936)" }}> Fundraising </span>  <span className="text-white">
-              never tasted
+            HAS   never tasted
               <br />
-              so good!
+              so good
             </span>
             {/* <span className="!text-white">Best Products</span> */}
           </h1>
