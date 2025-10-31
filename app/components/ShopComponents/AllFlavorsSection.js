@@ -115,10 +115,10 @@ const AllFlavorsSection = ({ products, productsLoading, productsError, paginatio
             >
               {/* Image Container */}
               <div className="relative h-56  p-8 overflow-hidden">
-                <div className="absolute inset-0 bg-gradient-to-br from-transparent to-orange-100/30"></div>
-                <div className="relative h-full flex items-center justify-center">
+                <div className="absolute inset-0 bg-transparent"></div>
+                <div className="relative flex  h-full items-center justify-center">
 
-                  <div className="relative w-full h-full">
+                  <div className="relative w-full h-full ">
                     <Image
                       src={
                         flavor?.product_images?.[0]?.image && flavor.product_images[0].image.trim() !== ''
@@ -128,7 +128,7 @@ const AllFlavorsSection = ({ products, productsLoading, productsError, paginatio
                       alt={flavor?.name || flavor?.title || 'Popcorn Flavor'}
                       fill
                       sizes="(max-width: 1024px) 100vw, 50vw"
-                      className="object-fill object-center "
+                      className="object-contain !h-full !w-full object-center drop-shadow-md  group-hover:scale-101 transition-transform duration-700 ease-out"
                       onError={(e) => {
                         e.currentTarget.src = '/pop_packet.png';
                       }}

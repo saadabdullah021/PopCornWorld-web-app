@@ -212,8 +212,8 @@ const CollectionsSection = ({ collections, collectionsLoading, collectionsError,
               }}
             >
               {/* Image Container */}
-              <div className="relative h-56  overflow-hidden">
-                <div className="absolute inset-0 bg-gradient-to-br from-transparent to-blue-100/30"></div>
+              <div className="relative h-56 p-8 overflow-hidden">
+                <div className="absolute inset-0 bg-transparent "></div>
                 <div className="relative h-full flex items-center justify-center ">
                   {/* Collection Package Visualization */}
                   <div className="relative w-full h-full">
@@ -228,7 +228,7 @@ const CollectionsSection = ({ collections, collectionsLoading, collectionsError,
                       alt={collection?.title || 'Popcorn Collection'}
                       fill
         sizes="(max-width: 1024px) 100vw, 50vw"
-                      className="object-fill object-center drop-shadow-2xl w-full h-full group-hover:scale-110 transition-transform duration-700 ease-out"
+                      className="object-contain !h-full !w-full object-center drop-shadow-md  group-hover:scale-101 transition-transform duration-700 ease-out"
                       onError={(e) => {
                         e.currentTarget.src = '/pop_packet.png';
                       }}
