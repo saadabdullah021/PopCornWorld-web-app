@@ -546,8 +546,8 @@ const FundraisingOnboarding = () => {
                 return (
                     <div>
                         <span className="text-sm font-semibold text-white uppercase tracking-wide">GET STARTED</span>
-                        <h1 className="text-[26px] lg:text-[30px] font-splash text-white mt-2 mb-6">
-                            <span className="text-yellow-400">Fundraising</span> Never Tasted So Good!
+                        <h1 className="text-[23px] lg:text-[26px] font-splash text-white uppercase mt-2 mb-6">
+                            <span className="text-yellow-400">Fundraising</span> Has Never Tasted So Good!
                         </h1>
                         <p className="text-white mb-8 text-[16px]">
                             Join Popcorn World and make every sale count. It’s free to join, no minimum orders, and your group keeps 50% profit on every order!
